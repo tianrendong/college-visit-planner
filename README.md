@@ -112,6 +112,16 @@ Students who have spare yet reusable items & students who would like to purchase
       * E.g. Click-based and search-based. If a user frequently searches and taps into a specific type of good, then the system knows it.
     * Recommendation based on user rating.
 
+#### Challenges:
+
+* Mobile app would be preferable, but may be more difficult to implement
+* Can work on a simple version first?
+
+#### User Opinions:
+
+> Generate statistics for spare items (or items that have large demand) and report to university. More efficient allocation of resources through collaboration with university and local community. For example, quiet period food wasted.
+
+
 ### Idea 2
 
 ### Idea 3
