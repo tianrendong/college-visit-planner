@@ -124,7 +124,62 @@ Students who have spare yet reusable items & students who would like to purchase
 
 ### Idea 2
 
+#### Description:
+
+It’s often hard to be completely honest in interpersonal relationships, especially when we’re interacting with each other face to face. Or, sometimes, it’s nice to read about how someone else is feeling especially when you share similar interests, or even struggles. This shared diary is designed to be a safe space for people to jot down their thoughts about the group, relationship, or anything that they are feeling. This not only applies to couples, who might be the most stereotypical target, but also for people who share similar mental health struggles to document and help with each other’s progress, or even project teams to keep track of everyone’s work progress.
+
+#### Target Users:
+
+* Couples
+* Project teams
+* Friend groups
+* Interest groups both in and out of Brown 
+
+#### Features:
+
+1. Login/Logout feature that authenticates that you have access to your own diary columns.
+3. Adding tags that you are being able to associate with each post. Tag examples: fight, family, mental health, homework, stress, food, etc.
+4. Color coding scheme for each post that reflects current mood/emotions.
+5. Comment feature for other people’s posts.
+6. Ability to “mention” other people.
+7. Query search/filter by diary entries by date, keyword, and tags.
+8. Sort by mood, date, tag, etc.
+9. Suggestion for similar past entries after completing current entry: Had another fight about the same issue? Or, you are working on a bug that you feel like someone had mentioned before? The algorithm would automatically suggest something that might be relevant to read. This hopefully serves as a motivation to complete the entry each day.
+
+#### Algorithms:
+
+* Using Kd Tree to represent “closeness” of each post to generate suggestions. The k would most likely be the number of parameters(tags).
+* Using an efficient sorting algorithm (most likely quick sort) to sort entries by mood, tags, and dates.
+
+#### User Opinion:
+
+> Notification feature would be helpful
+> Should be intuitive and accessible; diaries can become “work” so we should lower the barrier as much as possible
+> Would be nice to have a mobile app
+
+
 ### Idea 3
+
+
+#### Description:
+
+
+#### Target Users:
+
+
+
+#### Features:
+
+
+
+#### Algorithms:
+
+
+
+#### User Opinion:
+
+
+
 
 **Mentor TA:** _Put your mentor TA's name and email here once you're assigned one!_
 
