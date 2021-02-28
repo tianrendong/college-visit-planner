@@ -16,33 +16,48 @@ Strengths:
 Weakness: 
 
 * Don’t have a lot of software engineering experience in general 
-* No experience with frontend development   
-Tianren Dong
-Strength:
-Have experience with UI design (Figma).
-Know Python programming.
-Persistent with fixing bugs.
-Eager to learn from others.
-Weakness:
-No front end experience before CS32.
-Lack of experience working on large/collaborative projects.
-Can get too focused on writing code instead of thinking conceptually.
-Jenny Yu
-Strength:
-Have experience in design, attentive to details and user needs, can contribute to improving user interface and usability of the system
-Always willing to openly communicate about problems
-Explorative and actively look for better solutions
-Weakness:
-Do not have a lot of prior software engineering experience and sometimes get frustrated by weird bugs  
-Sleeping and working schedule may not be the most organized 
-Jiaqi Su
+* No experience with frontend development
+
+**Kaki Su**
+
 Strength: 
-Relatively organized and don’t procrastinate much especially in group projects. 
-Has some experience managing and working with large-scale projects
-Has some front-end/back-end experiences
+
+* Relatively organized and don’t procrastinate much especially in group projects. 
+* Has some experience managing and working with large-scale projects
+* Has some front-end/back-end experiences
+
 Weakness:
-Not great at writing “clean” code
-Not great at thinking about runtime complexity beyond the basics
+
+* Not great at writing “clean” code
+* Not great at thinking about runtime complexity beyond the basics
+
+**Jenny Yu**
+
+Strength:
+
+* Have experience in design, attentive to details and user needs, can contribute to improving user interface and usability of the system
+* Always willing to openly communicate about problems
+* Explorative and actively look for better solutions
+
+Weakness:
+
+* Do not have a lot of prior software engineering experience and sometimes get frustrated by weird bugs  
+* Sleeping and working schedule may not be the most organized 
+
+**Tianren Dong**
+
+Strength:
+
+* Have experience with UI design (Figma).
+* Know Python programming.
+* Persistent with fixing bugs.
+* Eager to learn from others.
+
+Weakness:
+
+* No front end experience before CS32.
+* Lack of experience working on large/collaborative projects.
+* Can get too focused on writing code instead of thinking conceptually.
 
 
 **Project Idea(s):** _Fill this in with three unique ideas! (Due by March 1)_
