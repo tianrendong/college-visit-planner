@@ -77,7 +77,7 @@ Students who have spare yet reusable items & students who would like to purchase
 #### Features:
 
 1. Log in using student ID
-  * System requires student credentials for login, such that students are confident about the security of the platform and would feel safe about making posts/trading things. This would also prevent users from messing around with the system, since their actions are tied to their credentials.
+   * System requires student credentials for login, such that students are confident about the security of the platform and would feel safe about making posts/trading things. This would also prevent users from messing around with the system, since their actions are tied to their credentials.
 
 2. Making posts about spare items
   * Posts contain information such as pictures, category of item, year purchased, seller’s preference (whether if they would like to sell it, exchange for other resources, or give it for free)
