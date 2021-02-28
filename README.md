@@ -38,8 +38,9 @@ Weakness:
 Strength:
 
 * Have experience in design, attentive to details and user needs, can contribute to improving user interface and usability of the system
-* Always willing to openly communicate about problems
-* Explorative and actively look for better solutions
+* Pay attention to overall system design and code clarity
+* Willing to openly communicate about problems
+* Actively searching for better solutions
 
 Weakness:
 
