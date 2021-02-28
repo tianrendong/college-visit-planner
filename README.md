@@ -1,5 +1,7 @@
 # cs0320 Term Project 2021
 
+## Team
+
 **Team Members:**
 
 Ashley Oelrich, Kaki Su, Jenny Yu, Tianren Dong
@@ -59,6 +61,8 @@ Weakness:
 * Lack of experience working on large/collaborative projects.
 * Can get too focused on writing code instead of thinking conceptually.
 
+
+## Idea
 
 **Project Idea(s):** _Fill this in with three unique ideas! (Due by March 1)_
 ### Idea 1
