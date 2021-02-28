@@ -122,7 +122,7 @@ Students who have spare yet reusable items & students who would like to purchase
 > Generate statistics for spare items (or items that have large demand) and report to university. More efficient allocation of resources through collaboration with university and local community. For example, quiet period food wasted.
 
 
-### Idea 2
+### Shared Diary
 
 #### Description:
 
@@ -138,50 +138,112 @@ It’s often hard to be completely honest in interpersonal relationships, especi
 #### Features:
 
 1. Login/Logout feature that authenticates that you have access to your own diary columns.
-3. Adding tags that you are being able to associate with each post. Tag examples: fight, family, mental health, homework, stress, food, etc.
-4. Color coding scheme for each post that reflects current mood/emotions.
-5. Comment feature for other people’s posts.
-6. Ability to “mention” other people.
-7. Query search/filter by diary entries by date, keyword, and tags.
-8. Sort by mood, date, tag, etc.
-9. Suggestion for similar past entries after completing current entry: Had another fight about the same issue? Or, you are working on a bug that you feel like someone had mentioned before? The algorithm would automatically suggest something that might be relevant to read. This hopefully serves as a motivation to complete the entry each day.
+
+2. Adding tags that you are being able to associate with each post. Tag examples: fight, family, mental health, homework, stress, food, etc.
+
+3. Color coding scheme for each post that reflects current mood/emotions.
+
+4. Comment feature for other people’s posts.
+
+5. Ability to “mention” other people.
+
+6. Query search/filter by diary entries by date, keyword, and tags.
+
+7. Sort by mood, date, tag, etc.
+
+8. Suggestion for similar past entries after completing current entry: Had another fight about the same issue? Or, you are working on a bug that you feel like someone had mentioned before? The algorithm would automatically suggest something that might be relevant to read. This hopefully serves as a motivation to complete the entry each day.
 
 #### Algorithms:
 
 * Using Kd Tree to represent “closeness” of each post to generate suggestions. The k would most likely be the number of parameters(tags).
+
 * Using an efficient sorting algorithm (most likely quick sort) to sort entries by mood, tags, and dates.
 
 #### User Opinion:
 
-> Notification feature would be helpful
-> Should be intuitive and accessible; diaries can become “work” so we should lower the barrier as much as possible
-> Would be nice to have a mobile app
+* Notification feature would be helpful
+
+* Should be intuitive and accessible; diaries can become “work” so we should lower the barrier as much as possible
+
+* Would be nice to have a mobile app
 
 
-### Idea 3
+### Time Management Tool
 
 
 #### Description:
 
+College students always have trouble managing their time when they get slammed with school work and extracurriculars. This app keeps track of all the school assignments, extracurricular tasks, and personal goals you have to give you a daily work requirement in terms of hours and percent progress in order to meet a set date of completion. This would allow you to consistently allocate ample time on work, spreading it out evenly over the course of multiple days so you don't get yourself in a situation where you have to pull an all-nighter to get something done. The app should include the ability to log work hours and completion progress so that it can recalculate the amount of work needed on future days in case you are ahead of the game and complete extra early or delinquent and need to spend more time in the future. Ideally, it should connect with your existing calendar schedule to determine which time slots throughout the day you have time to work on which tasks. It would be best if it could optimize this to the point that it can identify tasks that are best to be worked on when you have a relatively short amount of time, say 30 mins, vs those that require at least an hour or two to really get going. 
 
 #### Target Users:
 
-
+* College students who are overwhelmed with assignments and extracurriculars 
+      * Constantly sleep deprived
+      * Feeling like they are “sliding sideways” to get everything run
 
 #### Features:
 
+1. Daily progress goals for assignments and other personal goals
+      * Users want to know what total progress needs to be made over the course of the day to stay on track for completion. 
+
+2. Task list of what specific things needs to be completed in the day (for example: 5 questions completed on pset, 2 hour workout, respond to important emails) 
+      * Specific task lists/action items are particularly useful so users can focus on one thing at a time and not get overwhelmed by the larger daily progress goal. 
+
+3. Overall % complete dashboard
+      * Users want to visualize how much progress they have made in total completion of a task and how much they have left to go before the due date. 
+
+4. User settings to dictate priority of task, difficulty of task, if task is something that is easy to work on a little bit here and there or if it is something that is best worked on from start to finish all at once 
+      * Users want the app to schedule tasks appropriately in terms of time slot length and ordering. If certain tasks are much more important than others, they will want them to be done first. Also, if certain tasks are more difficult or take longer, they will want them to be scheduled for a time in which they can give their undivided attention to the task for a longer period of time. 
+
+5. Needs to sync with google calendar, maybe even import assignments from external apps like canvas
+      * Users already have too many platforms to keep track of, so if they add anything else it needs to sync with their preexisting apps so that they don’t have to update things twice or worry that they will put something in one app and forget to add it to another.  
+
+6. Sleep scheduling (maybe?)
+      * Users may want to set a daily sleep goal in terms of hours and want the app to adjust their daily work progress and schedule accordingly. 
 
 
 #### Algorithms:
 
+* Something to maximize time allocation efficiency 
+
+* Can match length of time slots to assignment types so that longer/more challenging assignments are scheduled when you have bigger time slots and shorter assignments are scheduled for smaller time slots 
 
 
 #### User Opinion:
 
+* Want it to be quick i.e. can’t take too long to setup and use 
 
+* Integrate with canvas or how you already get assignments 
+
+* A lot of assignments are partnered 
+
+* Want to set milestones in terms of completion example: office hours on tuesday, assignment due friday, need to attempt X amount before office hours tuesday
+
+* Ability to sync with google calendar 
+
+* Include more than school assignments...extracurriculars, fitness/physical goals, internship applications, etc.
+
+* Prioritization (light work to do while watching tv/movies or hard stuff during grind session)
+
+* Maximize time slot length and assignment 
+
+* Ranking system in terms of difficulty of assignment
+
+* Can start/stop assignments vs need to sit down and grind all at once
+
+* Want notifications so you don’t have to open the app 
+
+* Widget screen on phone to give a list of what needs to be done 
+
+* Both mobile app and web app together 
+
+* Don’t really want it to tell me to sleep or not 
+
+> “I’m gonna be in the library for 3 hours.. What should I do/in what order?”
 
 
 **Mentor TA:** _Put your mentor TA's name and email here once you're assigned one!_
+
 
 ## Meetings
 _On your first meeting with your mentor TA, you should plan dates for at least the following meetings:_
