@@ -65,7 +65,17 @@ Weakness:
 
 ## Project Ideas
 
-### Idea 1: Resource Trading
+New Idea: Road Trip
+--
+
+### Description
+
+### Features
+
+### Algorithm
+
+
+### ~~Resource Trading~~
 
 #### Description:
 
@@ -124,7 +134,7 @@ Students who have spare yet reusable items & students who would like to purchase
 
 TA Approval (dlichen): Probably denied as there really is no significant algorithm at the core of this application. It seems like this is very much an app where you input data, data is stored, and then it is displayed to other users. If you could find an algorithmic focus of this general idea it might work, but as it stands the recommendation algorithm feels like a tack on algorithm and like it wouldn't be sufficiently complex and database usage is not an algorithm. 
 
-### Shared Diary
+### ~~Shared Diary~~
 
 #### Description:
 
@@ -171,7 +181,7 @@ It’s often hard to be completely honest in interpersonal relationships, especi
 
 TA Approval (dlichen): Probably denied for same reason as above. It seems like there isn't enough algorithmic complexity and reimplementing a sorting algorithm like quicksort is not sufficiently complex because it's been done many many times and it is also a relatively simple algorithm. If there was significant development in the algorithm (maybe somewhere along your recommendation line?, I don't know how a kd tree would work with non numerical input), it could be considered but this idea really doesn't have a significant algorithmic focus. 
 
-### Time Management Tool
+### ~~Time Management Tool~~
 
 
 #### Description:
@@ -247,6 +257,7 @@ College students always have trouble managing their time when they get slammed w
 TA Approval (dlichen): Tentative approval, contingent on resubmitting with more details. I think the idea of scheduling could be an interesting avenue to explore but the algorithm description is very vague right now.
 
 Resubmit: Please resubmit by the end of the week with either a new idea or an expansion on the ideas above to meet the feedback.
+
 
 **Mentor TA:** _Put your mentor TA's name and email here once you're assigned one!_
 
