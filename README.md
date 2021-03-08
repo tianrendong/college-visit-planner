@@ -65,14 +65,36 @@ Weakness:
 
 ## Project Ideas
 
-New Idea: Road Trip
---
+## New Idea: College Visists
 
 ### Description
 
+For students and families planning a college tour, this planner can help build a schedule/plan to visit all colleges while accommodating for events that happen at specific times. It can also give suggestions about the optimal route(s) to take in order to visit all the colleges if no events are added. The tour schedule would allocate a block of time for each stop, and assign colleges with specific events to attend first. Then the remaining blocks would be filled by putting clusters of colleges that center around the predetermined colleges close together. Within these clusters, the algorithm will try to find an efficient path that emcompasses all the stops. The overall tour would be planned as if solving the Traveling Salesman Problem with some nodes being fixed in the path sequence.
+
+
 ### Features
 
+* Selection of colleges that the user would like to visit.
+
+* Adding an event that the user wants to attend at a specific college at a specific time.
+
+* Choosing the amount of time the user would like to dedicate to visiting a college.
+
+
 ### Algorithm
+
+Formation of clusters, perhaps through KD neighbor search:
+
+   * Organize colleges into clusters based on “drivable” distance
+
+   * Within the cluster, perform the traveling salesman search
+
+   * Identify the major airports within those clusters
+
+   * Create a list of airports that the user needs to go through, and sort with the traveling salesman search again
+
+   * There will essentially be two iterations of the “traveling salesman” problem, which will roughly involve the following (solution inspirations taken from:
+      * https://www.geeksforgeeks.org/travelling-salesman-problem-set-1/)
 
 
 ### ~~Resource Trading~~
