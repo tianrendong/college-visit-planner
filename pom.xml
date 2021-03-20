@@ -21,6 +21,16 @@
     <dependencies>
 
         <!--
+            Google Maps APi
+            https://mvnrepository.com/artifact/org.webjars.npm/react-google-maps__api
+        -->
+        <dependency>
+            <groupId>org.webjars.npm</groupId>
+            <artifactId>react-google-maps__api</artifactId>
+            <version>1.8.6</version>
+        </dependency>
+
+        <!--
             jopt-simple is a command line parser.
             https://pholser.github.io/jopt-simple/.
         -->

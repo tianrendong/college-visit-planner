@@ -1,0 +1,10 @@
+.sidebarContainer {
+    display: flex;
+    flex-direction: column;
+    z-index: 99;
+    position: absolute;
+}
+
+.drawerPaper {
+    width: 240px;
+}
