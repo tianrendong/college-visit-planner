@@ -1,33 +1,50 @@
 package edu.brown.cs.termproject.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import edu.brown.cs.termproject.database.CollegeDatabase;
+import edu.brown.cs.termproject.database.CollegeSQLManager;
 import spark.Route;
 
 public class TripPlannerAPI extends API{
 
-  private CollegeDatabase db; // local reference to the REPL's MapsSQLManager
+  private CollegeSQLManager db;
   private final ObjectMapper om = new ObjectMapper(); // used to turn objects into JSON
 
   /**
    * Creates a TripPlannerAPI object to provide API handlers.
    */
-  public TripPlannerAPI(CollegeDatabase db) {
+  public TripPlannerAPI(CollegeSQLManager db) {
     this.db = db;
   }
 
-  private final Route root = (request, response) -> {
-//    List<Star> allStars = stars.getStars();
-//    return om.writeValueAsString(allStars);
+  private final Route login = (request, response) -> {
+//    return om.writeValueAsString(__);
     return true;
   };
 
-  /**
-   * Handles get request to the root node, returning all loaded stars.
-   * @return Root handler
-   */
-  public Route getRoot() {
-    return root;
+  public Route getLogin() {
+    return login;
   }
+  public Route getRegister() {
+    return login;
+  }
+  public Route getUserAddCollege() {
+    return login;
+  }
+  public Route getUserDeleteCollege() {
+    return login;
+  }
+  public Route getClusters() {
+    return login;
+  }
+  public Route getRoute() {
+    return login;
+  }
+  public Route getRelatedColleges() {
+    return login;
+  }
+  public Route getCollegeInfo() {
+    return login;
+  }
+
 
 }

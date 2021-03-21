@@ -7,20 +7,16 @@ import java.util.List;
 /**
  * Class for a database.
  */
-public class Database {
+public class DatabaseManager {
 
   private Connection conn = null;
 
-  public Database() { }
+  public DatabaseManager() { }
 
   /**
-   * Database constructor.
-   * @param filepath file name of SQLite3 database to open.
+   * Connects to a database.
+   * @param filepath filepath to a SQLite database.
    */
-  public Database(String filepath) {
-    connect(filepath);
-  }
-
   public void connect(String filepath) {
     if (fileExists(filepath)) {
       try {

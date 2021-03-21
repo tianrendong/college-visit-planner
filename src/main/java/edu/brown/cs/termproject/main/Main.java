@@ -1,8 +1,9 @@
 package edu.brown.cs.termproject.main;
 
 import edu.brown.cs.termproject.api.TripPlannerAPI;
+import edu.brown.cs.termproject.database.CollegeSQLManager;
 import edu.brown.cs.termproject.repl.Repl;
-import edu.brown.cs.termproject.database.CollegeDatabase;
+import edu.brown.cs.termproject.database.CollegeSQLManager;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import spark.Spark;
@@ -17,7 +18,7 @@ import java.io.StringWriter;
 public final class Main {
   private static final int DEFAULT_PORT = 4567;
   private static final String DEFAULT_DATABASE = "./data/sampleColleges.sqlite3";
-  private final CollegeDatabase collegeDatabase = new CollegeDatabase();
+  private final CollegeSQLManager collegeDatabase = new CollegeSQLManager();
   private final TripPlannerAPI tripAPI = new TripPlannerAPI(this.collegeDatabase);
   private final Repl repl = new Repl();
 
@@ -83,8 +84,19 @@ public final class Main {
    * Initializes Spark to handle API requests.
    */
   private void initializeSpark() {
-    Spark.path("/api/trip-planner", () -> {
-      Spark.get("", tripAPI.getRoot());
+    Spark.path("/api/account", () -> {
+      Spark.get("/login", tripAPI.getLogin());
+      Spark.get("/register", tripAPI.getRegister());
+      Spark.get("/addCollege", tripAPI.getUserAddCollege());
+      Spark.get("/deleteCollege", tripAPI.getUserDeleteCollege());
+    });
+    Spark.path("/api/route", () -> {
+      Spark.get("/getClusters", tripAPI.getClusters());
+      Spark.get("/getRoute", tripAPI.getRoute());
+    });
+    Spark.path("/api/college", () -> {
+      Spark.get("/relatedColleges", tripAPI.getRelatedColleges());
+      Spark.get("/info", tripAPI.getCollegeInfo());
     });
   }
 

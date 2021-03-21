@@ -1,0 +1,13 @@
+.page {
+    z-index: 99;
+    position: absolute;
+}
+
+.sidebarInnerContainer {
+    width: 30vw;
+}
+
+/*.loginIcon {*/
+/*    margin-top: 10px;*/
+/*    margin-left: 15px;*/
+/*}*/
