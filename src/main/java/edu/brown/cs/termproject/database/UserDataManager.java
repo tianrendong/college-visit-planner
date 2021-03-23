@@ -3,6 +3,9 @@ package edu.brown.cs.termproject.database;
 import edu.brown.cs.termproject.main.Account;
 import org.checkerframework.checker.units.qual.A;
 
+/**
+ * Manages SQL queries to the user database.
+ */
 public class UserDataManager {
 
   private final static DatabaseManager DB = new DatabaseManager();

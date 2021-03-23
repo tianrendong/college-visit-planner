@@ -2,7 +2,10 @@ package edu.brown.cs.termproject.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.brown.cs.termproject.database.CollegeSQLManager;
+import edu.brown.cs.termproject.main.College;
 import spark.Route;
+
+import java.util.List;
 
 public class TripPlannerAPI extends API{
 
@@ -20,6 +23,16 @@ public class TripPlannerAPI extends API{
 //    return om.writeValueAsString(__);
     return true;
   };
+
+  private final Route colleges = (request, response) -> {
+    List<College> colleges = db.getDefaultColleges();
+    return om.writeValueAsString(colleges);
+  };
+
+  public Route getDefaultColleges() {
+    System.out.println("a");
+    return colleges;
+  }
 
   public Route getLogin() {
     return login;

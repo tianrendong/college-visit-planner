@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import Drawer from '@material-ui/core/Drawer';
-import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import './index.css'
@@ -29,7 +28,7 @@ const Container = (props) => {
                 easing: theme.transitions.easing.easeOut,
                 duration: theme.transitions.duration.enteringScreen,
             }),
-            marginLeft: width * 0.3,
+            marginLeft: width * 0.23,
         },
     }))
 

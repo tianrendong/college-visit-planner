@@ -95,6 +95,7 @@ public final class Main {
       Spark.get("/getRoute", tripAPI.getRoute());
     });
     Spark.path("/api/college", () -> {
+      Spark.get("/defaultColleges", tripAPI.getDefaultColleges());
       Spark.get("/relatedColleges", tripAPI.getRelatedColleges());
       Spark.get("/info", tripAPI.getCollegeInfo());
     });
