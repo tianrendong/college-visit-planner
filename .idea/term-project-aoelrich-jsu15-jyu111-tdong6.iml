@@ -16,6 +16,12 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Maven: com.google.maps:google-maps-services:0.18.0" level="project" />
+    <orderEntry type="library" name="Maven: com.squareup.okhttp3:okhttp:3.14.4" level="project" />
+    <orderEntry type="library" name="Maven: com.squareup.okio:okio:1.17.2" level="project" />
+    <orderEntry type="library" name="Maven: io.opencensus:opencensus-api:0.25.0" level="project" />
+    <orderEntry type="library" name="Maven: io.grpc:grpc-context:1.25.0" level="project" />
+    <orderEntry type="library" name="Maven: org.slf4j:slf4j-simple:1.7.25" level="project" />
     <orderEntry type="library" name="Maven: org.webjars.npm:react-google-maps__api:1.8.6" level="project" />
     <orderEntry type="library" name="Maven: org.webjars.npm:react-google-maps__infobox:1.8.6" level="project" />
     <orderEntry type="library" name="Maven: org.webjars.npm:react-google-maps__marker-clusterer:1.8.6" level="project" />

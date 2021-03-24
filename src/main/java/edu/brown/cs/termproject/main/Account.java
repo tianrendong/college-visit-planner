@@ -1,6 +1,7 @@
 package edu.brown.cs.termproject.main;
 
 import java.util.List;
+import edu.brown.cs.termproject.collegegraph.*;
 
 public class Account {
   private String username;

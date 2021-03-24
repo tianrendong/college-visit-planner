@@ -2,7 +2,7 @@ package edu.brown.cs.termproject.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.brown.cs.termproject.database.CollegeSQLManager;
-import edu.brown.cs.termproject.main.College;
+import edu.brown.cs.termproject.collegegraph.*;
 import spark.Route;
 
 import java.util.List;

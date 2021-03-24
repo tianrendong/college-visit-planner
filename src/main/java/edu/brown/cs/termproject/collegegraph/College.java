@@ -1,8 +1,9 @@
-package edu.brown.cs.termproject.main;
+package edu.brown.cs.termproject.collegegraph;
 
+import edu.brown.cs.termproject.graph.Vertex;
 import edu.brown.cs.termproject.router.Locatable;
 
-public class College implements Locatable {
+public class College implements Locatable, Vertex {
 
   private int id;
   private String name;
@@ -40,4 +41,8 @@ public class College implements Locatable {
     return lon;
   }
 
+  @Override
+  public String toString() {
+    return name + ": (" + lat + ", " + lon +")";
+  }
 }

@@ -9,5 +9,5 @@ public interface Vertex {
    * Gets the ID of the vertex.
    * @return ID of the vertex.
    */
-  String getId();
+  int getId();
 }

@@ -9,4 +9,5 @@ public class TSP {
     List<Locatable> route = new ArrayList<>();
     return route;
   }
+
 }

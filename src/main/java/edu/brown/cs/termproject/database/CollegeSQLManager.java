@@ -1,6 +1,6 @@
 package edu.brown.cs.termproject.database;
 
-import edu.brown.cs.termproject.main.College;
+import edu.brown.cs.termproject.collegegraph.College;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -53,7 +53,8 @@ public class CollegeSQLManager extends DatabaseManager {
       throw new IllegalStateException("Must open a database first.");
     }
 
-    List<College> colleges = new ArrayList<>();
+    List<College> colleges = new ArrayList<College>();
+    College c = new College(0, "", 0,0 );
     try (PreparedStatement getColleges = DB.getConnection().prepareStatement(
         "SELECT id, name, latitude, longitude FROM colleges WHERE 1 <= rank <= 20;")) {
 
