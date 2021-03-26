@@ -45,7 +45,7 @@ const Container = (props) => {
             <Drawer variant="persistent"
                     anchor="left"
                     open={open}
-                    docked={true}>
+                    docked='true'>
                 <div className="drawerHeader">
                     <ChevronLeftIcon onClick={() => setOpen(false)}/>
                 </div>

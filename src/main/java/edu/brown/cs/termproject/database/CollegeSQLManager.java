@@ -13,14 +13,6 @@ import java.util.List;
  */
 public class CollegeSQLManager extends DatabaseManager {
 
-  private final static DatabaseManager DB = new DatabaseManager();
-  private final String COLLEGE_DATABASE = "./data/sampleColleges.sqlite3"; //TODO:
-
-
-  public CollegeSQLManager() {
-    DB.connect(COLLEGE_DATABASE);
-  }
-
   /**
    * Given a user input, finds 5 related colleges.
    *
@@ -39,7 +31,7 @@ public class CollegeSQLManager extends DatabaseManager {
    * @return College object
    */
   public College getCollege(int collegeId) {
-    if (DB.getConnection() == null) {
+    if (getConnection() == null) {
       throw new IllegalStateException("Must open a database first.");
     }
     // TODO:
@@ -49,13 +41,13 @@ public class CollegeSQLManager extends DatabaseManager {
 
 
   public List<College> getDefaultColleges() throws SQLException {
-    if (DB.getConnection() == null) {
+    if (getConnection() == null) {
       throw new IllegalStateException("Must open a database first.");
     }
 
     List<College> colleges = new ArrayList<College>();
     College c = new College(0, "", 0,0 );
-    try (PreparedStatement getColleges = DB.getConnection().prepareStatement(
+    try (PreparedStatement getColleges = getConnection().prepareStatement(
         "SELECT id, name, latitude, longitude FROM colleges WHERE 1 <= rank <= 20;")) {
 
       try (ResultSet rs = getColleges.executeQuery()) {

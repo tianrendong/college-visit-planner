@@ -1,23 +1,39 @@
 import './App.css';
-import Map from './components/map/index'
-import Container from "./components/container/index"
-import InfoCard from "./components/infocard";
-import Login from "./views/sidebar/login";
-import SignUp from "./views/sidebar/signup";
+import Map from './components/Map/index'
+import Container from "./components/Container/index"
+import InfoCard from "./components/InfoCard";
+import Login from "./components/Login";
+import SignUp from "./components/SignUp";
 import UserHome from "./views/sidebar/userhome";
 import MyColleges from "./views/mainView/myColleges";
 
-function App() {
-    return (
-        <div className="App">
-            <Container sidebarView={<SignUp/>} mainView={<Map className="Map"/>}/>
-            {/*<Container sidebarView={<UserHome/>} mainView={<MyColleges/>}/>*/}
-            {/*<InfoCard title={"Brown University"}*/}
-            {/*          description={"Lizards are a widespread group of squamate reptiles, " +*/}
-            {/*          "with over 6,000 species, ranging across all continents except Antarctica"}> </InfoCard>*/}
-        </div>
-    );
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch, Redirect, Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { AddAlarmSharp } from '@material-ui/icons';
+
+const routes = {
+    'login' : <Login/>,
+    'signup' : <SignUp/>,
+    'initialMap' : <Map/>
 }
 
-export default App;
+function App(props) {
+    console.log(props)
+    return (
+        <Container sidebarView={routes[props.sidebar]} mainView={routes[props.mainview]}/>
+    )
+}
 
+const mapStateToProps = (state) => {
+    console.log(state)
+    return {
+        //loggedIn: state.loggedIn,
+        //user: state.user,
+        sidebar: state.rRoute.sidebar,
+        mainview: state.rRoute.mainview
+    }
+}
+
+
+export default connect(mapStateToProps)(App);

@@ -30,4 +30,5 @@ public class CollegeGraphTest {
     CollegeGraph graph = new CollegeGraph(_colleges);
     System.out.println(graph.toString());
   }
+
 }

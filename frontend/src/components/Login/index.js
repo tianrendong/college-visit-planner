@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,6 +12,10 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import './index.css'
+import { connect, useDispatch } from 'react-redux';
+import { userActions } from '../../actions/userActions'
+import { routeActions } from '../../actions/routeActions'
 
 function Copyright() {
     return (
@@ -22,6 +26,10 @@ function Copyright() {
 }
 
 const useStyles = makeStyles((theme) => ({
+    title: {
+        fontFamily: "'Inter', sans-serif;",
+        fontWeight: 800,
+    },
     paper: {
         marginTop: theme.spacing(8),
         display: 'flex',
@@ -33,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: theme.palette.secondary.main,
     },
     form: {
-        width: '100%', // Fix IE 11 issue.
+        width: '100%', 
         marginTop: theme.spacing(1),
     },
     submit: {
@@ -43,18 +51,32 @@ const useStyles = makeStyles((theme) => ({
 
 function Login() {
     const classes = useStyles();
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const dispatch = useDispatch();
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        if (username && password) {
+            dispatch(userActions.login(username, password));
+        }
+    
+    }
+
+    const handleNavigateSignup = () => {
+        console.log("hiii")
+        dispatch(routeActions.navigateSignup());
+    }
 
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
             <div className={classes.paper}>
-                <Avatar className={classes.avatar}>
-                    <LockOutlinedIcon />
-                </Avatar>
-                <Typography component="h1" variant="h5">
-                    Sign in
+                <Typography className={classes.title} component="h1" variant="h5">
+                    Sign In
                 </Typography>
-                <form className={classes.form} noValidate>
+                <form className={classes.form} onSubmit={(e) => handleSubmit(e)}>
                     <TextField
                         variant="outlined"
                         margin="normal"
@@ -62,6 +84,8 @@ function Login() {
                         fullWidth
                         label="UserName"
                         autoFocus
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
                     />
                     <TextField
                         variant="outlined"
@@ -72,6 +96,8 @@ function Login() {
                         label="Password"
                         type="password"
                         id="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
                     />
                     <Button
                         type="submit"
@@ -89,7 +115,7 @@ function Login() {
                             </Link>
                         </Grid>
                         <Grid item>
-                            <Link href="#" variant="body2">
+                            <Link href="#" variant="body2" onClick={handleNavigateSignup}>
                                 {"Don't have an account? Sign Up"}
                             </Link>
                         </Grid>
@@ -103,4 +129,19 @@ function Login() {
     );
 }
 
-export default Login;
+
+const mapStateToProps = (state) => {
+    return {
+        loggedIn: state.loggedIn,
+        user: state.user
+    }
+}
+
+// const mapDispatchToProps = (dispatch) => {
+//        return {
+//             requestLogin: () => dispatch(userActions.login(username, password)),
+//        }
+// }
+
+export default connect(mapStateToProps)(Login);
+// export default Login;
