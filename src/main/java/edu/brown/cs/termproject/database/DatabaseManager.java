@@ -18,6 +18,14 @@ public class DatabaseManager {
    * @param filepath filepath to a SQLite database.
    */
   public void connect(String filepath) {
+    // reset any previous connection
+    if (conn != null) {
+      try {
+        conn.close();
+      } catch(SQLException e) {
+        System.err.println("ERROR: unable to close previous connection.");
+      }
+    }
     if (fileExists(filepath)) {
       try {
         // loads the driver manager class

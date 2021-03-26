@@ -6,13 +6,13 @@ import edu.brown.cs.termproject.collegegraph.*;
 
 public class User {
   private String username;
-  private byte[] password;
+  private String password;
   private String firstname;
   private String lastname;
   private List<List<College>> route;
   private List<College> colleges;
 
-  public User(String username, byte[] password, String firstname, String lastname) {
+  public User(String username, String password, String firstname, String lastname) {
     this.username = username;
     this.password = password;
     this.firstname = firstname;
@@ -23,7 +23,7 @@ public class User {
     return username;
   }
 
-  public byte[] getPassword() {
+  public String getPassword() {
     return password;
   }
 

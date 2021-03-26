@@ -40,7 +40,7 @@ public class TripPlannerAPI extends API{
     if (user == null) {
       System.out.println("user does not exist");
     } else {
-      System.out.println(Encryption.verifyPassword(password, user.getPassword()));
+      System.out.println(Encryption.verify(password, user.getPassword()));
     }
 
 
