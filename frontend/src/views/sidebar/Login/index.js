@@ -9,8 +9,8 @@ import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import './index.css'
 import {connect, useDispatch} from 'react-redux';
-import {userActions} from '../../actions/userActions'
-import {routeActions} from '../../actions/routeActions'
+import {userActions} from '../../../actions/userActions'
+import {routeActions} from '../../../actions/routeActions'
 
 const useStyles = makeStyles((theme) => ({
     title: {
