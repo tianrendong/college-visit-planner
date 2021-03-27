@@ -1,6 +1,6 @@
 const initialState = {
     sidebar: 'login',
-    mainview: 'initialMap',
+    infobar: '',
 }
 
 const routeReducer = (state = initialState, action) => {
@@ -8,13 +8,13 @@ const routeReducer = (state = initialState, action) => {
         case "NAVIGATE_SIDEBAR":
             return {
                 ...state,
-                sidebar: action.payload.newSidebarView
-            }
-        case "NAVIGATE_MAINVIEW":
+                sidebar: action.payload.sidebar
+            };
+        case "NAVIGATE_INFOBAR":
             return {
                 ...state,
-                mainview: action.payload.newMainview
-            };
+                infobar: action.payload.infobar
+            };  
         default:
             return state
     }

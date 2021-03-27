@@ -3,13 +3,14 @@ import Drawer from '@material-ui/core/Drawer';
 import './index.css'
 import useWindowSize from "../../../hooks/useWindowSize";
 import IconButton from '@material-ui/core/IconButton';
-import PersonIcon from '@material-ui/icons/Person';
 import { connect } from 'react-redux';
-
 import CloseIcon from '@material-ui/icons/Close';
+import MyColleges from '../../views/myColleges/index'
+import Settings from '../../views/settings/index'
 
 const routes = {
-    
+     'myColleges': <MyColleges/>,
+     'settings': <Settings/>
 }
 
 const Infobar = (props) => {
@@ -30,7 +31,7 @@ const Infobar = (props) => {
                         </IconButton>
                     </div>
                     <div className="infobarInnerContainer">
-                        {routes[props.sidebar]}
+                        {routes[props.infobar]}
                     </div>
                 </Drawer>
             </div>
@@ -38,7 +39,7 @@ const Infobar = (props) => {
     )
 }
 
-const mapStateToProps = () => ({ });
+const mapStateToProps = ({rRoute : { infobar }}) => ({ infobar });
 
 export default connect(mapStateToProps)(Infobar);
 

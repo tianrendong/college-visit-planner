@@ -1,18 +1,23 @@
 import React, { useState } from 'react';
-import Drawer from '@material-ui/core/Drawer';
-import './index.css'
-import useWindowSize from "../../../hooks/useWindowSize";
-import IconButton from '@material-ui/core/IconButton';
-import PersonIcon from '@material-ui/icons/Person';
 import { connect } from 'react-redux';
+import './index.css'
 
+import useWindowSize from "../../../hooks/useWindowSize";
 import Login from "../../views/Login";
 import SignUp from "../../views/SignUp";
+import Userhome from '../../views/userhome/index'
+import CollegeInfo from '../../views/collegeInfo/index'
+
+import Drawer from '@material-ui/core/Drawer';
+import IconButton from '@material-ui/core/IconButton';
+import PersonIcon from '@material-ui/icons/Person';
 import CloseIcon from '@material-ui/icons/Close';
 
 const routes = {
     'login': <Login />,
     'signup': <SignUp />,
+    'userhome': <Userhome />,
+    'collegeInfo': <CollegeInfo />
 }
 
 const Sidebar = (props) => {

@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function UserHome() {
+function Userhome() {
     const classes = useStyles();
 
     return (
@@ -61,4 +61,4 @@ function UserHome() {
     );
 }
 
-export default UserHome;
+export default Userhome;
