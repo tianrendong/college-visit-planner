@@ -2,6 +2,7 @@ package edu.brown.cs.termproject.main;
 
 import edu.brown.cs.termproject.api.TripPlannerAPI;
 import edu.brown.cs.termproject.database.CollegeSQLManager;
+import edu.brown.cs.termproject.database.UserDataManager;
 import edu.brown.cs.termproject.repl.Repl;
 import edu.brown.cs.termproject.database.CollegeSQLManager;
 import joptsimple.OptionParser;
@@ -17,9 +18,11 @@ import java.io.StringWriter;
  */
 public final class Main {
   private static final int DEFAULT_PORT = 4567;
-  private static final String DEFAULT_DATABASE = "./data/sampleColleges.sqlite3";
+  private static final String DEFAULT_COLLEGE_DB = "./data/sampleColleges.sqlite3";
+  private static final String DEFAULT_USER_DB = "./data/sampleUsers.sqlite3";
   private final CollegeSQLManager collegeDatabase = new CollegeSQLManager();
-  private final TripPlannerAPI tripAPI = new TripPlannerAPI(this.collegeDatabase);
+  private final UserDataManager userDatabase = new UserDataManager();
+  private final TripPlannerAPI  tripAPI = new TripPlannerAPI(this.collegeDatabase, this.userDatabase);
   private final Repl repl = new Repl();
 
   /**
@@ -44,11 +47,14 @@ public final class Main {
     parser.accepts("gui");
     parser.accepts("port").withRequiredArg().ofType(Integer.class)
         .defaultsTo(DEFAULT_PORT);
-    parser.accepts("database").withRequiredArg().ofType(String.class)
-        .defaultsTo(DEFAULT_DATABASE);
+    parser.accepts("college-database").withRequiredArg().ofType(String.class)
+        .defaultsTo(DEFAULT_COLLEGE_DB);
+    parser.accepts("user-database").withRequiredArg().ofType(String.class)
+        .defaultsTo(DEFAULT_USER_DB);
     OptionSet options = parser.parse(args);
 
-    collegeDatabase.connect((String) options.valueOf("database"));
+    collegeDatabase.connect((String) options.valueOf("college-database"));
+    userDatabase.connect((String) options.valueOf("user-database"));
 
     if (options.has("gui")) {
       runSparkServer((int) options.valueOf("port"));
@@ -84,8 +90,8 @@ public final class Main {
    * Initializes Spark to handle API requests.
    */
   private void initializeSpark() {
-    Spark.path("/api/account", () -> {
-      Spark.get("/login", tripAPI.getLogin());
+    Spark.path("/api/user", () -> {
+      Spark.post("/login", tripAPI.getLogin());
       Spark.get("/register", tripAPI.getRegister());
       Spark.get("/addCollege", tripAPI.getUserAddCollege());
       Spark.get("/deleteCollege", tripAPI.getUserDeleteCollege());

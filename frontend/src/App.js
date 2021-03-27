@@ -1,23 +1,23 @@
 import './App.css';
-import Map from './components/map/index'
-import Container from "./components/container/index"
-import InfoCard from "./components/infocard";
-import Login from "./views/sidebar/login";
-import SignUp from "./views/sidebar/signup";
-import UserHome from "./views/sidebar/userhome";
-import MyColleges from "./views/mainView/myColleges";
+import Sidebar from "./views/containers/sidebar/index"
+import Entrance from "./views/views/Entrance"
+import Infobar from "./views/containers/infobar/index"
+import Map from "./components/map/index"
 
-function App() {
+import React from 'react';
+// import Entrance from './views/mainView/Entrance/index'
+import { connect } from 'react-redux';
+
+
+function App(props) {
     return (
-        <div className="App">
-            <Container sidebarView={<SignUp/>} mainView={<Map className="Map"/>}/>
-            {/*<Container sidebarView={<UserHome/>} mainView={<MyColleges/>}/>*/}
-            {/*<InfoCard title={"Brown University"}*/}
-            {/*          description={"Lizards are a widespread group of squamate reptiles, " +*/}
-            {/*          "with over 6,000 species, ranging across all continents except Antarctica"}> </InfoCard>*/}
-        </div>
-    );
+        <>
+            <Entrance/>
+            <Map/>
+            {/* <Infobar/> */}
+            <Sidebar className="sidebar"/>
+        </>
+    )
 }
 
 export default App;
-

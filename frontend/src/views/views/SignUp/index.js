@@ -1,25 +1,20 @@
-import React from 'react';
-import Avatar from '@material-ui/core/Avatar';
+import {React, useState} from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-
-function Copyright() {
-    return (
-        <Typography variant="body2" color="textSecondary" align="center">
-            {'Copyright © College Visit Planner'}
-        </Typography>
-    );
-}
+import {routeActions} from "../../../actions/routeActions";
+import {useDispatch} from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
+    title: {
+        fontFamily: "'Inter', sans-serif;",
+        fontWeight: 800,
+    },
     paper: {
         marginTop: theme.spacing(8),
         display: 'flex',
@@ -41,16 +36,25 @@ const useStyles = makeStyles((theme) => ({
 
 function SignUp() {
     const classes = useStyles();
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const dispatch = useDispatch();
+
+    const validateForm = () => {
+        
+    }
+
+    const handleNavigateLogin = () => {
+        dispatch(routeActions.navigateLogin());
+    }
 
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
             <div className={classes.paper}>
-                <Avatar className={classes.avatar}>
-                    <LockOutlinedIcon />
-                </Avatar>
-                <Typography component="h1" variant="h5">
-                    Sign up
+                <Typography className={classes.title} component="h1" variant="h5">
+                    Sign Up
                 </Typography>
                 <form className={classes.form} noValidate>
                     <Grid container spacing={2}>
@@ -96,6 +100,15 @@ function SignUp() {
                                 id="password"
                             />
                         </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                variant="outlined"
+                                required
+                                fullWidth
+                                name="verifyPassword"
+                                label="Verify Password"
+                            />
+                        </Grid>
                     </Grid>
                     <Button
                         type="submit"
@@ -108,16 +121,13 @@ function SignUp() {
                     </Button>
                     <Grid container justify="flex-end">
                         <Grid item>
-                            <Link href="#" variant="body2">
+                            <Link href="#" variant="body2" onClick={handleNavigateLogin}>
                                 Already have an account? Sign in
                             </Link>
                         </Grid>
                     </Grid>
                 </form>
             </div>
-            <Box mt={5}>
-                <Copyright />
-            </Box>
         </Container>
     );
 }
