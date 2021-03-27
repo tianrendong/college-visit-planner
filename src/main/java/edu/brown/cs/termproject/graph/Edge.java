@@ -19,5 +19,9 @@ public interface Edge<V extends Vertex> {
    */
   V getEnd();
 
+  /**
+   * Gets the weight of the Edge.
+   * @return weight of the edge.
+   */
   double getWeight();
 }

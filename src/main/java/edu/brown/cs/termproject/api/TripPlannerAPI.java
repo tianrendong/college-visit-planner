@@ -1,8 +1,8 @@
 package edu.brown.cs.termproject.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import edu.brown.cs.termproject.collegegraph.College;
 import edu.brown.cs.termproject.database.CollegeSQLManager;
-import edu.brown.cs.termproject.collegegraph.*;
 import spark.Route;
 
 import java.util.List;
@@ -14,6 +14,7 @@ public class TripPlannerAPI extends API{
 
   /**
    * Creates a TripPlannerAPI object to provide API handlers.
+   * @param db Database for colleges.
    */
   public TripPlannerAPI(CollegeSQLManager db) {
     this.db = db;

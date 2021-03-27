@@ -6,8 +6,10 @@ import edu.brown.cs.termproject.collegegraph.CollegeGraph;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * The class for Minimum Spanning Trees.
+ */
 public class MST {
-
   /**
    * Given a complete CollegeGraph, build a minimum spanning tree.
    * @param graph a complete CollegeGraph

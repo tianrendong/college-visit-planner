@@ -13,6 +13,7 @@ public class College implements Locatable, Vertex {
   /**
    * Constructs a college.
    * @param id college id
+   * @param name college name
    * @param lat latitude
    * @param lon longitude
    */
@@ -43,6 +44,6 @@ public class College implements Locatable, Vertex {
 
   @Override
   public String toString() {
-    return name + ": (" + lat + ", " + lon +")";
+    return name + ": (" + lat + ", " + lon + ")";
   }
 }

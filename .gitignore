@@ -1,0 +1,6 @@
+target/
+.mvn-classpath
+.classpath
+*.log
+.idea/
+**.DS_Store**

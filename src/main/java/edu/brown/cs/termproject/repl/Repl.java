@@ -28,7 +28,6 @@ public class Repl  {
         }
       }
     }
-    // if no command matches
     return "ERROR: Input matches no known command pattern.";
   }
 
