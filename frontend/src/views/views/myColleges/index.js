@@ -1,6 +1,6 @@
 import Button from "@material-ui/core/Button";
 import React, {useState} from "react";
-import PopOutDialog from "../../../components/popOutDialog";
+import PopOutDialog from "../../../components/PopOutDialog";
 
 const MyColleges = () => {
     const [dialogOpen, setDialogOpen] = useState(false);

@@ -1,24 +1,23 @@
 import './App.css';
-import Container from "./components/container/index"
-
+import Sidebar from "./views/containers/sidebar/index"
+import Entrance from "./views/views/Entrance"
+import Infobar from "./views/containers/infobar/index"
+import Map from "./components/map/index"
 
 import React from 'react';
-//import { BrowserRouter as Router, Route, Switch, Redirect, Link } from 'react-router-dom';
+// import Entrance from './views/mainView/Entrance/index'
 import { connect } from 'react-redux';
-//import { AddAlarmSharp } from '@material-ui/icons';
+
 
 function App(props) {
     return (
-        <Container />
+        <>
+            <Entrance/>
+            <Map/>
+            {/* <Infobar/> */}
+            <Sidebar className="sidebar"/>
+        </>
     )
 }
 
-const mapStateToProps = (state) => {
-    return {
-        //loggedIn: state.loggedIn,
-        //user: state.user,
-    }
-}
-
-
-export default connect(mapStateToProps)(App);
+export default App;
