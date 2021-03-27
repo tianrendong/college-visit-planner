@@ -65,7 +65,6 @@ function Login() {
     }
 
     const handleNavigateSignup = () => {
-        console.log("hiii")
         dispatch(routeActions.navigateSignup());
     }
 
