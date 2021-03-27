@@ -7,6 +7,19 @@ import clsx from 'clsx';
 import useWindowSize from "../../hooks/useWindowSize";
 import IconButton from '@material-ui/core/IconButton';
 import PersonIcon from '@material-ui/icons/Person';
+import { connect } from 'react-redux';
+
+import Login from "../login";
+import SignUp from "../signUp";
+import UserHome from "../../views/sidebar/userhome";
+import MyColleges from "../../views/mainView/myColleges";
+import Map from '../map/index'
+
+const routes = {
+    'login': <Login />,
+    'signup': <SignUp />,
+    'initialMap': <Map />
+}
 
 const Container = (props) => {
     const {mainView, sidebarView} = props;
@@ -50,21 +63,30 @@ const Container = (props) => {
                     <ChevronLeftIcon onClick={() => setOpen(false)}/>
                 </div>
                 <div className="sidebarInnerContainer">
-                    {sidebarView}
+                    {routes[props.sidebar]}
                 </div>
             </Drawer>
         </div>
         <div className={clsx(classes.content, {
             [classes.contentShift]: open
         })}>
-            {mainView}
+            {routes[props.mainview]}
         </div>
         </div>
     )
 
 }
 
-export default Container;
+const mapStateToProps = (state) => {
+    return {
+        //loggedIn: state.loggedIn,
+        //user: state.user,
+        sidebar: state.rRoute.sidebar,
+        mainview: state.rRoute.mainview
+    }
+}
+
+export default connect(mapStateToProps)(Container);
 
 
 

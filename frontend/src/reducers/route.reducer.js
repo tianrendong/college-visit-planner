@@ -6,16 +6,16 @@ const initialState = {
 const routeReducer = (state = initialState, action) => {
     switch (action.type) {
         case "NAVIGATE_SIDEBAR":
-            console.log(action)
             return {
+                ...state,
                 sidebar: action.payload.newSidebarView
-            };
+            }
         case "NAVIGATE_MAINVIEW":
             return {
+                ...state,
                 mainview: action.payload.newMainview
             };
         default:
-            console.log('routerrrrrrrrr')
             return state
     }
 }
