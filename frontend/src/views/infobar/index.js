@@ -6,9 +6,9 @@ import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import CloseIcon from '@material-ui/icons/Close';
-import MyColleges from '../../views/myColleges/index'
-import Settings from '../../views/settings/index'
-import {routeActions} from '../../../actions/routeActions'
+import MyColleges from './myColleges/index'
+import Settings from './settings/index'
+import {routeActions} from '../../actions/routeActions'
 
 const routes = {
     'myColleges': <MyColleges />,

@@ -1,10 +1,11 @@
 package edu.brown.cs.termproject.main;
 
-import edu.brown.cs.termproject.api.TripPlannerAPI;
+import edu.brown.cs.termproject.api.CollegeAPI;
+import edu.brown.cs.termproject.api.RouteAPI;
+import edu.brown.cs.termproject.api.UserAPI;
 import edu.brown.cs.termproject.database.CollegeSQLManager;
 import edu.brown.cs.termproject.database.UserDataManager;
 import edu.brown.cs.termproject.repl.Repl;
-import edu.brown.cs.termproject.database.CollegeSQLManager;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import spark.Spark;
@@ -22,7 +23,9 @@ public final class Main {
   private static final String DEFAULT_USER_DB = "./data/sampleUsers.sqlite3";
   private final CollegeSQLManager collegeDatabase = new CollegeSQLManager();
   private final UserDataManager userDatabase = new UserDataManager();
-  private final TripPlannerAPI  tripAPI = new TripPlannerAPI(this.collegeDatabase, this.userDatabase);
+  private final CollegeAPI collegeAPI = new CollegeAPI(this.collegeDatabase);
+  private final UserAPI userAPI = new UserAPI(this.userDatabase);
+  private final RouteAPI routeAPI = new RouteAPI();
   private final Repl repl = new Repl();
 
   /**
@@ -91,19 +94,19 @@ public final class Main {
    */
   private void initializeSpark() {
     Spark.path("/api/user", () -> {
-      Spark.post("/login", tripAPI.getLogin());
-      Spark.get("/register", tripAPI.getRegister());
-      Spark.get("/addCollege", tripAPI.getUserAddCollege());
-      Spark.get("/deleteCollege", tripAPI.getUserDeleteCollege());
+      Spark.post("/login", userAPI.getLogin());
+      Spark.get("/register", userAPI.getRegister());
+      Spark.get("/addCollege", userAPI.getUserAddCollege());
+      Spark.get("/deleteCollege", userAPI.getUserDeleteCollege());
     });
     Spark.path("/api/route", () -> {
-      Spark.get("/getClusters", tripAPI.getClusters());
-      Spark.get("/getRoute", tripAPI.getRoute());
+      Spark.get("/getClusters", routeAPI.getClusters());
+      Spark.get("/getRoute", routeAPI.getRoute());
     });
     Spark.path("/api/college", () -> {
-      Spark.get("/defaultColleges", tripAPI.getDefaultColleges());
-      Spark.get("/relatedColleges", tripAPI.getRelatedColleges());
-      Spark.get("/info", tripAPI.getCollegeInfo());
+      Spark.get("/defaultColleges", collegeAPI.getDefaultColleges());
+      Spark.get("/relatedColleges", collegeAPI.getRelatedColleges());
+      Spark.get("/info", collegeAPI.getCollegeInfo());
     });
   }
 

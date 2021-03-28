@@ -4,7 +4,6 @@ import Typography from '@material-ui/core/Typography';
 import SettingsIcon from '@material-ui/icons/Settings';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import Button from '@material-ui/core/Button';
-import RouteIcon from "../../../assets/route.svg";
 import { routeActions } from '../../../actions/routeActions';
 import { connect, useDispatch } from 'react-redux';
 import { ReactComponent as Icon } from '../../../assets/way.svg';

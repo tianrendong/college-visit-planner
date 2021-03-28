@@ -1,14 +1,21 @@
-import {React, useState} from 'react';
+import { React, useState } from 'react';
 import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import {makeStyles} from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import {routeActions} from "../../../actions/routeActions";
-import {useDispatch} from "react-redux";
+import { routeActions } from "../../../actions/routeActions";
+import { userActions } from "../../../actions/userActions";
+import { useDispatch } from "react-redux";
+import Accordion from '@material-ui/core/Accordion';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { DataPolicy } from '../../../assets/dataPolicy'
 
 const useStyles = makeStyles((theme) => ({
     title: {
@@ -36,13 +43,23 @@ const useStyles = makeStyles((theme) => ({
 
 function SignUp() {
     const classes = useStyles();
+
+    const [firstname, setFirstname] = useState("");
+    const [lastname, setLastname] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
+    const [verifyPassword, setVerifyPassword] = useState("");
     const dispatch = useDispatch();
 
     const validateForm = () => {
-        
+
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (firstname && lastname && username && password) {
+            dispatch(userActions.signup(firstname, lastname, username, password));
+        }
     }
 
     const handleNavigateLogin = () => {
@@ -51,23 +68,21 @@ function SignUp() {
 
     return (
         <Container component="main" maxWidth="xs">
-            <CssBaseline />
             <div className={classes.paper}>
                 <Typography className={classes.title} component="h1" variant="h5">
                     Sign Up
                 </Typography>
-                <form className={classes.form} noValidate>
+                <form className={classes.form} onSubmit={(e) => handleSubmit(e)}>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={6}>
                             <TextField
-                                autoComplete="fname"
-                                name="firstName"
                                 variant="outlined"
                                 required
                                 fullWidth
                                 id="firstName"
                                 label="First Name"
-                                autoFocus
+                                value={firstname}
+                                onChange={(e) => setFirstname(e.target.value)}
                             />
                         </Grid>
                         <Grid item xs={12} sm={6}>
@@ -77,8 +92,8 @@ function SignUp() {
                                 fullWidth
                                 id="lastName"
                                 label="Last Name"
-                                name="lastName"
-                                autoComplete="lname"
+                                value={lastname}
+                                onChange={(e) => setLastname(e.target.value)}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -87,6 +102,8 @@ function SignUp() {
                                 required
                                 fullWidth
                                 label="Username"
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -98,6 +115,8 @@ function SignUp() {
                                 label="Password"
                                 type="password"
                                 id="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -107,9 +126,28 @@ function SignUp() {
                                 fullWidth
                                 name="verifyPassword"
                                 label="Verify Password"
+                                value={verifyPassword}
+                                onChange={(e) => setVerifyPassword(e.target.value)}
                             />
                         </Grid>
                     </Grid>
+                    <Accordion>
+                        <AccordionSummary
+                            expandIcon={<ExpandMoreIcon />}
+                            aria-label="Expand"
+                            aria-controls="additional-actions1-content"
+                            id="additional-actions1-header"
+                        >
+                            <FormControlLabel
+                                aria-label="Acknowledge"
+                                onClick={(event) => event.stopPropagation()}
+                                onFocus={(event) => event.stopPropagation()}
+                                control={<Checkbox />}
+                                label="I confirm that I have read and agreed to the potential data usage involved in this website."
+                            />
+                        </AccordionSummary>
+                        <AccordionDetails>{DataPolicy}</AccordionDetails>
+                    </Accordion>
                     <Button
                         type="submit"
                         fullWidth
@@ -128,6 +166,7 @@ function SignUp() {
                     </Grid>
                 </form>
             </div>
+
         </Container>
     );
 }

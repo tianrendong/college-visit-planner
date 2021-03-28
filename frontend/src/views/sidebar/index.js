@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 import './index.css'
 
 import { makeStyles } from '@material-ui/core/styles';
-import useWindowSize from "../../../hooks/useWindowSize";
-import Login from "../../views/login";
-import SignUp from "../../views/signup";
-import Userhome from '../../views/userhome/index'
-import CollegeInfo from '../../views/collegeInfo/index'
+import useWindowSize from "../../hooks/useWindowSize";
+import Login from "./login/index";
+import SignUp from "./signup/index";
+import Userhome from './userhome/index';
+import CollegeInfo from './collegeInfo/index'
 
 import Drawer from '@material-ui/core/Drawer';
 import IconButton from '@material-ui/core/IconButton';
