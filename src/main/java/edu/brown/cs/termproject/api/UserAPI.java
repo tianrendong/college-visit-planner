@@ -4,11 +4,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.brown.cs.termproject.database.UserDataManager;
 import edu.brown.cs.termproject.main.Encryption;
 import edu.brown.cs.termproject.main.User;
-import org.json.JSONObject;
 import spark.Route;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 public class UserAPI extends API {
 
+  private static final Gson GSON = new Gson();
   private UserDataManager userDB;
   private final ObjectMapper om = new ObjectMapper(); // used to turn objects into JSON
 
@@ -23,7 +26,10 @@ public class UserAPI extends API {
   public Route getLogin() {
     return login;
   }
-  public Route getRegister() {
+  public Route getSignUp() {
+    return login;
+  }
+  public Route getCheckUsername() {
     return login;
   }
   public Route getUserAddCollege() {
@@ -34,20 +40,34 @@ public class UserAPI extends API {
   }
 
   private final Route login = (request, response) -> {
-    JSONObject data = new JSONObject(request.body());
-    String username = data.getString("username");
-    String password = data.getString("password");
-    System.out.println(password);
+    JsonObject data = GSON.fromJson(request.body(), JsonObject.class);
+    String username = data.get("username").getAsString();
+    String password = data.get("password").getAsString();
     User user = userDB.getUserInfo(username);
+    JsonObject payload = new JsonObject();
+
     if (user == null) {
-      System.out.println("user does not exist");
+      payload.addProperty("success", false);
+      payload.addProperty("error", "User does not exist.");
+      System.err.println("user does not exist");
+
     } else {
+      if (Encryption.verify(password, user.getPassword())) {
+        payload.addProperty("success", true);
+        payload.addProperty("user", GSON.toJson(user));
+      } else {
+        payload.addProperty("success", false);
+        payload.addProperty("error", "Password is incorrect.");
+      }
       System.out.println(Encryption.verify(password, user.getPassword()));
     }
+//    return om.writeValueAsString(user);
+    return GSON.toJson(payload);
+  };
 
+  private final Route getCheckUsername = (request, response) -> {
 
-//    return om.writeValueAsString();
-    return true;
+    return null;
   };
 
 

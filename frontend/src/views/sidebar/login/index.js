@@ -44,7 +44,6 @@ function Login() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
         if (username && password) {
             dispatch(userActions.login(username, password));
         }
@@ -53,6 +52,7 @@ function Login() {
     const handleNavigateSignup = () => {
         dispatch(routeActions.navigateSignup());
     }
+
 
     return (
         <Container component="main" maxWidth="xs">

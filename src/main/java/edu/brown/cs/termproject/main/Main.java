@@ -95,7 +95,8 @@ public final class Main {
   private void initializeSpark() {
     Spark.path("/api/user", () -> {
       Spark.post("/login", userAPI.getLogin());
-      Spark.get("/register", userAPI.getRegister());
+      Spark.get("/signup", userAPI.getSignUp());
+      Spark.get("/checkUsername", userAPI.getCheckUsername());
       Spark.get("/addCollege", userAPI.getUserAddCollege());
       Spark.get("/deleteCollege", userAPI.getUserDeleteCollege());
     });

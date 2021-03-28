@@ -1,5 +1,6 @@
 const initialState = {
     loggedIn: false,
+    loginError: '',
     user: null,
     dataConsent: false,
 }
@@ -17,7 +18,10 @@ const userReducer = (state = initialState, action) => {
                 user: action.user
             };
         case "LOGIN_FAILURE":
-            return {};
+            return {
+                loggedIn: false,
+                loginError: action.error
+            };
         case "LOGOUT":
             return {};
         case "REGISTER_REQUEST":

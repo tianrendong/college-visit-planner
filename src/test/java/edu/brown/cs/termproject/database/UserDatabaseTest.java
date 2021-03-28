@@ -1,4 +1,4 @@
-package edu.brown.cs.termproject.database.collegegraph;
+package edu.brown.cs.termproject.database;
 
 import com.google.maps.errors.ApiException;
 import edu.brown.cs.termproject.collegegraph.College;
@@ -23,10 +23,11 @@ public class UserDatabaseTest {
     UserDataManager userDatabase = new UserDataManager();
     userDatabase.connect("./data/sampleUsers.sqlite3");
     userDatabase.register("tom", "12345", "Tom", "Wang");
-    userDatabase.register("tom", "12345", "Tom", "Wang");
-    userDatabase.register("to", "12345", "Tom", "Wang");
-    userDatabase.register("to", "12345", "Tom", "Wang");
+//    userDatabase.register("tom", "12345", "Tom", "Wang");
+//    userDatabase.register("to", "12345", "Tom", "Wang");
+//    userDatabase.register("to", "12345", "Tom", "Wang");
     userDatabase.login("tom", "1234");
+    userDatabase.login("tom", "12345");
 
   }
 

@@ -62,6 +62,10 @@ function SignUp() {
         }
     }
 
+    const handleCheckUsername = (username) => {
+        
+    }
+
     const handleNavigateLogin = () => {
         dispatch(routeActions.navigateLogin());
     }
