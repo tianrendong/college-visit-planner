@@ -1,64 +1,65 @@
 import React from 'react';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import './index.css'
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
+import SettingsIcon from '@material-ui/icons/Settings';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import Button from '@material-ui/core/Button';
+import RouteIcon from "../../../assets/route.svg";
+import { routeActions } from '../../../actions/routeActions';
+import { connect, useDispatch } from 'react-redux';
+import { ReactComponent as Icon } from '../../../assets/way.svg';
 
-function Copyright() {
+const Userhome = (props) => {
+
+    const infobarClosed = (props.infobar === '');
+
+    const dispatch = useDispatch();
+
+    const handleNavigateColleges = () => {
+        if (infobarClosed) {
+            dispatch(routeActions.navigateMyColleges());
+        } else {
+            dispatch(routeActions.closeInfobar());
+        }
+
+    }
+
+    const handleNavigateRoute = () => {
+        // dispatch(routeActions.navigateRoute());
+    }
+
+    const handleNavigateSettings = () => {
+        if (infobarClosed) {
+            dispatch(routeActions.navigateSettings());
+        } else {
+            dispatch(routeActions.closeInfobar());
+        }
+    }
+
     return (
-        <Typography variant="body2" color="textSecondary" align="center">
-            {'Copyright © College Visit Planner'}
-        </Typography>
-    );
-}
-
-const useStyles = makeStyles((theme) => ({
-    paper: {
-        marginTop: theme.spacing(8),
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-    },
-    avatar: {
-        margin: theme.spacing(1),
-        backgroundColor: theme.palette.secondary.main,
-    },
-    form: {
-        width: '100%', // Fix IE 11 issue.
-        marginTop: theme.spacing(3),
-    },
-    submit: {
-        margin: theme.spacing(3, 0, 2),
-    },
-}));
-
-function Userhome() {
-    const classes = useStyles();
-
-    return (
-        <Container component="main" maxWidth="xs">
-            <CssBaseline />
-            <div className={classes.paper}>
-                <Avatar className={classes.avatar}>
-                    <LockOutlinedIcon />
-                </Avatar>
-                <Typography component="h1" variant="h5">
-                   Jenny Yu
-                </Typography>
-                <p>aaa</p>
+        <div className="userContainer">
+            <div className="userHeader">
+                <h1 className="userTitle">Welcome,</h1>
+                <h1 className="userTitle">Jenny Yu</h1>
             </div>
-            <Box mt={5}>
-                <Copyright />
-            </Box>
-        </Container>
+            <button className="optionButton" onClick={handleNavigateColleges}>
+                <SettingsIcon />
+                <p className="optionText">Colleges</p>
+            </button>
+            <button className="optionButton" onClick={handleNavigateRoute}>
+                <SettingsIcon />
+                <p className="optionText">Route</p>
+            </button>
+            <button className="optionButton" onClick={handleNavigateSettings}>
+                <SettingsIcon />
+                <p className="optionText">Settings</p>
+            </button>
+            {/* <Icon style={{ width: 50, height: 50 }} /> */}
+        </div>
     );
+
 }
 
-export default Userhome;
+const mapStateToProps = ({ rRoute: { infobar } }) => ({ infobar });
+
+export default connect(mapStateToProps)(Userhome);

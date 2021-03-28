@@ -1,6 +1,6 @@
 import './App.css';
 import Sidebar from "./views/containers/sidebar/index"
-import Entrance from "./views/views/Entrance"
+import Entrance from "./views/views/entrance/index"
 import Infobar from "./views/containers/infobar/index"
 import Map from "./components/map/index"
 
@@ -12,10 +12,10 @@ import { connect } from 'react-redux';
 function App(props) {
     return (
         <>
-            <Entrance/>
+            {/* <Entrance/> */}
             <Map/>
-            {/* <Infobar/> */}
-            <Sidebar className="sidebar"/>
+            <Infobar/>
+            <Sidebar />
         </>
     )
 }

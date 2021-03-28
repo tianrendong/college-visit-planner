@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import './index.css'
 
 import useWindowSize from "../../../hooks/useWindowSize";
-import Login from "../../views/Login";
-import SignUp from "../../views/SignUp";
+import Login from "../../views/login";
+import SignUp from "../../views/signup";
 import Userhome from '../../views/userhome/index'
 import CollegeInfo from '../../views/collegeInfo/index'
 
@@ -25,27 +25,25 @@ const Sidebar = (props) => {
     const [open, setOpen] = useState(false);
 
     return (
-        <div>
-            <div className="page">
-                <IconButton
-                    onClick={() => setOpen(true)}>
-                    <PersonIcon fontSize="large" />
-                </IconButton>
-                <Drawer variant="persistent"
-                    anchor="left"
-                    open={open}
-                    docked='true'>
-                    <div className="drawerHeader">
-                        <IconButton
-                            onClick={() => setOpen(false)}>
-                            <CloseIcon className="closeIcon"/>
-                        </IconButton>
-                    </div>
-                    <div className="sidebarInnerContainer">
-                        {routes[props.sidebar]}
-                    </div>
-                </Drawer>
-            </div>
+        <div className="sidebarPage">
+            <IconButton
+                onClick={() => setOpen(true)}>
+                <PersonIcon fontSize="large" />
+            </IconButton>
+            <Drawer variant="persistent"
+                anchor="left"
+                open={open}
+                docked='true'>
+                <div className="drawerHeader">
+                    <IconButton
+                        onClick={() => setOpen(false)}>
+                        <CloseIcon className="closeIcon" />
+                    </IconButton>
+                </div>
+                <div className="sidebarInnerContainer">
+                    {routes[props.sidebar]}
+                </div>
+            </Drawer>
         </div>
     )
 }

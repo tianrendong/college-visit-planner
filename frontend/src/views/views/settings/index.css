@@ -1,0 +1,4 @@
+.settingsContainer .MuiAccordion-root {
+    display: flex;
+    flex-direction: column;
+}

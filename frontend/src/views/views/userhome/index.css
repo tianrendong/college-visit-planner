@@ -1,0 +1,60 @@
+.userTitle {
+    font-family: 'Inter', sans-serif;;
+    font-weight: 800;
+    margin: 0;
+    font-size: 38px;
+}
+
+.userHeader {
+    align-content: center;
+    text-align: center;
+    margin:20px;
+}
+
+.userContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 700px
+}
+
+.optionButton {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    /* box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1); */
+    width: 200px;
+    height: 80px;
+    background-color: transparent;
+    border: none;
+}
+
+.optionButton:hover {
+    /* background-color: rgba(203, 203, 203, 0.954); */
+    border-radius: 5px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
+    transform: translateY(-7px);
+    /* box-shadow: 1px 1px 2px rgba(#fff, .2);
+    text-decoration: none;
+    text-shadow: -1px -1px 0 darken(red, 9.5%);
+    transition: all 250ms linear; */
+  }
+
+  .optionButton:focus {
+      outline: none;
+      border:none;
+  }
+
+
+  .optionButton:active {
+    transform: translateY(0px);
+  }
+
+.optionText {
+    font-family: 'Inter', sans-serif;;
+    font-weight: 800;
+    font-size: 27px;
+}

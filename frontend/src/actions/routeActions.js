@@ -5,6 +5,8 @@ export const routeActions = {
     navigateMyColleges,
     navigateSettings,
     navigateCollegeInfo,
+    closeInfobar,
+    closeSidebar,
 };
 
 function navigateSignup() {
@@ -45,6 +47,20 @@ function navigateMyColleges() {
 function navigateSettings() {
     return {
         payload: {infobar: 'settings'},
+        type: 'NAVIGATE_INFOBAR',
+    };
+}
+
+function closeSidebar() {
+    return {
+        payload: {sidebar: ''},
+        type: 'NAVIGATE_SIDEBAR',
+    };
+}
+
+function closeInfobar() {
+    return {
+        payload: {infobar: ''},
         type: 'NAVIGATE_INFOBAR',
     };
 }

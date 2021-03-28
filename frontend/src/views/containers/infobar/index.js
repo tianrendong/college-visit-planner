@@ -1,45 +1,48 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import Drawer from '@material-ui/core/Drawer';
 import './index.css'
-import useWindowSize from "../../../hooks/useWindowSize";
 import IconButton from '@material-ui/core/IconButton';
 import { connect } from 'react-redux';
 import CloseIcon from '@material-ui/icons/Close';
 import MyColleges from '../../views/myColleges/index'
 import Settings from '../../views/settings/index'
+import {routeActions} from '../../../actions/routeActions'
 
 const routes = {
-     'myColleges': <MyColleges/>,
-     'settings': <Settings/>
+    'myColleges': <MyColleges />,
+    'settings': <Settings />
 }
 
 const Infobar = (props) => {
-    const { height, width } = useWindowSize();
-    const [open, setOpen] = useState(true);
+    const [open, setOpen] = useState(false);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (routes.hasOwnProperty(props.infobar)) {
+            setOpen(true);
+        } else {
+            setOpen(false);
+        }
+    }, [props.infobar])
 
     return (
-        <div>
-            <div className="page">
-                <Drawer variant="persistent"
-                    anchor="left"
-                    open={open}
-                    docked='true'>
-                    <div className="drawerHeader">
-                        <IconButton
-                            onClick={() => setOpen(false)}>
-                            <CloseIcon className="closeIcon"/>
-                        </IconButton>
-                    </div>
-                    <div className="infobarInnerContainer">
-                        {routes[props.infobar]}
-                    </div>
-                </Drawer>
-            </div>
+        <div className="infobarPage">
+            <Drawer 
+                variant="persistent"
+                anchor="left"
+                open={open}
+                docked='true'>
+                <div className="infobarPlaceholder"/>
+                <div className="infobarInnerContainer">
+                    {routes[props.infobar]}
+                </div>
+            </Drawer>
         </div>
     )
 }
 
-const mapStateToProps = ({rRoute : { infobar }}) => ({ infobar });
+const mapStateToProps = ({ rRoute: { infobar } }) => ({ infobar });
 
 export default connect(mapStateToProps)(Infobar);
 

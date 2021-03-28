@@ -1,6 +1,7 @@
 const initialState = {
     loggedIn: false,
     user: null,
+    dataConsent: false,
 }
 
 const userReducer = (state = initialState, action) => {

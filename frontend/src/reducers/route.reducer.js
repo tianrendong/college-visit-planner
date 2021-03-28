@@ -1,5 +1,6 @@
 const initialState = {
-    sidebar: 'login',
+    // sidebar: 'login',
+    sidebar: 'userhome',
     infobar: '',
 }
 
