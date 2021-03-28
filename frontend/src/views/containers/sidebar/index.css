@@ -1,0 +1,12 @@
+.sidebarInnerContainer {
+    width: 23vw;
+}
+
+.drawerHeader {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.closeIcon {
+    margin: 10px;
+}

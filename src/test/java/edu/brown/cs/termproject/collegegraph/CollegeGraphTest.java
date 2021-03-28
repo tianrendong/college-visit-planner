@@ -1,11 +1,21 @@
 package edu.brown.cs.termproject.collegegraph;
 
 import com.google.maps.errors.ApiException;
+import edu.brown.cs.termproject.database.UserDataManager;
+import edu.brown.cs.termproject.main.Encryption;
 import org.eclipse.jetty.http.PathMap;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.KeySpec;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -30,4 +40,5 @@ public class CollegeGraphTest {
     CollegeGraph graph = new CollegeGraph(_colleges);
     System.out.println(graph.toString());
   }
+
 }

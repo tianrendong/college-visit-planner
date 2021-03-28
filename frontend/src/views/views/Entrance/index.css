@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@600;800;900&display=swap');
+
+.title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: 85px;
+    text-align: left;
+    text-decoration: underline;
+    margin: 20px 0;
+    line-height: 108px;
+}
+
+.subtitle {
+    font-family: 'Inter', sans-serif;
+    font-weight: 85;
+    font-size: 23px;
+    text-align: left;
+    margin: 10px 0 10px 0;
+}
+
+.textContainer {
+    display: flex;
+    flex-direction: column;
+    text-align:left;
+}
+
+.mainContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    top: 50%;
+    transform: translateY(17%);
+}
+
+.enterButton {
+    background: black;
+    border-radius: 3;
+    border: 0;
+    color: white;
+    height: 48px;
+    margin: 30px 35px 0 0;
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
+    font-size: 22px;
+    height: 60px;
+    letter-spacing: 0.35px;
+    box-shadow: 0 3px 5px 2px rgba(158, 158, 158, 0.5)
+}
+
+.enterButton:hover {background-color: #313131}
