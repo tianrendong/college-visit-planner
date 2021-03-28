@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -17,7 +18,7 @@ import java.util.Set;
  */
 public class CollegeGraph implements Graph<College, Path> {
 
-  private Map<College, List<Path>> graph = new HashMap<>(); // graph stored as adjacency list
+  private final Map<College, List<Path>> graph = new HashMap<>(); // graph stored as adjacency list
 //  private List<College> colleges;
 
   /**
@@ -27,13 +28,15 @@ public class CollegeGraph implements Graph<College, Path> {
    * @throws ApiException if errors occur during Google Map requests
    * @throws IOException if errors occur during Google Map requests
    */
-  public CollegeGraph(List<College> colleges) throws InterruptedException, ApiException, IOException {
+  public CollegeGraph(List<College> colleges)
+      throws InterruptedException, ApiException, IOException {
 //    this.colleges = colleges;
     buildCompleteGraph(colleges);
   }
 
 
-  private void buildCompleteGraph(List<College> colleges) throws InterruptedException, ApiException, IOException {
+  private void buildCompleteGraph(List<College> colleges)
+      throws InterruptedException, ApiException, IOException {
     for (int i = 0; i < colleges.size(); i++) {
       for (int j = i + 1; j < colleges.size(); j++) {
         College start = colleges.get(i);
@@ -61,6 +64,20 @@ public class CollegeGraph implements Graph<College, Path> {
     }
   }
 
+  @Override
+  public Set<College> getVertices() {
+    return graph.keySet();
+  }
+
+  @Override
+  public Set<Path> getEdges() {
+    Set<Path> edges = new HashSet<>();
+    for (Map.Entry<College, List<Path>> entry : graph.entrySet()) {
+      edges.addAll(entry.getValue());
+    }
+    return edges;
+  }
+
   /**
    * Adds a new college to the graph
    * by extending an edge from the new college to every existing college.
@@ -80,6 +97,7 @@ public class CollegeGraph implements Graph<College, Path> {
     }
   }
 
+  @Override
   public String toString() {
     String output = "";
     List<College> colleges = new ArrayList<>(graph.keySet());
@@ -87,8 +105,8 @@ public class CollegeGraph implements Graph<College, Path> {
       List<Path> paths = graph.get(colleges.get(i));
       for (int j = 0; j < paths.size(); j++) {
         Path p = paths.get(j);
-        output += p.getStart().getName() + " -> " +
-            p.getEnd().getName() + " : " + p.getWeight();
+        output += p.getStart().getName() + " -> "
+            + p.getEnd().getName() + " : " + p.getWeight();
         output += (j < paths.size()) ? "\n" : "";
       }
       output += (i < colleges.size()) ? "\n" : "";
