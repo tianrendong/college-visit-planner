@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import Drawer from '@material-ui/core/Drawer';
 import './index.css'
 import IconButton from '@material-ui/core/IconButton';
+import { makeStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import CloseIcon from '@material-ui/icons/Close';
 import MyColleges from '../../views/myColleges/index'
@@ -14,12 +15,20 @@ const routes = {
     'settings': <Settings />
 }
 
+const useStyles = makeStyles(() => ({
+    paper: { 
+        zIndex: 1, 
+        display: 'flex',
+        flexDirection: 'row',
+    },
+  }));
+
 const Infobar = (props) => {
+    const classes = useStyles();
     const [open, setOpen] = useState(false);
-    const dispatch = useDispatch();
 
     useEffect(() => {
-        if (routes.hasOwnProperty(props.infobar)) {
+        if (routes.hasOwnProperty(props.infobar)) { 
             setOpen(true);
         } else {
             setOpen(false);
@@ -27,8 +36,8 @@ const Infobar = (props) => {
     }, [props.infobar])
 
     return (
-        <div className="infobarPage">
             <Drawer 
+                classes={{paper: classes.paper}}
                 variant="persistent"
                 anchor="left"
                 open={open}
@@ -38,7 +47,6 @@ const Infobar = (props) => {
                     {routes[props.infobar]}
                 </div>
             </Drawer>
-        </div>
     )
 }
 

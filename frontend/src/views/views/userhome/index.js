@@ -11,15 +11,13 @@ import { ReactComponent as Icon } from '../../../assets/way.svg';
 
 const Userhome = (props) => {
 
-    const infobarClosed = (props.infobar === '');
-
     const dispatch = useDispatch();
 
     const handleNavigateColleges = () => {
-        if (infobarClosed) {
-            dispatch(routeActions.navigateMyColleges());
-        } else {
+        if (props.infobar === 'myColleges') {
             dispatch(routeActions.closeInfobar());
+        } else {
+            dispatch(routeActions.navigateMyColleges());
         }
 
     }
@@ -29,11 +27,11 @@ const Userhome = (props) => {
     }
 
     const handleNavigateSettings = () => {
-        if (infobarClosed) {
-            dispatch(routeActions.navigateSettings());
-        } else {
+        if (props.infobar === 'settings') {
             dispatch(routeActions.closeInfobar());
-        }
+        } else {
+            dispatch(routeActions.navigateSettings());
+        } 
     }
 
     return (

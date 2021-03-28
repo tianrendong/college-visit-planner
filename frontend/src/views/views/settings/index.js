@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
@@ -9,28 +10,43 @@ import './index.css'
 
 function Settings() {
 
+    const [expanded, setExpanded] = React.useState(false);
+
+    const handleChange = (panel) => (event, isExpanded) => {
+        setExpanded(isExpanded ? panel : false);
+    };
 
     return (
-        <div className="settingsContainer">
-            <Accordion>
+        <div>
+            <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
-                    aria-label="Expand"
-                    aria-controls="additional-actions1-content"
-                    id="additional-actions1-header"
+                    aria-controls="panel1bh-content"
+                    id="panel1bh-header"
                 >
-                    <FormControlLabel
-                        aria-label="Acknowledge"
-                        onClick={(event) => event.stopPropagation()}
-                        onFocus={(event) => event.stopPropagation()}
-                        control={<Checkbox />}
-                        label="I acknowledge that I should stop the click event propagation"
-                    />
+                    <Typography>Data Policy</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                    <Typography color="textSecondary">
-                        The click event of the nested action will propagate up and expand the accordion unless
-                        you explicitly stop it.
+                    <Typography>
+                        // Section 1: how we save data
+                        // Section 2: how we use your data
+                        // Checkbox: change consent
+                    
+                    </Typography>
+                </AccordionDetails>
+            </Accordion>
+            <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
+                <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel2bh-content"
+                    id="panel2bh-header"
+                >
+                    <Typography>My Account</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                    <Typography>
+                        // Log Out
+                        // Delete account and all related data
                     </Typography>
                 </AccordionDetails>
             </Accordion>

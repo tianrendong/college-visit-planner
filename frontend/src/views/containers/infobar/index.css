@@ -1,10 +1,3 @@
-.infobarPage .MuiPaper-root {
-    z-index: 1;
-    display: flex;
-    flex-direction: row;
-    height: 100vh;
-}
-
 .infobarPlaceholder {
     width: 23vw;
     height: 100%;
@@ -13,6 +6,7 @@
 
 .infobarInnerContainer {
     width: 58vw;
+    padding: 50px;
 }
 
 .drawerHeader {

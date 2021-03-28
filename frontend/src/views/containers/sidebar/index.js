@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import './index.css'
 
+import { makeStyles } from '@material-ui/core/styles';
 import useWindowSize from "../../../hooks/useWindowSize";
 import Login from "../../views/login";
 import SignUp from "../../views/signup";
@@ -20,12 +21,20 @@ const routes = {
     'collegeInfo': <CollegeInfo />
 }
 
+const useStyles = makeStyles((theme) => ({
+    root: {
+      zIndex:2,
+      position: 'absolute'
+    },
+  }));
+
 const Sidebar = (props) => {
+    const classes = useStyles();
     const { height, width } = useWindowSize();
     const [open, setOpen] = useState(false);
 
     return (
-        <div className="sidebarPage">
+        <div className={classes.root}>
             <IconButton
                 onClick={() => setOpen(true)}>
                 <PersonIcon fontSize="large" />
