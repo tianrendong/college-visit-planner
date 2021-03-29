@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 
@@ -29,6 +30,7 @@ public class MSTTest {
 
   @Test
   public void testMST() throws InterruptedException, ApiException, IOException {
+    setUp();
     Graph<College, Path> graph = new CollegeGraph(_colleges);
     Comparator<Path> comparator = new Comparator<>() {
       @Override
@@ -36,10 +38,13 @@ public class MSTTest {
         return Double.compare(o1.getWeight(), o2.getWeight());
       }
     };
-    Graph<College, Path> mst = MST.mst(graph, comparator);
-    for (Path p : mst.getEdges()) {
+    Set<Path> mstEdges = MST.mst(graph, comparator);
+    Graph<College, Path> mst = new CollegeGraph(new ArrayList<>());
+    for (Path p : mstEdges) {
+      mst.addEdge(p);
       System.out.println(p);
     }
     assertEquals(graph.getVertices(), mst.getVertices());
+    assertEquals(3, mst.getEdges().size());
   }
 }

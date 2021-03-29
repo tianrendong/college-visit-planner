@@ -1,15 +1,14 @@
 package edu.brown.cs.termproject.router;
 
 import com.google.maps.errors.ApiException;
-import edu.brown.cs.termproject.collegegraph.CollegeGraph;
 import edu.brown.cs.termproject.graph.Edge;
 import edu.brown.cs.termproject.graph.Graph;
 import edu.brown.cs.termproject.graph.Vertex;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
@@ -34,10 +33,10 @@ public final class MST {
    * @throws ApiException         if errors occur during Google Map API queries
    * @throws IOException          if errors occur during Google Map API queries
    */
-  public static <V extends Vertex, E extends Edge<V>> Graph<V, E> mst(
+  public static <V extends Vertex, E extends Edge<V>> Set<E> mst(
       Graph<V, E> graph, Comparator<E> comparator)
       throws InterruptedException, ApiException, IOException {
-    Graph<V, E> mst = (Graph<V, E>) new CollegeGraph(new ArrayList<>());
+    Set<E> mst = new HashSet<>();
     Set<E> edges = graph.getEdges();
 
     PriorityQueue<E> pqEdges = new PriorityQueue<>(comparator);
@@ -56,9 +55,9 @@ public final class MST {
         // Check if the two vertices have the same root:
         // If they don't have the same root,
         // They don't form a cycle in the graph.
-        if (lightestStart.find(lightestStart) != lightestEnd.find(lightestEnd)) {
+        if (lightestStart.find() != lightestEnd.find()) {
           lightestStart.union(lightestEnd);
-          mst.addEdge(lightest);
+          mst.add(lightest);
         }
       }
     }
