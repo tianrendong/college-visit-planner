@@ -37,7 +37,7 @@ const Userhome = (props) => {
         <div className="userContainer">
             <div className="userHeader">
                 <h1 className="userTitle">Welcome,</h1>
-                <h1 className="userTitle">Jenny Yu</h1>
+                <h1 className="userTitle">{props.user.firstname}</h1>
             </div>
             <button className="optionButton" onClick={handleNavigateColleges}>
                 <SettingsIcon />
@@ -57,6 +57,6 @@ const Userhome = (props) => {
 
 }
 
-const mapStateToProps = ({ rRoute: { infobar } }) => ({ infobar });
+const mapStateToProps = ({ rRoute: { infobar }, rUser: { user } }) => ({ infobar, user });
 
 export default connect(mapStateToProps)(Userhome);

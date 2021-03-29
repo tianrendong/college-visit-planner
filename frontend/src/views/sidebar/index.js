@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import './index.css'
 
 import { makeStyles } from '@material-ui/core/styles';
-import useWindowSize from "../../hooks/useWindowSize";
 import Login from "./login/index";
 import SignUp from "./signup/index";
 import Userhome from './userhome/index';
@@ -30,7 +29,6 @@ const useStyles = makeStyles((theme) => ({
 
 const Sidebar = (props) => {
     const classes = useStyles();
-    const { height, width } = useWindowSize();
     const [open, setOpen] = useState(false);
 
     return (
@@ -57,7 +55,7 @@ const Sidebar = (props) => {
     )
 }
 
-const mapStateToProps = ({ rRoute: { sidebar } }) => ({ sidebar });
+const mapStateToProps = ({ rRoute: { sidebar, loggedIn } }) => ({ sidebar, loggedIn });
 
 export default connect(mapStateToProps)(Sidebar);
 

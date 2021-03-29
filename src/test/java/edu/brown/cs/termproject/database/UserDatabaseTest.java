@@ -22,7 +22,7 @@ public class UserDatabaseTest {
   public void testRegister() throws InvalidKeySpecException, SQLException, NoSuchAlgorithmException, UnsupportedEncodingException {
     UserDataManager userDatabase = new UserDataManager();
     userDatabase.connect("./data/sampleUsers.sqlite3");
-    userDatabase.register("tom", "12345", "Tom", "Wang");
+    userDatabase.signup("tom", "12345", "Tom", "Wang");
 //    userDatabase.register("tom", "12345", "Tom", "Wang");
 //    userDatabase.register("to", "12345", "Tom", "Wang");
 //    userDatabase.register("to", "12345", "Tom", "Wang");

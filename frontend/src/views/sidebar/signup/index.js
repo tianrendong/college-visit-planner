@@ -58,7 +58,10 @@ function SignUp() {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (firstname && lastname && username && password) {
-            dispatch(userActions.signup(firstname, lastname, username, password));
+            dispatch({
+                payload: { firstname, lastname, username, password },
+                type: 'SIGNUP_REQUEST',
+            });
         }
     }
 

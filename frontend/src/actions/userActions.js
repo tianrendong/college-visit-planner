@@ -5,7 +5,7 @@ export const userActions = {
     // logout,
     // register,
     // getAll,
-    // delete: _delete
+
 };
 
 

@@ -8,9 +8,8 @@ import userReducer from './reducers/user.reducer'
 import { Provider } from 'react-redux';
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import routeReducer from './reducers/route.reducer';
-import thunk from 'redux-thunk';
 import createSagaMiddleware from 'redux-saga';
-import rootSaga from './sagas/saga'
+import rootSaga from './sagas/index'
 
 const sagaMiddleware = createSagaMiddleware();
 

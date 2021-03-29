@@ -1,16 +1,16 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
+import { connect, useDispatch } from 'react-redux';
+import { userActions } from '../../../actions/userActions'
+import { routeActions } from '../../../actions/routeActions'
+
 import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import { makeStyles } from '@material-ui/core/styles';
 import './index.css'
-import {connect, useDispatch} from 'react-redux';
-import {userActions} from '../../../actions/userActions'
-import {routeActions} from '../../../actions/routeActions'
 
 const useStyles = makeStyles((theme) => ({
     title: {
@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: theme.palette.secondary.main,
     },
     form: {
-        width: '100%', 
+        width: '100%',
         marginTop: theme.spacing(1),
     },
     submit: {
@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function Login() {
+function Login(props) {
     const classes = useStyles();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -46,20 +46,23 @@ function Login() {
         e.preventDefault();
         if (username && password) {
             dispatch({
-                        payload: { username, password },
-                        type: 'LOGIN_REQUEST',
-                    })
+                payload: { username, password },
+                type: 'LOGIN_REQUEST',
+            })
         }
     }
 
     const handleNavigateSignup = () => {
         dispatch(routeActions.navigateSignup());
     }
-
+    // const handleFormChange = ((item, value) =>
+    //     dispatch({
+    //         payload: { item, value },
+    //         type: 'LOGIN_FORM_CHANGE',
+    //     }))
 
     return (
         <Container component="main" maxWidth="xs">
-            <CssBaseline />
             <div className={classes.paper}>
                 <Typography className={classes.title} component="h1" variant="h5">
                     Sign In
@@ -74,7 +77,11 @@ function Login() {
                         autoFocus
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
-                    />
+                        // onChange={(e) => handleFormChange('username', e.target.value)}
+                        />
+                        {/* // value={props.loginForm.username}
+                    //     onChange={(e) => handleFormChange('username', e.target.value)} */}
+                    
                     <TextField
                         variant="outlined"
                         margin="normal"
@@ -110,11 +117,6 @@ function Login() {
 }
 
 
-const mapStateToProps = (state) => {
-    return {
-        loggedIn: state.loggedIn,
-        user: state.user
-    }
-}
+const mapStateToProps = ({ rUser: { loggedIn, user, error, loginForm } }) => ({ loggedIn, user, error, loginForm });
 
 export default connect(mapStateToProps)(Login);

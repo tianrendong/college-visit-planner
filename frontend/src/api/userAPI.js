@@ -2,7 +2,7 @@ import { useDispatch } from 'react-redux';
 
 export const userAPI = {
     requestLogin,
-    signup,
+    requestSignup,
     // logout,
     // // getById,
     // update,
@@ -10,7 +10,6 @@ export const userAPI = {
 };
 
 function requestLogin(payload) {
-    console.log(payload)
     const request = new Request('/api/user/login', {
         method: 'POST',
         body: JSON.stringify({ 
@@ -34,14 +33,19 @@ function checkUsername(username) {
     })
 }
 
-function signup(firstname, lastname, username, password) {
-    const request = new Request('/api/user/signup', {
+function requestSignup(payload) {
+    console.log(payload);
+;    const request = new Request('/api/user/signup', {
         method: 'POST',
-        body: JSON.stringify({ firstname, lastname, username, password })
+        body: JSON.stringify({ 
+            username: payload.username, 
+            password: payload.password,
+            firstname: payload.firstname, 
+            lastname: payload.lastname })
     })
 
-    return fetch(request).then(res => {
-        console.log(res)
-    })
+    return fetch(request)
+    .then(response => response.json())
+        .then(data => data);
 }
 

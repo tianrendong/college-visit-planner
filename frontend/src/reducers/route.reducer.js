@@ -1,11 +1,14 @@
 const initialState = {
     sidebar: 'login',
-    // sidebar: 'userhome',
     infobar: '',
 }
 
 const routeReducer = (state = initialState, action) => {
     switch (action.type) {
+        case "LOGIN_SUCCESS":
+            return {
+                sidebar: 'userhome',
+            };
         case "NAVIGATE_SIDEBAR":
             return {
                 ...state,

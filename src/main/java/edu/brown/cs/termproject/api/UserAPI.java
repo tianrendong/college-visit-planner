@@ -23,15 +23,12 @@ public class UserAPI extends API {
     this.userDB = userDB;
   }
 
-  public Route getLogin() {
-    System.out.println("hi");
-    return login;
-  }
+  public Route getLogin() { return login; }
   public Route getSignUp() {
-    return login;
+    return signup;
   }
   public Route getCheckUsername() {
-    return login;
+    return getCheckUsername;
   }
   public Route getUserAddCollege() {
     return login;
@@ -44,33 +41,21 @@ public class UserAPI extends API {
     JsonObject data = GSON.fromJson(request.body(), JsonObject.class);
     String username = data.get("username").getAsString();
     String password = data.get("password").getAsString();
-    User user = userDB.getUserInfo(username);
-    JsonObject payload = new JsonObject();
+    return GSON.toJson(userDB.login(username, password));
+  };
 
-    if (user == null) {
-      payload.addProperty("success", false);
-      payload.addProperty("error", "User does not exist.");
-      System.err.println("user does not exist");
-
-    } else {
-      if (Encryption.verify(password, user.getPassword())) {
-        payload.addProperty("success", true);
-        payload.addProperty("user", GSON.toJson(user));
-      } else {
-        payload.addProperty("success", false);
-        payload.addProperty("error", "Password is incorrect.");
-      }
-      System.out.println(Encryption.verify(password, user.getPassword()));
-    }
-//    return om.writeValueAsString(user);
-    return GSON.toJson(payload);
+  private final Route signup = (request, response) -> {
+    JsonObject data = GSON.fromJson(request.body(), JsonObject.class);
+    String firstname = data.get("firstname").getAsString();
+    String lastname = data.get("lastname").getAsString();
+    String username = data.get("username").getAsString();
+    String password = data.get("password").getAsString();
+    return GSON.toJson(userDB.signup(username, password, firstname, lastname));
   };
 
   private final Route getCheckUsername = (request, response) -> {
-
-    return null;
+    JsonObject data = GSON.fromJson(request.body(), JsonObject.class);
+    String username = data.get("username").getAsString();
+    return (userDB.checkUserExists(username));
   };
-
-
-
 }
