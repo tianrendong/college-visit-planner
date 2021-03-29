@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
-import { userActions } from '../../../actions/userActions'
 import { routeActions } from '../../../actions/routeActions'
 
 import Button from '@material-ui/core/Button';
@@ -10,6 +9,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
+import { useSnackbar } from 'notistack';
 import './index.css'
 
 const useStyles = makeStyles((theme) => ({
@@ -41,6 +41,7 @@ function Login(props) {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const dispatch = useDispatch();
+    const { enqueueSnackbar } = useSnackbar();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -61,6 +62,19 @@ function Login(props) {
     //         type: 'LOGIN_FORM_CHANGE',
     //     }))
 
+    useEffect(() => {
+        // variant could be success, error, warning, info, or default
+        if (props.error !== '') {
+            enqueueSnackbar(props.error, {variant: 'error'});
+        }
+    }, [props.error])
+
+    useEffect(() => {
+        if (props.signedUp) {
+            enqueueSnackbar('Signed Up!', {variant: 'success'});
+        }
+    }, [props.signedUp])
+    
     return (
         <Container component="main" maxWidth="xs">
             <div className={classes.paper}>
@@ -77,11 +91,11 @@ function Login(props) {
                         autoFocus
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
-                        // onChange={(e) => handleFormChange('username', e.target.value)}
-                        />
-                        {/* // value={props.loginForm.username}
+                    // onChange={(e) => handleFormChange('username', e.target.value)}
+                    />
+                    {/* // value={props.loginForm.username}
                     //     onChange={(e) => handleFormChange('username', e.target.value)} */}
-                    
+
                     <TextField
                         variant="outlined"
                         margin="normal"
@@ -117,6 +131,7 @@ function Login(props) {
 }
 
 
-const mapStateToProps = ({ rUser: { loggedIn, user, error, loginForm } }) => ({ loggedIn, user, error, loginForm });
+const mapStateToProps = ({ rUser: { loggedIn, user, error, loginForm, signedUp } }) => 
+({ loggedIn, user, error, loginForm, signedUp });
 
 export default connect(mapStateToProps)(Login);

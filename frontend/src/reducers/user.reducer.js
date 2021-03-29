@@ -25,7 +25,6 @@ const userReducer = (state = initialState, action) => {
                 error: ''
             };
         case "LOGIN_SUCCESS":
-            console.log(action.payload);
             return {
                 loggingIn: false,
                 loggedIn: true,
@@ -33,7 +32,6 @@ const userReducer = (state = initialState, action) => {
                 error: ''
             };
         case "LOGIN_FAILURE":
-            console.log(action.payload);
             return {
                 loggingIn: false,
                 loggedIn: false,

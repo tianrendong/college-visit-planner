@@ -9,6 +9,10 @@ const routeReducer = (state = initialState, action) => {
             return {
                 sidebar: 'userhome',
             };
+        case "SIGNUP_SUCCESS":
+            return {
+                sidebar: 'login',
+            };
         case "NAVIGATE_SIDEBAR":
             return {
                 ...state,
@@ -18,7 +22,7 @@ const routeReducer = (state = initialState, action) => {
             return {
                 ...state,
                 infobar: action.payload.infobar
-            };  
+            };
         default:
             return state
     }

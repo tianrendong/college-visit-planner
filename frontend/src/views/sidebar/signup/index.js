@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Link from '@material-ui/core/Link';
@@ -7,8 +7,6 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { routeActions } from "../../../actions/routeActions";
-import { userActions } from "../../../actions/userActions";
-import { useDispatch } from "react-redux";
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
@@ -16,6 +14,8 @@ import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { DataPolicy } from '../../../assets/dataPolicy'
+import { useSnackbar } from 'notistack';
+import { connect, useDispatch } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
     title: {
@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function SignUp() {
+function SignUp(props) {
     const classes = useStyles();
 
     const [firstname, setFirstname] = useState("");
@@ -50,10 +50,17 @@ function SignUp() {
     const [password, setPassword] = useState("");
     const [verifyPassword, setVerifyPassword] = useState("");
     const dispatch = useDispatch();
+    const { enqueueSnackbar } = useSnackbar();
 
     const validateForm = () => {
 
     }
+
+    useEffect(() => {
+        if (props.error !== '') {
+            enqueueSnackbar(props.error, {variant: 'error'});
+        }
+    }, [props.error])
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -178,4 +185,6 @@ function SignUp() {
     );
 }
 
-export default SignUp;
+const mapStateToProps = ({ rUser: { error } }) => ({ error });
+
+export default connect(mapStateToProps)(SignUp);

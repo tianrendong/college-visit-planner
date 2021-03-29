@@ -37,7 +37,7 @@ const Userhome = (props) => {
         <div className="userContainer">
             <div className="userHeader">
                 <h1 className="userTitle">Welcome,</h1>
-                <h1 className="userTitle">{props.user.firstname}</h1>
+                <h1 className="userTitle Name">{props.user.firstname}!</h1>
             </div>
             <button className="optionButton" onClick={handleNavigateColleges}>
                 <SettingsIcon />
