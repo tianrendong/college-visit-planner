@@ -19,7 +19,7 @@ import java.util.Set;
 public class CollegeGraph implements Graph<College, Path> {
 
   private final Map<College, List<Path>> graph = new HashMap<>(); // graph stored as adjacency list
-//  private List<College> colleges;
+  private Set<College> colleges;
 
   /**
    * Initializes a complete college graph with a list of colleges.
@@ -30,17 +30,17 @@ public class CollegeGraph implements Graph<College, Path> {
    */
   public CollegeGraph(List<College> colleges)
       throws InterruptedException, ApiException, IOException {
-//    this.colleges = colleges;
+    this.colleges = new HashSet<>(colleges);
     buildCompleteGraph(colleges);
   }
 
 
-  private void buildCompleteGraph(List<College> colleges)
+  private void buildCompleteGraph(List<College> allColleges)
       throws InterruptedException, ApiException, IOException {
-    for (int i = 0; i < colleges.size(); i++) {
-      for (int j = i + 1; j < colleges.size(); j++) {
-        College start = colleges.get(i);
-        College end = colleges.get(j);
+    for (int i = 0; i < allColleges.size(); i++) {
+      for (int j = i + 1; j < allColleges.size(); j++) {
+        College start = allColleges.get(i);
+        College end = allColleges.get(j);
 
         //get optimal distance between colleges.get(i) and colleges.get(j) using Google Maps API
         double distance = GoogleMapAPIManager.getTravelDistance(
@@ -57,6 +57,9 @@ public class CollegeGraph implements Graph<College, Path> {
   @Override
   public void addEdge(Path p) {
     College start = p.getStart();
+    College end = p.getEnd();
+    colleges.add(start);
+    colleges.add(end);
     if (graph.containsKey(start)) {
       graph.get(start).add(p);
     } else {
@@ -66,7 +69,7 @@ public class CollegeGraph implements Graph<College, Path> {
 
   @Override
   public Set<College> getVertices() {
-    return graph.keySet();
+    return colleges;
   }
 
   @Override
@@ -87,9 +90,9 @@ public class CollegeGraph implements Graph<College, Path> {
    * @throws IOException if errors occur during Google Map requests
    */
   public void addNode(College newCollege) throws InterruptedException, ApiException, IOException {
-    Set<College> colleges = graph.keySet();
+    Set<College> allColleges = graph.keySet();
     // add a path from this node to every other node
-    for (College c : colleges) {
+    for (College c : allColleges) {
       double distance = GoogleMapAPIManager.getTravelDistance(
           newCollege.getLat(), newCollege.getLon(), c.getLat(), c.getLon());
       addEdge(new Path(newCollege, c, distance));
@@ -100,16 +103,16 @@ public class CollegeGraph implements Graph<College, Path> {
   @Override
   public String toString() {
     String output = "";
-    List<College> colleges = new ArrayList<>(graph.keySet());
-    for (int i = 0; i < colleges.size(); i++) {
-      List<Path> paths = graph.get(colleges.get(i));
+    List<College> allColleges = new ArrayList<>(graph.keySet());
+    for (int i = 0; i < allColleges.size(); i++) {
+      List<Path> paths = graph.get(allColleges.get(i));
       for (int j = 0; j < paths.size(); j++) {
         Path p = paths.get(j);
         output += p.getStart().getName() + " -> "
             + p.getEnd().getName() + " : " + p.getWeight();
         output += (j < paths.size()) ? "\n" : "";
       }
-      output += (i < colleges.size()) ? "\n" : "";
+      output += (i < allColleges.size()) ? "\n" : "";
     }
     return output;
   }

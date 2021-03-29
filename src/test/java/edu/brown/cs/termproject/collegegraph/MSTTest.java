@@ -1,14 +1,15 @@
 package edu.brown.cs.termproject.collegegraph;
 
 import com.google.maps.errors.ApiException;
+import edu.brown.cs.termproject.graph.Graph;
 import edu.brown.cs.termproject.router.MST;
-import org.eclipse.jetty.http.PathMap;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -28,8 +29,17 @@ public class MSTTest {
 
   @Test
   public void testMST() throws InterruptedException, ApiException, IOException {
-    CollegeGraph graph = new CollegeGraph(_colleges);
-    CollegeGraph mst = MST.primMST(graph);
-    System.out.println(mst.toString());
+    Graph<College, Path> graph = new CollegeGraph(_colleges);
+    Comparator<Path> comparator = new Comparator<>() {
+      @Override
+      public int compare(Path o1, Path o2) {
+        return Double.compare(o1.getWeight(), o2.getWeight());
+      }
+    };
+    Graph<College, Path> mst = MST.mst(graph, comparator);
+    for (Path p : mst.getEdges()) {
+      System.out.println(p);
+    }
+    assertEquals(graph.getVertices(), mst.getVertices());
   }
 }

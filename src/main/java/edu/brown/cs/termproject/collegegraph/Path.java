@@ -44,4 +44,11 @@ public class Path implements Edge<College> {
   public void setWeight(double w) {
     weight = w;
   }
+
+  @Override
+  public String toString() {
+    return getStart().getName() + " -> "
+        + getEnd().getName() + " : "
+        + getWeight();
+  }
 }
