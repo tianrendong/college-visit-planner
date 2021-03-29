@@ -1,0 +1,15 @@
+#!/usr/bin/python3
+
+import csv, sqlite3
+
+con = sqlite3.connect("universities.sqlite3")
+cur = con.cursor()
+cur.execute("CREATE TABLE IF NOT EXISTS university_previews (name, title, description, image, url);")
+
+with open('university-preview.csv','r') as fin:
+    dr = csv.DictReader(fin)
+    to_db = [(i['Name'], i['Title'], i['Description'], i['Image'], i['Url']) for i in dr]
+
+cur.executemany("INSERT INTO university_previews (name, title, description, image, url) VALUES (?, ?, ?, ?, ?);", to_db)
+con.commit()
+con.close()
