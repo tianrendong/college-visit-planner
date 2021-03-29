@@ -1,0 +1,27 @@
+#!/usr/bin/python3
+
+import requests
+
+university_domain = open("university-domain.txt", "r")
+university_domain_existing = open("university-domain-existing.txt", "a")
+university_domain_nonexisting = open("university-domain-nonexisting.txt", "a")
+
+for line in university_domain:
+	paren_idx = line.find("(")
+	name = line[:line.find("(")] # name of the university
+	if (paren_idx != -1):
+		domain = line[line.find("(")+1:line.find(")")] # domain of the university
+		print(name, "(" + domain + ")")
+		try: 
+			request = requests.head("http://" + domain)
+			university_domain_existing.write(name + " (" + domain + ")\n")
+		except:
+			university_domain_nonexisting.write(name + "\n")
+	else:
+		university_domain_nonexisting.write(name + "\n")
+		print(name)
+	   
+
+university_domain.close()
+university_domain_existing.close()
+university_domain_nonexisting.close()

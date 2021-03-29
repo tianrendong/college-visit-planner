@@ -1,0 +1,34 @@
+#!/usr/bin/python3
+
+import requests
+import json
+import time
+
+api_key = "key=7a2e6121140a43d13d4697bd430bed8a&q=https://"
+
+count = 0
+
+university_domain = open("university-domain.txt", "r")
+university_preview = open("university-preview.txt", "a")
+
+university_preview.write("Title,Description,Image,Url\n")
+
+for line in university_domain:
+	if count < 60:
+		name = line[:line.find("(")] # name of the university
+		domain = line[line.find("(")+1:line.find(")")] # domain of the university
+		data = api_key + domain
+		response = requests.post("https://api.linkpreview.net", data=data)
+		preview = response.json()
+		description = preview["description"]
+		image = preview["image"]
+		url = preview["url"]
+		university_preview.write(name + "," + description + "," + image + "," + url + "\n")
+		count += 1
+		print(name + "," + description + "," + image + "," + url + "\n")
+	time.sleep(5)
+
+university_preview.write(str(count) + "\n")
+
+university_domain.close()
+university_preview.close()
