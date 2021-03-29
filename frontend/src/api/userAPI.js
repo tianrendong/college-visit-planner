@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 
 export const userAPI = {
-    login,
+    requestLogin,
     signup,
     // logout,
     // // getById,
@@ -9,10 +9,13 @@ export const userAPI = {
     // delete: _delete
 };
 
-function login(username, password) {
+function requestLogin(payload) {
+    console.log(payload)
     const request = new Request('/api/user/login', {
         method: 'POST',
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ 
+            username: payload.username, 
+            password: payload.password }),
     })
 
     return fetch(request)

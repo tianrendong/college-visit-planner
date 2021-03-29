@@ -24,6 +24,7 @@ public class UserAPI extends API {
   }
 
   public Route getLogin() {
+    System.out.println("hi");
     return login;
   }
   public Route getSignUp() {

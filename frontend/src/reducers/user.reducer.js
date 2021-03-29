@@ -10,17 +10,21 @@ const userReducer = (state = initialState, action) => {
         case "LOGIN_REQUEST":
             return {
                 loggingIn: true,
-                user: action.user
             };
         case "LOGIN_SUCCESS":
+            console.log(action.payload);
             return {
+                loggingIn: false,
                 loggedIn: true,
-                user: action.user
+                user: action.payload.user
             };
         case "LOGIN_FAILURE":
+            console.log(action.payload);
             return {
+                loggingIn: false,
                 loggedIn: false,
-                loginError: action.error
+                loginError: action.payload.error,
+                user: null
             };
         case "LOGOUT":
             return {};

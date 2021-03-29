@@ -45,7 +45,10 @@ function Login() {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (username && password) {
-            dispatch(userActions.login(username, password));
+            dispatch({
+                        payload: { username, password },
+                        type: 'LOGIN_REQUEST',
+                    })
         }
     }
 

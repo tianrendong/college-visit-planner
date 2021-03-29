@@ -1,7 +1,7 @@
 import { userAPI } from '../api/userAPI';
 
 export const userActions = {
-    login,
+    // login,
     // logout,
     // register,
     // getAll,
@@ -9,22 +9,22 @@ export const userActions = {
 };
 
 
-function login(username, password) {
-    userAPI.login(username, password)
-        .then(data => {
-            if (data.success === true) {
-                // console.log(JSON.parse(data.user))
-                return {
-                    payload: { user: JSON.parse(data.user) },
-                    type: 'LOGIN_SUCCESS',
-                };
-            } else {
-                return {
-                    payload: { loginError: data.error },
-                    type: 'LOGIN_FAILURE',
-                };
-            }
-        })
+// function login(username, password) {
+//     userAPI.requestLogin(username, password)
+//         .then(data => {
+//             if (data.success === true) {
+//                 // console.log(JSON.parse(data.user))
+//                 return {
+//                     payload: { user: JSON.parse(data.user) },
+//                     type: 'LOGIN_SUCCESS',
+//                 };
+//             } else {
+//                 return {
+//                     payload: { loginError: data.error },
+//                     type: 'LOGIN_FAILURE',
+//                 };
+//             }
+//         })
 
     
     // return dispatch => {
@@ -47,7 +47,7 @@ function login(username, password) {
     // function success(user) { return { type: userConstants.LOGIN_SUCCESS, user } }
     // function failure(error) { return { type: userConstants.LOGIN_FAILURE, error } }
 
-}
+
 
 function signup(firstname, lastname, username, password) {
     userAPI.signup(firstname, lastname, username, password)
