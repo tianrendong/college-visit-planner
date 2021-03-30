@@ -1,8 +1,8 @@
-import { useDispatch } from 'react-redux';
-
 export const userAPI = {
     requestLogin,
     requestSignup,
+    requestLogout,
+    requestUpdateRoute,
     // logout,
     // // getById,
     // update,
@@ -49,3 +49,19 @@ function requestSignup(payload) {
         .then(data => data);
 }
 
+function requestLogout() {
+    const request = new Request('/api/user/logout', {method: 'POST'})
+
+    return fetch(request)
+    .then(response => response.json())
+        .then(data => data);
+}
+
+function requestUpdateRoute() {
+    const request = new Request("/api/user/getRoute", {
+        method: 'GET',
+    })
+    return fetch(request)
+        .then(response => response.json())
+        .then(data => data);
+}

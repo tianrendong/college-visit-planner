@@ -31,13 +31,13 @@ public class CollegeAPI extends API{
     this.collegeDB = collegeDB;
   }
 
-  private final Route colleges = (request, response) -> {
+  private final Route defaultColleges = (request, response) -> {
     List<College> colleges = collegeDB.getDefaultColleges();
     return om.writeValueAsString(colleges);
   };
 
   public Route getDefaultColleges() {
-    return colleges;
+    return defaultColleges;
   }
   public Route getRelatedColleges() {
     return  null;

@@ -23,6 +23,9 @@ const Userhome = (props) => {
 
     const handleNavigateRoute = () => {
         // dispatch(routeActions.navigateRoute());
+        dispatch({
+            type: 'REQUEST_UPDATE_ROUTE',
+        })
     }
 
     const handleNavigateSettings = () => {

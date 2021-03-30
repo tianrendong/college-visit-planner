@@ -2,36 +2,30 @@ import React, { useState, useEffect } from "react";
 import GoogleMap from 'google-map-react';
 import './index.css'
 import mapStyles from './mapStyles'
-import { getDefaultColleges } from "../../api";
+import { connect, useDispatch } from 'react-redux';
+import { collegeAPI } from '../../api/collegeAPI';
+import CollegeMarker from './collegeMarker'
+import Infocard from './infocard'
 
-function Map() {
-    const [defaultColleges, setDefaultColleges] = useState([]);
-    const [selected, setSelected] = useState({});
+function Map(props) {
+    const dispatch = useDispatch();
 
-    const defaultMarkers = defaultColleges.map((college) => (
-        <div
-            key={college.name}
-            lat={college.lat}
-            lng={college.lon}
-
-        >
-            {college.name}
-        </div>
+    const markers = Object.values(props.markers).map(college => (
+        <CollegeMarker lat={college.lat} lng={college.lon} college={college} />
+        // <div
+        //     key={college.name}
+        //     lat={college.lat}
+        //     lng={college.lon}
+        // >
+        //     {college.name}
+        // </div>
     ))
 
-    // const requestDefaultColleges = () => {
-    //     getDefaultColleges()
-    //         .then(resp => {
-    //             return resp.json()
-    //         })
-    //         .then(colleges => {
-    //             console.log(colleges)
-    //             setDefaultColleges(colleges)
-    //         })
-    // }
-
-    // useEffect(() => {
-    //     requestDefaultColleges();}, []);
+    useEffect(() => {
+        dispatch({
+            type: 'REQUEST_DEFAULT_COLLEGES',
+        })
+    }, [])
 
     return (
         <div style={{ position: 'absolute' }}>
@@ -45,7 +39,8 @@ function Map() {
                 defaultZoom={5.3}
                 options={{ styles: mapStyles.basic, mapTypeControl: false }}
             >
-                {defaultMarkers}
+                {markers}
+                {/* {defaultMarkers}
                 {
                     selected.location &&
                     (
@@ -58,7 +53,7 @@ function Map() {
                             <p>{selected.name}</p>
                         </div>
                     )
-                }
+                } */}
             </GoogleMap>
         </div>
 
@@ -66,4 +61,6 @@ function Map() {
 }
 
 
-export default Map;
+const mapStateToProps = ({ rMap: { markers } }) => ({ markers });
+
+export default connect(mapStateToProps)(Map);

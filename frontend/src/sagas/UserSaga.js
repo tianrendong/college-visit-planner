@@ -1,9 +1,10 @@
-import { takeLatest, call, all, put } from 'redux-saga/effects';
+import { call, put } from 'redux-saga/effects';
 import { userAPI } from '../api/userAPI'
 
 export const UserSaga = {
     loginAsync,
     signupAsync,
+    updateRouteAsync,
 }
 
 export function* loginAsync(payload) {
@@ -34,5 +35,14 @@ export function* signupAsync(payload) {
             type: 'SIGNUP_FAILURE',
         });
     }
+}
+
+export function* updateRouteAsync() {
+    const response = yield call(userAPI.requestUpdateRoute)
+    console.log(response);
+    yield put({
+        payload: { route: response },
+        type: 'UPDATE_ROUTE',
+    });
 }
 

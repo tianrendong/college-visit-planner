@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import './index.css'
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -7,6 +7,7 @@ import Login from "./login/index";
 import SignUp from "./signup/index";
 import Userhome from './userhome/index';
 import CollegeInfo from './collegeInfo/index'
+import { routeActions } from "../../actions/routeActions";
 
 import Drawer from '@material-ui/core/Drawer';
 import IconButton from '@material-ui/core/IconButton';
@@ -29,8 +30,13 @@ const useStyles = makeStyles((theme) => ({
 
 const Sidebar = (props) => {
     const classes = useStyles();
+    const dispatch = useDispatch();
     const [open, setOpen] = useState(false);
 
+    const handleClose = () => { //TODO: middleware?
+        dispatch(routeActions.closeInfobar);
+        dispatch(routeActions.closeSidebar);
+    }
     return (
         <div className={classes.root}>
             <IconButton

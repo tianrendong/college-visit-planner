@@ -19,6 +19,16 @@ public class User {
     this.lastname = lastname;
   }
 
+  public User(String username, String password, String firstname,
+              String lastname, List<College> colleges, List<List<College>> route) {
+    this.username = username;
+    this.password = password;
+    this.firstname = firstname;
+    this.lastname = lastname;
+    this.colleges = colleges;
+    this.route = route;
+  }
+
   public String getUserName() {
     return username;
   }

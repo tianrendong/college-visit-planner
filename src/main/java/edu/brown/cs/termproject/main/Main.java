@@ -1,7 +1,6 @@
 package edu.brown.cs.termproject.main;
 
 import edu.brown.cs.termproject.api.CollegeAPI;
-import edu.brown.cs.termproject.api.RouteAPI;
 import edu.brown.cs.termproject.api.UserAPI;
 import edu.brown.cs.termproject.database.CollegeSQLManager;
 import edu.brown.cs.termproject.database.UserDataManager;
@@ -25,7 +24,6 @@ public final class Main {
   private final UserDataManager userDatabase = new UserDataManager();
   private final CollegeAPI collegeAPI = new CollegeAPI(this.collegeDatabase);
   private final UserAPI userAPI = new UserAPI(this.userDatabase);
-  private final RouteAPI routeAPI = new RouteAPI();
   private final Repl repl = new Repl();
 
   /**
@@ -99,10 +97,7 @@ public final class Main {
       Spark.get("/checkUsername", userAPI.getCheckUsername());
       Spark.get("/addCollege", userAPI.getUserAddCollege());
       Spark.get("/deleteCollege", userAPI.getUserDeleteCollege());
-    });
-    Spark.path("/api/route", () -> {
-      Spark.get("/getClusters", routeAPI.getClusters());
-      Spark.get("/getRoute", routeAPI.getRoute());
+      Spark.get("/getRoute", userAPI.getRoute());
     });
     Spark.path("/api/college", () -> {
       Spark.get("/defaultColleges", collegeAPI.getDefaultColleges());

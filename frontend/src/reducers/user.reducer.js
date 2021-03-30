@@ -7,18 +7,18 @@ const initialState = {
     error: '',
     user: null,
     dataConsent: false,
-    
+
 }
 
 const userReducer = (state = initialState, action) => {
     switch (action.type) {
-        // case "LOGIN_FORM_CHANGE":
-        //     console.log(action.payload.item);
-        //     return {
-        //         ...state,
-        //         loginForm: {action.payload.item: action.payload.value],
-        //         error: ''
-        //     };
+        case "LOGIN_FORM_CHANGE":
+            console.log(action.payload.item);
+            return {
+                ...state,
+                loginForm: { [action.payload.item]: action.payload.value },
+                error: ''
+            };
         case "LOGIN_REQUEST":
             return {
                 loggingIn: true,
@@ -45,20 +45,40 @@ const userReducer = (state = initialState, action) => {
                 user: null,
             };
         case "SIGNUP_REQUEST":
-            return { 
+            return {
                 signingUp: true,
                 error: ''
-             };
+            };
         case "SIGNUP_SUCCESS":
-            return { 
-                signingUp: false, 
+            return {
+                signingUp: false,
                 signedUp: true,
                 error: ''
             };
         case "SIGNUP_FAILURE":
-            return { 
+            return {
                 signingUp: false,
                 error: action.payload.error,
+            };
+        case "NAVIGATE_SIDEBAR":
+            return {
+                ...state,
+                error: ''
+            };
+        case "NAVIGATE_INFOBAR":
+            return {
+                ...state,
+                error: ''
+            };
+
+        case "UPDATE_ROUTE":
+            return {
+                ...state,
+                error: '',
+                user: {
+                    ...state.user,
+                    route: action.payload.route
+                }
             };
         default:
             return state

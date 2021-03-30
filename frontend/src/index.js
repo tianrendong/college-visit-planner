@@ -10,12 +10,14 @@ import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import routeReducer from './reducers/route.reducer';
 import createSagaMiddleware from 'redux-saga';
 import rootSaga from './sagas/index'
+import mapReducer from './reducers/map.reducer';
 
 const sagaMiddleware = createSagaMiddleware();
 
 const rootReducer = combineReducers({
   rUser: userReducer,
   rRoute: routeReducer,
+  rMap: mapReducer,
 })
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
