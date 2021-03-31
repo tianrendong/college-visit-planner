@@ -1,8 +1,10 @@
-package edu.brown.cs.termproject.collegegraph;
+package edu.brown.cs.termproject.router;
 
 import com.google.maps.errors.ApiException;
+import edu.brown.cs.termproject.collegegraph.College;
+import edu.brown.cs.termproject.collegegraph.CollegeGraph;
+import edu.brown.cs.termproject.collegegraph.Path;
 import edu.brown.cs.termproject.graph.Graph;
-import edu.brown.cs.termproject.router.MST;
 import org.junit.Before;
 import org.junit.Test;
 

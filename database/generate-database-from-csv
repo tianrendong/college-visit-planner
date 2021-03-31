@@ -4,9 +4,10 @@ import csv, sqlite3
 
 con = sqlite3.connect("universities.sqlite3")
 cur = con.cursor()
-cur.execute("CREATE TABLE IF NOT EXISTS university_previews (name, title, description, image, url);")
+cur.execute("DROP TABLE university_previews")
+cur.execute("CREATE TABLE university_previews (name, title, description, image, url);")
 
-with open('university-preview.csv','r') as fin:
+with open('linkpreview-university.csv','r') as fin:
     dr = csv.DictReader(fin)
     to_db = [(i['Name'], i['Title'], i['Description'], i['Image'], i['Url']) for i in dr]
 

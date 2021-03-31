@@ -1,0 +1,18 @@
+#!/usr/bin/python3
+
+university_preview = open("university-preview.txt", encoding="latin-1")
+linkpreview_university = open("linkpreview-university.csv", 'w')
+
+for line in university_preview:
+	name = line[:line.find(',')+1]
+	split = name.split(',')
+	new_split = []
+	for s in split:
+		new_split.append(s.strip())
+	name = "".join(new_split)
+	rest = line[line.find(','):]
+	print(name + rest)
+	linkpreview_university.write(name + rest)
+
+university_preview.close()
+linkpreview_university.close()
