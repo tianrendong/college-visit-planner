@@ -62,62 +62,40 @@ function Map(props) {
     const handleApiLoaded = (map, maps) => {
         // Store a reference to the google map instance in store
         dispatch({
-            payload: {mapRef: maps},
+            payload: {map, maps},
             type: 'ON_LOADED',
         })
     }
 
     useEffect(() => {
         if (props.viewport === 'zoomedIn') {
-            const bounds = new window.google.maps.LatLngBounds();
             console.log("a");
+            const currentCluster = Object.values(Object.values(props.user.route)[props.selectedCluster])
+
+            const bounds = new window.google.maps.LatLngBounds();
+
+            currentCluster.forEach((college) => {
+                bounds.extend(new window.google.maps.LatLng(college.lat, college.lon));
+              });
+            console.log(bounds);
+            props.mapRef.fitBounds(bounds);
         }
     }, [props.viewport])
-
-    const getMapBounds = (map, maps) => {
-        console.log("a");
-        const currentCluster = Object.values(Object.values(props.user.route)[props.selectedCluster])
-
-        const bounds = new maps.LatLngBounds();
-      
-        currentCluster.forEach((college) => {
-          bounds.extend(new maps.LatLng(college.lat, college.lon));
-        });
-        return bounds;
-      };
     
     const handleClickCluster = (e) => {
-        console.log(e.target.dataset.index)
         dispatch({
             payload: {clusterIndex: e.target.dataset.index},
             type: 'EXPAND_CLUSTER',
         })
-        // calculate zoom, get center, dispatch as payload
-        // dispatch({
-        //     payload: {},
-        //     type: 'EXPAND_CLUSTER',
-        // })
     }
-
-
 
     return (
         <div style={{ position: 'absolute' }}>
             <GoogleMap
-                // ref={(map) => { 
-                //     console.log(map);
-                //     // if (props.viewport === 'zoomedIn') {
-                //     //     zoom(map);
-                //     // }
-                // }}
                 style={{ height: '100vh', width: '100vw', zIndex: -1 }}
                 bootstrapURLKeys={{ key: 'AIzaSyBIJk5AqilYH8PHt2TP4f5d7QY-UxtJf58' }} //process.env.REACT_APP_GOOGLE_KEY
                 defaultCenter={{ lat: 37.5, lng: -97.4 }}
                 defaultZoom={5.3}
-                // restriction={{
-                //     latLngBounds: USA_BOUNDS,
-                //     strictBounds: true,
-                // }}  // doesnt work
                 options={{ styles: mapStyles.basic, mapTypeControl: false }}
                 yesIWantToUseGoogleMapApiInternals
                 onGoogleApiLoaded={({ map, maps }) => { handleApiLoaded(map, maps)}}
@@ -150,7 +128,7 @@ function Map(props) {
 }
 
 
-const mapStateToProps = ({ rMap: { mapRef, defaultColleges, selectedCluster, viewport, center, zoom }, rUser: { user } }) => 
-({ mapRef, defaultColleges, selectedCluster, viewport, center, zoom, user });
+const mapStateToProps = ({ rMap: { mapRef, defaultColleges, selectedCluster, viewport}, rUser: { user } }) => 
+({ mapRef, defaultColleges, selectedCluster, viewport, user });
 
 export default connect(mapStateToProps)(Map);
