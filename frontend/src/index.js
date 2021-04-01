@@ -6,21 +6,35 @@ import reportWebVitals from './reportWebVitals';
 
 import userReducer from './reducers/user.reducer'
 import { Provider } from 'react-redux';
-import { createStore, combineReducers } from 'redux';
+import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import routeReducer from './reducers/route.reducer';
+import createSagaMiddleware from 'redux-saga';
+import rootSaga from './sagas/index'
+import mapReducer from './reducers/map.reducer';
+
+const sagaMiddleware = createSagaMiddleware();
 
 const rootReducer = combineReducers({
   rUser: userReducer,
   rRoute: routeReducer,
+  rMap: mapReducer,
 })
-const store = createStore(rootReducer);
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const store = createStore(
+  rootReducer,
+  composeEnhancers(
+    applyMiddleware(sagaMiddleware)));
+
+  sagaMiddleware.run(rootSaga);
 
 ReactDOM.render(
-  <Provider store={store}> 
+  <Provider store={store}>
     <React.StrictMode>
       <App />
     </React.StrictMode>
-   </Provider>,
+  </Provider>,
   document.getElementById('root')
 );
 

@@ -21,6 +21,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 public class CollegeGraphTest {
 
@@ -39,6 +41,24 @@ public class CollegeGraphTest {
   public void testGraph() throws InterruptedException, ApiException, IOException {
     CollegeGraph graph = new CollegeGraph(_colleges);
     System.out.println(graph.toString());
+
+
+
   }
 
+  @Test
+  public void a() {
+    College c1 = new College(1, "Massachusetts Institute of Technology", 42.360001, -71.092003);
+    College c2 = new College(2, "Stanford University", 37.428230, -122.168861);
+    College c3 = new College(3, "Harvard University", 42.374443, -71.116943);
+    College c4 = new College(4, "California Institute of Technology", 34.138000, -118.125000);
+
+    List<College> cluster1 = new ArrayList<>(Arrays.asList(c2, c4));
+    List<College> cluster2 = new ArrayList<>(Arrays.asList(c1, c3));
+    List<List<College>> route1= new ArrayList<>(Arrays.asList(cluster1, cluster2));
+
+    Gson GSON = new Gson();
+    System.out.println(GSON.toJson(route1));
+
+  }
 }

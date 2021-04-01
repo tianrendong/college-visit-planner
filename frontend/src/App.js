@@ -1,23 +1,30 @@
 import './App.css';
-import Sidebar from "./views/containers/sidebar/index"
-import Entrance from "./views/views/Entrance"
-import Infobar from "./views/containers/infobar/index"
+import React, { useState, useEffect } from 'react';
+import Sidebar from "./components/sidebar/index"
+import Entrance from "./components/entrance"
+import Infobar from "./components/infobar/index"
 import Map from "./components/map/index"
-
-import React from 'react';
-// import Entrance from './views/mainView/Entrance/index'
+import MuiAlert from '@material-ui/lab/Alert';
 import { connect } from 'react-redux';
+import { SnackbarProvider } from 'notistack';
 
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 function App(props) {
     return (
         <>
-            <Entrance/>
-            <Map/>
-            {/* <Infobar/> */}
-            <Sidebar className="sidebar"/>
+            <SnackbarProvider maxSnack={1}>
+                {/* <Entrance/> */}
+                <Map />
+                <Infobar />
+                <Sidebar />
+            </SnackbarProvider>
         </>
     )
 }
 
-export default App;
+const mapStateToProps = ({ rUser: { loggedIn, user, error } }) => ({ loggedIn, user, error });
+
+export default connect(mapStateToProps)(App);

@@ -1,0 +1,19 @@
+.infobarPlaceholder {
+    width: 23vw;
+    height: 100%;
+    border: none;
+}
+
+.infobarInnerContainer {
+    width: 58vw;
+    padding: 50px;
+}
+
+.drawerHeader {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.closeIcon {
+    margin: 10px;
+}

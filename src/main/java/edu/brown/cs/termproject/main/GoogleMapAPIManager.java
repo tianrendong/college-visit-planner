@@ -92,4 +92,17 @@ public final class GoogleMapAPIManager {
     return "Time :" + result.routes[0].legs[0].duration.humanReadable
         + " Distance :" + result.routes[0].legs[0].distance.humanReadable;
   }
+
+//  private static DirectionsResult x(String location)
+//      throws InterruptedException, ApiException, IOException {
+//    DirectionsResult result =
+//        DirectionsApi.newRequest(geoAPIContext)
+//            .mode(TravelMode.DRIVING)
+////              .avoid(
+////                  DirectionsApi.RouteRestriction.TOLLS)
+//            .units(Unit.METRIC)
+//            .origin(new LatLng(startLat, startLng))
+//            .destination(new LatLng(destLat, destLng))
+//            .await();
+//    return result;
 }

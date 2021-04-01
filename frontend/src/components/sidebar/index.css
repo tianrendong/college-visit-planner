@@ -1,0 +1,17 @@
+.sidebarPage {
+    z-index: 2;
+    position: absolute;
+}
+
+.sidebarInnerContainer {
+    width: 23vw;
+}
+
+.drawerHeader {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.closeIcon {
+    margin: 10px;
+}
