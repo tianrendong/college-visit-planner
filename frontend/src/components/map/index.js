@@ -46,10 +46,6 @@ function Map(props) {
         if (props.viewport === 'zoomedIn') {
             console.log("a");
             const currentCluster = getCurrentCluster();
-            // for (let i = 0; i < currentCluster.length - 1; i++) {
-            //     renderDirections(props.mapRef, currentCluster[i].lat, currentCluster[i].lon, 
-            //         currentCluster[i+1].lat, currentCluster[i+1].lon)
-            // }
             const waypts = [];
             for (let i = 1; i < currentCluster.length - 1; i++) {
                 waypts.push({
@@ -62,14 +58,17 @@ function Map(props) {
             const end = new window.google.maps.LatLng(
                 currentCluster[currentCluster.length - 1].lat, currentCluster[currentCluster.length - 1].lon);
             renderDirections(props.mapRef, start, end, waypts);
-
-
-
             const bounds = new window.google.maps.LatLngBounds();
+
             getCurrentCluster().forEach((college) => {
                 bounds.extend(new window.google.maps.LatLng(college.lat, college.lon));
               });
             props.mapRef.fitBounds(bounds);
+
+            dispatch({
+                payload: {sidebar: 'routeInfo'},
+                type: 'NAVIGATE_SIDEBAR'
+            })
         }
     }, [props.viewport])
     

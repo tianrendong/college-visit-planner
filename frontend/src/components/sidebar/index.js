@@ -7,6 +7,7 @@ import Login from "./login/index";
 import SignUp from "./signup/index";
 import Userhome from './userhome/index';
 import CollegeInfo from './collegeInfo/index'
+import RouteInfo from './routeInfo/index';
 import { routeActions } from "../../actions/routeActions";
 
 import Drawer from '@material-ui/core/Drawer';
@@ -18,7 +19,8 @@ const routes = {
     'login': <Login />,
     'signup': <SignUp />,
     'userhome': <Userhome />,
-    'collegeInfo': <CollegeInfo />
+    'collegeInfo': <CollegeInfo />,
+    'routeInfo': <RouteInfo/>
 }
 
 const useStyles = makeStyles((theme) => ({
