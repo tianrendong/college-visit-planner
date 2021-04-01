@@ -17,6 +17,7 @@ const routeReducer = (state = initialState, action) => {
                 sidebar: 'login',
             };
         case "NAVIGATE_SIDEBAR":
+            console.log(action);
             return {
                 ...state,
                 sidebarOpen: true,
