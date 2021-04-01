@@ -3,6 +3,12 @@ package edu.brown.cs.termproject.router;
 public class Point implements Locatable {
   private final double lat;
   private final double lon;
+
+  /**
+   * Constructs a Point.
+   * @param lat latitude
+   * @param lon longitude
+   */
   public Point(double lat, double lon) {
     this.lat = lat;
     this.lon = lon;

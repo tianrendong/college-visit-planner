@@ -2,6 +2,7 @@ package edu.brown.cs.termproject.router;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -31,22 +32,33 @@ public class Clustering {
         newList.add(curLoc);
         clusters.put(new Point(curLoc.getLat(), curLoc.getLon()), newList);
       } else {
-        boolean belongs = false;
+        Locatable newCentroid = null;
         //iterate through cluster map
         for (Map.Entry<Locatable, List<Locatable>> entry : clusters.entrySet()) {
           //if the distance b/w centroid and location is less than the maxDistance, add to cluster
           if (getDistance(curLoc, entry.getKey()) < this.maxDistance) {
-            belongs = true;
             List<Locatable> newCluster = entry.getValue();
             newCluster.add(curLoc);
-            Locatable newCentroid = getCentroid(newCluster);
+            newCentroid = getCentroid(newCluster);
             clusters.remove(entry.getKey());
             clusters.put(newCentroid, newCluster);
             break;
           }
         }
-        //if the location does not belong to any cluster, then make a new entry in cluster map
-        if (!belongs) {
+        //if the centroid was altered, then check if it's close enough to another
+        if (newCentroid != null) {
+          //optimization for when two centroids are close, then combine
+          Iterator<Map.Entry<Locatable, List<Locatable>>> iter = clusters.entrySet().iterator();
+          while (iter.hasNext()) {
+            Map.Entry<Locatable, List<Locatable>> curEntry = iter.next();
+            if (!curEntry.getKey().equals(newCentroid)
+                && getDistance(curEntry.getKey(), newCentroid) < maxDistance) {
+              List<Locatable> toMergeCluster = clusters.get(newCentroid);
+              curEntry.getValue().addAll(toMergeCluster);
+              iter.remove();
+            }
+          }
+        } else { //if the location does not belong to any cluster, then make a new entry in map
           List<Locatable> newList = new ArrayList<>();
           newList.add(curLoc);
           clusters.put(new Point(curLoc.getLat(), curLoc.getLon()), newList);
