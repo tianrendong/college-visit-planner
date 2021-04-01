@@ -7,30 +7,10 @@ import { collegeAPI } from '../../api/collegeAPI';
 import CollegeMarker from './collegeMarker'
 import Infocard from './infocard'
 import { findCenter } from './geocoordinateCalculations';
+import { renderDirections } from './directionsRenderer'
 
 function Map(props) {
     const dispatch = useDispatch();
-    // const bounds = new window.google.maps.LatLngBounds();
-
-    // const USA_BOUNDS = {
-    //     north: 49.5904,
-    //     south: 24.9493,
-    //     west: -125.0011,
-    //     east: -66.9326,
-    //   };
-
-    
-
-    // const renderMarkers = () => {
-    //     Object.values(props.markers).map(college => {
-    //         const position = new google.maps.LatLng(college.lat, college.lon);
-    //         bounds.extend(position)
-    //     return <CollegeMarker lat={college.lat} lng={college.lon} college={college} />
-    //     })
-    //     }
-
-    
-
     // edit: dispatch this action whenever logged out?
     useEffect(() => {
         dispatch({
@@ -42,23 +22,16 @@ function Map(props) {
         <CollegeMarker lat={college.lat} lng={college.lon} college={college}/>
     ))
 
-    // PROBLEM: gets called before user has value
-    function clusterCenters() {
+    function getClusters() {
         return Object.values(props.user.route).map(cluster => 
             findCenter(Object.values(cluster).map(college => [college.lat, college.lon]))
         )
     }
 
-    const zoom = (map, maps) => {
-        console.log(maps);
-
-        // const currentCluster = Object.values(Object.values(props.user.route)[props.selectedCluster])
-
-        
-
+    function getCurrentCluster() {
+        return Object.values(Object.values(props.user.route)[props.selectedCluster]);
     }
 
-    // console.log(props.mapRef)
     const handleApiLoaded = (map, maps) => {
         // Store a reference to the google map instance in store
         dispatch({
@@ -67,17 +40,34 @@ function Map(props) {
         })
     }
 
+    //automatic zoom
     useEffect(() => {
         if (props.viewport === 'zoomedIn') {
             console.log("a");
-            const currentCluster = Object.values(Object.values(props.user.route)[props.selectedCluster])
+            const currentCluster = getCurrentCluster();
+            // for (let i = 0; i < currentCluster.length - 1; i++) {
+            //     renderDirections(props.mapRef, currentCluster[i].lat, currentCluster[i].lon, 
+            //         currentCluster[i+1].lat, currentCluster[i+1].lon)
+            // }
+            const waypts = [];
+            for (let i = 1; i < currentCluster.length - 1; i++) {
+                waypts.push({
+                    location: new window.google.maps.LatLng(currentCluster[i].lat, currentCluster[i].lon),
+                    stopover: true,
+                  });
+            }
+
+            const start = new window.google.maps.LatLng(currentCluster[0].lat, currentCluster[0].lon);
+            const end = new window.google.maps.LatLng(
+                currentCluster[currentCluster.length - 1].lat, currentCluster[currentCluster.length - 1].lon);
+            renderDirections(props.mapRef, start, end, waypts);
+
+
 
             const bounds = new window.google.maps.LatLngBounds();
-
-            currentCluster.forEach((college) => {
+            getCurrentCluster().forEach((college) => {
                 bounds.extend(new window.google.maps.LatLng(college.lat, college.lon));
               });
-            console.log(bounds);
             props.mapRef.fitBounds(bounds);
         }
     }, [props.viewport])
@@ -103,11 +93,17 @@ function Map(props) {
                 
                  {(props.viewport === 'default') && defaultMarkers()} 
 
-                 {(props.viewport === 'clusters')
-                 && clusterCenters().map((cluster, index) => ( 
+                 {(props.viewport === 'clusters') && 
+                 getClusters().map((cluster, index) => ( 
                     <div data-index={index} lat={cluster[0]} lng={cluster[1]} onClick={e => handleClickCluster(e)}> a</div>
                     ))}
                 
+                {(props.viewport === 'zoomedIn') &&
+                getCurrentCluster().map((college, index) => ( 
+                    <div lat={college.lat} lng={college.lon}> {college.name}</div>
+                    ))}
+                
+
                 {/* {
                     selected.location &&
                     (
