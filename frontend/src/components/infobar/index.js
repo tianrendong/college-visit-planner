@@ -28,7 +28,7 @@ const Infobar = (props) => {
     const [open, setOpen] = useState(false);
 
     useEffect(() => {
-        if (routes.hasOwnProperty(props.infobar)) { 
+        if ((props.infobar !== '') && routes.hasOwnProperty(props.infobar)) { 
             setOpen(true);
         } else {
             setOpen(false);

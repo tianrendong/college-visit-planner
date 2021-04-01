@@ -1,10 +1,9 @@
 package edu.brown.cs.termproject.database;
 
+import edu.brown.cs.termproject.autocorrect.Autocorrector;
 import edu.brown.cs.termproject.collegegraph.College;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +11,20 @@ import java.util.List;
  * Manages SQL queries to the college database.
  */
 public class CollegeSQLManager extends DatabaseManager {
+
+  private Autocorrector autocorrector;
+  public Autocorrector getAutocorrector() {
+    return autocorrector;
+  }
+
+  public void connect(String filepath) {
+    super.connect(filepath);
+    try {
+      loadTrie();
+    } catch (SQLException e) {
+      System.err.println(e.getMessage());
+    }
+  }
 
   /**
    * Given a user input, finds 5 related colleges.
@@ -22,6 +35,27 @@ public class CollegeSQLManager extends DatabaseManager {
   public List<College> searchRelevantColleges(String input) {
     List<College> colleges = new ArrayList<>();
     return colleges;
+  }
+
+  /**
+   * Loads the Autocorrect Trie using traversable way names from the loaded map.
+   * @throws SQLException if errors occur during SQL query
+   */
+  private void loadTrie() throws SQLException {
+    if (getConnection() == null) {
+      throw new IllegalStateException("Must open a maps database first.");
+    }
+    List<String> collegeNames = new ArrayList<>();
+    try (PreparedStatement getWays = getConnection().prepareStatement(
+        "SELECT DISTINCT name FROM colleges;"
+    )) {
+      try (ResultSet rs = getWays.executeQuery()) {
+        while (rs.next()) {
+          collegeNames.add(rs.getString(1));
+        }
+      }
+    }
+    autocorrector = new Autocorrector(collegeNames, true, false, 3);
   }
 
   /**

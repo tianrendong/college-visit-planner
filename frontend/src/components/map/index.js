@@ -5,6 +5,7 @@ import mapStyles from './mapStyles'
 import { connect, useDispatch } from 'react-redux';
 import { collegeAPI } from '../../api/collegeAPI';
 import CollegeMarker from './collegeMarker'
+import ClusterMarker from './clusterMarker'
 import Infocard from './infocard'
 import { findCenter } from './geocoordinateCalculations';
 import { renderDirections } from './directionsRenderer'
@@ -18,8 +19,8 @@ function Map(props) {
         })
     }, [])
 
-    const defaultMarkers = () => Object.values(props.defaultColleges).map(college => (
-        <CollegeMarker lat={college.lat} lng={college.lon} college={college}/>
+    const defaultMarkers = () => Object.values(props.defaultColleges).map((college, index) => (
+        <CollegeMarker lat={college.lat} lng={college.lon} college={college} index={index}/>
     ))
 
     function getClusters() {
@@ -72,12 +73,12 @@ function Map(props) {
         }
     }, [props.viewport])
     
-    const handleClickCluster = (e) => {
-        dispatch({
-            payload: {clusterIndex: e.target.dataset.index},
-            type: 'EXPAND_CLUSTER',
-        })
-    }
+    // const handleClickCluster = (e) => {
+    //     dispatch({
+    //         payload: {clusterIndex: e.target.dataset.index},
+    //         type: 'EXPAND_CLUSTER',
+    //     })
+    // }
 
     return (
         <div style={{ position: 'absolute' }}>
@@ -95,7 +96,8 @@ function Map(props) {
 
                  {(props.viewport === 'clusters') && 
                  getClusters().map((cluster, index) => ( 
-                    <div data-index={index} lat={cluster[0]} lng={cluster[1]} onClick={e => handleClickCluster(e)}> a</div>
+                    // <div data-index={index} lat={cluster[0]} lng={cluster[1]} onClick={e => handleClickCluster(e)}> a</div>
+                    <ClusterMarker index={index} lat={cluster[0]} lng={cluster[1]}/>
                     ))}
                 
                 {(props.viewport === 'zoomedIn') &&

@@ -6,7 +6,6 @@ export const routeActions = {
     navigateSettings,
     navigateCollegeInfo,
     closeInfobar,
-    closeSidebar,
 };
 
 function navigateSignup() {
@@ -48,13 +47,6 @@ function navigateSettings() {
     return {
         payload: {infobar: 'settings'},
         type: 'NAVIGATE_INFOBAR',
-    };
-}
-
-function closeSidebar() {
-    return {
-        payload: {sidebar: ''},
-        type: 'NAVIGATE_SIDEBAR',
     };
 }
 

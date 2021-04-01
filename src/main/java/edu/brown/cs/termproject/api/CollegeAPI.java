@@ -1,6 +1,8 @@
 package edu.brown.cs.termproject.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import edu.brown.cs.termproject.collegegraph.College;
 import edu.brown.cs.termproject.database.CollegeSQLManager;
 import edu.brown.cs.termproject.collegegraph.*;
@@ -16,11 +18,14 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class CollegeAPI extends API{
 
   private CollegeSQLManager collegeDB;
+  private static final Gson GSON = new Gson();
   private final ObjectMapper om = new ObjectMapper(); // used to turn objects into JSON
 
   /**
@@ -33,7 +38,19 @@ public class CollegeAPI extends API{
 
   private final Route defaultColleges = (request, response) -> {
     List<College> colleges = collegeDB.getDefaultColleges();
-    return om.writeValueAsString(colleges);
+    return om.writeValueAsString(colleges); //TODO: change this to GSON
+  };
+
+  private final Route autocorrect = (request, response) -> {
+    JsonObject data = GSON.fromJson(request.body(), JsonObject.class);
+    String input = data.get("input").getAsString();
+
+    Set<String> suggestions = new HashSet<>();
+    if ((input != null) && (!input.equals(""))) {
+      suggestions = collegeDB.getAutocorrector().suggest(input);
+    }
+    return GSON.toJson(suggestions);
+
   };
 
   public Route getDefaultColleges() {
@@ -44,6 +61,9 @@ public class CollegeAPI extends API{
   }
   public Route getCollegeInfo() {
     return  null;
+  }
+  public Route getAutocorrect() {
+    return autocorrect;
   }
 
 

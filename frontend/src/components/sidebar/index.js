@@ -24,7 +24,10 @@ const routes = {
 const useStyles = makeStyles((theme) => ({
     root: {
       zIndex:2,
-      position: 'absolute'
+      position: 'absolute',
+    },
+    paper: { 
+       background: '#FBFAF8'
     },
   }));
 
@@ -33,17 +36,38 @@ const Sidebar = (props) => {
     const dispatch = useDispatch();
     const [open, setOpen] = useState(false);
 
-    const handleClose = () => { //TODO: middleware?
-        dispatch(routeActions.closeInfobar);
-        dispatch(routeActions.closeSidebar);
-    }
+    // const toggleSidebarOpen = () => {
+    //     dispatch({
+    //         type: 'TOGGLE_SIDEBAR',
+    //     });
+    //     dispatch(routeActions.closeInfobar);
+    // }
+
+    useEffect(() => {
+        if ((props.sidebar !== '') && routes.hasOwnProperty(props.sidebar)) { 
+            setOpen(true);
+        } else {
+            setOpen(false);
+        }
+    }, [props.sidebar])
+
+    // useEffect(() => {
+    //     if (props.sidebarOpen === true) { 
+    //         setOpen(true);
+    //     } else {
+    //         setOpen(false);
+    //     }
+    // }, [props.sidebar])
+
     return (
-        <div className={classes.root}>
+        <div className={classes.root} >
             <IconButton
                 onClick={() => setOpen(true)}>
                 <PersonIcon fontSize="large" />
             </IconButton>
-            <Drawer variant="persistent"
+            <Drawer 
+                classes={{paper: classes.paper}}
+                variant="persistent"
                 anchor="left"
                 open={open}
                 docked='true'>
@@ -61,7 +85,7 @@ const Sidebar = (props) => {
     )
 }
 
-const mapStateToProps = ({ rRoute: { sidebar, loggedIn } }) => ({ sidebar, loggedIn });
+const mapStateToProps = ({ rRoute: { sidebar, sidebarOpen} }) => ({ sidebar, sidebarOpen});
 
 export default connect(mapStateToProps)(Sidebar);
 
