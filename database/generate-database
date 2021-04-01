@@ -4,11 +4,11 @@ import csv, sqlite3
 
 con = sqlite3.connect("universities.sqlite3")
 cur = con.cursor()
-cur.execute("DROP TABLE university_previews")
+# cur.execute("DROP TABLE university_previews")
 cur.execute("CREATE TABLE university_previews (name, title, description, image, url);")
 
-with open('linkpreview-university.csv','r') as fin:
-    dr = csv.DictReader(fin)
+with open('university-preview.tsv','r') as fin:
+    dr = csv.DictReader(fin, dialect="excel-tab")
     to_db = [(i['Name'], i['Title'], i['Description'], i['Image'], i['Url']) for i in dr]
 
 cur.executemany("INSERT INTO university_previews (name, title, description, image, url) VALUES (?, ?, ?, ?, ?);", to_db)

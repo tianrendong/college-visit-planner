@@ -1,14 +1,7 @@
 #!/usr/bin/python3
 
 import requests
-import json
-import time
-# import csv, sqlite3
 
-# con = sqlite3.connect("universities.sqlite3")
-# cur = con.cursor()
-# cur.execute("DROP TABLE university_linkpreviews;")
-# cur.execute("CREATE TABLE university_linkpreviews (name, title, description, image, url);")
 
 # linkpreview api determines rate not by account, but through address
 api_keys = ["52e0e0833bcbb8e49f79d81d75fa36d9", "7a2e6121140a43d13d4697bd430bed8a", "0a6e24d188c12849e30ea4481389da2b"]
@@ -18,14 +11,12 @@ api_key = "key=" + api_keys[0] + "&q=https://"
 university_domain_existing = open("university-domain-existing.txt", 'r')
 university_preview = open("university-preview.tsv", 'a')
 
-# Only use when creating the file for the first time
-# university_preview.write("Name,Title,Description,Image,Url\n")
-
 count = 0
-start = 30
+start = 341
+end = start + 59
 
 for line in university_domain_existing:
-	if (count >= start) and (count < start + 30):
+	if (count >= start) and (count < end):
 		name = line[:line.find('(')-1]
 		split = name.split(',')
 		new_split = []
@@ -45,16 +36,8 @@ for line in university_domain_existing:
 		url = preview["url"]
 
 		print(str(count) + ': ' + name + ', ' + title + ', ' + description + ', ' + image + ', ' + url + "\n")
-
-		# to_db = [name, title, description, image, url]
-		# cur.executemany("INSERT INTO university_linkpreviews (name, title, description, image, url) VALUES (?, ?, ?, ?, ?);", to_db)
-
 		university_preview.write(name + '\t' + title + '\t' + description + '\t' + image + '\t' + url + "\n")
-		
-		time.sleep(2)
 	count += 1
 
 university_domain_existing.close()
 university_preview.close()
-# con.commit()
-# con.close()
