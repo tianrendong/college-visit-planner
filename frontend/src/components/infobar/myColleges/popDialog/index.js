@@ -16,6 +16,8 @@ const routes = {
 const PopDialog = (props) => {
     const {open, handleClose = () => {}} = props;
 
+    console.log(props.popDialog)
+
     return (
         <div>
             <Dialog open={open} onClose={handleClose}>

@@ -3,6 +3,7 @@ package edu.brown.cs.termproject.database;
 import com.google.gson.reflect.TypeToken;
 import edu.brown.cs.termproject.collegegraph.College;
 import edu.brown.cs.termproject.main.Encryption;
+import edu.brown.cs.termproject.main.Main;
 import edu.brown.cs.termproject.main.User;
 
 import java.io.UnsupportedEncodingException;
@@ -11,6 +12,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -23,6 +25,7 @@ import com.google.gson.JsonObject;
 public class UserDataManager extends DatabaseManager {
 
   private static final Gson GSON = new Gson();
+  private static final CollegeSQLManager collegeDatabase = Main.getCollegeDatabase();
 
   public JsonObject signup(String username, String password, String firstname, String lastname) throws SQLException {
     if (getConnection() == null) {
@@ -104,11 +107,24 @@ public class UserDataManager extends DatabaseManager {
             String lastname = rs.getString(3);
             String colleges = rs.getString(4);
             String route = rs.getString(5); //TODO: pasrse JSON
-            List<College> collegeAsObject =
-                new Gson().fromJson(colleges, new TypeToken<List<List<College>>>(){}.getType());
-            List<List<College>> routeAsObject =
-                new Gson().fromJson(route, new TypeToken<List<List<College>>>(){}.getType());
-            user = new User(username, password, firstname, lastname, collegeAsObject, routeAsObject);
+            if ((colleges == null) || (route == null) || (collegeDatabase.getConnection() == null)) {
+              user = new User(username, password, firstname, lastname);
+            } else {
+              List<Integer> collegeIDs = new Gson().fromJson(colleges, new TypeToken<List<Integer>>(){}.getType());
+              System.out.println(collegeIDs);
+
+              List<College> collegeAsObject = new ArrayList<>();
+              for (int id : collegeIDs) {
+                College c = collegeDatabase.getCollege(id);
+                System.out.println(c.getName());
+                if (c != null) {
+                  collegeAsObject.add(c);
+                }
+              }
+              List<List<College>> routeAsObject =
+                  new Gson().fromJson(route, new TypeToken<List<List<College>>>(){}.getType());
+              user = new User(username, password, firstname, lastname, collegeAsObject, routeAsObject);
+            }
           }
         }
       }

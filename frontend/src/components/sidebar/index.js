@@ -36,46 +36,29 @@ const useStyles = makeStyles((theme) => ({
 const Sidebar = (props) => {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const [open, setOpen] = useState(false);
 
-    // const toggleSidebarOpen = () => {
-    //     dispatch({
-    //         type: 'TOGGLE_SIDEBAR',
-    //     });
-    //     dispatch(routeActions.closeInfobar);
-    // }
-
-    useEffect(() => {
-        if ((props.sidebar !== '') && routes.hasOwnProperty(props.sidebar)) { 
-            setOpen(true);
-        } else {
-            setOpen(false);
-        }
-    }, [props.sidebar])
-
-    // useEffect(() => {
-    //     if (props.sidebarOpen === true) { 
-    //         setOpen(true);
-    //     } else {
-    //         setOpen(false);
-    //     }
-    // }, [props.sidebar])
+    const toggleSidebarOpen = () => {
+        dispatch({
+            type: 'TOGGLE_SIDEBAR'
+        });
+        dispatch(routeActions.closeInfobar());
+    }
 
     return (
         <div className={classes.root} >
             <IconButton
-                onClick={() => setOpen(true)}>
+                onClick={() => toggleSidebarOpen()}>
                 <PersonIcon fontSize="large" />
             </IconButton>
             <Drawer 
                 classes={{paper: classes.paper}}
                 variant="persistent"
                 anchor="left"
-                open={open}
+                open={props.sidebarOpen}
                 docked='true'>
                 <div className="drawerHeader">
                     <IconButton
-                        onClick={() => setOpen(false)}>
+                        onClick={() => toggleSidebarOpen()}>
                         <CloseIcon className="closeIcon" />
                     </IconButton>
                 </div>

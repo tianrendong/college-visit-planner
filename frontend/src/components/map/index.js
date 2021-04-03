@@ -86,7 +86,7 @@ function Map(props) {
                 bootstrapURLKeys={{ key: 'AIzaSyBIJk5AqilYH8PHt2TP4f5d7QY-UxtJf58' }} //process.env.REACT_APP_GOOGLE_KEY
                 defaultCenter={{ lat: 37.5, lng: -97.4 }}
                 defaultZoom={5.3}
-                options={{ styles: mapStyles.basic, mapTypeControl: false }}
+                options={{ styles: mapStyles.basic, disableDefaultUI: true }}
                 yesIWantToUseGoogleMapApiInternals
                 onGoogleApiLoaded={({ map, maps }) => { handleApiLoaded(map, maps)}}
                 >

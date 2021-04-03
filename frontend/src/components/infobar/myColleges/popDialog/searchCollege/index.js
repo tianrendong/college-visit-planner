@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button';
 import { connect } from 'react-redux'
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import Typography from '@material-ui/core/Typography';
 
 const SearchCollege = (props) => {
 
@@ -17,7 +18,8 @@ const SearchCollege = (props) => {
         console.log("a")
     }
     return (
-   <div>
+        <div style={{position: 'absolute'}}>
+            <Typography variant="h6">Add College</Typography>
                 <Autocomplete
                     options={top100Films}
                     getOptionLabel={(option) => option.title}
@@ -27,8 +29,6 @@ const SearchCollege = (props) => {
                         variant="outlined" 
                         style={{ width: '100%' }}/>}
                 />
-
-            
 
                 <div className="collegeInfoContainer">
                     <div>Brown University</div>

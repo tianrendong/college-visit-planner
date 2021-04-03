@@ -20,10 +20,10 @@ public final class Main {
   private static final int DEFAULT_PORT = 4567;
   private static final String DEFAULT_COLLEGE_DB = "./data/sampleColleges.sqlite3";
   private static final String DEFAULT_USER_DB = "./data/sampleUsers.sqlite3";
-  private final CollegeSQLManager collegeDatabase = new CollegeSQLManager();
-  private final UserDataManager userDatabase = new UserDataManager();
-  private final CollegeAPI collegeAPI = new CollegeAPI(this.collegeDatabase);
-  private final UserAPI userAPI = new UserAPI(this.userDatabase);
+  private static final CollegeSQLManager collegeDatabase = new CollegeSQLManager();
+  private static final UserDataManager userDatabase = new UserDataManager();
+  private final CollegeAPI collegeAPI = new CollegeAPI(collegeDatabase);
+  private final UserAPI userAPI = new UserAPI(userDatabase);
   private final Repl repl = new Repl();
 
   /**
@@ -37,9 +37,12 @@ public final class Main {
 
   private final String[] args;
 
-
   private Main(String[] args) {
     this.args = args;
+  }
+
+  public static CollegeSQLManager getCollegeDatabase() {
+    return collegeDatabase;
   }
 
   private void run() {

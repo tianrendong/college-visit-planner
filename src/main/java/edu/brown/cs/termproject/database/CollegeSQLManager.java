@@ -64,12 +64,29 @@ public class CollegeSQLManager extends DatabaseManager {
    * @param collegeId college id
    * @return College object
    */
-  public College getCollege(int collegeId) {
+  public College getCollege(int collegeId) throws SQLException {
     if (getConnection() == null) {
       throw new IllegalStateException("Must open a database first.");
     }
-    // TODO:
-    College college = new College(0, "", 0, 0);
+    College college = null;
+    try (PreparedStatement getColleges = getConnection().prepareStatement(
+        "SELECT id, name, latitude, longitude FROM colleges WHERE id = ?;")) {
+      getColleges.setInt(1, collegeId);
+
+      try (ResultSet rs = getColleges.executeQuery()) {
+        if (!rs.isClosed()) {
+          while (rs.next()) {
+            college =
+                new College(
+                    rs.getInt(1),
+                    rs.getString(2),
+                    rs.getDouble(3),
+                    rs.getDouble(4)
+                );
+          }
+        }
+      }
+    }
     return college;
   }
 

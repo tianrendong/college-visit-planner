@@ -5,18 +5,21 @@ const initialState = {
     // sidebarOpen: false,
     // sidebar: 'userhome',
     // infobar: 'myColleges',
-    // popDialog: 'searchCollege'
+    popDialog: 'searchCollege'
 }
 
 const routeReducer = (state = initialState, action) => {
     switch (action.type) {
         case "LOGIN_SUCCESS":
             return {
+                ...state,
                 sidebarOpen: true,
                 sidebar: 'userhome',
+                infobar: '',
             };
         case "SIGNUP_SUCCESS":
             return {
+                ...state,
                 sidebarOpen: true,
                 sidebar: 'login',
             };
@@ -28,6 +31,7 @@ const routeReducer = (state = initialState, action) => {
                 sidebar: action.payload.sidebar
             };
         case "NAVIGATE_INFOBAR":
+            console.log("hey");
             return {
                 ...state,
                 infobar: action.payload.infobar
@@ -51,6 +55,7 @@ const routeReducer = (state = initialState, action) => {
             };
         case "LOGOUT":
             return {
+                ...state,
                 sidebarOpen: true,
                 sidebar: 'login',
                 infobar: '',

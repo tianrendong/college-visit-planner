@@ -51,6 +51,7 @@ function navigateSettings() {
 }
 
 function closeInfobar() {
+    console.log("a")
     return {
         payload: {infobar: ''},
         type: 'NAVIGATE_INFOBAR',

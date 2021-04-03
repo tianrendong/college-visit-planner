@@ -18,10 +18,15 @@ import java.util.List;
 
 public class UserDatabaseTest {
 
+  private UserDataManager userDatabase;
+
+  @Before
+  public void setUp() {
+    userDatabase = new UserDataManager();
+    userDatabase.connect("./data/sampleUsers.sqlite3");
+  }
   @Test
   public void testRegister() throws InvalidKeySpecException, SQLException, NoSuchAlgorithmException, UnsupportedEncodingException {
-    UserDataManager userDatabase = new UserDataManager();
-    userDatabase.connect("./data/sampleUsers.sqlite3");
     userDatabase.signup("tom", "12345", "Tom", "Wang");
 //    userDatabase.register("tom", "12345", "Tom", "Wang");
 //    userDatabase.register("to", "12345", "Tom", "Wang");
@@ -29,6 +34,11 @@ public class UserDatabaseTest {
     userDatabase.login("tom", "1234");
     userDatabase.login("tom", "12345");
 
+  }
+
+  @Test
+  public void test() throws InvalidKeySpecException, SQLException, NoSuchAlgorithmException, UnsupportedEncodingException {
+    userDatabase.getUserInfo("a");
   }
 
 

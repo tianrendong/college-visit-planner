@@ -1,8 +1,8 @@
 import './index.css'
 import React, { useState } from "react";
+import { connect } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import PopDialog from "./popDialog/index";
 import Divider from '@material-ui/core/Divider';
@@ -32,7 +32,7 @@ const useStyles = makeStyles({
     },
 });
 
-const MyColleges = () => {
+const MyColleges = (props) => {
     const classes = useStyles();
     const [dialogOpen, setDialogOpen] = useState(false);
 
@@ -64,7 +64,7 @@ const MyColleges = () => {
         </div>
 
         <div className="collegeList">
-            {colleges.map(c =>
+            {Object.values(props.user.colleges).map(c =>
                 <Card
                     classes={{ root: classes.root }}>
                     <CardContent
@@ -89,15 +89,19 @@ const MyColleges = () => {
         </div>
 
 
-        {colleges.length === 0 && (
+        {Object.values(props.user.colleges).length === 0 && (
             <div className="noCollege">
                 No college to visit yet 😞 <br />
                 Click add to start planning your trip!
             </div>
         )}
 
-        <PopDialog open={dialogOpen} handleClose={handleClose}></PopDialog>
+        <PopDialog open={dialogOpen} handleClose={handleClose}>
+
+        </PopDialog>
     </div>)
 }
 
-export default MyColleges;
+const mapStateToProps = ({ rUser: { user } }) => ({ user });
+
+export default connect(mapStateToProps)(MyColleges);
