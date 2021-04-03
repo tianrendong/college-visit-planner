@@ -5,6 +5,7 @@ export const routeActions = {
     navigateMyColleges,
     navigateSettings,
     navigateCollegeInfo,
+    navigatePopDialog,
     closeInfobar,
 };
 
@@ -50,7 +51,15 @@ function navigateSettings() {
     };
 }
 
+function navigatePopDialog(popDialog) {
+    return {
+        payload: {popDialog: popDialog},
+        type: 'NAVIGATE_POPDIALOG',
+    };
+}
+
 function closeInfobar() {
+    console.log("a")
     return {
         payload: {infobar: ''},
         type: 'NAVIGATE_INFOBAR',

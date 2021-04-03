@@ -18,10 +18,6 @@ import { useSnackbar } from 'notistack';
 import { connect, useDispatch } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
-    title: {
-        fontFamily: "'Inter', sans-serif;",
-        fontWeight: 800,
-    },
     paper: {
         marginTop: theme.spacing(8),
         display: 'flex',
@@ -83,9 +79,7 @@ function SignUp(props) {
     return (
         <Container component="main" maxWidth="xs">
             <div className={classes.paper}>
-                <Typography className={classes.title} component="h1" variant="h5">
-                    Sign Up
-                </Typography>
+                <h1> Sign Up </h1>
                 <form className={classes.form} onSubmit={(e) => handleSubmit(e)}>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={6}>

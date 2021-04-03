@@ -1,14 +1,16 @@
-import { call, put } from 'redux-saga/effects';
+import { actionChannel, call, put } from 'redux-saga/effects';
 import { userAPI } from '../api/userAPI'
 
 export const UserSaga = {
     loginAsync,
     signupAsync,
     updateRouteAsync,
+    addCollegeAsync,
 }
 
 export function* loginAsync(payload) {
     const response = yield call(userAPI.requestLogin, payload.payload)
+    console.log(response);
     if (response.success === true ) {
         yield put({
             payload: { user: JSON.parse(response.user) },
@@ -45,4 +47,26 @@ export function* updateRouteAsync() {
         type: 'UPDATE_ROUTE',
     });
 }
+
+export function* addCollegeAsync(payload) {
+    console.log(payload);
+    const response = yield call(userAPI.requestAddCollege, payload.payload)
+    console.log(response);
+    if (response.hasOwnProperty("newCollege")) {
+        yield put({
+            payload: { 
+                newCollege: JSON.parse(response.newCollege)
+            },
+            type: 'ADD_COLLEGE',
+        });
+    } else {
+        yield put({
+            payload: { 
+                error: response.error,
+            },
+            type: 'ERROR',
+        });
+    } 
+}
+
 

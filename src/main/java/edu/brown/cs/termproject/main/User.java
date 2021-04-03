@@ -52,4 +52,12 @@ public class User {
   public List<College> getColleges() {
     return colleges;
   }
+
+  public void setRoute(List<List<College>> route) {
+    this.route = route;
+  }
+
+  public void setColleges(List<College> colleges) {
+    this.colleges = colleges;
+  }
 }

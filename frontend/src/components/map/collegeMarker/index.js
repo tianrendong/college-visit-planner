@@ -1,5 +1,3 @@
-import React from 'react'
-import RoomIcon from '@material-ui/icons/Room';
 import './index.css'
 import { ReactComponent as College1 } from '../../../assets/collegeSVG/college1.svg'
 import { ReactComponent as College2 } from '../../../assets/collegeSVG/college2.svg'
@@ -21,11 +19,7 @@ const CollegeMarker = (props) => {
         showInfocard = () => { },
         index,
     } = props;
-    // console.log(college);
 
-    // console.log(index)
-
-    // console.log(index % icons.length)
     const getIcon = (i) => { return icons[i % icons.length]}
     return (
         <div className="collegeMarkerContainer">
@@ -33,14 +27,6 @@ const CollegeMarker = (props) => {
             <div className="collegeMarkerLabel">{college.name}</div>
 
         </div>
-        // <div
-        //     onClick={showInfocard()}
-        // >
-        //     {college.name}
-        // </div>
-        // getIcon()
-        
-        // <RoomIcon/>
     )
 }
 

@@ -20,30 +20,28 @@ const useStyles = makeStyles(() => ({
         zIndex: 1, 
         display: 'flex',
         flexDirection: 'row',
+        background: '#FBFAF8',
     },
   }));
 
 const Infobar = (props) => {
     const classes = useStyles();
-    const [open, setOpen] = useState(false);
-
-    useEffect(() => {
-        if ((props.infobar !== '') && routes.hasOwnProperty(props.infobar)) { 
-            setOpen(true);
-        } else {
-            setOpen(false);
-        }
-    }, [props.infobar])
 
     return (
             <Drawer 
                 classes={{paper: classes.paper}}
                 variant="persistent"
                 anchor="left"
-                open={open}
+                open={props.infobar !== ''}
                 docked='true'>
                 <div className="infobarPlaceholder"/>
                 <div className="infobarInnerContainer">
+                <div className="drawerHeader">
+                    <IconButton
+                        onClick={() => routeActions.closeInfobar()}>
+                        <CloseIcon className="closeIcon" />
+                    </IconButton>
+                </div>
                     {routes[props.infobar]}
                 </div>
             </Drawer>

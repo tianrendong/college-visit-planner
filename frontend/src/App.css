@@ -1,4 +1,7 @@
-.sidebar {
+.backButtonContainer {
     position: absolute;
-    z-index: 99;
+    z-index: 0;
+    width: 100vw;
+    display: flex;
+    flex-direction: row-reverse;
 }

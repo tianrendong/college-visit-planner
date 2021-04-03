@@ -1,0 +1,43 @@
+.myCollegeHeader {
+    display: flex;
+    flex-direction: row;
+}
+
+.collegeList {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.college {
+        width: 200px;
+        margin: auto;
+        /* background: #fef6ec; */
+        background-color: rgba(0,0,0,0.05);
+        padding: 20px;
+        height: 80px;
+        color: black;
+        border-radius: 5px;
+}
+
+.noCollege {
+    font-family: 'Inter', sans-serif;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.5em;
+    color: rgba(0,0,0,0.5);
+    margin-top: 25%;
+  }
+
+.collegeName {
+    font-family: 'Inter', sans-serif;
+    font-weight: 150px;
+    font-size: 20px;
+}
+
+.collegeLocation {
+    font-size: 12px;
+    font-weight: 100px;
+}

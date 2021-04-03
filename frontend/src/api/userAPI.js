@@ -3,10 +3,8 @@ export const userAPI = {
     requestSignup,
     requestLogout,
     requestUpdateRoute,
-    // logout,
-    // // getById,
-    // update,
-    // delete: _delete
+    requestAddCollege,
+    // requestDeleteCollege
 };
 
 function requestLogin(payload) {
@@ -61,6 +59,22 @@ function requestUpdateRoute() {
     const request = new Request("/api/user/getRoute", {
         method: 'GET',
     })
+    return fetch(request)
+        .then(response => response.json())
+        .then(data => data);
+}
+
+
+function requestAddCollege(payload) {
+    console.log(payload)
+    const request = new Request("/api/user/addCollege", {
+        method: 'POST',
+        body: JSON.stringify({ 
+            username: payload.username,
+            collegeID: payload.collegeID 
+        })
+    })
+    console.log(request);
     return fetch(request)
         .then(response => response.json())
         .then(data => data);

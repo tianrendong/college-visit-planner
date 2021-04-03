@@ -13,10 +13,6 @@ import { useSnackbar } from 'notistack';
 import './index.css'
 
 const useStyles = makeStyles((theme) => ({
-    title: {
-        fontFamily: "'Inter', sans-serif;",
-        fontWeight: 800,
-    },
     paper: {
         marginTop: theme.spacing(8),
         display: 'flex',
@@ -64,6 +60,7 @@ function Login(props) {
 
     useEffect(() => {
         // variant could be success, error, warning, info, or default
+        console.log(props.error);
         if (props.error !== '') {
             enqueueSnackbar(props.error, {variant: 'error'});
         }
@@ -78,9 +75,7 @@ function Login(props) {
     return (
         <Container component="main" maxWidth="xs">
             <div className={classes.paper}>
-                <Typography className={classes.title} component="h1" variant="h5">
-                    Sign In
-                </Typography>
+                <h1> Login </h1>
                 <form className={classes.form} onSubmit={(e) => handleSubmit(e)}>
                     <TextField
                         variant="outlined"

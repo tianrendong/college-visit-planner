@@ -18,6 +18,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -45,19 +46,20 @@ public class CollegeAPI extends API{
     JsonObject data = GSON.fromJson(request.body(), JsonObject.class);
     String input = data.get("input").getAsString();
 
+    List<College> colleges = new ArrayList<>();
     Set<String> suggestions = new HashSet<>();
     if ((input != null) && (!input.equals(""))) {
       suggestions = collegeDB.getAutocorrector().suggest(input);
     }
-    return GSON.toJson(suggestions);
 
+    for (String collegeName: suggestions) {
+      colleges.addAll(collegeDB.getCollegeByName(collegeName));
+    }
+    return GSON.toJson(colleges);
   };
 
   public Route getDefaultColleges() {
     return defaultColleges;
-  }
-  public Route getRelatedColleges() {
-    return  null;
   }
   public Route getCollegeInfo() {
     return  null;

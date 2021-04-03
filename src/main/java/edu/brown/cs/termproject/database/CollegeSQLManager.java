@@ -64,13 +64,82 @@ public class CollegeSQLManager extends DatabaseManager {
    * @param collegeId college id
    * @return College object
    */
-  public College getCollege(int collegeId) {
+  public College getCollegeByID(int collegeId) throws SQLException {
     if (getConnection() == null) {
       throw new IllegalStateException("Must open a database first.");
     }
-    // TODO:
-    College college = new College(0, "", 0, 0);
+    College college = null;
+    try (PreparedStatement getColleges = getConnection().prepareStatement(
+        "SELECT id, name, latitude, longitude, city, state, url, description FROM colleges WHERE id = ?;")) {
+      getColleges.setInt(1, collegeId);
+
+      try (ResultSet rs = getColleges.executeQuery()) {
+        if (!rs.isClosed()) {
+          while (rs.next()) {
+            college =
+                new College(
+                    rs.getInt(1),
+                    rs.getString(2),
+                    rs.getDouble(3),
+                    rs.getDouble(4),
+                    rs.getString(5),
+                    rs.getString(6),
+                    rs.getString(7),
+                    rs.getString(8)
+                );
+          }
+        }
+      }
+    }
     return college;
+  }
+
+  public List<College> getCollegeByID(List<Integer> collegeIds) throws SQLException {
+    List<College> colleges = new ArrayList<>();
+    for (int id : collegeIds) {
+      College c = getCollegeByID(id);
+      if (c != null) {
+        colleges.add(c);
+      }
+    }
+    return colleges;
+  }
+
+  /**
+   * Gets the college information from a college name.
+   *
+   * @param collegeName college name
+   * @return College object
+   */
+  public List<College> getCollegeByName(String collegeName) throws SQLException {
+    if (getConnection() == null) {
+      throw new IllegalStateException("Must open a database first.");
+    }
+    List<College> colleges = new ArrayList<>();
+    try (PreparedStatement getColleges = getConnection().prepareStatement(
+        "SELECT id, name, latitude, longitude, city, state, url, description FROM colleges WHERE name = ?;")) {
+      getColleges.setString(1, collegeName);
+
+      try (ResultSet rs = getColleges.executeQuery()) {
+        if (!rs.isClosed()) {
+          while (rs.next()) {
+            colleges.add(
+                new College(
+                    rs.getInt(1),
+                    rs.getString(2),
+                    rs.getDouble(3),
+                    rs.getDouble(4),
+                    rs.getString(5),
+                    rs.getString(6),
+                    rs.getString(7),
+                    rs.getString(8)
+
+                ));
+          }
+        }
+      }
+    }
+    return colleges;
   }
 
 
