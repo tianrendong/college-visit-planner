@@ -104,9 +104,8 @@ public final class Main {
     });
     Spark.path("/api/college", () -> {
       Spark.get("/defaultColleges", collegeAPI.getDefaultColleges());
-      Spark.get("/relatedColleges", collegeAPI.getRelatedColleges());
       Spark.get("/info", collegeAPI.getCollegeInfo());
-      Spark.get("/autocorrect", collegeAPI.getAutocorrect());
+      Spark.post("/autocorrect", collegeAPI.getAutocorrect());
     });
   }
 

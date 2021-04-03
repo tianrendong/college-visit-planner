@@ -60,6 +60,7 @@ function Login(props) {
 
     useEffect(() => {
         // variant could be success, error, warning, info, or default
+        console.log(props.error);
         if (props.error !== '') {
             enqueueSnackbar(props.error, {variant: 'error'});
         }

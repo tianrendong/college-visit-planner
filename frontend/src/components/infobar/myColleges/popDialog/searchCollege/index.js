@@ -1,58 +1,126 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './index.css'
-import PopDialog from '../index';
+import { useDispatch } from 'react-redux';
 import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
 import { connect } from 'react-redux'
-import TextField from '@material-ui/core/TextField';
-import Autocomplete from '@material-ui/lab/Autocomplete';
+import TextField from "@material-ui/core/TextField";
+import clsx from 'clsx';
 import Typography from '@material-ui/core/Typography';
+import { collegeAPI } from '../../../../../api/collegeAPI'
+import Paper from '@material-ui/core/Paper';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import { makeStyles } from '@material-ui/core/styles';
+import IconButton from '@material-ui/core/IconButton';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Collapse from '@material-ui/core/Collapse';
+import { routeActions } from '../../../../../actions/routeActions'
+
+
+const useStyles = makeStyles((theme) => ({
+    textFieldRoot: {
+        width: '100%',
+        margin: '20px 0 0 0',
+    },
+    cardRoot: {
+        minWidth: 275,
+        margin: '10px 20px 15px 0',
+        width: '100%',
+    },
+    cardContentRoot: {
+        backgroundColor: '#fffefc',
+    },
+    expand: {
+        transform: 'rotate(0deg)',
+        marginLeft: 'auto',
+        transition: theme.transitions.create('transform', {
+            duration: theme.transitions.duration.shortest,
+        }),
+    },
+    expandOpen: {
+        transform: 'rotate(180deg)',
+    },
+}));
 
 const SearchCollege = (props) => {
+    const classes = useStyles();
 
-    const { open, handleClose = () => { } } = props;
+    const [input, setInput] = useState('');
+    const [suggestions, setSuggestions] = useState([]);
 
-    const [value, setValue] = React.useState(null);
-
-    const handleFocus = () => {
-        console.log("a")
+    const handleOnChange = (e) => {
+        setInput(e.target.value);
+        collegeAPI.getAutocorrectColleges(e.target.value).then(resp => { setSuggestions(Object.values(resp)) })
+        // console.log(collegeAPI.getAutocorrectColleges(e.target.value));
+        // setSuggestions(collegeAPI.getAutocorrectColleges(e.target.value));
     }
-    return (
-        <div style={{position: 'absolute'}}>
-            <Typography variant="h6">Add College</Typography>
-                <Autocomplete
-                    options={top100Films}
-                    getOptionLabel={(option) => option.title}
-                    style={{ width: '80%', margin: '30px' }}
-                    renderInput={(params) => <TextField 
-                        margin="normal" 
-                        variant="outlined" 
-                        style={{ width: '100%' }}/>}
-                />
 
-                <div className="collegeInfoContainer">
-                    <div>Brown University</div>
-                    <div>Providence, RI</div>
-                    <p className="description">Brown is a leading research university, home to world-renowned faculty and also an innovative educational institution where the curiosity, creativity and intellectual joy of students drives academic excellence.</p>
-                </div>
-       
-            <DialogActions>
-                <Button onClick={handleClose} color="primary" autoFocus>
-                    Confirm
-                    </Button>
-                <Button onClick={handleClose} color="primary">
-                    Cancel
-                    </Button>
-            </DialogActions>
+    return (
+        <div>
+            <Typography variant="h6">Add College</Typography>
+
+            <TextField
+                classes={{ root: classes.textFieldRoot }}
+                label="Search a College"
+                variant="outlined"
+                value={input}
+                onChange={(e) => handleOnChange(e)} />
+            {(suggestions.length !== 0) &&
+                suggestions.map(c => <CollegeCard college={c}></CollegeCard>)}
+
         </div>
     );
 }
 
-const top100Films = [
-    { title: 'The Shawshank Redemption', year: 1994 },
-    { title: 'The Godfather', year: 1972 },
-]
+const CollegeCard = (props) => {
+    const { college } = props;
+    const [expanded, setExpanded] = useState(false);
+    const classes = useStyles();
+    const dispatch = useDispatch();
 
+    const handleExpandClick = () => {
+        setExpanded(!expanded);
+    };
+
+    const handleAddCollege = () => {
+        //add
+        dispatch(routeActions.navigatePopDialog(''));
+    }
+
+    return (
+        <Card classes={{ root: classes.cardRoot }}>
+            <div className="collegeSearchResultInnerContainer">
+            <CardContent
+                classes={{ root: classes.cardContentRoot }}>
+                <Typography variant="h6" component="h2">
+                    {college.name}
+                </Typography>
+                <Typography className={classes.pos} color="textSecondary">
+                    {college.city}, {college.state}
+                </Typography>
+            </CardContent>
+            <IconButton
+                className={clsx(classes.expand, {
+                    [classes.expandOpen]: expanded,
+                })}
+                onClick={handleExpandClick}
+                aria-expanded={expanded}
+                aria-label="show more"
+            >
+                <ExpandMoreIcon />
+            </IconButton>
+            </div>
+            <Collapse in={expanded} timeout="auto" unmountOnExit>
+                <CardContent>
+                    <Typography paragraph>{college.description}</Typography>
+                    <Button size="small" href={college.url} target="_blank">Learn More</Button>
+                    <Button size="small" onClick={handleAddCollege}>Add to List</Button>
+                </CardContent>
+            </Collapse>
+        </Card>
+    )
+}
 const mapStateToProps = ({ rRoute: { popDialog } }) => ({ popDialog });
 
 export default connect(mapStateToProps)(SearchCollege);

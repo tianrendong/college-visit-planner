@@ -1,6 +1,6 @@
 import './index.css'
 import React, { useState } from "react";
-import { connect } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -10,6 +10,7 @@ import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import { routeActions } from '../../../actions/routeActions'
 
 const useStyles = makeStyles({
     root: {
@@ -19,30 +20,29 @@ const useStyles = makeStyles({
     cardRoot: {
         backgroundColor: '#fffefc',
     },
-    bullet: {
-        display: 'inline-block',
-        margin: '0 2px',
-        transform: 'scale(0.8)',
-    },
-    title: {
-        fontSize: 14,
-    },
-    pos: {
-        marginBottom: 12,
-    },
 });
 
 const MyColleges = (props) => {
     const classes = useStyles();
-    const [dialogOpen, setDialogOpen] = useState(false);
+    const dispatch = useDispatch();
 
-    const handleClickOpen = () => {
-        setDialogOpen(true);
-    };
+    // const [dialogOpen, setDialogOpen] = useState(false);
+
+    // const handleClickOpen = () => {
+    //     setDialogOpen(true);
+    // };
+
+    // const handleClose = () => {
+    //     setDialogOpen(false);
+    // };
+
+    const handleClickAdd = () => {
+        dispatch(routeActions.navigatePopDialog('searchCollege'));
+    }
 
     const handleClose = () => {
-        setDialogOpen(false);
-    };
+        dispatch(routeActions.navigatePopDialog(''));
+    }
 
     const colleges = [{ name: "Brown University", city: "Providence", state: "Rhode Island" },
     { name: "University of California, Los Angeles", city: "Los Angeles", state: "California" },
@@ -58,7 +58,7 @@ const MyColleges = (props) => {
     <div className="leftPadd">
         <div className="myCollegeHeader">
             <h1>My Colleges</h1>
-            <IconButton onClick={handleClickOpen}>
+            <IconButton onClick={handleClickAdd}>
                 <AddIcon fontSize="large"/>
             </IconButton>
         </div>
@@ -96,12 +96,12 @@ const MyColleges = (props) => {
             </div>
         )}
 
-        <PopDialog open={dialogOpen} handleClose={handleClose}>
+        <PopDialog open={props.popDialog !== ''} handleClose={handleClose}>
 
         </PopDialog>
     </div>)
 }
 
-const mapStateToProps = ({ rUser: { user } }) => ({ user });
+const mapStateToProps = ({ rUser: { user }, rRoute: { popDialog } }) => ({ user, popDialog });
 
 export default connect(mapStateToProps)(MyColleges);

@@ -43,6 +43,7 @@ const userReducer = (state = initialState, action) => {
                 loggedIn: false,
                 signedUp: false,
                 user: null,
+                error: '',
             };
         case "SIGNUP_REQUEST":
             return {

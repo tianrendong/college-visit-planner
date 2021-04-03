@@ -1,5 +1,10 @@
 .popDialogContainer {
-    width: 40vw;
     height: 50vh;
     padding:40px;
+    display: flex;
+    flex-direction: column;
+}
+
+.dialogBottom {
+    flex-grow: 1
 }

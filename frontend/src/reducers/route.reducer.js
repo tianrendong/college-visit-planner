@@ -5,7 +5,7 @@ const initialState = {
     // sidebarOpen: false,
     // sidebar: 'userhome',
     // infobar: 'myColleges',
-    popDialog: 'searchCollege'
+    popDialog: ''
 }
 
 const routeReducer = (state = initialState, action) => {
@@ -24,17 +24,20 @@ const routeReducer = (state = initialState, action) => {
                 sidebar: 'login',
             };
         case "NAVIGATE_SIDEBAR":
-            console.log(action);
             return {
                 ...state,
                 sidebarOpen: true,
                 sidebar: action.payload.sidebar
             };
         case "NAVIGATE_INFOBAR":
-            console.log("hey");
             return {
                 ...state,
                 infobar: action.payload.infobar
+            };
+        case "NAVIGATE_POPDIALOG":
+            return {
+                ...state,
+                popDialog: action.payload.popDialog
             };
         case "TOGGLE_SIDEBAR":
             return {

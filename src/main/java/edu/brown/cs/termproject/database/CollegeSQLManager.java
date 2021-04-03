@@ -64,13 +64,13 @@ public class CollegeSQLManager extends DatabaseManager {
    * @param collegeId college id
    * @return College object
    */
-  public College getCollege(int collegeId) throws SQLException {
+  public College getCollegeByID(int collegeId) throws SQLException {
     if (getConnection() == null) {
       throw new IllegalStateException("Must open a database first.");
     }
     College college = null;
     try (PreparedStatement getColleges = getConnection().prepareStatement(
-        "SELECT id, name, latitude, longitude, city, state, url FROM colleges WHERE id = ?;")) {
+        "SELECT id, name, latitude, longitude, city, state, url, description FROM colleges WHERE id = ?;")) {
       getColleges.setInt(1, collegeId);
 
       try (ResultSet rs = getColleges.executeQuery()) {
@@ -84,13 +84,51 @@ public class CollegeSQLManager extends DatabaseManager {
                     rs.getDouble(4),
                     rs.getString(5),
                     rs.getString(6),
-                    rs.getString(7)
+                    rs.getString(7),
+                    rs.getString(8)
                 );
           }
         }
       }
     }
     return college;
+  }
+
+  /**
+   * Gets the college information from a college name.
+   *
+   * @param collegeName college name
+   * @return College object
+   */
+  public List<College> getCollegeByName(String collegeName) throws SQLException {
+    if (getConnection() == null) {
+      throw new IllegalStateException("Must open a database first.");
+    }
+    List<College> colleges = new ArrayList<>();
+    try (PreparedStatement getColleges = getConnection().prepareStatement(
+        "SELECT id, name, latitude, longitude, city, state, url, description FROM colleges WHERE name = ?;")) {
+      getColleges.setString(1, collegeName);
+
+      try (ResultSet rs = getColleges.executeQuery()) {
+        if (!rs.isClosed()) {
+          while (rs.next()) {
+            colleges.add(
+                new College(
+                    rs.getInt(1),
+                    rs.getString(2),
+                    rs.getDouble(3),
+                    rs.getDouble(4),
+                    rs.getString(5),
+                    rs.getString(6),
+                    rs.getString(7),
+                    rs.getString(8)
+
+                ));
+          }
+        }
+      }
+    }
+    return colleges;
   }
 
 

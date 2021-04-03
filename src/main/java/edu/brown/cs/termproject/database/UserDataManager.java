@@ -115,7 +115,7 @@ public class UserDataManager extends DatabaseManager {
 
               List<College> collegeAsObject = new ArrayList<>();
               for (int id : collegeIDs) {
-                College c = collegeDatabase.getCollege(id);
+                College c = collegeDatabase.getCollegeByID(id);
                 System.out.println(c.getName());
                 if (c != null) {
                   collegeAsObject.add(c);
