@@ -1,0 +1,10 @@
+.collegeInfoContainer {
+display: flex;
+flex-direction: column;
+flex-wrap: wrap;
+
+}
+
+.description {
+    word-break: break-word
+}

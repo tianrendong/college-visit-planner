@@ -1,7 +1,11 @@
 const initialState = {
+    // sidebarOpen: false,
+    // sidebar: 'login',
+    // infobar: '',
     sidebarOpen: false,
-    sidebar: 'login',
-    infobar: '',
+    sidebar: 'userhome',
+    infobar: 'myColleges',
+    popDialog: 'searchCollege'
 }
 
 const routeReducer = (state = initialState, action) => {

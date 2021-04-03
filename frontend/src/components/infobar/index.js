@@ -20,6 +20,7 @@ const useStyles = makeStyles(() => ({
         zIndex: 1, 
         display: 'flex',
         flexDirection: 'row',
+        background: '#FBFAF8',
     },
   }));
 
@@ -44,6 +45,12 @@ const Infobar = (props) => {
                 docked='true'>
                 <div className="infobarPlaceholder"/>
                 <div className="infobarInnerContainer">
+                <div className="drawerHeader">
+                    <IconButton
+                        onClick={() => setOpen(false)}>
+                        <CloseIcon className="closeIcon" />
+                    </IconButton>
+                </div>
                     {routes[props.infobar]}
                 </div>
             </Drawer>
