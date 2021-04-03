@@ -13,7 +13,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -93,7 +95,6 @@ public class UserDataManager extends DatabaseManager {
     if (getConnection() == null) {
       throw new IllegalStateException("Must open a database first.");
     }
-
     User user = null;
     try (PreparedStatement getUserInfo = getConnection().prepareStatement(
         "SELECT password, firstname, lastname, colleges, route FROM users WHERE id = ?")) {
@@ -107,23 +108,18 @@ public class UserDataManager extends DatabaseManager {
             String lastname = rs.getString(3);
             String colleges = rs.getString(4);
             String route = rs.getString(5); //TODO: pasrse JSON
-            if ((colleges == null) || (route == null) || (collegeDatabase.getConnection() == null)) {
-              user = new User(username, password, firstname, lastname);
-            } else {
-              List<Integer> collegeIDs = new Gson().fromJson(colleges, new TypeToken<List<Integer>>(){}.getType());
-              System.out.println(collegeIDs);
 
-              List<College> collegeAsObject = new ArrayList<>();
-              for (int id : collegeIDs) {
-                College c = collegeDatabase.getCollegeByID(id);
-                System.out.println(c.getName());
-                if (c != null) {
-                  collegeAsObject.add(c);
-                }
-              }
+            user = new User(username, password, firstname, lastname);
+
+            if ((colleges != null) && (collegeDatabase.getConnection() != null)) {
+              List<Integer> collegeIDs = new Gson().fromJson(colleges, new TypeToken<List<Integer>>(){}.getType());
+              user.setColleges(collegeDatabase.getCollegeByID(collegeIDs));
+            }
+
+            if (route != null) {
               List<List<College>> routeAsObject =
                   new Gson().fromJson(route, new TypeToken<List<List<College>>>(){}.getType());
-              user = new User(username, password, firstname, lastname, collegeAsObject, routeAsObject);
+              user.setRoute(routeAsObject);
             }
           }
         }
@@ -132,5 +128,45 @@ public class UserDataManager extends DatabaseManager {
     }
   }
 
+  public JsonObject addCollege(String username, int collegeID) throws SQLException {
+    if (getConnection() == null) {
+      throw new IllegalStateException("Must open a database first.");
+    }
+    JsonObject payload = new JsonObject();
+    List<Integer> collegeIDs = new ArrayList<>();
+    try (PreparedStatement getUser = getConnection().prepareStatement(
+        "SELECT colleges FROM users WHERE id = ?")) {
+      getUser.setString(1, username);
+
+      try (ResultSet rs = getUser.executeQuery()) {
+        if (!rs.isClosed()) {
+          while (rs.next()) {
+            String colleges = rs.getString(1);
+            if (colleges != null) {
+              collegeIDs = new Gson().fromJson(colleges, new TypeToken<List<Integer>>() {
+              }.getType());
+              System.out.println(collegeIDs);
+            }
+            if (collegeIDs.contains(collegeID)) {
+              payload.addProperty("error", "College already added.");
+            } else {
+              payload.addProperty("newCollege", GSON.toJson(collegeDatabase.getCollegeByID(collegeID)));
+              collegeIDs.add(collegeID);
+            }
+          }
+        }
+      }
+    }
+
+      try (PreparedStatement addCollege = getConnection().prepareStatement(
+          "UPDATE users SET colleges = ? WHERE id= ? ;"
+      )) {
+        addCollege.setString(1, GSON.toJson(collegeIDs));
+        addCollege.setString(2, username);
+        addCollege.executeUpdate();
+      }
+
+    return payload;
+  }
 
 }

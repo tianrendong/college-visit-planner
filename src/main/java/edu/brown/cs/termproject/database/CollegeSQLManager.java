@@ -94,6 +94,17 @@ public class CollegeSQLManager extends DatabaseManager {
     return college;
   }
 
+  public List<College> getCollegeByID(List<Integer> collegeIds) throws SQLException {
+    List<College> colleges = new ArrayList<>();
+    for (int id : collegeIds) {
+      College c = getCollegeByID(id);
+      if (c != null) {
+        colleges.add(c);
+      }
+    }
+    return colleges;
+  }
+
   /**
    * Gets the college information from a college name.
    *

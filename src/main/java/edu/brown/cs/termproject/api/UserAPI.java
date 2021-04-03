@@ -33,10 +33,10 @@ public class UserAPI extends API {
     return signup;
   }
   public Route getCheckUsername() {
-    return getCheckUsername;
+    return checkUsername;
   }
   public Route getUserAddCollege() {
-    return login;
+    return userAddCollege;
   }
   public Route getUserDeleteCollege() {
     return login;
@@ -59,10 +59,23 @@ public class UserAPI extends API {
     return GSON.toJson(userDB.signup(username, password, firstname, lastname));
   };
 
-  private final Route getCheckUsername = (request, response) -> {
+  private final Route checkUsername = (request, response) -> {
     JsonObject data = GSON.fromJson(request.body(), JsonObject.class);
     String username = data.get("username").getAsString();
     return (userDB.checkUserExists(username));
+  };
+
+  private final Route userAddCollege = (request, response) -> {
+    System.out.println(request.body());
+    JsonObject data = GSON.fromJson(request.body(), JsonObject.class);
+    System.out.println("a");
+    String username = data.get("username").getAsString();
+    System.out.println("a");
+    int collegeID = data.get("collegeID").getAsInt();
+    System.out.println("a");
+    System.out.println(username);
+    System.out.println(collegeID);
+    return userDB.addCollege(username, collegeID);
   };
 
   private final Route updateRoute = (request, response) -> {

@@ -26,16 +26,6 @@ const MyColleges = (props) => {
     const classes = useStyles();
     const dispatch = useDispatch();
 
-    // const [dialogOpen, setDialogOpen] = useState(false);
-
-    // const handleClickOpen = () => {
-    //     setDialogOpen(true);
-    // };
-
-    // const handleClose = () => {
-    //     setDialogOpen(false);
-    // };
-
     const handleClickAdd = () => {
         dispatch(routeActions.navigatePopDialog('searchCollege'));
     }
@@ -44,15 +34,13 @@ const MyColleges = (props) => {
         dispatch(routeActions.navigatePopDialog(''));
     }
 
-    const colleges = [{ name: "Brown University", city: "Providence", state: "Rhode Island" },
-    { name: "University of California, Los Angeles", city: "Los Angeles", state: "California" },
-    { name: "Brown University", city: "Providence", state: "Rhode Island" },
-    { name: "Brown University", city: "Providence", state: "Rhode Island" },
-    { name: "Brown University", city: "Providence", state: "Rhode Island" },
-    { name: "Brown University", city: "Providence", state: "Rhode Island" },
-    { name: "Brown University", city: "Providence", state: "Rhode Island" }]
-
-    // const colleges = [];
+    const noCollege = () => {
+        if (props.user.hasOwnProperty("colleges")) {
+            return Object.values(props.user.colleges).length === 0;
+        } else {
+            return true;
+        }
+    }
 
     return (
     <div className="leftPadd">
@@ -63,6 +51,7 @@ const MyColleges = (props) => {
             </IconButton>
         </div>
 
+        {!noCollege() &&
         <div className="collegeList">
             {Object.values(props.user.colleges).map(c =>
                 <Card
@@ -86,10 +75,10 @@ const MyColleges = (props) => {
                 //     <h3 className="collegeLocation">{c.city}</h3>
                 // </div>
             )}
-        </div>
+        </div>}
 
 
-        {Object.values(props.user.colleges).length === 0 && (
+        {noCollege() && (
             <div className="noCollege">
                 No college to visit yet 😞 <br />
                 Click add to start planning your trip!

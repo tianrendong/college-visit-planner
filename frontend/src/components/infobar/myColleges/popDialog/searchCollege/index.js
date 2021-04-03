@@ -59,7 +59,6 @@ const SearchCollege = (props) => {
     return (
         <div>
             <Typography variant="h6">Add College</Typography>
-
             <TextField
                 classes={{ root: classes.textFieldRoot }}
                 label="Search a College"
@@ -67,14 +66,19 @@ const SearchCollege = (props) => {
                 value={input}
                 onChange={(e) => handleOnChange(e)} />
             {(suggestions.length !== 0) &&
-                suggestions.map(c => <CollegeCard college={c}></CollegeCard>)}
+                suggestions.map(c => <CollegeCard username={props.user.username} college={c}></CollegeCard>)}
 
         </div>
     );
 }
 
+const mapStateToProps = ({ rRoute: { popDialog }, rUser: { user } }) => ({ popDialog, user});
+
+export default connect(mapStateToProps)(SearchCollege);
+
+
 const CollegeCard = (props) => {
-    const { college } = props;
+    const { username, college } = props;
     const [expanded, setExpanded] = useState(false);
     const classes = useStyles();
     const dispatch = useDispatch();
@@ -84,7 +88,13 @@ const CollegeCard = (props) => {
     };
 
     const handleAddCollege = () => {
-        //add
+        dispatch({
+            payload: {
+                username: username,
+                collegeID: college.id
+            },
+            type: "REQUEST_ADD_COLLEGE"
+        })
         dispatch(routeActions.navigatePopDialog(''));
     }
 
@@ -121,7 +131,3 @@ const CollegeCard = (props) => {
         </Card>
     )
 }
-const mapStateToProps = ({ rRoute: { popDialog } }) => ({ popDialog });
-
-export default connect(mapStateToProps)(SearchCollege);
-

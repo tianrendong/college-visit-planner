@@ -97,8 +97,8 @@ public final class Main {
     Spark.path("/api/user", () -> {
       Spark.post("/login", userAPI.getLogin());
       Spark.post("/signup", userAPI.getSignUp());
-      Spark.get("/checkUsername", userAPI.getCheckUsername());
-      Spark.get("/addCollege", userAPI.getUserAddCollege());
+      Spark.post("/checkUsername", userAPI.getCheckUsername());
+      Spark.post("/addCollege", userAPI.getUserAddCollege());
       Spark.get("/deleteCollege", userAPI.getUserDeleteCollege());
       Spark.get("/getRoute", userAPI.getRoute());
     });

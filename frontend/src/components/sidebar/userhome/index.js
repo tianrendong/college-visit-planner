@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './index.css'
 import Typography from '@material-ui/core/Typography';
 // import SettingsIcon from '@material-ui/icons/Settings';
@@ -6,6 +6,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import Button from '@material-ui/core/Button';
 import { routeActions } from '../../../actions/routeActions';
 import { connect, useDispatch } from 'react-redux';
+import { useSnackbar } from 'notistack';
 import { ReactComponent as RouteIcon } from '../../../assets/mapsSVG/route.svg'
 import { ReactComponent as MyCollegeIcon } from '../../../assets/mapsSVG/school.svg'
 import { ReactComponent as SettingsIcon } from '../../../assets/mapsSVG/settings.svg'
@@ -14,6 +15,14 @@ import { ReactComponent as SettingsIcon } from '../../../assets/mapsSVG/settings
 const Userhome = (props) => {
 
     const dispatch = useDispatch();
+    const { enqueueSnackbar } = useSnackbar();
+
+    useEffect(() => {
+        console.log(props.error);
+        if (props.error !== '') {
+            enqueueSnackbar(props.error, {variant: 'error'});
+        }
+    }, [props.error])
 
     const handleNavigateColleges = () => {
         if (props.infobar === 'myColleges') {
@@ -63,6 +72,6 @@ const Userhome = (props) => {
 
 }
 
-const mapStateToProps = ({ rRoute: { infobar }, rUser: { user } }) => ({ infobar, user });
+const mapStateToProps = ({ rRoute: { infobar }, rUser: { user, error } }) => ({ infobar, user, error });
 
 export default connect(mapStateToProps)(Userhome);
