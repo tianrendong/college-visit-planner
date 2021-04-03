@@ -1,3 +1,4 @@
+import React from 'react'
 import './index.css'
 import { connect } from 'react-redux'
 import Typography from '@material-ui/core/Typography';

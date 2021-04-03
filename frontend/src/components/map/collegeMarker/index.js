@@ -1,3 +1,4 @@
+import React from 'react'
 import RoomIcon from '@material-ui/icons/Room';
 import './index.css'
 import { ReactComponent as College1 } from '../../../assets/collegeSVG/college1.svg'

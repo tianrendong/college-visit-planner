@@ -1,3 +1,4 @@
+import React from 'react'
 import RoomIcon from '@material-ui/icons/Room';
 import './index.css'
 import { ReactComponent as ClusterIcon } from '../../../assets/mapsSVG/flag.svg'
