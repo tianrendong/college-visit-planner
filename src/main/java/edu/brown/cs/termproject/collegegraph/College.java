@@ -9,6 +9,9 @@ public class College implements Locatable, Vertex {
   private String name;
   private double lat;
   private double lon;
+  private String url;
+  private String state;
+  private String city;
 
   /**
    * Constructs a college.
@@ -22,6 +25,16 @@ public class College implements Locatable, Vertex {
     this.name = name;
     this.lat = lat;
     this.lon = lon;
+  }
+
+  public College(int id, String name, double lat, double lon, String city, String state, String url) {
+    this.id = id;
+    this.name = name;
+    this.lat = lat;
+    this.lon = lon;
+    this.city = city;
+    this.state = state;
+    this.url = url;
   }
 
   public int getId() {

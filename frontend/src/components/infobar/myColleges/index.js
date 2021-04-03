@@ -78,7 +78,7 @@ const MyColleges = (props) => {
                         <Typography className={classes.pos} color="textSecondary">
                             {c.city}, {c.state}
                         </Typography>
-                        <Button size="small">Learn More</Button>
+                        <Button size="small" href={c.url} target="_blank">Learn More</Button>
                     </CardContent>
                 </Card>
                 // <div className="college">

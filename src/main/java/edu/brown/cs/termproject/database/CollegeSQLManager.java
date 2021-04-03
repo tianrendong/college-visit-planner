@@ -70,7 +70,7 @@ public class CollegeSQLManager extends DatabaseManager {
     }
     College college = null;
     try (PreparedStatement getColleges = getConnection().prepareStatement(
-        "SELECT id, name, latitude, longitude FROM colleges WHERE id = ?;")) {
+        "SELECT id, name, latitude, longitude, city, state, url FROM colleges WHERE id = ?;")) {
       getColleges.setInt(1, collegeId);
 
       try (ResultSet rs = getColleges.executeQuery()) {
@@ -81,7 +81,10 @@ public class CollegeSQLManager extends DatabaseManager {
                     rs.getInt(1),
                     rs.getString(2),
                     rs.getDouble(3),
-                    rs.getDouble(4)
+                    rs.getDouble(4),
+                    rs.getString(5),
+                    rs.getString(6),
+                    rs.getString(7)
                 );
           }
         }
