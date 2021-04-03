@@ -1,11 +1,11 @@
 const initialState = {
-    // sidebarOpen: false,
-    // sidebar: 'login',
-    // infobar: '',
     sidebarOpen: false,
-    sidebar: 'userhome',
-    infobar: 'myColleges',
-    popDialog: 'searchCollege'
+    sidebar: 'login',
+    infobar: '',
+    // sidebarOpen: false,
+    // sidebar: 'userhome',
+    // infobar: 'myColleges',
+    // popDialog: 'searchCollege'
 }
 
 const routeReducer = (state = initialState, action) => {
@@ -47,6 +47,12 @@ const routeReducer = (state = initialState, action) => {
             return {
                 ...state,
                 sidebarOpen: false,
+                infobar: '',
+            };
+        case "LOGOUT":
+            return {
+                sidebarOpen: true,
+                sidebar: 'login',
                 infobar: '',
             };
         default:

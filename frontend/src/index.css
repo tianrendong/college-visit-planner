@@ -17,3 +17,7 @@ h1 {
     font-weight: 800;
     font-size: 35px;
 }
+
+.leftPadd {
+  padding-left: 16px;
+}

@@ -54,7 +54,8 @@ const MyColleges = () => {
 
     // const colleges = [];
 
-    return (<div>
+    return (
+    <div className="leftPadd">
         <div className="myCollegeHeader">
             <h1>My Colleges</h1>
             <IconButton onClick={handleClickOpen}>
