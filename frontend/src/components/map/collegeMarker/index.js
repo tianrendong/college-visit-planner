@@ -20,9 +20,14 @@ const CollegeMarker = (props) => {
         index,
     } = props;
 
+    const handleClick = () => {
+        console.log("You clicked on it");
+      };
+
     const getIcon = (i) => { return icons[i % icons.length]}
+
     return (
-        <div className="collegeMarkerContainer">
+        <div className="collegeMarkerContainer" onClick={handleClick}>
             <div>{getIcon(index)}</div>
             <div className="collegeMarkerLabel">{college.name}</div>
 

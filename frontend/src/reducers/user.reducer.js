@@ -81,6 +81,11 @@ const userReducer = (state = initialState, action) => {
                     route: action.payload.route
                 }
             };
+        case "REQUEST_ADD_COLLEGE":
+            return {
+                ...state,
+                error: '',
+            }
         case "ADD_COLLEGE":
             console.log(action);
             if (state.user.hasOwnProperty("colleges")) {

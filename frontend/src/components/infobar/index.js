@@ -38,7 +38,7 @@ const Infobar = (props) => {
                 <div className="infobarInnerContainer">
                 <div className="drawerHeader">
                     <IconButton
-                        onClick={() => routeActions.closeInfobar()}>
+                        onClick={() => routeActions.navigateInfobar('')}>
                         <CloseIcon className="closeIcon" />
                     </IconButton>
                 </div>

@@ -8,7 +8,7 @@ import CollegeMarker from './collegeMarker'
 import ClusterMarker from './clusterMarker'
 import Infocard from './infocard'
 import { findCenter } from './geocoordinateCalculations';
-import { renderDirections } from './directionsRenderer'
+import { renderDirections, clearDirections } from './directionsRenderer'
 
 function Map(props) {
     const dispatch = useDispatch();
@@ -41,10 +41,18 @@ function Map(props) {
         })
     }
 
+    const distanceToMouse = (pt, mp) => {
+        if (pt && mp) {
+          // return distance between the marker and mouse pointer
+          return Math.sqrt(
+            (pt.x - mp.x) * (pt.x - mp.x) + (pt.y - mp.y) * (pt.y - mp.y)
+          );
+        }
+      };
+      
     //automatic zoom
     useEffect(() => {
         if (props.viewport === 'zoomedIn') {
-            console.log("a");
             const currentCluster = getCurrentCluster();
             const waypts = [];
             for (let i = 1; i < currentCluster.length - 1; i++) {
@@ -58,27 +66,16 @@ function Map(props) {
             const end = new window.google.maps.LatLng(
                 currentCluster[currentCluster.length - 1].lat, currentCluster[currentCluster.length - 1].lon);
             renderDirections(props.mapRef, start, end, waypts);
-            const bounds = new window.google.maps.LatLngBounds();
-
-            getCurrentCluster().forEach((college) => {
-                bounds.extend(new window.google.maps.LatLng(college.lat, college.lon));
-              });
-            props.mapRef.fitBounds(bounds);
 
             dispatch({
                 payload: {sidebar: 'routeInfo'},
                 type: 'NAVIGATE_SIDEBAR'
             })
+        } else {
+            clearDirections();
         }
     }, [props.viewport])
     
-    // const handleClickCluster = (e) => {
-    //     dispatch({
-    //         payload: {clusterIndex: e.target.dataset.index},
-    //         type: 'EXPAND_CLUSTER',
-    //     })
-    // }
-
     return (
         <div style={{ position: 'absolute' }}>
             <GoogleMap
@@ -87,6 +84,7 @@ function Map(props) {
                 defaultCenter={{ lat: 37.5, lng: -97.4 }}
                 defaultZoom={5.3}
                 options={{ styles: mapStyles.basic, disableDefaultUI: true }}
+                distanceToMouse={distanceToMouse}
                 yesIWantToUseGoogleMapApiInternals
                 onGoogleApiLoaded={({ map, maps }) => { handleApiLoaded(map, maps)}}
                 >
@@ -95,7 +93,6 @@ function Map(props) {
 
                  {(props.viewport === 'clusters') && 
                  getClusters().map((cluster, index) => ( 
-                    // <div data-index={index} lat={cluster[0]} lng={cluster[1]} onClick={e => handleClickCluster(e)}> a</div>
                     <ClusterMarker index={index} lat={cluster[0]} lng={cluster[1]}/>
                     ))}
                 

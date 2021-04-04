@@ -50,7 +50,7 @@ function Login(props) {
     }
 
     const handleNavigateSignup = () => {
-        dispatch(routeActions.navigateSignup());
+        dispatch(routeActions.navigateSidebar('signup'));
     }
     // const handleFormChange = ((item, value) =>
     //     dispatch({

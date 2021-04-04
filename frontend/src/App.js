@@ -7,7 +7,7 @@ import Map from "./components/map/index"
 import MuiAlert from '@material-ui/lab/Alert';
 import IconButton from '@material-ui/core/IconButton';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { SnackbarProvider } from 'notistack';
 
 function Alert(props) {
@@ -15,6 +15,20 @@ function Alert(props) {
 }
 
 function App(props) {
+    const dispatch = useDispatch();
+    
+    const back = {
+        'clusters': 'default',
+        'zoomedIn': 'clusters'
+    }
+
+    const handleGoBack = () => {
+        dispatch({
+            payload: {viewport: back[props.viewport]},
+            type: 'NAVIGATE_BACK',
+        })
+    }
+
     return (
         <>
             <SnackbarProvider maxSnack={1}>
@@ -22,16 +36,18 @@ function App(props) {
                 <Map />
                 <Infobar />
                 <Sidebar />
+                { (props.viewport !== 'default') &&
                 <div className="backButtonContainer">
-                    <IconButton>
+                    <IconButton onClick={handleGoBack}>
                         <ArrowBackIosIcon className="closeIcon" />
                     </IconButton>
                 </div>
+                }    
             </SnackbarProvider>
         </>
     )
 }
 
-const mapStateToProps = ({ rUser: { loggedIn, user, error } }) => ({ loggedIn, user, error });
+const mapStateToProps = ({ rUser: { loggedIn, user, error }, rMap : { viewport } }) => ({ loggedIn, user, error, viewport });
 
 export default connect(mapStateToProps)(App);

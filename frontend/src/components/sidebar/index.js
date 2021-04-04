@@ -41,7 +41,7 @@ const Sidebar = (props) => {
         dispatch({
             type: 'TOGGLE_SIDEBAR'
         });
-        dispatch(routeActions.closeInfobar());
+        dispatch(routeActions.navigateInfobar(''));
     }
 
     return (

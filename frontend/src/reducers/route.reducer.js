@@ -63,6 +63,13 @@ const routeReducer = (state = initialState, action) => {
                 sidebar: 'login',
                 infobar: '',
             };
+        case "NAVIGATE_BACK":
+            return {
+                ...state,
+                sidebarOpen: true,
+                sidebar: 'userhome',
+                infobar: '',
+            };
         default:
             return state
     }

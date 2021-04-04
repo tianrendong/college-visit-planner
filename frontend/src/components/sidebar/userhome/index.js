@@ -26,15 +26,14 @@ const Userhome = (props) => {
 
     const handleNavigateColleges = () => {
         if (props.infobar === 'myColleges') {
-            dispatch(routeActions.closeInfobar());
+            dispatch(routeActions.navigateInfobar(''));
         } else {
-            dispatch(routeActions.navigateMyColleges());
+            dispatch(routeActions.navigateInfobar("myColleges"));
         }
 
     }
 
     const handleNavigateRoute = () => {
-        // dispatch(routeActions.navigateRoute());
         dispatch({
             type: 'REQUEST_UPDATE_ROUTE',
         })
@@ -42,9 +41,9 @@ const Userhome = (props) => {
 
     const handleNavigateSettings = () => {
         if (props.infobar === 'settings') {
-            dispatch(routeActions.closeInfobar());
+            dispatch(routeActions.navigateInfobar(''));
         } else {
-            dispatch(routeActions.navigateSettings());
+            dispatch(routeActions.navigateInfobar('settings'));
         } 
     }
 

@@ -73,7 +73,7 @@ function SignUp(props) {
     }
 
     const handleNavigateLogin = () => {
-        dispatch(routeActions.navigateLogin());
+        dispatch(routeActions.navigateSidebar('login'));
     }
 
     return (

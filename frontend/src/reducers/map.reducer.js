@@ -31,6 +31,18 @@ const mapReducer = (state = initialState, action) => {
                 selectedCluster: action.payload.clusterIndex,
                 viewport: 'zoomedIn',
             };
+        case "LOGOUT":
+            return {
+                ...state,
+                selectedCluster: '',
+                viewport: 'default',
+            };
+        case "NAVIGATE_BACK":
+            return {
+                    ...state,
+                    selectedCluster: '',
+                    viewport: action.payload.viewport,
+                };
         default:
             return state
     }

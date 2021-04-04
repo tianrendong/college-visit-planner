@@ -1,52 +1,19 @@
 export const routeActions = {
-    navigateSignup,
-    navigateLogin,
-    navigateUserhome,
-    navigateMyColleges,
-    navigateSettings,
-    navigateCollegeInfo,
+    navigateSidebar,
+    navigateInfobar,
     navigatePopDialog,
-    closeInfobar,
 };
 
-function navigateSignup() {
+function navigateSidebar(sidebar) {
     return {
-        payload: {sidebar: 'signup'},
+        payload: {sidebar},
         type: 'NAVIGATE_SIDEBAR',
     };
 }
 
-function navigateLogin() {
+function navigateInfobar(infobar) {
     return {
-        payload: {sidebar: 'login'},
-        type: 'NAVIGATE_SIDEBAR',
-    };
-}
-
-function navigateUserhome() {
-    return {
-        payload: {sidebar: 'userhome'},
-        type: 'NAVIGATE_SIDEBAR',
-    };
-}
-
-function navigateCollegeInfo() {
-    return {
-        payload: {infobar: 'collegeInfo'},
-        type: 'NAVIGATE_SIDEBAR',
-    };
-}
-
-function navigateMyColleges() {
-    return {
-        payload: {infobar: 'myColleges'},
-        type: 'NAVIGATE_INFOBAR',
-    };
-}
-
-function navigateSettings() {
-    return {
-        payload: {infobar: 'settings'},
+        payload: {infobar},
         type: 'NAVIGATE_INFOBAR',
     };
 }
@@ -55,13 +22,5 @@ function navigatePopDialog(popDialog) {
     return {
         payload: {popDialog: popDialog},
         type: 'NAVIGATE_POPDIALOG',
-    };
-}
-
-function closeInfobar() {
-    console.log("a")
-    return {
-        payload: {infobar: ''},
-        type: 'NAVIGATE_INFOBAR',
     };
 }
