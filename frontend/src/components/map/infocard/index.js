@@ -19,18 +19,19 @@ const InfoCard = (props) => {
 
     return (
         <Card className="root">
-            <CardMedia
+            {/* <CardMedia
                 component="img"
                 height="140"
                 image="/static/images/cards/contemplative-reptile.jpg"
-            />
+            /> */}
             <CardContent style={{padding: "5px 11px"}}>
-                <Typography gutterBottom variant="h5" component="h2">
+                aaa
+                {/* <Typography gutterBottom variant="h5" component="h2">
                     {title}
                 </Typography>
                 <Typography variant="body2" color="textSecondary" component="p">
                     {description}
-                </Typography>
+                </Typography> */}
             </CardContent>
             <CardActions style={{padding: "6px"}}>
                 <Button size="small" color="primary">

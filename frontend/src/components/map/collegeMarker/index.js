@@ -1,3 +1,6 @@
+
+import React, { useState } from 'react'; 
+import Infocard from '../infocard/index'
 import './index.css'
 import { ReactComponent as College1 } from '../../../assets/collegeSVG/college1.svg'
 import { ReactComponent as College2 } from '../../../assets/collegeSVG/college2.svg'
@@ -15,12 +18,14 @@ const icons = [
 <College6 style={{width: 30, height: 30}}/>]
 
 const CollegeMarker = (props) => {
+    const [clicked, setClicked] = useState(false);
+
     const { college = {},
-        showInfocard = () => { },
         index,
     } = props;
 
     const handleClick = () => {
+        setClicked(true);
         console.log("You clicked on it");
       };
 
@@ -30,7 +35,7 @@ const CollegeMarker = (props) => {
         <div className="collegeMarkerContainer" onClick={handleClick}>
             <div>{getIcon(index)}</div>
             <div className="collegeMarkerLabel">{college.name}</div>
-
+            {/* { clicked && <Infocard/>} */}
         </div>
     )
 }

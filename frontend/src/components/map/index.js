@@ -10,9 +10,11 @@ import Infocard from './infocard'
 import { findCenter } from './geocoordinateCalculations';
 import { renderDirections, clearDirections } from './directionsRenderer'
 
+const DEFAULT_CENTER = { lat: 37.5, lng: -97.4 } // center of US (slightly adjusted)
+const DEFAULT_ZOOM = 5.3
+
 function Map(props) {
     const dispatch = useDispatch();
-    // edit: dispatch this action whenever logged out?
     useEffect(() => {
         dispatch({
             type: 'REQUEST_DEFAULT_COLLEGES',
@@ -72,6 +74,8 @@ function Map(props) {
                 type: 'NAVIGATE_SIDEBAR'
             })
         } else {
+            props.mapRef.setCenter(DEFAULT_CENTER)
+            props.mapRef.setZoom(DEFAULT_ZOOM)
             clearDirections();
         }
     }, [props.viewport])
@@ -81,8 +85,8 @@ function Map(props) {
             <GoogleMap
                 style={{ height: '100vh', width: '100vw', zIndex: -1 }}
                 bootstrapURLKeys={{ key: 'AIzaSyBIJk5AqilYH8PHt2TP4f5d7QY-UxtJf58' }} //process.env.REACT_APP_GOOGLE_KEY
-                defaultCenter={{ lat: 37.5, lng: -97.4 }}
-                defaultZoom={5.3}
+                defaultCenter={DEFAULT_CENTER}
+                defaultZoom={DEFAULT_ZOOM}
                 options={{ styles: mapStyles.basic, disableDefaultUI: true }}
                 distanceToMouse={distanceToMouse}
                 yesIWantToUseGoogleMapApiInternals
