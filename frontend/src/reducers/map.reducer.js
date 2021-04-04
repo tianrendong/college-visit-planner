@@ -4,6 +4,7 @@ const initialState = {
     defaultColleges: '',
     viewport: 'default',
     selectedCluster: '',
+    markerClicked: {},
 }
 
 const mapReducer = (state = initialState, action) => {
@@ -42,6 +43,11 @@ const mapReducer = (state = initialState, action) => {
                     ...state,
                     selectedCluster: '',
                     viewport: action.payload.viewport,
+                };
+        case "CLICK_MARKER":
+            return {
+                    ...state,
+                    markerClicked: action.payload,
                 };
         default:
             return state
