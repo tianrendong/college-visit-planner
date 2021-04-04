@@ -21,3 +21,7 @@ h1 {
 .leftPadd {
   padding-left: 16px;
 }
+
+.iconMargin {
+  margin: 7px;
+}

@@ -10,8 +10,8 @@ import Infocard from './infocard'
 import { findCenter } from './geocoordinateCalculations';
 import { renderDirections, clearDirections } from './directionsRenderer'
 
-const DEFAULT_CENTER = { lat: 37.5, lng: -97.4 } // center of US (slightly adjusted)
-const DEFAULT_ZOOM = 5.3
+const DEFAULT_CENTER = { lat: 37.5, lng: -104 } // center of US (slightly adjusted)
+const DEFAULT_ZOOM = 5
 const MIN_ZOOM = 4.3
 
 function Map(props) {

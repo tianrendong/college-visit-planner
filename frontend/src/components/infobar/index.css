@@ -13,7 +13,3 @@
     display: flex;
     flex-direction: row-reverse;
 }
-
-.closeIcon {
-    margin: 10px;
-}

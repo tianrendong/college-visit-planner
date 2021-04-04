@@ -58,9 +58,6 @@ const MyColleges = (props) => {
                     classes={{ root: classes.root }}>
                     <CardContent
                         classes={{ root: classes.cardRoot }}>
-                        {/* <Typography className={classes.title} color="textSecondary" gutterBottom>
-                 Word of the Day
-               </Typography> */}
                         <Typography variant="h6" component="h2">
                             {c.name}
                         </Typography>

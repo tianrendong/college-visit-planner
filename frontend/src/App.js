@@ -7,6 +7,7 @@ import Map from "./components/map/index"
 import MuiAlert from '@material-ui/lab/Alert';
 import IconButton from '@material-ui/core/IconButton';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import ReplyIcon from '@material-ui/icons/Reply';
 import { connect, useDispatch } from 'react-redux';
 import { SnackbarProvider } from 'notistack';
 
@@ -38,8 +39,8 @@ function App(props) {
                 <Sidebar />
                 { (props.viewport !== 'default') &&
                 <div className="backButtonContainer">
-                    <IconButton onClick={handleGoBack}>
-                        <ArrowBackIosIcon className="closeIcon" />
+                    <IconButton size="large" onClick={handleGoBack}>
+                        <ReplyIcon fontSize="large" className="iconMargin"/>
                     </IconButton>
                 </div>
                 }    

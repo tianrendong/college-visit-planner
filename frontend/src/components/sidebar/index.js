@@ -48,7 +48,7 @@ const Sidebar = (props) => {
         <div className={classes.root} >
             <IconButton
                 onClick={() => toggleSidebarOpen()}>
-                <PersonIcon fontSize="large" />
+                <PersonIcon fontSize="large" className="iconMargin"/>
             </IconButton>
             <Drawer 
                 classes={{paper: classes.paper}}

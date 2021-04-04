@@ -25,6 +25,7 @@ const useStyles = makeStyles(() => ({
   }));
 
 const Infobar = (props) => {
+    const dispatch = useDispatch();
     const classes = useStyles();
 
     return (
@@ -38,7 +39,7 @@ const Infobar = (props) => {
                 <div className="infobarInnerContainer">
                 <div className="drawerHeader">
                     <IconButton
-                        onClick={() => routeActions.navigateInfobar('')}>
+                        onClick={() => dispatch(routeActions.navigateInfobar(''))}>
                         <CloseIcon className="closeIcon" />
                     </IconButton>
                 </div>
