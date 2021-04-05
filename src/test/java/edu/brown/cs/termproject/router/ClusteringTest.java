@@ -34,15 +34,15 @@ public class ClusteringTest {
     College c12 = new College(12, "L", 12, 1);
     List<Locatable> colleges = new ArrayList<>(Arrays.asList(c1, c2, c3, c4, c5, c6, c7,
         c8, c9, c10, c11, c12));
-    Clustering clustering = new Clustering (5.0);
+    Clustering clustering = new Clustering (555);
     for (int i = 0; i < NUM_TESTS; i++) {
       Collections.shuffle(colleges);
       Map<Locatable, List<Locatable>> clusters =  clustering.makeClusters(colleges);
       int numClusters = 0;
       for (Map.Entry<Locatable, List<Locatable>> entry : clusters.entrySet()) {
         numClusters += 1;
-        System.out.println("Key = " + entry.getKey() +
-            ", Value = " + entry.getValue());
+//        System.out.println("Key = " + entry.getKey() +
+//            ", Value = " + entry.getValue());
       }
       assertEquals(3, numClusters);
     }
@@ -64,14 +64,17 @@ public class ClusteringTest {
     College c12 = new College(12, "L", 3, 3);
     List<Locatable> colleges = new ArrayList<>(Arrays.asList(c1, c2, c3, c4, c5, c6, c7,
         c8, c9, c10, c11, c12));
-    Clustering clustering = new Clustering (5.0);
-    Map<Locatable, List<Locatable>> clusters =  clustering.makeClusters(colleges);
-    int numClusters = 0;
-    for (Map.Entry<Locatable, List<Locatable>> entry : clusters.entrySet()) {
-      numClusters += 1;
-      System.out.println("Key = " + entry.getKey() +
-          ", Value = " + entry.getValue());
+    Clustering clustering = new Clustering (555);
+    for (int i = 0; i < NUM_TESTS; i++) {
+      Collections.shuffle(colleges);
+      Map<Locatable, List<Locatable>> clusters =  clustering.makeClusters(colleges);
+      int numClusters = 0;
+      for (Map.Entry<Locatable, List<Locatable>> entry : clusters.entrySet()) {
+        numClusters += 1;
+//        System.out.println("Key = " + entry.getKey() +
+//            ", Value = " + entry.getValue());
+      }
+      assertEquals(1, numClusters);
     }
-    assertEquals(1, numClusters);
   }
 }

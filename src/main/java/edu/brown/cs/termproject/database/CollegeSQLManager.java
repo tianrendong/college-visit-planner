@@ -3,7 +3,9 @@ package edu.brown.cs.termproject.database;
 import edu.brown.cs.termproject.autocorrect.Autocorrector;
 import edu.brown.cs.termproject.collegegraph.College;
 
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
