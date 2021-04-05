@@ -1,7 +1,6 @@
 package edu.brown.cs.termproject.airport;
 
 import edu.brown.cs.termproject.collegegraph.College;
-import edu.brown.cs.termproject.router.Airport;
 import edu.brown.cs.termproject.router.Clustering;
 import edu.brown.cs.termproject.router.Locatable;
 import org.junit.After;

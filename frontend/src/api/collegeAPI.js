@@ -1,6 +1,7 @@
 export const collegeAPI = {
    getDefaultColleges,
    getAutocorrectColleges,
+   getNearbyAirports
 };
 
 function getDefaultColleges() {
@@ -23,5 +24,20 @@ function getAutocorrectColleges(input) {
         .then(data => 
             {console.log(data);
                 return data});
+}
 
+function getNearbyAirports(payload) {
+    console.log(payload)
+    const request = new Request("/api/college/nearbyAirports", {
+        method: 'POST',
+        body: JSON.stringify({
+            college: payload
+        })
+    })
+
+    return fetch(request)
+        .then(response => response.json())
+        .then(data => 
+            {console.log(data);
+                return data});
 }

@@ -1,10 +1,6 @@
 package edu.brown.cs.termproject.database;
 
-import com.google.maps.errors.ApiException;
-import edu.brown.cs.termproject.collegegraph.College;
-import edu.brown.cs.termproject.collegegraph.CollegeGraph;
-import edu.brown.cs.termproject.router.Airport;
-import org.checkerframework.checker.units.qual.A;
+import edu.brown.cs.termproject.airport.Airport;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

@@ -3,6 +3,7 @@ import { collegeAPI } from '../api/collegeAPI'
 
 export const CollegeSaga = {
     defaultCollegesAsync,
+    getNearbyAirportsAsync
 }
 
 export function* defaultCollegesAsync() {
@@ -12,4 +13,16 @@ export function* defaultCollegesAsync() {
         payload: { defaultColleges: response },
         type: 'RENDER_DEFAULT_COLLEGES',
     });
+}
+
+export function* getNearbyAirportsAsync(payload) {
+    console.log(payload);
+    const response = yield call(collegeAPI.getNearbyAirports, payload.payload)
+    console.log(response);
+    // yield put({
+    //     payload: { 
+    //         airports: JSON.parse(response.airports)
+    //     },
+    //     type: 'UPDATE_AIRPORTS',
+    // });
 }

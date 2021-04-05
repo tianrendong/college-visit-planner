@@ -1,4 +1,6 @@
-package edu.brown.cs.termproject.router;
+package edu.brown.cs.termproject.airport;
+
+import edu.brown.cs.termproject.router.Locatable;
 
 public class Airport implements Locatable {
   private final String name;

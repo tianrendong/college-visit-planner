@@ -113,7 +113,6 @@ public class CollegeSQLManager extends DatabaseManager {
   }
 
   private List<College> getColleges(String condition) throws SQLException {
-    System.out.println(condition);
     if (getConnection() == null) {
       throw new IllegalStateException("Must open a database first.");
     }

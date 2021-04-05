@@ -2,7 +2,6 @@ package edu.brown.cs.termproject.airport;
 
 import edu.brown.cs.termproject.database.AirportSQLManager;
 import edu.brown.cs.termproject.iotools.DistanceCalculator;
-import edu.brown.cs.termproject.router.Airport;
 import edu.brown.cs.termproject.router.Locatable;
 
 import java.sql.SQLException;

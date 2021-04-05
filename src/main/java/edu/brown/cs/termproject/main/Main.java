@@ -105,6 +105,7 @@ public final class Main {
     Spark.path("/api/college", () -> {
       Spark.get("/defaultColleges", collegeAPI.getDefaultColleges());
       Spark.post("/autocorrect", collegeAPI.getAutocorrect());
+      Spark.post("/nearbyAirports", collegeAPI.getNearbyAirports());
     });
   }
 

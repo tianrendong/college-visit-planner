@@ -38,6 +38,10 @@ const CollegeMarker = (props) => {
     const handleClick = () => {
         dispatch(mapActions.clickMarker('defaultMarker', college))
         dispatch(routeActions.navigateSidebar('collegeInfo'))
+        dispatch({
+            payload: college,
+            type: 'REQUEST_NEARBY_AIRPORTS'
+        })
     }
 
     return (

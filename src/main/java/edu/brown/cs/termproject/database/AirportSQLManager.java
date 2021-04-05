@@ -1,6 +1,6 @@
 package edu.brown.cs.termproject.database;
 
-import edu.brown.cs.termproject.router.Airport;
+import edu.brown.cs.termproject.airport.Airport;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

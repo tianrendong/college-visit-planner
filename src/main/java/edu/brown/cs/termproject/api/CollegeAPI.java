@@ -3,6 +3,7 @@ package edu.brown.cs.termproject.api;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import edu.brown.cs.termproject.airport.Airport;
 import edu.brown.cs.termproject.collegegraph.College;
 import edu.brown.cs.termproject.database.CollegeSQLManager;
 import edu.brown.cs.termproject.collegegraph.*;
@@ -37,6 +38,16 @@ public class CollegeAPI extends API{
     this.collegeDB = collegeDB;
   }
 
+  public Route getDefaultColleges() {
+    return defaultColleges;
+  }
+  public Route getAutocorrect() {
+    return autocorrect;
+  }
+  public Route getNearbyAirports() {
+    return nearbyAirports;
+  }
+
   private final Route defaultColleges = (request, response) -> {
     List<College> colleges = collegeDB.getDefaultColleges();
     return GSON.toJson(colleges);
@@ -58,12 +69,16 @@ public class CollegeAPI extends API{
     return GSON.toJson(colleges);
   };
 
-  public Route getDefaultColleges() {
-    return defaultColleges;
-  }
-  public Route getAutocorrect() {
-    return autocorrect;
-  }
+  private final Route nearbyAirports = (request, response) -> {
+    JsonObject data = GSON.fromJson(request.body(), JsonObject.class);
+    JsonObject collegeAsJson = data.get("college").getAsJsonObject();
+    College college = GSON.fromJson(collegeAsJson, College.class);
+    System.out.println(college); // TODO: I already retrieved this college object that you can pass as input
+    List<Airport> airports = new ArrayList<>(); // TODO: get nearby airports
+
+    return GSON.toJson(airports);
+  };
+
 
 
 }
