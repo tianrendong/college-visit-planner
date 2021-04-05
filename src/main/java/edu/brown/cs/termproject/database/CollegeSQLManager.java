@@ -151,7 +151,7 @@ public class CollegeSQLManager extends DatabaseManager {
     List<College> colleges = new ArrayList<College>();
     College c = new College(0, "", 0,0 );
     try (PreparedStatement getColleges = getConnection().prepareStatement(
-        "SELECT id, name, latitude, longitude FROM colleges WHERE 1 <= rank <= 20;")) {
+        "SELECT id, name, latitude, longitude, city, state, url, description FROM colleges WHERE 1 <= rank <= 20;")) {
 
       try (ResultSet rs = getColleges.executeQuery()) {
         if (!rs.isClosed()) {
@@ -161,7 +161,11 @@ public class CollegeSQLManager extends DatabaseManager {
                     rs.getInt(1),
                     rs.getString(2),
                     rs.getDouble(3),
-                    rs.getDouble(4)
+                    rs.getDouble(4),
+                    rs.getString(5),
+                    rs.getString(6),
+                    rs.getString(7),
+                    rs.getString(8)
                 )
             );
           }

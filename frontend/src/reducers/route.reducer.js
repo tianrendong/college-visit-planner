@@ -2,10 +2,7 @@ const initialState = {
     sidebarOpen: false,
     sidebar: 'login',
     infobar: '',
-    // sidebarOpen: false,
-    // sidebar: 'userhome',
-    // infobar: 'myColleges',
-    popDialog: ''
+    popDialog: '',
 }
 
 const routeReducer = (state = initialState, action) => {
@@ -67,7 +64,7 @@ const routeReducer = (state = initialState, action) => {
             return {
                 ...state,
                 sidebarOpen: true,
-                sidebar: 'userhome',
+                sidebar: (action.payload.loggedIn === true) ? 'userhome' : 'login',
                 infobar: '',
             };
         default:

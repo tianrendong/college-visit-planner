@@ -1,18 +1,5 @@
-.userTitle {
-    font-family: 'Inter', sans-serif;;
-    font-weight: 800;
-    margin: 0;
-    font-size: 38px;
-}
-
 .Name {
     color: #D0611C
-}
-
-.userHeader {
-    align-content: center;
-    text-align: center;
-    margin:20px;
 }
 
 .userContainer {

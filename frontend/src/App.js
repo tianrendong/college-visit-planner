@@ -11,21 +11,18 @@ import ReplyIcon from '@material-ui/icons/Reply';
 import { connect, useDispatch } from 'react-redux';
 import { SnackbarProvider } from 'notistack';
 
-function Alert(props) {
-    return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
-
 function App(props) {
     const dispatch = useDispatch();
     
     const back = {
         'clusters': 'default',
-        'zoomedIn': 'clusters'
+        'zoomedIn': 'clusters',
+        'default': 'default'
     }
 
     const handleGoBack = () => {
         dispatch({
-            payload: {viewport: back[props.viewport]},
+            payload: {viewport: back[props.viewport], loggedIn: props.loggedIn},
             type: 'NAVIGATE_BACK',
         })
     }
@@ -37,7 +34,7 @@ function App(props) {
                 <Map />
                 <Infobar />
                 <Sidebar />
-                { (props.viewport !== 'default') &&
+                { ((props.viewport !== 'default') || (props.markerClicked !== {})) &&
                 <div className="backButtonContainer">
                     <IconButton size="large" onClick={handleGoBack}>
                         <ReplyIcon fontSize="large" className="iconMargin"/>
@@ -49,6 +46,7 @@ function App(props) {
     )
 }
 
-const mapStateToProps = ({ rUser: { loggedIn, user, error }, rMap : { viewport } }) => ({ loggedIn, user, error, viewport });
+const mapStateToProps = ({ rUser: { loggedIn, user, error }, rMap : { viewport, markerClicked } }) => 
+({ loggedIn, user, error, viewport, markerClicked });
 
 export default connect(mapStateToProps)(App);
