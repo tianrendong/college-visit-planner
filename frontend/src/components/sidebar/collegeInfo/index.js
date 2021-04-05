@@ -58,6 +58,11 @@ const CollegeInfo = (props) => {
                 <Typography variant="body2" color="textSecondary" component="p">
                     {college().description}
                 </Typography>
+                
+            </div>
+
+            <div className="collegeInfoFooter">
+                <Button size="small" href={college().url} target="_blank">Learn More</Button>
             </div>
             
 

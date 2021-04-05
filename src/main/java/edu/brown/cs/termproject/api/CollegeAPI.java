@@ -39,7 +39,7 @@ public class CollegeAPI extends API{
 
   private final Route defaultColleges = (request, response) -> {
     List<College> colleges = collegeDB.getDefaultColleges();
-    return GSON.toJson(colleges); //TODO: change this to GSON
+    return GSON.toJson(colleges);
   };
 
   private final Route autocorrect = (request, response) -> {
@@ -60,9 +60,6 @@ public class CollegeAPI extends API{
 
   public Route getDefaultColleges() {
     return defaultColleges;
-  }
-  public Route getCollegeInfo() {
-    return  null;
   }
   public Route getAutocorrect() {
     return autocorrect;

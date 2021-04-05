@@ -13,6 +13,7 @@ import java.util.List;
 public class CollegeSQLManager extends DatabaseManager {
 
   private Autocorrector autocorrector;
+
   public Autocorrector getAutocorrector() {
     return autocorrector;
   }
@@ -28,17 +29,16 @@ public class CollegeSQLManager extends DatabaseManager {
 
   /**
    * Given a user input, finds 5 related colleges.
-   *
    * @param input user input
    * @return 5 related colleges
    */
-  public List<College> searchRelevantColleges(String input) {
+  public List<College> findNearbyColleges(String input) {
     List<College> colleges = new ArrayList<>();
     return colleges;
   }
 
   /**
-   * Loads the Autocorrect Trie using traversable way names from the loaded map.
+   * Loads the Autocorrect Trie using college names from the database.
    * @throws SQLException if errors occur during SQL query
    */
   private void loadTrie() throws SQLException {
@@ -63,37 +63,22 @@ public class CollegeSQLManager extends DatabaseManager {
    *
    * @param collegeId college id
    * @return College object
+   * @throws SQLException if errors occur during SQL query
    */
   public College getCollegeByID(int collegeId) throws SQLException {
-    if (getConnection() == null) {
-      throw new IllegalStateException("Must open a database first.");
+    List<College> college = getColleges("id = " + collegeId);
+    if (college.size() > 0) {
+      return college.get(0);
     }
-    College college = null;
-    try (PreparedStatement getColleges = getConnection().prepareStatement(
-        "SELECT id, name, latitude, longitude, city, state, url, description FROM colleges WHERE id = ?;")) {
-      getColleges.setInt(1, collegeId);
-
-      try (ResultSet rs = getColleges.executeQuery()) {
-        if (!rs.isClosed()) {
-          while (rs.next()) {
-            college =
-                new College(
-                    rs.getInt(1),
-                    rs.getString(2),
-                    rs.getDouble(3),
-                    rs.getDouble(4),
-                    rs.getString(5),
-                    rs.getString(6),
-                    rs.getString(7),
-                    rs.getString(8)
-                );
-          }
-        }
-      }
-    }
-    return college;
+      return null;
   }
 
+  /**
+   * Gets a list of colleges from a list of college id.
+   * @param collegeIds list of college id
+   * @return list of College objects
+   * @throws SQLException if errors occur during SQL query
+   */
   public List<College> getCollegeByID(List<Integer> collegeIds) throws SQLException {
     List<College> colleges = new ArrayList<>();
     for (int id : collegeIds) {
@@ -110,48 +95,31 @@ public class CollegeSQLManager extends DatabaseManager {
    *
    * @param collegeName college name
    * @return College object
+   * @throws SQLException if errors occur during SQL query
    */
   public List<College> getCollegeByName(String collegeName) throws SQLException {
-    if (getConnection() == null) {
-      throw new IllegalStateException("Must open a database first.");
-    }
-    List<College> colleges = new ArrayList<>();
-    try (PreparedStatement getColleges = getConnection().prepareStatement(
-        "SELECT id, name, latitude, longitude, city, state, url, description FROM colleges WHERE name = ?;")) {
-      getColleges.setString(1, collegeName);
-
-      try (ResultSet rs = getColleges.executeQuery()) {
-        if (!rs.isClosed()) {
-          while (rs.next()) {
-            colleges.add(
-                new College(
-                    rs.getInt(1),
-                    rs.getString(2),
-                    rs.getDouble(3),
-                    rs.getDouble(4),
-                    rs.getString(5),
-                    rs.getString(6),
-                    rs.getString(7),
-                    rs.getString(8)
-
-                ));
-          }
-        }
-      }
-    }
-    return colleges;
+    return getColleges("name = '" + collegeName + "'");
   }
 
-
+  /**
+   * Gets the default colleges to be displayed on the map.
+   * @return list of colleges
+   * @throws SQLException if errors occur during SQL query
+   */
   public List<College> getDefaultColleges() throws SQLException {
+    return getColleges("1 <= rank <= 20");
+  }
+
+  private List<College> getColleges(String condition) throws SQLException {
+    System.out.println(condition);
     if (getConnection() == null) {
       throw new IllegalStateException("Must open a database first.");
     }
 
     List<College> colleges = new ArrayList<College>();
-    College c = new College(0, "", 0,0 );
     try (PreparedStatement getColleges = getConnection().prepareStatement(
-        "SELECT id, name, latitude, longitude, city, state, url, description FROM colleges WHERE 1 <= rank <= 20;")) {
+        "SELECT id, name, latitude, longitude, city, state, url, description FROM colleges WHERE "
+            + condition + ";")) {
 
       try (ResultSet rs = getColleges.executeQuery()) {
         if (!rs.isClosed()) {

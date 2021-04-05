@@ -9,6 +9,7 @@ export default function* watchAll() {
 
         takeLatest('REQUEST_DEFAULT_COLLEGES', CollegeSaga.defaultCollegesAsync),
         takeLatest('REQUEST_ADD_COLLEGE', UserSaga.addCollegeAsync),
+        takeLatest('REQUEST_DELETE_COLLEGE', UserSaga.deleteCollegeAsync),
 
         takeLatest('REQUEST_UPDATE_ROUTE', UserSaga.updateRouteAsync),
 

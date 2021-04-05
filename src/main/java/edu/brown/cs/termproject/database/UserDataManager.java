@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -107,18 +108,20 @@ public class UserDataManager extends DatabaseManager {
             String firstname = rs.getString(2);
             String lastname = rs.getString(3);
             String colleges = rs.getString(4);
-            String route = rs.getString(5); //TODO: pasrse JSON
+            String route = rs.getString(5);
 
             user = new User(username, password, firstname, lastname);
 
             if ((colleges != null) && (collegeDatabase.getConnection() != null)) {
-              List<Integer> collegeIDs = new Gson().fromJson(colleges, new TypeToken<List<Integer>>(){}.getType());
+              List<Integer> collegeIDs = new Gson().fromJson(colleges, new TypeToken<List<Integer>>() {
+              }.getType());
               user.setColleges(collegeDatabase.getCollegeByID(collegeIDs));
             }
 
             if (route != null) {
               List<List<College>> routeAsObject =
-                  new Gson().fromJson(route, new TypeToken<List<List<College>>>(){}.getType());
+                  new Gson().fromJson(route, new TypeToken<List<List<College>>>() {
+                  }.getType());
               user.setRoute(routeAsObject);
             }
           }
@@ -129,10 +132,24 @@ public class UserDataManager extends DatabaseManager {
   }
 
   public JsonObject addCollege(String username, int collegeID) throws SQLException {
+    JsonObject payload = new JsonObject();
+    List<Integer> currentColleges = getUserColleges(username);
+    if (currentColleges.contains(collegeID)) {
+      payload.addProperty("error", "College already added.");
+    } else {
+      payload.addProperty("newCollege", GSON.toJson(collegeDatabase.getCollegeByID(collegeID)));
+      currentColleges.add(collegeID);
+    }
+
+    updateUserInfo(username, "colleges = '" + GSON.toJson(currentColleges) + "'");
+
+    return payload;
+  }
+
+  public List<Integer> getUserColleges(String username) throws SQLException {
     if (getConnection() == null) {
       throw new IllegalStateException("Must open a database first.");
     }
-    JsonObject payload = new JsonObject();
     List<Integer> collegeIDs = new ArrayList<>();
     try (PreparedStatement getUser = getConnection().prepareStatement(
         "SELECT colleges FROM users WHERE id = ?")) {
@@ -147,26 +164,39 @@ public class UserDataManager extends DatabaseManager {
               }.getType());
               System.out.println(collegeIDs);
             }
-            if (collegeIDs.contains(collegeID)) {
-              payload.addProperty("error", "College already added.");
-            } else {
-              payload.addProperty("newCollege", GSON.toJson(collegeDatabase.getCollegeByID(collegeID)));
-              collegeIDs.add(collegeID);
-            }
           }
         }
       }
+
+      return collegeIDs;
     }
+  }
 
-      try (PreparedStatement addCollege = getConnection().prepareStatement(
-          "UPDATE users SET colleges = ? WHERE id= ? ;"
-      )) {
-        addCollege.setString(1, GSON.toJson(collegeIDs));
-        addCollege.setString(2, username);
-        addCollege.executeUpdate();
-      }
-
+  public JsonObject deleteCollege(String username, int collegeID) throws SQLException {
+    JsonObject payload = new JsonObject();
+    List<Integer> currentColleges = getUserColleges(username);
+    if (!currentColleges.contains(collegeID)) {
+      payload.addProperty("error", "College not stored");
+    } else {
+      System.out.println("a");
+      currentColleges =
+          currentColleges.stream().filter(id -> id != collegeID).collect(Collectors.toCollection(ArrayList::new));
+      System.out.println("b");
+      payload.addProperty("deletedCollegeID", collegeID);
+    }
+    System.out.println("c");
+    updateUserInfo(username, "colleges = '" + GSON.toJson(currentColleges) + "'");
+    System.out.println("d");
     return payload;
   }
 
+  private void updateUserInfo(String username, String condition) throws SQLException {
+    try (PreparedStatement addCollege = getConnection().prepareStatement(
+        "UPDATE users SET " + condition + " WHERE id= ? ;"
+    )) {
+      addCollege.setString(1, username);
+      addCollege.executeUpdate();
+    }
+  }
 }
+

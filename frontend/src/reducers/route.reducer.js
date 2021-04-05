@@ -44,7 +44,6 @@ const routeReducer = (state = initialState, action) => {
         case "UPDATE_ROUTE":
             return {
                 ...state,
-                sidebarOpen: false,
                 infobar: '',
             };
         case "EXPAND_CLUSTER":

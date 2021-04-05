@@ -18,14 +18,6 @@ function calculateAndDisplayRoute(directionsService, directionsRenderer, start, 
     });
 }
 
-// export function renderDirections(map, startLat, startLon, endLat, endLon) {
-//     const directionsRenderer = new window.google.maps.DirectionsRenderer();
-//     const directionsService = new window.google.maps.DirectionsService();
-//     const start = new window.google.maps.LatLng(startLat, startLon);
-//     const end = new window.google.maps.LatLng(endLat, endLon);
-//     directionsRenderer.setMap(map);
-//     calculateAndDisplayRoute(directionsService, directionsRenderer, start, end);
-//   }
 const renderOptionsMain = {
     strokeColor: '#265A8A',
     strokeWeight: '5',
@@ -53,15 +45,6 @@ function setDirectionsRenderer() {
 }
 
 export function renderDirections(map, start, end, waypts) {
-    // const directionsRenderer = new window.google.maps.DirectionsRenderer({
-    //     suppressInfoWindows: true,
-    //     polylineOptions: renderOptionsMain,
-    // });
-    // const directionsBorderRenderer = new window.google.maps.DirectionsRenderer({
-    //     suppressInfoWindows: true,
-    //     suppressMarkers: true,
-    //     polylineOptions: renderOptionsBorder,
-    // });
     const directionsService = new window.google.maps.DirectionsService();
     setDirectionsRenderer();
     directionsInnerDisplay.setMap(map);

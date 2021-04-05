@@ -6,6 +6,7 @@ export const UserSaga = {
     signupAsync,
     updateRouteAsync,
     addCollegeAsync,
+    deleteCollegeAsync,
 }
 
 export function* loginAsync(payload) {
@@ -39,8 +40,8 @@ export function* signupAsync(payload) {
     }
 }
 
-export function* updateRouteAsync() {
-    const response = yield call(userAPI.requestUpdateRoute)
+export function* updateRouteAsync(payload) {
+    const response = yield call(userAPI.requestUpdateRoute, payload.payload)
     console.log(response);
     yield put({
         payload: { route: response },
@@ -58,6 +59,27 @@ export function* addCollegeAsync(payload) {
                 newCollege: JSON.parse(response.newCollege)
             },
             type: 'ADD_COLLEGE',
+        });
+    } else {
+        yield put({
+            payload: { 
+                error: response.error,
+            },
+            type: 'ERROR',
+        });
+    } 
+}
+
+export function* deleteCollegeAsync(payload) {
+    console.log(payload);
+    const response = yield call(userAPI.requestDeleteCollege, payload.payload)
+    console.log(response);
+    if (response.hasOwnProperty("deletedCollegeID")) {
+        yield put({
+            payload: { 
+                deletedCollegeID: JSON.parse(response.deletedCollegeID)
+            },
+            type: 'DELETE_COLLEGE',
         });
     } else {
         yield put({

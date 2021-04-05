@@ -1,7 +1,7 @@
 const initialState = {
     loginForm: {},
-    loggingIn: false,
     loggedIn: false,
+    updatingRoute: false,
     signingUp: false,
     signedUp: false,
     error: '',
@@ -17,11 +17,6 @@ const userReducer = (state = initialState, action) => {
             return {
                 ...state,
                 loginForm: { [action.payload.item]: action.payload.value },
-                error: ''
-            };
-        case "LOGIN_REQUEST":
-            return {
-                loggingIn: true,
                 error: ''
             };
         case "LOGIN_SUCCESS":
@@ -78,7 +73,8 @@ const userReducer = (state = initialState, action) => {
                 error: '',
                 user: {
                     ...state.user,
-                    route: action.payload.route
+                    updatingRoute: false,
+                    route: action.payload.route,
                 }
             };
         case "REQUEST_ADD_COLLEGE":
@@ -107,11 +103,26 @@ const userReducer = (state = initialState, action) => {
                     }
                 };
             }
+        case "DELETE_COLLEGE":
+            console.log(action);
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    colleges: [...state.user.colleges.filter(c => c.id !== action.payload.deletedCollegeID)],
+                }
+            };
         case "ERROR":
             return {
                 ...state,
                 error: action.payload.error,
             };
+        case "REQUEST_UPDATE_ROUTE": {
+            return {
+                ...state,
+                updatingRoute: true
+            }
+        }
         default:
             return state
     }

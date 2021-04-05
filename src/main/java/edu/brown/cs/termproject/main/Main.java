@@ -99,12 +99,11 @@ public final class Main {
       Spark.post("/signup", userAPI.getSignUp());
       Spark.post("/checkUsername", userAPI.getCheckUsername());
       Spark.post("/addCollege", userAPI.getUserAddCollege());
-      Spark.get("/deleteCollege", userAPI.getUserDeleteCollege());
-      Spark.get("/getRoute", userAPI.getRoute());
+      Spark.post("/deleteCollege", userAPI.getUserDeleteCollege());
+      Spark.post("/getRoute", userAPI.getRoute());
     });
     Spark.path("/api/college", () -> {
       Spark.get("/defaultColleges", collegeAPI.getDefaultColleges());
-      Spark.get("/info", collegeAPI.getCollegeInfo());
       Spark.post("/autocorrect", collegeAPI.getAutocorrect());
     });
   }

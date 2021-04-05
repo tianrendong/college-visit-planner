@@ -28,9 +28,6 @@ public class UserDatabaseTest {
   @Test
   public void testRegister() throws InvalidKeySpecException, SQLException, NoSuchAlgorithmException, UnsupportedEncodingException {
     userDatabase.signup("tom", "12345", "Tom", "Wang");
-//    userDatabase.register("tom", "12345", "Tom", "Wang");
-//    userDatabase.register("to", "12345", "Tom", "Wang");
-//    userDatabase.register("to", "12345", "Tom", "Wang");
     userDatabase.login("tom", "1234");
     userDatabase.login("tom", "12345");
 
@@ -38,8 +35,10 @@ public class UserDatabaseTest {
 
   @Test
   public void test() throws InvalidKeySpecException, SQLException, NoSuchAlgorithmException, UnsupportedEncodingException {
-    userDatabase.getUserInfo("a");
+//    userDatabase.getUserInfo("a");
+    userDatabase.deleteCollege("a", 1);
   }
+
 
 
 }
