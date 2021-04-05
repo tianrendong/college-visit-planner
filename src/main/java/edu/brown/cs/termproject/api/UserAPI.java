@@ -1,6 +1,8 @@
 package edu.brown.cs.termproject.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.JsonArray;
+import com.google.gson.reflect.TypeToken;
 import edu.brown.cs.termproject.collegegraph.College;
 import edu.brown.cs.termproject.database.UserDataManager;
 import edu.brown.cs.termproject.main.Encryption;
@@ -39,7 +41,7 @@ public class UserAPI extends API {
     return userAddCollege;
   }
   public Route getUserDeleteCollege() {
-    return login;
+    return userDeleteCollege;
   }
   public Route getRoute() { return updateRoute; }
 
@@ -68,22 +70,40 @@ public class UserAPI extends API {
   private final Route userAddCollege = (request, response) -> {
     System.out.println(request.body());
     JsonObject data = GSON.fromJson(request.body(), JsonObject.class);
-    System.out.println("a");
     String username = data.get("username").getAsString();
-    System.out.println("a");
     int collegeID = data.get("collegeID").getAsInt();
-    System.out.println("a");
     System.out.println(username);
     System.out.println(collegeID);
     return userDB.addCollege(username, collegeID);
   };
 
+  private final Route userDeleteCollege = (request, response) -> {
+    System.out.println(request.body());
+    JsonObject data = GSON.fromJson(request.body(), JsonObject.class);
+    String username = data.get("username").getAsString();
+    int collegeID = data.get("collegeID").getAsInt();
+    System.out.println(username);
+    System.out.println(collegeID);
+    return userDB.deleteCollege(username, collegeID);
+  };
+
   private final Route updateRoute = (request, response) -> {
-    // TODO: retrieves a collection of colleges
+    JsonObject data = GSON.fromJson(request.body(), JsonObject.class);
+    JsonArray collegesInJson = data.get("colleges").getAsJsonArray();
+    List<College> colleges = new Gson().fromJson(collegesInJson, new TypeToken<List<College>>(){}.getType());
+    System.out.println(colleges);
+
     // TODO: clustering algorithm
+//    List<List<College>> clusters =
     // TODO: TSP on each cluster
+//    for (List<College> cluster : clusters) {
+//      //TSP on each cluster
+//    }
+
     // TODO: update this route for the user(store in DB)
     // return route
+
+
 
 
     College c1 = new College(1, "Massachusetts Institute of Technology", 42.360001, -71.092003);

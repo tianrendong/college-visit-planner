@@ -41,3 +41,10 @@
     font-size: 12px;
     font-weight: 100px;
 }
+
+.collegeListFoot {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-top: 9px;
+}

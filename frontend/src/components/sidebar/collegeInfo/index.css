@@ -1,0 +1,15 @@
+.collegeInfoContainer {
+    margin:20px;
+}
+
+.collegeInfoContent {
+    margin: 30px;
+}
+
+.collegeInfoFooter {
+    align-self: flex-end;
+    align-content: center;
+    text-align: center;
+    margin:20px;
+    flex-grow: 1;
+}

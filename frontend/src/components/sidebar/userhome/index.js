@@ -1,15 +1,12 @@
 import React, { useEffect } from 'react';
 import './index.css'
-import Typography from '@material-ui/core/Typography';
-// import SettingsIcon from '@material-ui/icons/Settings';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import Button from '@material-ui/core/Button';
 import { routeActions } from '../../../actions/routeActions';
 import { connect, useDispatch } from 'react-redux';
 import { useSnackbar } from 'notistack';
 import { ReactComponent as RouteIcon } from '../../../assets/mapsSVG/route.svg'
 import { ReactComponent as MyCollegeIcon } from '../../../assets/mapsSVG/school.svg'
 import { ReactComponent as SettingsIcon } from '../../../assets/mapsSVG/settings.svg'
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 
 const Userhome = (props) => {
@@ -35,6 +32,7 @@ const Userhome = (props) => {
 
     const handleNavigateRoute = () => {
         dispatch({
+            payload: props.user.colleges,
             type: 'REQUEST_UPDATE_ROUTE',
         })
     }
@@ -47,11 +45,12 @@ const Userhome = (props) => {
         } 
     }
 
+    console.log(props.updatingRoute)
     return (
         <div className="userContainer">
-            <div className="userHeader">
-                <h1 className="userTitle">Welcome,</h1>
-                <h1 className="userTitle Name">{props.user.firstname}!</h1>
+            <div className="sidebarHeader">
+                <h1 className="sidebarTitle">Welcome,</h1>
+                <h1 className="sidebarTitle Name">{props.user.firstname}!</h1>
             </div>
             <button className="optionButton" onClick={handleNavigateColleges}>
                 <MyCollegeIcon className="userhomeIcons" style={{ width: 55, height: 55 }}/>
@@ -60,6 +59,7 @@ const Userhome = (props) => {
             <button className="optionButton" onClick={handleNavigateRoute}>
                 <RouteIcon className="userhomeIcons" style={{ width: 50, height: 50 }}/>
                 <p className="optionText">Route</p>
+                { props.updatingRoute &&  <CircularProgress style={{margin: 20, width: 30, height: 30}}/>}
             </button>
             <button className="optionButton" onClick={handleNavigateSettings}>
                 <SettingsIcon className="userhomeIcons" style={{ width: 45, height: 45 }}/>
@@ -71,6 +71,6 @@ const Userhome = (props) => {
 
 }
 
-const mapStateToProps = ({ rRoute: { infobar }, rUser: { user, error } }) => ({ infobar, user, error });
+const mapStateToProps = ({ rRoute: { infobar }, rUser: { user, error, updatingRoute } }) => ({ infobar, user, error, updatingRoute });
 
 export default connect(mapStateToProps)(Userhome);

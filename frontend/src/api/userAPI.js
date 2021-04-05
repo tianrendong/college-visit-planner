@@ -4,7 +4,7 @@ export const userAPI = {
     requestLogout,
     requestUpdateRoute,
     requestAddCollege,
-    // requestDeleteCollege
+    requestDeleteCollege
 };
 
 function requestLogin(payload) {
@@ -55,9 +55,11 @@ function requestLogout() {
         .then(data => data);
 }
 
-function requestUpdateRoute() {
+function requestUpdateRoute(payload) {
+    console.log(payload)
     const request = new Request("/api/user/getRoute", {
-        method: 'GET',
+        method: 'POST',
+        body: JSON.stringify({colleges: payload})
     })
     return fetch(request)
         .then(response => response.json())
@@ -68,6 +70,21 @@ function requestUpdateRoute() {
 function requestAddCollege(payload) {
     console.log(payload)
     const request = new Request("/api/user/addCollege", {
+        method: 'POST',
+        body: JSON.stringify({ 
+            username: payload.username,
+            collegeID: payload.collegeID 
+        })
+    })
+    console.log(request);
+    return fetch(request)
+        .then(response => response.json())
+        .then(data => data);
+}
+
+function requestDeleteCollege(payload) {
+    console.log(payload)
+    const request = new Request("/api/user/deleteCollege", {
         method: 'POST',
         body: JSON.stringify({ 
             username: payload.username,

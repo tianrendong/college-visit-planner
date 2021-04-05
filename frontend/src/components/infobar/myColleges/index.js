@@ -1,16 +1,18 @@
 import './index.css'
-import React, { useState } from "react";
+import React from "react";
 import { connect, useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import PopDialog from "./popDialog/index";
-import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import { routeActions } from '../../../actions/routeActions'
+import { routeActions } from '../../../actions/routeActions';
+import DeleteIcon from '@material-ui/icons/Delete';
+import CancelIcon from '@material-ui/icons/Cancel';
+import ClearIcon from '@material-ui/icons/Clear';
 
 const useStyles = makeStyles({
     root: {
@@ -19,7 +21,11 @@ const useStyles = makeStyles({
     },
     cardRoot: {
         backgroundColor: '#fffefc',
+        paddingBottom: '12px'
     },
+    buttonRoot: {
+        padding: '4px'
+    }
 });
 
 const MyColleges = (props) => {
@@ -32,6 +38,16 @@ const MyColleges = (props) => {
 
     const handleClose = () => {
         dispatch(routeActions.navigatePopDialog(''));
+    }
+    
+    const handleDelete = (id) => {
+        dispatch({
+            payload: {
+                username: props.user.username,
+                collegeID: id,
+            },
+            type: 'REQUEST_DELETE_COLLEGE'
+        })
     }
 
     const noCollege = () => {
@@ -64,7 +80,13 @@ const MyColleges = (props) => {
                         <Typography className={classes.pos} color="textSecondary">
                             {c.city}, {c.state}
                         </Typography>
+                        <div className="collegeListFoot">
                         <Button size="small" href={c.url} target="_blank">Learn More</Button>
+                        {/* <Button size="small">Delete</Button> */}
+                        <IconButton classes={{ root: classes.buttonRoot }} onClick={() => handleDelete(c.id)}>
+                            <ClearIcon style={{width: '18px', height: '18px'}}/>
+                        </IconButton>
+                        </div>
                     </CardContent>
                 </Card>
                 // <div className="college">

@@ -4,9 +4,9 @@ import './index.css'
 import mapStyles from './mapStyles'
 import { connect, useDispatch } from 'react-redux';
 import { collegeAPI } from '../../api/collegeAPI';
-import CollegeMarker from './collegeMarker'
-import ClusterMarker from './clusterMarker'
-import Infocard from './infocard'
+import CollegeMarker from './collegeMarker.js'
+import ClusterMarker from './clusterMarker.js'
+import Infocard from './infocard.js'
 import { findCenter } from './geocoordinateCalculations';
 import { renderDirections, clearDirections } from './directionsRenderer'
 
@@ -16,7 +16,6 @@ const MIN_ZOOM = 4.3
 
 function Map(props) {
     const dispatch = useDispatch();
-    const [clicked, setClicked] = useState(false);
 
     useEffect(() => {
         dispatch({
@@ -56,11 +55,11 @@ function Map(props) {
         }
       };
       
-    const getMarker = (marker) => {
-        if (marker.type === 'defaultMarker') {
-            return <Infocard lat={marker.content.lat} lng={marker.content.lon}/>
-        }
-    }
+    // const getMarker = (marker) => {
+    //     if (marker.type === 'defaultMarker') {
+    //         return <Infocard lat={marker.content.lat + 2} lng={marker.content.lon + 1} college={marker.content}/>
+    //     }
+    // }
     
     useEffect(() => {
         if (props.viewport === 'zoomedIn') {
@@ -117,7 +116,7 @@ function Map(props) {
                     ))}
                 
 
-                {(props.markerClicked !== {}) && getMarker(props.markerClicked)}
+                {/* {(props.markerClicked !== {}) && getMarker(props.markerClicked)} */}
             </GoogleMap>
         </div>
 
