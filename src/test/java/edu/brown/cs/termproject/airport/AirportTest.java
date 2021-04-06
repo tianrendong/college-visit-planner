@@ -1,8 +1,11 @@
 package edu.brown.cs.termproject.airport;
 
 import edu.brown.cs.termproject.collegegraph.College;
+import edu.brown.cs.termproject.database.AirportSQLManager;
+import edu.brown.cs.termproject.main.Main;
 import edu.brown.cs.termproject.router.Clustering;
 import edu.brown.cs.termproject.router.Locatable;
+import edu.brown.cs.termproject.router.Nearest;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,16 +17,18 @@ import static org.junit.Assert.assertEquals;
 
 public class AirportTest {
 
-  AirportManager manager;
+  AirportSQLManager airportDB;
+  Nearest nearest = new Nearest();
 
   @Before
   public void setUp() throws SQLException {
-    manager = new AirportManager("./data/airports.sqlite3");
+    airportDB = new AirportSQLManager();
+    airportDB.connect("./data/airports.sqlite3");
   }
 
   @After
   public void tearDown() {
-    manager = null;
+    airportDB = null;
   }
 
   @Test
@@ -34,8 +39,9 @@ public class AirportTest {
     College c4 = new College(4, "California Institute of Technology", 34.138000, -118.125000);
     List<Locatable> colleges = new ArrayList<>(Arrays.asList(c1, c2, c3, c4));
     Clustering clustering = new Clustering (100.0);
+    List<Airport> allAirports = airportDB.getAllAirports();
     Map<Locatable, List<Locatable>> clusters =  clustering.makeClusters(colleges);
-    Map<Airport, List<Locatable>> nearestMap = manager.getNearestAirports(clusters);
+    Map<Airport, List<Locatable>> nearestMap = nearest.findAllNearestLocations(clusters, allAirports);
     int numClusters = 0;
     for (Map.Entry<Airport, List<Locatable>> entry : nearestMap.entrySet()) {
       numClusters += 1;

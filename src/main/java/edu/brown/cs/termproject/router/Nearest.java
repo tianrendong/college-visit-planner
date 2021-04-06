@@ -8,26 +8,26 @@ import java.util.Map;
 
 public class Nearest<A extends Locatable, B extends Locatable> {
 
-//  /**
-//   * Gets the closest location based on the each cluster in map.
-//   * @param clusters map of centroid to Locatable.
-//   * @return a map, mapping an airport to its cluster.
-//   */
-//  public Map<A, List<B>> findAllNearestLocations(
-//      Map<B, List<B>> clusters, List<T> locations) {
-//    Map<T, List<T>> nearestLocations = new HashMap<>();
-//    for (Map.Entry<T, List<T>> entry : clusters.entrySet()) {
-//      T curCentroid = entry.getKey();
-//      T bestLocation = findNearestLocation(curCentroid, locations);
-//      //if there is already the key with the same airport, combine
-//      if (nearestLocations.containsKey(bestLocation)) {
-//        nearestLocations.get(bestLocation).addAll(entry.getValue());
-//      } else {
-//        nearestLocations.put(bestLocation, entry.getValue());
-//      }
-//    }
-//    return nearestLocations;
-//  }
+  /**
+   * Gets the closest location based on the each cluster in map.
+   * @param clusters map of centroid to Locatable.
+   * @return a map, mapping an airport to its cluster.
+   */
+  public Map<B, List<A>> findAllNearestLocations(
+      Map<A, List<A>> clusters, List<B> locations) {
+    Map<B, List<A>> nearestLocations = new HashMap<>();
+    for (Map.Entry<A, List<A>> entry : clusters.entrySet()) {
+      A curCentroid = entry.getKey();
+      B bestLocation = findNearestLocation(curCentroid, locations);
+      //if there is already the key with the same airport, combine
+      if (nearestLocations.containsKey(bestLocation)) {
+        nearestLocations.get(bestLocation).addAll(entry.getValue());
+      } else {
+        nearestLocations.put(bestLocation, entry.getValue());
+      }
+    }
+    return nearestLocations;
+  }
 
   /**
    * Finds the closet location to point.
