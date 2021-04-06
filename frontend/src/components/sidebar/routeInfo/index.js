@@ -1,122 +1,113 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import './index.css'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import Typography from '@material-ui/core/Typography';
-import Divider from "@material-ui/core/Divider";
-import List from "@material-ui/core/List";
-import {ListItem, ListItemText, makeStyles} from "@material-ui/core";
+import Chip from '@material-ui/core/Chip';
+import { ListItem, ListItemText, makeStyles } from "@material-ui/core";
 // import { calculateRoute } from "../../map/directionsRenderer";
+
+const useStyles = makeStyles((theme) => ({
+    state: {
+        fontSize: 19,
+    }
+}));
 
 const RouteInfo = (props) => {
 
-    const route = () => Object.values(Object.values(props.user.route)[props.selectedCluster])
-
-    const useStyles = makeStyles((theme) => ({
-        root: {
-            width: '100%',
-            maxWidth: '36ch',
-            backgroundColor: theme.palette.background.paper,
-        },
-        inline: {
-            display: 'inline',
-        },
-    }));
-
     const classes = useStyles()
+    const currentCluster = () => Object.values(Object.values(props.user.route)[props.selectedCluster])
+    const [directionBoxes, setDirectionBoxes] = useState([]);
+    const [display, setDisplay] = useState([])
 
-    let [result, setResult] = useState([])
+    const renderRoutes = async (cluster) => {
+        const start = new window.google.maps.LatLng(cluster[0].lat, cluster[0].lon);
+        const end = new window.google.maps.LatLng(cluster[cluster.length - 1].lat, cluster[cluster.length - 1].lon);
+        const waypts = [];
+        for (let i = 1; i < currentCluster().length - 1; i++) {
+            waypts.push({
+                location: new window.google.maps.LatLng(currentCluster()[i].lat, currentCluster()[i].lon),
+                stopover: true,
+            });
+        }
+        const routes = await calculateRoute(start, end, waypts).then(res => res)
+        console.log(routes);
+        const routesDisplay = await routes.map(r => <DirectionBox info={r} />)
+        setDirectionBoxes(routesDisplay)
+    }
 
+    useEffect(() => { renderRoutes(currentCluster()) }, [props.user.route])
 
     useEffect(() => {
-        console.log("useEffect")
-        for (let i = 0; i < route().length; i++) {
-            console.log("running")
-            const college =
-                <ListItem alignItems="flex-start">
-                    <ListItemText
-                        primary={route()[i].name}
-                        secondary={
-                            <React.Fragment>
-                                <Typography
-                                    component="span"
-                                    variant="body2"
-                                    className={classes.inline}
-                                    color="textPrimary"
-                                >
-                                    City, State
-                                </Typography>
-                            </React.Fragment>
-                        }
-                    />
-                </ListItem>
-            setResult(result => [...result, college])
-            console.log(college)
-            if (i < route().length -1) {
-                const start = route()[i]
-                const end = route()[i + 1]
-                const routeInfo = async() => {
-                    // const result = await calculateRoute(start.lat, start.lon, end.lat, end.lon);
-                    // return result;
-                    const r = await calcRoute(start.lat, start.lon, end.lat, end.lon).then((res) => res[0])
-                    console.log(r)
-                    const between =
-                        <ListItem alignItems="flex-start">
-                            <ListItemText/>
-                            {/*primary={routeInfo[0].distance.text}/>*/}
-                        </ListItem>
-                    setResult(result => [...result, between])
-                    console.log(between)
+        if (directionBoxes.length !== 0) {
+            for (let i = 0; i < currentCluster().length; i++) {
+                console.log("c")
+                const college = <CollegeBox college={currentCluster()[i]} />
+                setDisplay(display => [...display, college])
+                if (i < currentCluster().length - 1) {
+                    setDisplay(display => [...display, directionBoxes[i]])
                 }
-                routeInfo()
             }
-            setResult(result => [...result, <Divider variant="middle"/>])
         }
-    }, [props.user.route])
+    }, [directionBoxes])
 
     return (
-        <div>
-            <Typography className="routeInfoTitle" component="h1" variant="h5">
-                Nearby Airports
-            </Typography>
-            <Divider variant="middle"/>
-            <Typography className="routeInfoTitle" component="h1" variant="h5">
-                Colleges on this Route
-            </Typography>
+        <div className="routeInfoContainer">
+            <div className="sidebarHeader">
+            <h1 className="sidebarTitle">Route Information</h1>
+            </div>
             {props.selectedCluster !== '' &&
-            <List className={classes.root}>
-                {result}
-            </List>}
+                <div>{display}</div>}
+            <div className="sidebarHeader">
+                <Typography className={classes.title} gutterBottom>
+                    Nearby Airports
+                </Typography>
+                {/* <h1 className="sidebarTitle">{college().name}</h1> */}
+            </div>
         </div>
     );
 }
 
-
-function calcRoute(startLat, startLon, endLat, endLon) {
+function calculateRoute(start, end, waypts) {
     const directionsService = new window.google.maps.DirectionsService();
-    const start = new window.google.maps.LatLng(startLat, startLon);
-    const end = new window.google.maps.LatLng(endLat, endLon);
-    // let result = 0
-    return new Promise((resolve, reject) => {directionsService.route({
+    return new Promise((resolve, reject) => directionsService.route({
         origin: start,
         destination: end,
+        waypoints: waypts,
+        optimizeWaypoints: false,
         travelMode: window.google.maps.TravelMode.DRIVING,
     }, (response, status) => {
         if (status === window.google.maps.DirectionsStatus.OK) {
-            console.log(typeof(response.routes[0].legs))
             resolve(response.routes[0].legs)
         } else {
             reject(`error fetching directions ${response}`)
             console.error(`error fetching directions ${response}`);
         }
-    });
-        // return result
-    })};
+    }));
+}
 
-async function calculateRoute(startLat, startLon, endLat, endLon) {
-    await calcRoute(startLat, startLon, endLat, endLon).then((res) => res.json())
+const CollegeBox = (props) => {
+    const { college } = props;
+    const classes = useStyles();
+
+    return (
+        <div className="collegeCardContainer">
+            <div className="collegeName">{college.name}</div>
+            <Typography className={classes.state}>
+                    city, state
+            </Typography>
+        </div>
+    )
+}
+
+const DirectionBox = (props) => {
+    const { info } = props;
+    const label = info.distance.text + " * " + info.duration.text 
+    return (
+        <div class="separator">{label}</div>
+    )
 }
 
 
-const mapStateToProps = ({rUser: {user}, rMap: {selectedCluster}}) => ({user, selectedCluster});
+const mapStateToProps = ({ rUser: { user }, rMap: { selectedCluster } }) => ({ user, selectedCluster });
 
 export default connect(mapStateToProps)(RouteInfo);
