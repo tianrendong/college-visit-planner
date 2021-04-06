@@ -31,8 +31,6 @@ const CollegeMarker = (props) => {
         <College5 className="collegeMarkerDefault"/>, 
         <College6 className="collegeMarkerDefault"/>]
 
-    
-
     const getIcon = (i) => { return icons[i % icons.length]}
 
     const handleClick = () => {
@@ -42,6 +40,12 @@ const CollegeMarker = (props) => {
             payload: college,
             type: 'REQUEST_NEARBY_AIRPORTS'
         })
+        if (college.hasOwnProperty("nearbyColleges")) {
+            dispatch({
+                payload: college.nearbyColleges,
+                type: 'REQUEST_GET_COLLEGES_BY_ID',
+            })
+        }
     }
 
     return (

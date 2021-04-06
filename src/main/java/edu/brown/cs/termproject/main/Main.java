@@ -115,6 +115,7 @@ public final class Main {
       Spark.get("/defaultColleges", collegeAPI.getDefaultColleges());
       Spark.post("/autocorrect", collegeAPI.getAutocorrect());
       Spark.post("/nearbyAirport", collegeAPI.getNearbyAirport());
+      Spark.post("/getCollegesByID", collegeAPI.getCollegesByID());
     });
   }
 

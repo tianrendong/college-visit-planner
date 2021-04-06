@@ -24,26 +24,15 @@ const CollegeInfo = (props) => {
     const classes = useStyles();
     const dispatch = useDispatch();
 
-    const handleNavigateRoute = () => {
-        dispatch({
-            type: 'REQUEST_UPDATE_ROUTE',
-        })
-    }
-
-    const handleNavigateSettings = () => {
-        if (props.infobar === 'settings') {
-            dispatch(routeActions.navigateInfobar(''));
-        } else {
-            dispatch(routeActions.navigateInfobar('settings'));
-        }
-    }
-
     console.log(props.markerClicked.airport)
     console.log(typeof(props.markerClicked.airport))
 
     const college = () => {return props.markerClicked.content}
     const hasNearbyAirport = () => { return (typeof(props.markerClicked.airport) !== 'undefined') }
     const nearbyAirport = () => { return props.markerClicked.airport }
+
+    const hasNearbyColleges = () => { return (typeof(props.markerClicked.nearbyColleges) !== 'undefined') }
+    const nearbyColleges = () => { return props.markerClicked.nearbyColleges }
 
     return (
         <div className="collegeInfoContainer">
@@ -68,12 +57,24 @@ const CollegeInfo = (props) => {
                 <Button size="small" href={college().url} target="_blank">Visit Website</Button>
             </div>
             
+            {hasNearbyAirport() && 
+            <>
+                <div className="sidebarHeader">
+                    <Typography className={classes.title} color="textSecondary" gutterBottom>
+                    Nearby Airports
+                    </Typography>
+                </div>
+                <AirportInfo airport={nearbyAirport()}/>
+                </>
+            }
+
             <div className="sidebarHeader">
                 <Typography className={classes.title} color="textSecondary" gutterBottom>
-                    Nearby Airports
+                    Nearby Colleges
                 </Typography>
             </div>
-            {hasNearbyAirport() && <AirportInfo airport={nearbyAirport()}/>}
+
+            {hasNearbyColleges() && nearbyColleges().map(c => <AirportInfo airport={c}/>)}
         </div>
     );
 

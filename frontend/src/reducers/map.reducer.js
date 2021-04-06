@@ -52,7 +52,6 @@ const mapReducer = (state = initialState, action) => {
                     markerClicked: action.payload,
                 };
         case "UPDATE_AIRPORTS": 
-        console.log(action)
             return {
                 ...state,
                 markerClicked: {
@@ -60,6 +59,15 @@ const mapReducer = (state = initialState, action) => {
                     airport: action.payload.airport,
                 }
 
+            }
+        case "UPDATE_NEARBY_COLLEGES":
+            console.log(action)
+            return {
+                ...state,
+                markerClicked: {
+                    ...state.markerClicked,
+                    nearbyColleges: action.payload.nearbyColleges,
+                }
             }
         default:
             return state

@@ -1,5 +1,7 @@
 package edu.brown.cs.termproject.database;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import edu.brown.cs.termproject.autocorrect.Autocorrector;
 import edu.brown.cs.termproject.collegegraph.College;
 
@@ -27,16 +29,6 @@ public class CollegeSQLManager extends DatabaseManager {
     } catch (SQLException e) {
       System.err.println(e.getMessage());
     }
-  }
-
-  /**
-   * Given a user input, finds 5 related colleges.
-   * @param input user input
-   * @return 5 related colleges
-   */
-  public List<College> findNearbyColleges(String input) {
-    List<College> colleges = new ArrayList<>();
-    return colleges;
   }
 
   /**
@@ -119,24 +111,40 @@ public class CollegeSQLManager extends DatabaseManager {
 
     List<College> colleges = new ArrayList<College>();
     try (PreparedStatement getColleges = getConnection().prepareStatement(
-        "SELECT id, name, latitude, longitude, city, state, url, description FROM colleges WHERE "
+        "SELECT id, name, latitude, longitude, city, state, url, description, nearbyColleges FROM colleges WHERE "
             + condition + ";")) {
 
       try (ResultSet rs = getColleges.executeQuery()) {
         if (!rs.isClosed()) {
           while (rs.next()) {
-            colleges.add(
-                new College(
-                    rs.getInt(1),
-                    rs.getString(2),
-                    rs.getDouble(3),
-                    rs.getDouble(4),
-                    rs.getString(5),
-                    rs.getString(6),
-                    rs.getString(7),
-                    rs.getString(8)
-                )
+            College newCollege = new College(
+                rs.getInt(1),
+                rs.getString(2),
+                rs.getDouble(3),
+                rs.getDouble(4),
+                rs.getString(5),
+                rs.getString(6)
             );
+
+            String url =  rs.getString(7);
+            if (url != null) {
+              newCollege.setUrl(url);
+            }
+
+            String description = rs.getString(8);
+            if (description != null) {
+              newCollege.setDescription(description);
+            }
+
+            String nearbyCollegeIDs = rs.getString(9);
+            if (nearbyCollegeIDs != null) {
+              List<Integer> nearbyColleges = (nearbyCollegeIDs == null) ? null :
+                  new Gson().fromJson(nearbyCollegeIDs, new TypeToken<List<Integer>>() {
+                  }.getType());
+              newCollege.setNearbyColleges(nearbyColleges);
+            }
+
+            colleges.add(newCollege);
           }
         }
       }

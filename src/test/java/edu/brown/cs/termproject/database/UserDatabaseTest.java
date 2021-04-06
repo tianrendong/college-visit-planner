@@ -1,5 +1,7 @@
 package edu.brown.cs.termproject.database;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.google.maps.errors.ApiException;
 import edu.brown.cs.termproject.collegegraph.College;
 import edu.brown.cs.termproject.collegegraph.CollegeGraph;
@@ -36,7 +38,11 @@ public class UserDatabaseTest {
   @Test
   public void test() throws InvalidKeySpecException, SQLException, NoSuchAlgorithmException, UnsupportedEncodingException {
 //    userDatabase.getUserInfo("a");
-    userDatabase.deleteCollege("a", 1);
+//    userDatabase.deleteCollege("a", 1);
+    List<Integer> nearbyColleges =
+        new Gson().fromJson("[1, 2]", new TypeToken<List<Integer>>() {
+        }.getType());
+    System.out.println(nearbyColleges);
   }
 
 

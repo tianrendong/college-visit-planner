@@ -1,7 +1,9 @@
 package edu.brown.cs.termproject.api;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 import edu.brown.cs.termproject.airport.Airport;
 import edu.brown.cs.termproject.collegegraph.College;
 import edu.brown.cs.termproject.database.AirportSQLManager;
@@ -39,6 +41,9 @@ public class CollegeAPI extends API{
   public Route getNearbyAirport() {
     return nearbyAirport;
   }
+  public Route getCollegesByID() {
+    return collegesByID;
+  }
 
   private final Route defaultColleges = (request, response) -> {
     List<College> colleges = collegeDB.getDefaultColleges();
@@ -71,4 +76,17 @@ public class CollegeAPI extends API{
     Airport airport = (Airport) nearest.findNearestLocation(college, airports);
     return GSON.toJson(airport);
   };
+
+  private final Route collegesByID = (request, response) -> {
+    System.out.println(request.body());
+    JsonObject data = GSON.fromJson(request.body(), JsonObject.class);
+    JsonArray collegeIDsAsJson = data.get("collegeIDs").getAsJsonArray();
+    System.out.println(collegeIDsAsJson);
+    List<Integer> collegeIDs = GSON.fromJson(collegeIDsAsJson, new TypeToken<List<Integer>>() { }.getType());
+    System.out.println("2");
+    List<College> colleges = collegeDB.getCollegeByID(collegeIDs);
+    System.out.println("3");
+    return GSON.toJson(colleges);
+  };
+
 }
