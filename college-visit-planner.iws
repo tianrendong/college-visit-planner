@@ -5,12 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fdb581c7-287d-4d72-b22a-5fe6bbfd9325" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/college-visit-planner.iml" beforeDir="false" afterPath="$PROJECT_DIR$/college-visit-planner.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/college-visit-planner.ipr" beforeDir="false" afterPath="$PROJECT_DIR$/college-visit-planner.ipr" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/college-visit-planner.iws" beforeDir="false" afterPath="$PROJECT_DIR$/college-visit-planner.iws" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/sampleUsers.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/data/sampleUsers.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/map/directionsRenderer.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/map/directionsRenderer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/sidebar/routeInfo/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/sidebar/routeInfo/index.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/sidebar/routeInfo/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/sidebar/routeInfo/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/sidebar/signup/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/sidebar/signup/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

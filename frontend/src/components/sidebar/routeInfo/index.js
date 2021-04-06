@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react'
 import './index.css'
 import { connect } from 'react-redux'
 import Typography from '@material-ui/core/Typography';
-import Chip from '@material-ui/core/Chip';
-import { ListItem, ListItemText, makeStyles } from "@material-ui/core";
-// import { calculateRoute } from "../../map/directionsRenderer";
+import { makeStyles } from "@material-ui/core";
+import Divider from "@material-ui/core/Divider";
 
 const useStyles = makeStyles((theme) => ({
     state: {
@@ -53,15 +52,14 @@ const RouteInfo = (props) => {
     return (
         <div className="routeInfoContainer">
             <div className="sidebarHeader">
-            <h1 className="sidebarTitle">Route Information</h1>
+                <h1 className="sidebarTitle">Route Information</h1>
+                <Divider variant="middle" />
             </div>
-            {props.selectedCluster !== '' &&
-                <div>{display}</div>}
+            {props.selectedCluster !== '' && <div>{display}</div>}
+            <Divider variant="fullWidth" />
             <div className="sidebarHeader">
-                <Typography className={classes.title} gutterBottom>
-                    Nearby Airports
-                </Typography>
-                {/* <h1 className="sidebarTitle">{college().name}</h1> */}
+                <h2 className="sidebarTitle">Nearby Airports</h2>
+                <Divider variant="middle" />
             </div>
         </div>
     );
@@ -88,7 +86,6 @@ function calculateRoute(start, end, waypts) {
 const CollegeBox = (props) => {
     const { college } = props;
     const classes = useStyles();
-
     return (
         <div className="collegeCardContainer">
             <div className="collegeName">{college.name}</div>
@@ -103,6 +100,7 @@ const DirectionBox = (props) => {
     const { info } = props;
     const label = info.distance.text + " * " + info.duration.text 
     return (
+        // <Divider orientation="vertical" variant="fullWidth" />
         <div class="separator">{label}</div>
     )
 }

@@ -150,7 +150,7 @@ function SignUp(props) {
                                 aria-label="Acknowledge"
                                 onClick={(event) => event.stopPropagation()}
                                 onFocus={(event) => event.stopPropagation()}
-                                control={<Checkbox />}
+                                control={<Checkbox required/>}
                                 label="I confirm that I have read and agreed to the potential data usage involved in this website."
                             />
                         </AccordionSummary>
