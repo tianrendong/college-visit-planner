@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import edu.brown.cs.termproject.airport.Airport;
+import edu.brown.cs.termproject.airport.AirportManager;
 import edu.brown.cs.termproject.collegegraph.College;
 import edu.brown.cs.termproject.database.CollegeSQLManager;
 import edu.brown.cs.termproject.collegegraph.*;
@@ -73,12 +74,15 @@ public class CollegeAPI extends API{
     JsonObject data = GSON.fromJson(request.body(), JsonObject.class);
     JsonObject collegeAsJson = data.get("college").getAsJsonObject();
     College college = GSON.fromJson(collegeAsJson, College.class);
+<<<<<<< HEAD
     System.out.println(college); // TODO: I already retrieved this college object that you can pass as input
     List<College> airports = new ArrayList<>(); // TODO: get nearby airports
+=======
+    System.out.println(college);
+    AirportManager am = new AirportManager("./data/airports.sqlite3");
+    Airport airport =  am.getNearestAirport(college);
+>>>>>>> master
 
-    return GSON.toJson(airports);
+    return GSON.toJson(airport);
   };
-
-
-
 }

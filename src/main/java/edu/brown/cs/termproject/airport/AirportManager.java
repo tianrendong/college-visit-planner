@@ -22,24 +22,16 @@ public class AirportManager {
     airports = sqlManager.getAllAirports();
   }
   /**
-   * Gets the closest airport based on the cluster.
+   * Gets the closest airport based on the each cluster in map.
    * @param clusters map of centroid to Locatable.
-   * @return the centroid point of the cluster.
+   * @return a map, mapping an airport to its cluster.
    */
   public Map<Airport, List<Locatable>> getNearestAirports(
       Map<Locatable, List<Locatable>> clusters) {
     Map<Airport, List<Locatable>> nearestAirports = new HashMap<>();
     for (Map.Entry<Locatable, List<Locatable>> entry : clusters.entrySet()) {
       Locatable curCentroid = entry.getKey();
-      double bestDistance = Double.POSITIVE_INFINITY;
-      Airport bestAirport = null;
-      for (Airport airport : airports) {
-        double newDistance = DistanceCalculator.getDistance(airport, curCentroid);
-        if (newDistance < bestDistance) {
-          bestDistance = newDistance;
-          bestAirport = airport;
-        }
-      }
+      Airport bestAirport = getNearestAirport(curCentroid);
       //if there is already the key with the same airport, combine
       if (nearestAirports.containsKey(bestAirport)) {
         nearestAirports.get(bestAirport).addAll(entry.getValue());
@@ -48,5 +40,22 @@ public class AirportManager {
       }
     }
     return nearestAirports;
+  }
+  /**
+   * Gets the closest airport based on a specific location.
+   * @param location the location.
+   * @return the nearest airport.
+   */
+  public Airport getNearestAirport(Locatable location) {
+    double bestDistance = Double.POSITIVE_INFINITY;
+    Airport bestAirport = null;
+    for (Airport airport : airports) {
+      double newDistance = DistanceCalculator.getDistance(airport, location);
+      if (newDistance < bestDistance) {
+        bestDistance = newDistance;
+        bestAirport = airport;
+      }
+    }
+    return bestAirport;
   }
 }

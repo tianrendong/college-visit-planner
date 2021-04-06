@@ -7,6 +7,9 @@ import edu.brown.cs.termproject.collegegraph.College;
 import edu.brown.cs.termproject.database.UserDataManager;
 import edu.brown.cs.termproject.main.Encryption;
 import edu.brown.cs.termproject.main.User;
+import edu.brown.cs.termproject.router.Clustering;
+import edu.brown.cs.termproject.router.Locatable;
+import edu.brown.cs.termproject.router.Point;
 import spark.Route;
 
 import com.google.gson.Gson;
@@ -15,6 +18,7 @@ import com.google.gson.JsonObject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class UserAPI extends API {
 
@@ -90,11 +94,18 @@ public class UserAPI extends API {
   private final Route updateRoute = (request, response) -> {
     JsonObject data = GSON.fromJson(request.body(), JsonObject.class);
     JsonArray collegesInJson = data.get("colleges").getAsJsonArray();
-    List<College> colleges = new Gson().fromJson(collegesInJson, new TypeToken<List<College>>(){}.getType());
+    List<College> colleges = new Gson().fromJson(collegesInJson,
+        new TypeToken<List<College>>() { }.getType());
     System.out.println(colleges);
-
-    // TODO: clustering algorithm
-//    List<List<College>> clusters =
+    // TODO: set maxDistance to user input
+    double maxDistance = 200.0;
+    //clustering algorithm
+    Clustering clustering = new Clustering(maxDistance);
+    Map<Point, List<College>> clusterMap = clustering.makeClusters(colleges);
+    List<List<College>> clusterList = new ArrayList<>();
+    for (Map.Entry<Point, List<College>> entry : clusterMap.entrySet()) {
+      clusterList.add(entry.getValue());
+    }
     // TODO: TSP on each cluster
 //    for (List<College> cluster : clusters) {
 //      //TSP on each cluster
@@ -102,8 +113,6 @@ public class UserAPI extends API {
 
     // TODO: update this route for the user(store in DB)
     // return route
-
-
 
 
     College c1 = new College(1, "Massachusetts Institute of Technology", 42.360001, -71.092003);

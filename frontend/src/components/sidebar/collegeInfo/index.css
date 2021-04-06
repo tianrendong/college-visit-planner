@@ -13,3 +13,19 @@
     margin:20px;
     flex-grow: 1;
 }
+
+
+.divider {
+  display: flex;
+  
+  /* &:before,
+  &:after {
+    content: "";
+    flex: 1;
+  } */
+}
+
+.line {
+  align-items: center;
+  margin: 1em -1em;
+}
