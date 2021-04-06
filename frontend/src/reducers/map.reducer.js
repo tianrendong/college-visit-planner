@@ -52,11 +52,12 @@ const mapReducer = (state = initialState, action) => {
                     markerClicked: action.payload,
                 };
         case "UPDATE_AIRPORTS": 
+        console.log(action)
             return {
                 ...state,
                 markerClicked: {
                     ...state.markerClicked,
-                    airports: action.payload.airports,
+                    airport: action.payload.airport,
                 }
 
             }

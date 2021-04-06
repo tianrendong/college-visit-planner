@@ -6,11 +6,15 @@ import com.google.gson.JsonObject;
 import edu.brown.cs.termproject.airport.Airport;
 import edu.brown.cs.termproject.airport.AirportManager;
 import edu.brown.cs.termproject.collegegraph.College;
+import edu.brown.cs.termproject.database.AirportSQLManager;
 import edu.brown.cs.termproject.database.CollegeSQLManager;
 import edu.brown.cs.termproject.collegegraph.*;
 import edu.brown.cs.termproject.database.UserDataManager;
 import edu.brown.cs.termproject.main.Encryption;
+import edu.brown.cs.termproject.main.Main;
 import edu.brown.cs.termproject.main.User;
+import edu.brown.cs.termproject.router.Locatable;
+import edu.brown.cs.termproject.router.Nearest;
 import spark.Route;
 import org.json.JSONObject;
 
@@ -28,8 +32,9 @@ import java.util.Set;
 public class CollegeAPI extends API{
 
   private CollegeSQLManager collegeDB;
+  private AirportSQLManager airportDB;
   private static final Gson GSON = new Gson();
-  private final ObjectMapper om = new ObjectMapper(); // used to turn objects into JSON
+  private final Nearest nearest = new Nearest();
 
   /**
    * Creates a CollegeAPI object to provide API handlers.
@@ -45,8 +50,8 @@ public class CollegeAPI extends API{
   public Route getAutocorrect() {
     return autocorrect;
   }
-  public Route getNearbyAirports() {
-    return nearbyAirports;
+  public Route getNearbyAirport() {
+    return nearbyAirport;
   }
 
   private final Route defaultColleges = (request, response) -> {
@@ -70,19 +75,14 @@ public class CollegeAPI extends API{
     return GSON.toJson(colleges);
   };
 
-  private final Route nearbyColleges = (request, response) -> {
+  private final Route nearbyAirport = (request, response) -> {
     JsonObject data = GSON.fromJson(request.body(), JsonObject.class);
     JsonObject collegeAsJson = data.get("college").getAsJsonObject();
     College college = GSON.fromJson(collegeAsJson, College.class);
-<<<<<<< HEAD
-    System.out.println(college); // TODO: I already retrieved this college object that you can pass as input
-    List<College> airports = new ArrayList<>(); // TODO: get nearby airports
-=======
     System.out.println(college);
-    AirportManager am = new AirportManager("./data/airports.sqlite3");
-    Airport airport =  am.getNearestAirport(college);
->>>>>>> master
 
+    List<Airport> airports = Main.getAirportDatabase().getAllAirports();
+    Airport airport = (Airport) nearest.findNearestLocation(college, airports);
     return GSON.toJson(airport);
   };
 }

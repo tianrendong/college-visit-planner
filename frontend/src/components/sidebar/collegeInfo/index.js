@@ -38,19 +38,12 @@ const CollegeInfo = (props) => {
         }
     }
 
-    console.log(props.markerClicked.airports)
-    console.log(typeof(props.markerClicked.airports))
+    console.log(props.markerClicked.airport)
+    console.log(typeof(props.markerClicked.airport))
 
     const college = () => {return props.markerClicked.content}
-    const hasNearbyAirports = () => { 
-        if (typeof(props.markerClicked.airports) !== 'undefined') {
-            console.log(props.markerClicked.airports)
-            return (props.markerClicked.airports.length !== 0);
-        } else {
-            return false;
-        }
-    }
-    const nearbyAirports = () => { return props.markerClicked.airports }
+    const hasNearbyAirport = () => { return (typeof(props.markerClicked.airport) !== 'undefined') }
+    const nearbyAirport = () => { return props.markerClicked.airport }
 
     return (
         <div className="collegeInfoContainer">
@@ -80,8 +73,7 @@ const CollegeInfo = (props) => {
                     Nearby Airports
                 </Typography>
             </div>
-            {hasNearbyAirports() && nearbyAirports().map(a => 
-                <AirportInfo airport={a}/>)}
+            {hasNearbyAirport() && <AirportInfo airport={nearbyAirport()}/>}
         </div>
     );
 

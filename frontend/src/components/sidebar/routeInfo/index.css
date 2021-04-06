@@ -6,6 +6,15 @@
 
 .collegeCardContainer {
     margin: 20px 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.collegeCardInnerContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .routeInfoContainer {
@@ -24,7 +33,7 @@
     align-items: center;
     text-align: center;
     color:  rgba(0, 0, 0, 0.54);
-    margin: 30px 0 40px 0;
+    margin: 40px 0 50px 0;
   }
   
   .separator::before,

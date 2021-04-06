@@ -2,13 +2,27 @@ import React, { useEffect, useState } from 'react'
 import './index.css'
 import { connect } from 'react-redux'
 import Typography from '@material-ui/core/Typography';
-import Chip from '@material-ui/core/Chip';
 import { ListItem, ListItemText, makeStyles } from "@material-ui/core";
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import IconButton from '@material-ui/core/IconButton';
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 // import { calculateRoute } from "../../map/directionsRenderer";
 
 const useStyles = makeStyles((theme) => ({
     state: {
         fontSize: 19,
+    }, 
+    cardRoot: {
+        minWidth: 275,
+        margin: '10px 20px 15px 0',
+        width: '100%',
+    },
+    cardContentRoot: {
+        backgroundColor: '#fffefc',
+    },
+    navigateIcon: {
+        margin: '3px',
     }
 }));
 
@@ -53,7 +67,7 @@ const RouteInfo = (props) => {
     return (
         <div className="routeInfoContainer">
             <div className="sidebarHeader">
-            <h1 className="sidebarTitle">Route Information</h1>
+                <h1 className="sidebarTitle">Route Information</h1>
             </div>
             {props.selectedCluster !== '' &&
                 <div>{display}</div>}
@@ -91,23 +105,29 @@ const CollegeBox = (props) => {
 
     return (
         <div className="collegeCardContainer">
+            <div className="collegeCardInnerContainer">
             <div className="collegeName">{college.name}</div>
             <Typography className={classes.state}>
                     city, state
             </Typography>
+            </div>
+            <IconButton size="large" >
+                        <NavigateNextIcon fontSize="middle" classes={classes.navigateIcon}/>
+                    </IconButton>
         </div>
+
     )
 }
 
 const DirectionBox = (props) => {
-    const { info } = props;
-    const label = info.distance.text + " * " + info.duration.text 
+    const { info} = props;
+    const label = info.distance.text + " * " + info.duration.text
     return (
-        <div class="separator">{label}</div>
+            <div class="separator">{label}</div>
     )
 }
 
 
-const mapStateToProps = ({ rUser: { user }, rMap: { selectedCluster } }) => ({ user, selectedCluster });
+const mapStateToProps = ({ rUser: { user}, rMap: { selectedCluster} }) => ({ user, selectedCluster});
 
 export default connect(mapStateToProps)(RouteInfo);
