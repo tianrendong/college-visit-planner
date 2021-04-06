@@ -1,29 +1,15 @@
 package edu.brown.cs.termproject.api;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import edu.brown.cs.termproject.airport.Airport;
-import edu.brown.cs.termproject.airport.AirportManager;
 import edu.brown.cs.termproject.collegegraph.College;
 import edu.brown.cs.termproject.database.AirportSQLManager;
 import edu.brown.cs.termproject.database.CollegeSQLManager;
-import edu.brown.cs.termproject.collegegraph.*;
-import edu.brown.cs.termproject.database.UserDataManager;
-import edu.brown.cs.termproject.main.Encryption;
 import edu.brown.cs.termproject.main.Main;
-import edu.brown.cs.termproject.main.User;
-import edu.brown.cs.termproject.router.Locatable;
 import edu.brown.cs.termproject.router.Nearest;
 import spark.Route;
-import org.json.JSONObject;
 
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.PBEKeySpec;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.KeySpec;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;

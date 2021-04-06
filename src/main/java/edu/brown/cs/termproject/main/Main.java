@@ -1,6 +1,5 @@
 package edu.brown.cs.termproject.main;
 
-import edu.brown.cs.termproject.airport.AirportManager;
 import edu.brown.cs.termproject.api.CollegeAPI;
 import edu.brown.cs.termproject.api.UserAPI;
 import edu.brown.cs.termproject.database.AirportSQLManager;
