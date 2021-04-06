@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="fdb581c7-287d-4d72-b22a-5fe6bbfd9325" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/college-visit-planner.iml" beforeDir="false" afterPath="$PROJECT_DIR$/college-visit-planner.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/college-visit-planner.ipr" beforeDir="false" afterPath="$PROJECT_DIR$/college-visit-planner.ipr" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/college-visit-planner.iws" beforeDir="false" afterPath="$PROJECT_DIR$/college-visit-planner.iws" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/add-location" beforeDir="false" afterPath="$PROJECT_DIR$/database/add-location" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/universities.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/database/universities.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/university-domain-nonexisting.txt" beforeDir="false" afterPath="$PROJECT_DIR$/database/university-domain-nonexisting.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/assets/dataPolicy.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/assets/dataPolicy.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/map/clusterMarker/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/map/clusterMarker/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/map/collegeMarker/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/map/collegeMarker/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/sampleUsers.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/data/sampleUsers.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/map/directionsRenderer.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/map/directionsRenderer.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/sidebar/routeInfo/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/sidebar/routeInfo/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/sagas/UserSaga.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/sagas/userSaga.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -179,6 +177,14 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="HierarchyBrowserManager">
     <option name="SHOW_PACKAGES" value="false" />
@@ -381,6 +387,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VssConfiguration">
     <CheckoutOptions>
