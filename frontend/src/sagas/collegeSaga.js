@@ -25,4 +25,10 @@ export function* getNearbyAirportsAsync(payload) {
     //     },
     //     type: 'UPDATE_AIRPORTS',
     // });
+    yield put({
+        payload: { 
+            airports: [{code: "LAX", name: "Los Angeles International Airport", lat: 33.9415889, lon: -118.40853, state: "California", city: "Los Angeles", website: "http://www.lawa.org/lax/welcomeLAX.cfm"}]
+        },
+        type: 'UPDATE_AIRPORTS',
+    });
 }

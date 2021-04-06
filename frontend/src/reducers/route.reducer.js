@@ -1,5 +1,5 @@
 const initialState = {
-    sidebarOpen: false,
+    sidebarOpen: true,
     sidebar: 'login',
     infobar: '',
     popDialog: '',

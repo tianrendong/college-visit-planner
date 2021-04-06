@@ -69,12 +69,12 @@ public class CollegeAPI extends API{
     return GSON.toJson(colleges);
   };
 
-  private final Route nearbyAirports = (request, response) -> {
+  private final Route nearbyColleges = (request, response) -> {
     JsonObject data = GSON.fromJson(request.body(), JsonObject.class);
     JsonObject collegeAsJson = data.get("college").getAsJsonObject();
     College college = GSON.fromJson(collegeAsJson, College.class);
     System.out.println(college); // TODO: I already retrieved this college object that you can pass as input
-    List<Airport> airports = new ArrayList<>(); // TODO: get nearby airports
+    List<College> airports = new ArrayList<>(); // TODO: get nearby airports
 
     return GSON.toJson(airports);
   };

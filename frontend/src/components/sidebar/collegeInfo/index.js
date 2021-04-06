@@ -1,13 +1,11 @@
 import React, { useEffect } from 'react';
 import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
 import './index.css'
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import { routeActions } from '../../../actions/routeActions';
 import { connect, useDispatch } from 'react-redux';
-import { useSnackbar } from 'notistack';
+import AirportInfo from './airportInfo'
 import { ReactComponent as RouteIcon } from '../../../assets/mapsSVG/route.svg'
 import { ReactComponent as MyCollegeIcon } from '../../../assets/mapsSVG/school.svg'
 import { ReactComponent as SettingsIcon } from '../../../assets/mapsSVG/settings.svg'
@@ -40,7 +38,19 @@ const CollegeInfo = (props) => {
         }
     }
 
+    console.log(props.markerClicked.airports)
+    console.log(typeof(props.markerClicked.airports))
+
     const college = () => {return props.markerClicked.content}
+    const hasNearbyAirports = () => { 
+        if (typeof(props.markerClicked.airports) !== 'undefined') {
+            console.log(props.markerClicked.airports)
+            return (props.markerClicked.airports.length !== 0);
+        } else {
+            return false;
+        }
+    }
+    const nearbyAirports = () => { return props.markerClicked.airports }
 
     return (
         <div className="collegeInfoContainer">
@@ -62,13 +72,16 @@ const CollegeInfo = (props) => {
             </div>
 
             <div className="collegeInfoFooter">
-                <Button size="small" href={college().url} target="_blank">Learn More</Button>
+                <Button size="small" href={college().url} target="_blank">Visit Website</Button>
             </div>
             
-
-            
-
-
+            <div className="sidebarHeader">
+                <Typography className={classes.title} color="textSecondary" gutterBottom>
+                    Nearby Airports
+                </Typography>
+            </div>
+            {hasNearbyAirports() && nearbyAirports().map(a => 
+                <AirportInfo airport={a}/>)}
         </div>
     );
 

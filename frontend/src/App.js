@@ -30,7 +30,7 @@ function App(props) {
     return (
         <>
             <SnackbarProvider maxSnack={1}>
-                {/* <Entrance/> */}
+                <Entrance/>
                 <Map />
                 <Infobar />
                 <Sidebar />
