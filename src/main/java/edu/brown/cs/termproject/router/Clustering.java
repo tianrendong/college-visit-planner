@@ -15,6 +15,7 @@ import java.util.Map;
 public class Clustering<L extends Locatable> {
 
   private final double maxDistance;
+  private static final int RADIAN = 180;
 
   public Clustering(double maxDistance) {
     this.maxDistance = maxDistance;
@@ -76,12 +77,41 @@ public class Clustering<L extends Locatable> {
    * @return the centroid point of the cluster.
    */
   public Point getCentroid(List<L> locations) {
-    double totalLat = 0;
-    double totalLon = 0;
-    for (Locatable location : locations) {
-      totalLat += location.getLat();
-      totalLon += location.getLon();
+    if (locations.size() <= 0) {
+      return null;
     }
-    return new Point(totalLat / locations.size(), totalLon / locations.size());
+
+    int numLoc = locations.size();
+
+    double x = 0.0;
+    double y = 0.0;
+    double z = 0.0;
+
+    for (L location : locations) {
+      double lat = location.getLat() * Math.PI / RADIAN;
+      double lon = location.getLon() * Math.PI / RADIAN;
+
+      double a = Math.cos(lat) * Math.cos(lon);
+      double b = Math.cos(lat) * Math.sin(lon);
+      double c = Math.sin(lat);
+
+      x += a;
+      y += b;
+      z += c;
+    }
+
+    x = x / numLoc;
+    y = y / numLoc;
+    z = z / numLoc;
+
+    double lon = Math.atan2(y, x);
+    double hyp = Math.sqrt(x * x + y * y);
+    double lat = Math.atan2(z, hyp);
+
+    double newX = (lat * RADIAN / Math.PI);
+    double newY = (lon * RADIAN / Math.PI);
+
+    return new Point(newX, newY);
+//    return new Point(totalLat / locations.size(), totalLon / locations.size());
   }
 }
