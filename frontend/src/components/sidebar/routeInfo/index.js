@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react'
 import './index.css'
 import { connect } from 'react-redux'
 import Typography from '@material-ui/core/Typography';
-import { ListItem, ListItemText, makeStyles } from "@material-ui/core";
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import IconButton from '@material-ui/core/IconButton';
-import NavigateNextIcon from '@material-ui/icons/NavigateNext';
-// import { calculateRoute } from "../../map/directionsRenderer";
+
+import {Collapse, makeStyles} from "@material-ui/core";
+import Divider from "@material-ui/core/Divider";
+import clsx from "clsx";
+import IconButton from "@material-ui/core/IconButton";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 const useStyles = makeStyles((theme) => ({
     state: {
@@ -64,18 +64,32 @@ const RouteInfo = (props) => {
         }
     }, [directionBoxes])
 
+    const [expanded, setExpanded] = useState(true)
+    const handleExpandClick = () => {
+        setExpanded(!expanded);
+    };
+
     return (
         <div className="routeInfoContainer">
             <div className="sidebarHeader">
                 <h1 className="sidebarTitle">Route Information</h1>
+                <IconButton
+                    className={clsx(classes.expand, {
+                        [classes.expandOpen]: expanded,
+                    })}
+                    onClick={handleExpandClick}
+                    aria-expanded={expanded}
+                    aria-label="show more"
+                >
+                    <ExpandMoreIcon />
+                </IconButton>
             </div>
-            {props.selectedCluster !== '' &&
-                <div>{display}</div>}
+            <Collapse class="routeInfo" in={expanded} timeout="auto" unmountOnExit>
+                {props.selectedCluster !== '' && <div>{display}</div>}
+            </Collapse>
+            <Divider variant="fullWidth" />
             <div className="sidebarHeader">
-                <Typography className={classes.title} gutterBottom>
-                    Nearby Airports
-                </Typography>
-                {/* <h1 className="sidebarTitle">{college().name}</h1> */}
+                <h2 className="sidebarTitle">Nearby Airports</h2>
             </div>
         </div>
     );
@@ -102,7 +116,6 @@ function calculateRoute(start, end, waypts) {
 const CollegeBox = (props) => {
     const { college } = props;
     const classes = useStyles();
-
     return (
         <div className="collegeCardContainer">
             <div className="collegeCardInnerContainer">
@@ -123,7 +136,7 @@ const DirectionBox = (props) => {
     const { info} = props;
     const label = info.distance.text + " * " + info.duration.text
     return (
-            <div class="separator">{label}</div>
+        <div class="separator">{label}</div>
     )
 }
 

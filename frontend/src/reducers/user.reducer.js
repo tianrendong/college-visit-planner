@@ -120,7 +120,7 @@ const userReducer = (state = initialState, action) => {
         case "REQUEST_UPDATE_ROUTE": {
             return {
                 ...state,
-                updatingRoute: true
+                updatingRoute: false
             }
         }
         default:
