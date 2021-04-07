@@ -3,7 +3,6 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { routeActions } from "../../../actions/routeActions";
@@ -49,15 +48,39 @@ function SignUp(props) {
     const dispatch = useDispatch();
     const { enqueueSnackbar } = useSnackbar();
 
-    const [errorMessage, setErrorMessage] = useState('')
+    const [passwordValidation, setPasswordValidation] = useState('')
     const validate = (value) => {
         if (validator.isStrongPassword(value, {
             minLength: 8, minLowercase: 1,
             minUppercase: 1, minNumbers: 1, minSymbols: 1
         })) {
-            setErrorMessage('Is Strong Password')
+            setPasswordValidation('Is Strong Password')
         } else {
-            setErrorMessage('Is Not Strong Password')
+            setPasswordValidation('Is Not Strong Password')
+        }
+    }
+
+    const [weakPassword, setWeakPassword] = useState(false)
+    const handlePassword = (value) => {
+        validate(value)
+        if (passwordValidation === 'Is Strong Password') {
+            setWeakPassword(false)
+        } else {
+            setWeakPassword(true)
+        }
+        setPassword(value)
+    }
+
+    const [verifyMessage, setVerifyMessage] = useState("")
+    const [verifyError, setVerifyError] = useState(false)
+    const handleVerifyPassword = (value) => {
+        if (value !== password) {
+            setVerifyMessage("Passwords must match")
+            setVerifyError(true)
+            setVerifyPassword(value)
+        } else {
+            setVerifyMessage('')
+            setVerifyError(false)
         }
     }
 
@@ -75,10 +98,6 @@ function SignUp(props) {
                 type: 'SIGNUP_REQUEST',
             });
         }
-    }
-
-    const handleCheckUsername = (username) => {
-        
     }
 
     const handleNavigateLogin = () => {
@@ -133,11 +152,14 @@ function SignUp(props) {
                                 type="password"
                                 id="password"
                                 value={password}
-                                onChange={(e) => setPassword(e.target.value)}
+                                helperText={passwordValidation}
+                                error={weakPassword}
+                                onChange={(e) => handlePassword(e.target.value)}
                             />
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
+                                id="verify-password"
                                 variant="outlined"
                                 required
                                 fullWidth
@@ -145,7 +167,9 @@ function SignUp(props) {
                                 label="Verify Password"
                                 type="password"
                                 value={verifyPassword}
-                                onChange={(e) => setVerifyPassword(e.target.value)}
+                                helperText={verifyMessage}
+                                error={verifyError}
+                                onChange={(e) => handleVerifyPassword(e.target.value)}
                             />
                         </Grid>
                     </Grid>
@@ -172,6 +196,7 @@ function SignUp(props) {
                         variant="contained"
                         color="primary"
                         className={classes.submit}
+                        disabled={weakPassword || verifyError}
                     >
                         Sign Up
                     </Button>

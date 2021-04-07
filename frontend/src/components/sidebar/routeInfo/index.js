@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import './index.css'
-import { connect } from 'react-redux'
+import {connect} from 'react-redux'
 import Typography from '@material-ui/core/Typography';
 
 import {Collapse, makeStyles} from "@material-ui/core";
@@ -8,11 +8,12 @@ import Divider from "@material-ui/core/Divider";
 import clsx from "clsx";
 import IconButton from "@material-ui/core/IconButton";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import * as PropTypes from "prop-types";
 
 const useStyles = makeStyles((theme) => ({
     state: {
         fontSize: 19,
-    }, 
+    },
     cardRoot: {
         minWidth: 275,
         margin: '10px 20px 15px 0',
@@ -45,17 +46,19 @@ const RouteInfo = (props) => {
         }
         const routes = await calculateRoute(start, end, waypts).then(res => res)
         console.log(routes);
-        const routesDisplay = await routes.map(r => <DirectionBox info={r} />)
+        const routesDisplay = await routes.map(r => <DirectionBox info={r}/>)
         setDirectionBoxes(routesDisplay)
     }
 
-    useEffect(() => { renderRoutes(currentCluster()) }, [props.user.route])
+    useEffect(() => {
+        renderRoutes(currentCluster())
+    }, [props.user.route])
 
     useEffect(() => {
         if (directionBoxes.length !== 0) {
             for (let i = 0; i < currentCluster().length; i++) {
                 console.log("c")
-                const college = <CollegeBox college={currentCluster()[i]} />
+                const college = <CollegeBox college={currentCluster()[i]}/>
                 setDisplay(display => [...display, college])
                 if (i < currentCluster().length - 1) {
                     setDisplay(display => [...display, directionBoxes[i]])
@@ -81,13 +84,13 @@ const RouteInfo = (props) => {
                     aria-expanded={expanded}
                     aria-label="show more"
                 >
-                    <ExpandMoreIcon />
+                    <ExpandMoreIcon/>
                 </IconButton>
             </div>
             <Collapse class="routeInfo" in={expanded} timeout="auto" unmountOnExit>
                 {props.selectedCluster !== '' && <div>{display}</div>}
             </Collapse>
-            <Divider variant="fullWidth" />
+            <Divider variant="fullWidth"/>
             <div className="sidebarHeader">
                 <h2 className="sidebarTitle">Nearby Airports</h2>
             </div>
@@ -113,27 +116,34 @@ function calculateRoute(start, end, waypts) {
     }));
 }
 
+class NavigateNextIcon extends React.Component {
+    render() {
+        return null;
+    }
+}
+
+NavigateNextIcon.propTypes = {
+    classes: PropTypes.string,
+    fontSize: PropTypes.string
+};
 const CollegeBox = (props) => {
-    const { college } = props;
+    const {college} = props;
     const classes = useStyles();
     return (
         <div className="collegeCardContainer">
             <div className="collegeCardInnerContainer">
-            <div className="collegeName">{college.name}</div>
-            <Typography className={classes.state}>
+                <div className="collegeName">{college.name}</div>
+                <Typography className={classes.state}>
                     city, state
-            </Typography>
+                </Typography>
             </div>
-            <IconButton size="large" >
-                        <NavigateNextIcon fontSize="middle" classes={classes.navigateIcon}/>
-                    </IconButton>
         </div>
 
     )
 }
 
 const DirectionBox = (props) => {
-    const { info} = props;
+    const {info} = props;
     const label = info.distance.text + " * " + info.duration.text
     return (
         <div class="separator">{label}</div>
@@ -141,6 +151,6 @@ const DirectionBox = (props) => {
 }
 
 
-const mapStateToProps = ({ rUser: { user}, rMap: { selectedCluster} }) => ({ user, selectedCluster});
+const mapStateToProps = ({rUser: {user}, rMap: {selectedCluster}}) => ({user, selectedCluster});
 
 export default connect(mapStateToProps)(RouteInfo);
