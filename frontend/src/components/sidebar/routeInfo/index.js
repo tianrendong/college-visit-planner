@@ -2,8 +2,11 @@ import React, { useEffect, useState } from 'react'
 import './index.css'
 import { connect } from 'react-redux'
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from "@material-ui/core";
+import {Collapse, makeStyles} from "@material-ui/core";
 import Divider from "@material-ui/core/Divider";
+import clsx from "clsx";
+import IconButton from "@material-ui/core/IconButton";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 const useStyles = makeStyles((theme) => ({
     state: {
@@ -49,17 +52,33 @@ const RouteInfo = (props) => {
         }
     }, [directionBoxes])
 
+    const [expanded, setExpanded] = useState(true)
+    const handleExpandClick = () => {
+        setExpanded(!expanded);
+    };
+
     return (
         <div className="routeInfoContainer">
             <div className="sidebarHeader">
                 <h1 className="sidebarTitle">Route Information</h1>
-                <Divider variant="middle" />
+
+                <IconButton
+                    className={clsx(classes.expand, {
+                        [classes.expandOpen]: expanded,
+                    })}
+                    onClick={handleExpandClick}
+                    aria-expanded={expanded}
+                    aria-label="show more"
+                >
+                    <ExpandMoreIcon />
+                </IconButton>
             </div>
-            {props.selectedCluster !== '' && <div>{display}</div>}
+            <Collapse class="routeInfo" in={expanded} timeout="auto" unmountOnExit>
+                {props.selectedCluster !== '' && <div>{display}</div>}
+            </Collapse>
             <Divider variant="fullWidth" />
             <div className="sidebarHeader">
                 <h2 className="sidebarTitle">Nearby Airports</h2>
-                <Divider variant="middle" />
             </div>
         </div>
     );

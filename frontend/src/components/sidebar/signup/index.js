@@ -16,6 +16,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { DataPolicy } from '../../../assets/dataPolicy'
 import { useSnackbar } from 'notistack';
 import { connect, useDispatch } from 'react-redux';
+import validator from "validator/es";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -48,8 +49,16 @@ function SignUp(props) {
     const dispatch = useDispatch();
     const { enqueueSnackbar } = useSnackbar();
 
-    const validateForm = () => {
-
+    const [errorMessage, setErrorMessage] = useState('')
+    const validate = (value) => {
+        if (validator.isStrongPassword(value, {
+            minLength: 8, minLowercase: 1,
+            minUppercase: 1, minNumbers: 1, minSymbols: 1
+        })) {
+            setErrorMessage('Is Strong Password')
+        } else {
+            setErrorMessage('Is Not Strong Password')
+        }
     }
 
     useEffect(() => {
@@ -134,6 +143,7 @@ function SignUp(props) {
                                 fullWidth
                                 name="verifyPassword"
                                 label="Verify Password"
+                                type="password"
                                 value={verifyPassword}
                                 onChange={(e) => setVerifyPassword(e.target.value)}
                             />

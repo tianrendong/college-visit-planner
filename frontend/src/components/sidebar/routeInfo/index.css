@@ -6,6 +6,8 @@
 
 .collegeCardContainer {
     margin: 40px 0;
+    background-color: #fef6ec;
+    border-radius: 20px;
 }
 
 .routeInfoContainer {
@@ -14,9 +16,8 @@
     flex-direction: column;
 }
 
-.chipContainer {
-    display: flex;
-    /* flex-direction: row-reverse; */
+.routeInfo {
+    margin-top: -3em;
 }
 
 .separator {
@@ -27,12 +28,17 @@
     margin-left: 0em;
     margin-top: -2em;
     margin-bottom: -2em;
-    border-left: 2px dashed;
+    border-left: 3px dashed;
     padding-top: 2em;
     padding-bottom: 2em;
+    /*border-radius: 10px;*/
 }
 
-.separator::before,
+.separator::before {
+    content: '';
+    flex: 0.2;
+}
+
 .separator::after {
     content: '';
     flex: 1;
