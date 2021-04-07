@@ -2,21 +2,12 @@ import React, {useEffect, useState} from 'react'
 import './index.css'
 import {connect} from 'react-redux'
 import Typography from '@material-ui/core/Typography';
-<<<<<<< HEAD
-import { makeStyles } from "@material-ui/core";
-import IconButton from '@material-ui/core/IconButton';
-import NavigateNextIcon from '@material-ui/icons/NavigateNext';
-import { ReactComponent as DirectionsIcon } from '../../../assets/mapsSVG/turn.svg'
-// import { calculateRoute } from "../../map/directionsRenderer";
-=======
-
 import {Collapse, makeStyles} from "@material-ui/core";
 import Divider from "@material-ui/core/Divider";
 import clsx from "clsx";
 import IconButton from "@material-ui/core/IconButton";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import * as PropTypes from "prop-types";
->>>>>>> 2f00f0576b1948039997abbe6d60f1b697202cad
 
 const useStyles = makeStyles((theme) => ({
     state: {
@@ -75,16 +66,16 @@ const RouteInfo = (props) => {
         }
     }, [directionBoxes])
 
-    const [expanded, setExpanded] = useState(true)
-    const handleExpandClick = () => {
-        setExpanded(!expanded);
-    };
+    // const [expanded, setExpanded] = useState(true)
+    // const handleExpandClick = () => {
+    //     setExpanded(!expanded);
+    // };
 
     return (
         <div className="routeInfoContainer">
             <div className="sidebarHeader">
                 <h1 className="sidebarTitle">Route Information</h1>
-                <IconButton
+                {/* <IconButton
                     className={clsx(classes.expand, {
                         [classes.expandOpen]: expanded,
                     })}
@@ -93,12 +84,12 @@ const RouteInfo = (props) => {
                     aria-label="show more"
                 >
                     <ExpandMoreIcon/>
-                </IconButton>
+                </IconButton>*/}
             </div>
-            <Collapse class="routeInfo" in={expanded} timeout="auto" unmountOnExit>
+            {/* <Collapse class="routeInfo" in={expanded} timeout="auto" unmountOnExit>  */}
                 {props.selectedCluster !== '' && <div>{display}</div>}
-            </Collapse>
-            <Divider variant="fullWidth"/>
+            {/* </Collapse> */}
+            {/* <Divider variant="fullWidth"/> */}
             <div className="sidebarHeader">
                 <h2 className="sidebarTitle">Nearby Airports</h2>
             </div>
@@ -145,12 +136,9 @@ const CollegeBox = (props) => {
                     city, state
                 </Typography>
             </div>
-<<<<<<< HEAD
             <IconButton size="large">
                         <NavigateNextIcon fontSize="middle" classes={classes.navigateIcon}/>
             </IconButton> 
-=======
->>>>>>> 2f00f0576b1948039997abbe6d60f1b697202cad
         </div>
 
     )

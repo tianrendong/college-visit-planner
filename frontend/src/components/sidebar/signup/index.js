@@ -38,49 +38,37 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function SignUp(props) {
+    const dispatch = useDispatch();
     const classes = useStyles();
+    const { enqueueSnackbar } = useSnackbar();
 
     const [firstname, setFirstname] = useState("");
     const [lastname, setLastname] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [verifyPassword, setVerifyPassword] = useState("");
-    const dispatch = useDispatch();
-    const { enqueueSnackbar } = useSnackbar();
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [passwordStrength, setPasswordStrength] = useState(false)
+    const [passwordConfirmation, setPasswordConfirmation] = useState("")
 
-    const [passwordValidation, setPasswordValidation] = useState('')
-    const validate = (value) => {
+    const passwordFieldOnChange = (value) => {
+        setPassword(value)
+        console.log(value);
         if (validator.isStrongPassword(value, {
             minLength: 8, minLowercase: 1,
-            minUppercase: 1, minNumbers: 1, minSymbols: 1
+            minUppercase: 1, minNumbers: 1
         })) {
-            setPasswordValidation('Is Strong Password')
+            setPasswordStrength(true)
         } else {
-            setPasswordValidation('Is Not Strong Password')
+            setPasswordStrength("Password needs to be at least 8 characters long containing uppercase, lowercase, and symbols.")
         }
-    }
+    } 
 
-    const [weakPassword, setWeakPassword] = useState(false)
-    const handlePassword = (value) => {
-        validate(value)
-        if (passwordValidation === 'Is Strong Password') {
-            setWeakPassword(false)
-        } else {
-            setWeakPassword(true)
-        }
-        setPassword(value)
-    }
-
-    const [verifyMessage, setVerifyMessage] = useState("")
-    const [verifyError, setVerifyError] = useState(false)
-    const handleVerifyPassword = (value) => {
+    const handleConfirmPasswordFieldOnChange = (value) => {
+        setConfirmPassword(value)
         if (value !== password) {
-            setVerifyMessage("Passwords must match")
-            setVerifyError(true)
-            setVerifyPassword(value)
+            setPasswordConfirmation("Passwords must match")  
         } else {
-            setVerifyMessage('')
-            setVerifyError(false)
+            setPasswordConfirmation(true)
         }
     }
 
@@ -148,28 +136,27 @@ function SignUp(props) {
                                 required
                                 fullWidth
                                 name="password"
-                                label="Password"
+                                label="Create a New Password"
                                 type="password"
                                 id="password"
                                 value={password}
-                                helperText={passwordValidation}
-                                error={weakPassword}
-                                onChange={(e) => handlePassword(e.target.value)}
+                                helperText={(password !== '') && passwordStrength}
+                                error={(password !== '') && (passwordStrength !== true)}
+                                onChange={(e) => passwordFieldOnChange(e.target.value)}
                             />
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
-                                id="verify-password"
                                 variant="outlined"
                                 required
                                 fullWidth
                                 name="verifyPassword"
-                                label="Verify Password"
+                                label="Confirm Password"
                                 type="password"
-                                value={verifyPassword}
-                                helperText={verifyMessage}
-                                error={verifyError}
-                                onChange={(e) => handleVerifyPassword(e.target.value)}
+                                value={confirmPassword}
+                                helperText={(confirmPassword !== '') && passwordConfirmation}
+                                error={(confirmPassword !== '') && (passwordConfirmation !== true)}
+                                onChange={(e) => handleConfirmPasswordFieldOnChange(e.target.value)}
                             />
                         </Grid>
                     </Grid>
@@ -185,7 +172,7 @@ function SignUp(props) {
                                 onClick={(event) => event.stopPropagation()}
                                 onFocus={(event) => event.stopPropagation()}
                                 control={<Checkbox required/>}
-                                label="I confirm that I have read and agreed to the potential data usage involved in this website."
+                                label="I confirm to the terms and conditions of this website."
                             />
                         </AccordionSummary>
                         <AccordionDetails>{DataPolicy}</AccordionDetails>
@@ -196,7 +183,7 @@ function SignUp(props) {
                         variant="contained"
                         color="primary"
                         className={classes.submit}
-                        disabled={weakPassword || verifyError}
+                        disabled={(passwordStrength !== true) || (passwordConfirmation !== true)}
                     >
                         Sign Up
                     </Button>
