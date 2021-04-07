@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react'
 import './index.css'
 import { connect } from 'react-redux'
 import Typography from '@material-ui/core/Typography';
-import { ListItem, ListItemText, makeStyles } from "@material-ui/core";
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
+import { makeStyles } from "@material-ui/core";
 import IconButton from '@material-ui/core/IconButton';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import { ReactComponent as DirectionsIcon } from '../../../assets/mapsSVG/turn.svg'
 // import { calculateRoute } from "../../map/directionsRenderer";
 
 const useStyles = makeStyles((theme) => ({
@@ -111,9 +110,9 @@ const CollegeBox = (props) => {
                     city, state
             </Typography>
             </div>
-            <IconButton size="large" >
+            <IconButton size="large">
                         <NavigateNextIcon fontSize="middle" classes={classes.navigateIcon}/>
-                    </IconButton>
+            </IconButton> 
         </div>
 
     )

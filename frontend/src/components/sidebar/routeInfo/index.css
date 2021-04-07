@@ -50,3 +50,8 @@
   .separator:not(:empty)::after {
     margin-left: .25em;
   }
+
+  .directionsIcon {
+    width: 30px;
+    height: 30px;
+  }

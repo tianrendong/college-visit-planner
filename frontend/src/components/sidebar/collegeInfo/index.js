@@ -3,12 +3,8 @@ import Typography from '@material-ui/core/Typography';
 import './index.css'
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import { routeActions } from '../../../actions/routeActions';
 import { connect, useDispatch } from 'react-redux';
 import AirportInfo from './airportInfo'
-import { ReactComponent as RouteIcon } from '../../../assets/mapsSVG/route.svg'
-import { ReactComponent as MyCollegeIcon } from '../../../assets/mapsSVG/school.svg'
-import { ReactComponent as SettingsIcon } from '../../../assets/mapsSVG/settings.svg'
 
 const useStyles = makeStyles({
     title: {
