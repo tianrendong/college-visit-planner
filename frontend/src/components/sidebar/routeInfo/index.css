@@ -5,16 +5,9 @@
 }
 
 .collegeCardContainer {
-    margin: 20px 0;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-
-.collegeCardInnerContainer {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+    margin: 40px 0;
+    background-color: #fef6ec;
+    border-radius: 20px;
 }
 
 .routeInfoContainer {
@@ -23,23 +16,33 @@
     flex-direction: column;
 }
 
-.chipContainer {
-    display: flex;
-    /* flex-direction: row-reverse; */
+.routeInfo {
+    margin-top: -3em;
 }
 
-  .separator {
+.separator {
     display: flex;
     align-items: center;
     text-align: center;
-    color:  rgba(0, 0, 0, 0.54);
-    margin: 40px 0 50px 0;
-  }
-  
-  .separator::before,
-  .separator::after {
+    color: rgba(0, 0, 0, 0.54);
+    margin-left: 0em;
+    margin-top: -2em;
+    margin-bottom: -2em;
+    border-left: 3px dashed;
+    padding-top: 2em;
+    padding-bottom: 2em;
+    /*border-radius: 10px;*/
+}
+
+.separator::before {
+    content: '';
+    flex: 0.2;
+}
+
+.separator::after {
     content: '';
     flex: 1;
+<<<<<<< HEAD
     border-bottom: 1px solid rgba(0, 0, 0, 0.4);;
   }
   
@@ -55,3 +58,15 @@
     width: 30px;
     height: 30px;
   }
+=======
+    /*border-bottom: 1px solid rgba(0, 0, 0, 0.4);*/
+}
+
+.separator:not(:empty)::before {
+    margin-right: 1em;
+}
+
+.separator:not(:empty)::after {
+    margin-left: 1em;
+}
+>>>>>>> 2f00f0576b1948039997abbe6d60f1b697202cad
