@@ -5,7 +5,7 @@ import { ReactComponent as ClusterIcon } from '../../assets/mapsSVG/flag.svg'
 
 import { connect, useDispatch } from 'react-redux';
 
-const ClusterMarker = (props) => {
+const RouteClusterMarker = (props) => {
     const dispatch = useDispatch();
     const { college = {},
         onClick = () => {},
@@ -28,4 +28,4 @@ const ClusterMarker = (props) => {
     )
 }
 
-export default ClusterMarker;
+export default RouteClusterMarker;
