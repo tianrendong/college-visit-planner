@@ -15,7 +15,7 @@ import { ReactComponent as College6 } from '../../../assets/collegeSVG/college6.
 const CollegeMarker = (props) => {
     const dispatch = useDispatch();
     const { college = {},
-        index,
+    collegeID
     } = props;
 
     const clicked = () => {
@@ -34,12 +34,19 @@ const CollegeMarker = (props) => {
     const getIcon = (i) => { return icons[i % icons.length]}
 
     const handleClick = () => {
-        dispatch(mapActions.clickMarker('defaultMarker', college))
+        dispatch(mapActions.clickMarker('defaultMarker', collegeID))
+
+        dispatch({
+            payload: [collegeID],
+            type: ''
+        })
+
         dispatch(routeActions.navigateSidebar('collegeInfo'))
         dispatch({
-            payload: college,
+            payload: collegeID,
             type: 'REQUEST_NEARBY_AIRPORTS'
         })
+
         if (college.hasOwnProperty("nearbyColleges")) {
             dispatch({
                 payload: college.nearbyColleges,
@@ -50,7 +57,7 @@ const CollegeMarker = (props) => {
 
     return (
         <div className="collegeMarkerContainer" onClick={handleClick}>
-            <div>aaa</div>
+            <div>a</div>
             {/* <div>{getIcon(index)}</div>
             <div className={ clicked() ? "collegeMarkerLabelClicked" : "collegeMarkerLabel"}>{college.name}</div> */}
         </div>

@@ -10,30 +10,6 @@ import supercluster from 'points-cluster';
 import { findCenter } from './geocoordinateCalculations';
 import { renderDirections, clearDirections } from './directionsRenderer'
 
-
-export const susolvkaCoords = { lat: 60.814305, lng: 47.051773 };
-
-export const markersData = [...Array(100)]
-  .fill(0) // fill(0) for loose mode
-  .map((__, index) => ({
-    id: index,
-    lat:
-      susolvkaCoords.lat +
-      0.01 *
-        index *
-        Math.sin(30 * Math.PI * index / 180) *
-        Math.cos(50 * Math.PI * index / 180) +
-      Math.sin(5 * index / 180),
-    lng:
-      susolvkaCoords.lng +
-      0.01 *
-        index *
-        Math.cos(70 + 23 * Math.PI * index / 180) *
-        Math.cos(50 * Math.PI * index / 180) +
-      Math.sin(5 * index / 180),
-  }));
-
-
 const MAP = {
     defaultZoom: 5,
     defaultCenter: { lat: 37.5, lng: -104 }, // center of US (slightly adjusted)
@@ -66,18 +42,12 @@ function Map(props) {
     ))
 
     const getColleges = () => Object.values(props.defaultColleges).map((c, index) => ({
-        id: index, 
+        id: c.id, 
         lat: c.lat,
         lng: c.lon
     }));
 
     const getCollegeClusters = () => {
-        // console.log(getColleges())
-        // const clusters = supercluster(markersData, {
-        //     minZoom: 0,
-        //     maxZoom: 16,
-        //     radius: 60,
-        // });
         const clusters = supercluster(getColleges(), {
             minZoom: 0,
             maxZoom: 16,
@@ -191,13 +161,13 @@ function Map(props) {
                     console.log(item);
                     if (item.numPoints === 1) {
                       return (
-                          <div lat={item.points[0].lat}
-                             lng={item.points[0].lng}>aaa</div>
-                        // <CollegeMarker
-                        //   key={item.id}
-                        //   lat={item.points[0].lat}
-                        //   lng={item.points[0].lng}
-                        // />
+                        //   <div lat={item.points[0].lat}
+                        //      lng={item.points[0].lng}>aaa</div>
+                        <CollegeMarker
+                          collegeID={item.points[0].id}
+                          lat={item.points[0].lat}
+                          lng={item.points[0].lng}
+                        />
                       );
                     }
 
@@ -211,7 +181,6 @@ function Map(props) {
                       );
                 
                 })}
-
 
 
                     {

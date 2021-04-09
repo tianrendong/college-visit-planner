@@ -32,7 +32,7 @@ function getNearbyAirport(payload) {
     const request = new Request("/api/college/nearbyAirport", {
         method: 'POST',
         body: JSON.stringify({
-            college: payload
+            collegeID: payload
         })
     })
 

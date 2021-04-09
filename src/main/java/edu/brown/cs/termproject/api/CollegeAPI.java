@@ -20,7 +20,6 @@ import java.util.Set;
 public class CollegeAPI extends API{
 
   private CollegeSQLManager collegeDB;
-  private AirportSQLManager airportDB;
   private static final Gson GSON = new Gson();
   private final Nearest nearest = new Nearest();
 
@@ -68,8 +67,8 @@ public class CollegeAPI extends API{
 
   private final Route nearbyAirport = (request, response) -> {
     JsonObject data = GSON.fromJson(request.body(), JsonObject.class);
-    JsonObject collegeAsJson = data.get("college").getAsJsonObject();
-    College college = GSON.fromJson(collegeAsJson, College.class);
+    int collegeID = data.get("collegeID").getAsInt();
+    College college = collegeDB.getCollegeByID(collegeID);
     System.out.println(college);
 
     List<Airport> airports = Main.getAirportDatabase().getAllAirports();
