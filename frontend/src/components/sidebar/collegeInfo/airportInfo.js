@@ -81,7 +81,4 @@ const AirportInfo = (props) => {
     )
 }
 
-
-const mapStateToProps = ({ rMap: { clickedMarker } }) => ({ clickedMarker });
-
-export default connect(mapStateToProps)(AirportInfo);
+export default AirportInfo;

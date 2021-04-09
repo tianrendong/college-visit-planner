@@ -2,7 +2,6 @@
 import React, { useState } from 'react'; 
 import { connect, useDispatch } from 'react-redux';
 import Infocard from './infocard.js'
-import { mapActions } from '../../actions/mapActions'
 import { routeActions } from '../../actions/routeActions'
 import './index.css'
 import { ReactComponent as LocationIcon } from '../../assets/mapsSVG/placeholder.svg'
@@ -20,8 +19,8 @@ const LocationMarker = (props) => {
 
 
     const handleClick = () => {
-        dispatch(mapActions.clickMarker('locationMarker', college))
-        dispatch(routeActions.navigateSidebar('collegeInfo'))
+        // dispatch(mapActions.clickMarker('locationMarker', college))
+        // dispatch(routeActions.navigateSidebar('collegeInfo'))
     }
 
     return (

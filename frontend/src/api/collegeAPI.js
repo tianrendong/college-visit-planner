@@ -1,8 +1,7 @@
 export const collegeAPI = {
-   getDefaultColleges,
-   getAutocorrectColleges,
-   getNearbyAirport,
-   getCollegesByID,
+    getDefaultColleges,
+    getAutocorrectColleges,
+    getCollegeInfo,
 };
 
 function getDefaultColleges() {
@@ -17,19 +16,20 @@ function getDefaultColleges() {
 function getAutocorrectColleges(input) {
     const request = new Request("/api/college/autocorrect", {
         method: 'POST',
-        body: JSON.stringify({input})
+        body: JSON.stringify({ input })
     })
 
     return fetch(request)
         .then(response => response.json())
-        .then(data => 
-            {console.log(data);
-                return data});
+        .then(data => {
+            console.log(data);
+            return data
+        });
 }
 
-function getNearbyAirport(payload) {
+function getCollegeInfo(payload) {
     console.log(payload)
-    const request = new Request("/api/college/nearbyAirport", {
+    const request = new Request("/api/college/collegeInfo", {
         method: 'POST',
         body: JSON.stringify({
             collegeID: payload
@@ -38,23 +38,12 @@ function getNearbyAirport(payload) {
 
     return fetch(request)
         .then(response => response.json())
-        .then(data => 
-            {console.log(data);
-                return data});
-}
-
-function getCollegesByID(payload) {
-    console.log(payload)
-    const request = new Request("/api/college/getCollegesByID", {
-        method: 'POST',
-        body: JSON.stringify({
-            collegeIDs: payload // List of College IDs
+        .then(data => {
+            
+            return {
+                college: JSON.parse(data.college),
+                nearbyAirport: data.hasOwnProperty("nearbyAirport") ? JSON.parse(data.nearbyAirport) : null, 
+                nearbyColleges: data.hasOwnProperty("nearbyColleges") ? JSON.parse(data.nearbyColleges) : null,
+            }
         })
-    })
-
-    return fetch(request)
-        .then(response => response.json())
-        .then(data => 
-            {console.log(data);
-                return data});
-}
+    }

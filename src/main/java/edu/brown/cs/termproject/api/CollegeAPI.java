@@ -6,7 +6,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import edu.brown.cs.termproject.airport.Airport;
 import edu.brown.cs.termproject.collegegraph.College;
-import edu.brown.cs.termproject.database.AirportSQLManager;
 import edu.brown.cs.termproject.database.CollegeSQLManager;
 import edu.brown.cs.termproject.main.Main;
 import edu.brown.cs.termproject.router.Nearest;
@@ -37,12 +36,7 @@ public class CollegeAPI extends API{
   public Route getAutocorrect() {
     return autocorrect;
   }
-  public Route getNearbyAirport() {
-    return nearbyAirport;
-  }
-  public Route getCollegesByID() {
-    return collegesByID;
-  }
+  public Route getCollegeInfo() { return collegeInfo; }
 
   private final Route defaultColleges = (request, response) -> {
     List<College> colleges = collegeDB.getDefaultColleges();
@@ -65,27 +59,27 @@ public class CollegeAPI extends API{
     return GSON.toJson(colleges);
   };
 
-  private final Route nearbyAirport = (request, response) -> {
+  private final Route collegeInfo = (request, response) -> {
     JsonObject data = GSON.fromJson(request.body(), JsonObject.class);
     int collegeID = data.get("collegeID").getAsInt();
     College college = collegeDB.getCollegeByID(collegeID);
+
+    JsonObject payload = new JsonObject();
+    payload.addProperty("college", GSON.toJson(college)); // add college
+
     System.out.println(college);
 
     List<Airport> airports = Main.getAirportDatabase().getAllAirports();
     Airport airport = (Airport) nearest.findNearestLocation(college, airports);
-    return GSON.toJson(airport);
+    payload.addProperty("nearbyAirport", GSON.toJson(airport)); // add airport
+
+    if (college.getNearbyColleges() != null) {
+      List<College> colleges = collegeDB.getCollegeByID(college.getNearbyColleges());
+      payload.addProperty("nearbyColleges", GSON.toJson(colleges)); // add airport
+    }
+
+    return payload;
   };
 
-  private final Route collegesByID = (request, response) -> {
-    System.out.println(request.body());
-    JsonObject data = GSON.fromJson(request.body(), JsonObject.class);
-    JsonArray collegeIDsAsJson = data.get("collegeIDs").getAsJsonArray();
-    System.out.println(collegeIDsAsJson);
-    List<Integer> collegeIDs = GSON.fromJson(collegeIDsAsJson, new TypeToken<List<Integer>>() { }.getType());
-    System.out.println("2");
-    List<College> colleges = collegeDB.getCollegeByID(collegeIDs);
-    System.out.println("3");
-    return GSON.toJson(colleges);
-  };
 
 }

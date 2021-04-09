@@ -36,10 +36,10 @@ function Map(props) {
         })
     }, [])
 
-    const defaultMarkers = () => Object.values(props.defaultColleges).map((college, index) => (
-        <CollegeMarker lat={college.lat} lng={college.lon}
-            college={college} index={index} />
-    ))
+    // const defaultMarkers = () => Object.values(props.defaultColleges).map((college, index) => (
+    //     <CollegeMarker lat={college.lat} lng={college.lon}
+    //         college={college} index={index} />
+    // ))
 
     const getColleges = () => Object.values(props.defaultColleges).map((c, index) => ({
         id: c.id, 
@@ -157,7 +157,6 @@ function Map(props) {
                 {/* {(props.viewport === 'default') && defaultMarkers()}  */}
 
                 {(props.viewport === 'default') && clustersDisplayed.map(item => {
-                    // console.log(item)
                     console.log(item);
                     if (item.numPoints === 1) {
                       return (

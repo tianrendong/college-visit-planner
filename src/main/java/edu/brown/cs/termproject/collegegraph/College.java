@@ -60,6 +60,8 @@ public class College implements Locatable, Vertex {
 
   public void setNearbyColleges(List<Integer> nearbyColleges) { this.nearbyColleges = nearbyColleges;}
 
+  public List<Integer> getNearbyColleges() { return nearbyColleges; }
+
   @Override
   public double getLat() {
     return lat;

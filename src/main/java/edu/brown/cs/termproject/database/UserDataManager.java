@@ -179,15 +179,11 @@ public class UserDataManager extends DatabaseManager {
     if (!currentColleges.contains(collegeID)) {
       payload.addProperty("error", "College not stored");
     } else {
-      System.out.println("a");
       currentColleges =
           currentColleges.stream().filter(id -> id != collegeID).collect(Collectors.toCollection(ArrayList::new));
-      System.out.println("b");
       payload.addProperty("deletedCollegeID", collegeID);
     }
-    System.out.println("c");
     updateUserInfo(username, "colleges = '" + GSON.toJson(currentColleges) + "'");
-    System.out.println("d");
     return payload;
   }
 

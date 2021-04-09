@@ -4,7 +4,6 @@ const initialState = {
     defaultColleges: '',
     viewport: 'default',
     selectedCluster: '',
-    markerClicked: {},
 }
 
 const mapReducer = (state = initialState, action) => {
@@ -44,31 +43,7 @@ const mapReducer = (state = initialState, action) => {
                     ...state,
                     selectedCluster: '',
                     viewport: action.payload.viewport,
-                    markerClicked: {},
                 };
-        case "CLICK_MARKER":
-            return {
-                    ...state,
-                    markerClicked: action.payload,
-                };
-        case "UPDATE_AIRPORTS": 
-            return {
-                ...state,
-                markerClicked: {
-                    ...state.markerClicked,
-                    airport: action.payload.airport,
-                }
-
-            }
-        case "UPDATE_NEARBY_COLLEGES":
-            console.log(action)
-            return {
-                ...state,
-                markerClicked: {
-                    ...state.markerClicked,
-                    nearbyColleges: action.payload.nearbyColleges,
-                }
-            }
         default:
             return state
     }

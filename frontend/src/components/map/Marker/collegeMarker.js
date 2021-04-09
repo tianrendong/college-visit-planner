@@ -1,7 +1,6 @@
 
 import React, { useState } from 'react'; 
 import { connect, useDispatch } from 'react-redux';
-import { mapActions } from '../../../actions/mapActions'
 import { routeActions } from '../../../actions/routeActions'
 import './index.css'
 import { ReactComponent as College1 } from '../../../assets/collegeSVG/college1.svg'
@@ -34,25 +33,10 @@ const CollegeMarker = (props) => {
     const getIcon = (i) => { return icons[i % icons.length]}
 
     const handleClick = () => {
-        dispatch(mapActions.clickMarker('defaultMarker', collegeID))
-
-        dispatch({
-            payload: [collegeID],
-            type: ''
-        })
-
-        dispatch(routeActions.navigateSidebar('collegeInfo'))
         dispatch({
             payload: collegeID,
-            type: 'REQUEST_NEARBY_AIRPORTS'
+            type: 'REQUEST_COLLEGE_INFO'
         })
-
-        if (college.hasOwnProperty("nearbyColleges")) {
-            dispatch({
-                payload: college.nearbyColleges,
-                type: 'REQUEST_GET_COLLEGES_BY_ID',
-            })
-        }
     }
 
     return (

@@ -18,17 +18,13 @@ const useStyles = makeStyles({
 
 const CollegeInfo = (props) => {
     const classes = useStyles();
-    const dispatch = useDispatch();
 
-    console.log(props.markerClicked.airport)
-    console.log(typeof(props.markerClicked.airport))
+    const college = () => { return props.currentCollege.college }
+    const hasNearbyAirport = () => { return (props.currentCollege.nearbyAirport !== null) }
+    const nearbyAirport = () => { return props.currentCollege.nearbyAirport }
 
-    const college = () => {return props.markerClicked.content}
-    const hasNearbyAirport = () => { return (typeof(props.markerClicked.airport) !== 'undefined') }
-    const nearbyAirport = () => { return props.markerClicked.airport }
-
-    const hasNearbyColleges = () => { return (typeof(props.markerClicked.nearbyColleges) !== 'undefined') }
-    const nearbyColleges = () => { return props.markerClicked.nearbyColleges }
+    const hasNearbyColleges = () => { return (props.currentCollege.nearbyColleges !== null) }
+    const nearbyColleges = () => { return props.currentCollege.nearbyColleges }
 
     return (
         <div className="collegeInfoContainer">
@@ -76,6 +72,6 @@ const CollegeInfo = (props) => {
 
 }
 
-const mapStateToProps = ({ rUser: { user, error }, rMap: { markerClicked } }) => ({ user, error, markerClicked });
+const mapStateToProps = ({ rUser: { user, error }, rRoute: { currentCollege } }) => ({ user, error, currentCollege });
 
 export default connect(mapStateToProps)(CollegeInfo);

@@ -3,6 +3,7 @@ const initialState = {
     sidebar: 'login',
     infobar: '',
     popDialog: '',
+    currentCollege: {},
 }
 
 const routeReducer = (state = initialState, action) => {
@@ -66,6 +67,14 @@ const routeReducer = (state = initialState, action) => {
                 sidebar: (action.payload.loggedIn === true) ? 'userhome' : 'login',
                 infobar: '',
             };
+        case "UPDATE_CURRENT_COLLEGE":
+            return {
+                ...state,
+                sidebarOpen: true,
+                sidebar: 'collegeInfo',
+                infobar: '',
+                currentCollege: action.payload.collegeInfo, 
+            }
         default:
             return state
     }
