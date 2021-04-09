@@ -7,7 +7,6 @@ const initialState = {
     error: '',
     user: null,
     dataConsent: false,
-
 }
 
 const userReducer = (state = initialState, action) => {

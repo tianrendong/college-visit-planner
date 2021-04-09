@@ -1,13 +1,16 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import './index.css'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import Typography from '@material-ui/core/Typography';
-import {Collapse, makeStyles} from "@material-ui/core";
+import { Collapse, makeStyles } from "@material-ui/core";
 import Divider from "@material-ui/core/Divider";
-import clsx from "clsx";
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import IconButton from "@material-ui/core/IconButton";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import * as PropTypes from "prop-types";
+import Button from '@material-ui/core/Button';
+import Tooltip from '@material-ui/core/Tooltip';
+import DriveEtaIcon from '@material-ui/icons/DriveEta';
 
 const useStyles = makeStyles((theme) => ({
     state: {
@@ -22,7 +25,12 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: '#fffefc',
     },
     navigateIcon: {
-        margin: '3px',
+        // margin: '3px',
+    },
+    navigateGPS: {
+        // width: '2px',
+        // height: '2px',
+        padding: '0'
     }
 }));
 
@@ -45,7 +53,7 @@ const RouteInfo = (props) => {
         }
         const routes = await calculateRoute(start, end, waypts).then(res => res)
         console.log(routes);
-        const routesDisplay = await routes.map(r => <DirectionBox info={r}/>)
+        const routesDisplay = await routes.map(r => <DirectionBox info={r} />)
         setDirectionBoxes(routesDisplay)
     }
 
@@ -57,7 +65,7 @@ const RouteInfo = (props) => {
         if (directionBoxes.length !== 0) {
             for (let i = 0; i < currentCluster().length; i++) {
                 console.log("c")
-                const college = <CollegeBox college={currentCluster()[i]}/>
+                const college = <CollegeBox college={currentCluster()[i]} />
                 setDisplay(display => [...display, college])
                 if (i < currentCluster().length - 1) {
                     setDisplay(display => [...display, directionBoxes[i]])
@@ -66,30 +74,12 @@ const RouteInfo = (props) => {
         }
     }, [directionBoxes])
 
-    // const [expanded, setExpanded] = useState(true)
-    // const handleExpandClick = () => {
-    //     setExpanded(!expanded);
-    // };
-
     return (
         <div className="routeInfoContainer">
             <div className="sidebarHeader">
                 <h1 className="sidebarTitle">Route Information</h1>
-                {/* <IconButton
-                    className={clsx(classes.expand, {
-                        [classes.expandOpen]: expanded,
-                    })}
-                    onClick={handleExpandClick}
-                    aria-expanded={expanded}
-                    aria-label="show more"
-                >
-                    <ExpandMoreIcon/>
-                </IconButton>*/}
             </div>
-            {/* <Collapse class="routeInfo" in={expanded} timeout="auto" unmountOnExit>  */}
-                {props.selectedCluster !== '' && <div>{display}</div>}
-            {/* </Collapse> */}
-            {/* <Divider variant="fullWidth"/> */}
+            {props.selectedCluster !== '' && <div>{display}</div>}
             <div className="sidebarHeader">
                 <h2 className="sidebarTitle">Nearby Airports</h2>
             </div>
@@ -115,18 +105,9 @@ function calculateRoute(start, end, waypts) {
     }));
 }
 
-class NavigateNextIcon extends React.Component {
-    render() {
-        return null;
-    }
-}
 
-NavigateNextIcon.propTypes = {
-    classes: PropTypes.string,
-    fontSize: PropTypes.string
-};
 const CollegeBox = (props) => {
-    const {college} = props;
+    const { college } = props;
     const classes = useStyles();
     return (
         <div className="collegeCardContainer">
@@ -136,23 +117,43 @@ const CollegeBox = (props) => {
                     city, state
                 </Typography>
             </div>
-            <IconButton size="large">
-                        <NavigateNextIcon fontSize="middle" classes={classes.navigateIcon}/>
-            </IconButton> 
+            {/* <IconButton size="large">
+                    <NavigateNextIcon fontSize="middle" classes={classes.navigateIcon}/>
+            </IconButton>  */}
         </div>
 
     )
 }
 
 const DirectionBox = (props) => {
-    const {info} = props;
-    const label = info.distance.text + " * " + info.duration.text
+    const classes = useStyles()
+    const { info } = props;
+    const startAddress = info.start_address.replace(/\s/g, '+');
+    const endAddress = info.end_address.replace(/\s/g, '+');
+    const GMapUrl = "https://www.google.com/maps/dir/?api=1&origin=" + startAddress + "&destination=" + endAddress + "&travelmode=driving"
+
     return (
-        <div class="separator">{label}</div>
+        <div className="separatorContainer">
+            <div className="infoContainer">
+                <DriveEtaIcon className="infoText" style={{ marginRight:'15px'}} />
+                <div className="infoText">{info.distance.text}</div>
+                <span>&nbsp;</span>
+                <span>&nbsp;</span>
+                <span className="infoText">&bull;</span>
+                <span>&nbsp;</span>
+                <span>&nbsp;</span>
+                <div className="infoText">{info.duration.text}</div>
+            </div>
+
+            <Tooltip title="Navigate using Google Maps" placement="right">
+                <IconButton size="large" href={GMapUrl} target="_blank" style={{padding:'8px'}}>
+                    <NavigateNextIcon fontSize="small" classes={classes.navigateGPS} />
+                </IconButton>
+            </Tooltip>
+        </div>
     )
 }
 
-
-const mapStateToProps = ({rUser: {user}, rMap: {selectedCluster}}) => ({user, selectedCluster});
+const mapStateToProps = ({ rUser: { user }, rMap: { selectedCluster } }) => ({ user, selectedCluster });
 
 export default connect(mapStateToProps)(RouteInfo);
