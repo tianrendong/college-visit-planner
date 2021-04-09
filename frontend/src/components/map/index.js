@@ -3,10 +3,9 @@ import GoogleMap from 'google-map-react';
 import './index.css'
 import mapStyles from './mapStyles'
 import { connect, useDispatch } from 'react-redux';
-import CollegeMarker from './collegeMarker.js'
+import CollegeMarker from './Marker/collegeMarker.js'
 import RouteClusterMarker from './routeClusterMarker.js'
-import Marker from './Marker';
-import ClusterMarker from './ClusterMarker';
+import ClusterMarker from './Marker/clusterMarker.js';
 import supercluster from 'points-cluster';
 import { findCenter } from './geocoordinateCalculations';
 import { renderDirections, clearDirections } from './directionsRenderer'
@@ -34,12 +33,6 @@ export const markersData = [...Array(100)]
       Math.sin(5 * index / 180),
   }));
 
-// const locations = [
-//     { lat: 41.17, lng: 73.13},
-//     { lat: 41.37, lng: 73.48},
-//     { lat: 41.17, lng: 73.13},
-//     { lat: 41.73, lng: 72.65},
-//     { lat: 41.22, lng: 72.67}];
 
 const MAP = {
     defaultZoom: 5,
@@ -47,7 +40,7 @@ const MAP = {
     options: {
         styles: mapStyles.basic,
         disableDefaultUI: true,
-        minZoom: 4.3
+        // minZoom: 4.3
     },
 };
 
@@ -72,21 +65,29 @@ function Map(props) {
             college={college} index={index} />
     ))
 
-    const getColleges = () => Object.values(props.defaultColleges);
+    const getColleges = () => Object.values(props.defaultColleges).map((c, index) => ({
+        id: index, 
+        lat: c.lat,
+        lng: c.lon
+    }));
 
     const getCollegeClusters = () => {
-        const clusters = supercluster(markersData, {
+        // console.log(getColleges())
+        // const clusters = supercluster(markersData, {
+        //     minZoom: 0,
+        //     maxZoom: 16,
+        //     radius: 60,
+        // });
+        const clusters = supercluster(getColleges(), {
             minZoom: 0,
             maxZoom: 16,
             radius: 60,
         });
+        console.log(clusters(mapOptions))
         return clusters(mapOptions); 
     };
 
     const createClusters = () => {
-        console.log("A")
-        console.log(mapOptions)
-        console.log(mapOptions.bounds)
         setClustersDisplayed(
             mapOptions.hasOwnProperty("bounds") ? 
             getCollegeClusters().map(({ wx, wy, numPoints, points }) => ({
@@ -98,13 +99,9 @@ function Map(props) {
                 }))
                 : [],
         );
-        // console.log(clustersDisplayed)
     };
 
     const handleMapChange = ({ center, zoom, bounds }) => {
-        console.log("handleMapChange")
-        console.log(center)
-        console.log(bounds)
         setMapOptions({
                     center,
                     zoom,
@@ -191,19 +188,22 @@ function Map(props) {
 
                 {(props.viewport === 'default') && clustersDisplayed.map(item => {
                     // console.log(item)
+                    console.log(item);
                     if (item.numPoints === 1) {
                       return (
-                        <Marker
-                          key={item.id}
-                          lat={item.points[0].lat}
-                          lng={item.points[0].lng}
-                        />
+                          <div lat={item.points[0].lat}
+                             lng={item.points[0].lng}>aaa</div>
+                        // <CollegeMarker
+                        //   key={item.id}
+                        //   lat={item.points[0].lat}
+                        //   lng={item.points[0].lng}
+                        // />
                       );
                     }
 
                     return (
                         <ClusterMarker
-                          key={item.id}
+                          index={item.id}
                           lat={item.lat}
                           lng={item.lng}
                           points={item.points}

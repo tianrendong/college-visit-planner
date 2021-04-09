@@ -198,5 +198,9 @@ public class UserDataManager extends DatabaseManager {
       addCollege.executeUpdate();
     }
   }
+
+  public void deleteUser(String username) throws SQLException {
+
+  }
 }
 

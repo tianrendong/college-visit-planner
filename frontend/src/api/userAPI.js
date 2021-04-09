@@ -4,7 +4,8 @@ export const userAPI = {
     requestLogout,
     requestUpdateRoute,
     requestAddCollege,
-    requestDeleteCollege
+    requestDeleteCollege,
+    requestDeleteData
 };
 
 function requestLogin(payload) {
@@ -92,6 +93,21 @@ function requestDeleteCollege(payload) {
         })
     })
     console.log(request);
+    return fetch(request)
+        .then(response => response.json())
+        .then(data => data);
+}
+
+function requestDeleteData(payload) {
+    console.log(payload)
+    const request = new Request('/api/user/deleteData', {
+        method: 'POST',
+        body: JSON.stringify({ 
+            username: payload}),
+    })
+
+    console.log(request)
+
     return fetch(request)
         .then(response => response.json())
         .then(data => data);

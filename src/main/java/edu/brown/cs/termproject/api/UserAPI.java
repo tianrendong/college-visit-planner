@@ -48,6 +48,7 @@ public class UserAPI extends API {
     return userDeleteCollege;
   }
   public Route getRoute() { return updateRoute; }
+  public Route deleteData() { return deleteData; }
 
   private final Route login = (request, response) -> {
     JsonObject data = GSON.fromJson(request.body(), JsonObject.class);
@@ -89,6 +90,16 @@ public class UserAPI extends API {
     System.out.println(username);
     System.out.println(collegeID);
     return userDB.deleteCollege(username, collegeID);
+  };
+
+  private final Route deleteData = (request, response) -> {
+    System.out.println("aaaa");
+    System.out.println(request.body());
+    JsonObject data = GSON.fromJson(request.body(), JsonObject.class);
+    String username = data.get("username").getAsString();
+    System.out.println(username);
+//    userDB.deleteUser(username);
+    return true;
   };
 
   private final Route updateRoute = (request, response) -> {

@@ -7,6 +7,7 @@ export const UserSaga = {
     updateRouteAsync,
     addCollegeAsync,
     deleteCollegeAsync,
+    deleteDataAsync,
 }
 
 export function* loginAsync(payload) {
@@ -87,6 +88,18 @@ export function* deleteCollegeAsync(payload) {
                 error: response.error,
             },
             type: 'ERROR',
+        });
+    } 
+}
+
+
+export function* deleteDataAsync(payload) {
+    console.log(payload);
+    const response = yield call(userAPI.requestDeleteData, payload.payload)
+    console.log(response);
+    if (response === true) {
+        yield put({
+            type: 'RESET_ACCOUNT',
         });
     } 
 }

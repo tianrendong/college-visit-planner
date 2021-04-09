@@ -12,6 +12,7 @@ export default function* watchAll() {
         takeLatest('REQUEST_DELETE_COLLEGE', UserSaga.deleteCollegeAsync),
 
         takeLatest('REQUEST_UPDATE_ROUTE', UserSaga.updateRouteAsync),
+        takeLatest('REQUEST_DELETE_DATA', UserSaga.deleteDataAsync),
         takeLatest('REQUEST_NEARBY_AIRPORTS', CollegeSaga.getNearbyAirportsAsync),
         takeLatest('REQUEST_GET_COLLEGES_BY_ID', CollegeSaga.getCollegesByIDAsync),
 
