@@ -19,7 +19,7 @@ import java.io.StringWriter;
  */
 public final class Main {
   private static final int DEFAULT_PORT = 4567;
-  private static final String DEFAULT_COLLEGE_DB = "./data/sampleColleges.sqlite3";
+  private static final String DEFAULT_COLLEGE_DB = "./data/universities.sqlite3";
   private static final String DEFAULT_USER_DB = "./data/sampleUsers.sqlite3";
   private static final String DEFAULT_AIRPORT_DB = "./data/airports.sqlite3";
   private static final CollegeSQLManager collegeDatabase = new CollegeSQLManager();

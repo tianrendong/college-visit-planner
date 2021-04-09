@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { List } from 'immutable';
-import { ReactComponent as ClusterIcon } from '../../../assets/mapsSVG/placeholder.svg'
+// import { ReactComponent as ClusterIcon } from '../../../assets/mapsSVG/placeholder.svg'
+import clusterIcon from '../../../assets/mapsSVG/cluster.png'
 
 class ClusterMarker extends React.PureComponent {
   // eslint-disable-line react/prefer-stateless-function
@@ -14,14 +15,18 @@ class ClusterMarker extends React.PureComponent {
       <div className="clusterMarkerContainer">
 
         {this.state.clusterFaceMarkers.map(marker =>
-          // <ClusterIcon className="collegeMarkerDefault"
+          // <clusterIcon className="collegeMarkerDefault"
           //   key={marker.id}
           //   lat={marker.lat}
           //   lng={marker.lng}
           // />
-          "bbb"
+          <img src={clusterIcon} className="collegeMarkerDefault"
+          key={marker.id}
+          lat={marker.lat}
+          lng={marker.lng}></img>
+          // "bbb"
         )}
-        <div className="collegeClusterLabel">{this.props.points.length}</div>
+        {/* <div className="collegeClusterLabel">{this.props.points.length}</div> */}
       </div>
     );
   }
