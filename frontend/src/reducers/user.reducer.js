@@ -120,9 +120,19 @@ const userReducer = (state = initialState, action) => {
         case "REQUEST_UPDATE_ROUTE": {
             return {
                 ...state,
-                updatingRoute: false
+                updatingRoute: true,
             }
         }
+        case "DELETE_DATA":
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    route: [],
+                    colleges: [],
+                }
+
+            }
         default:
             return state
     }

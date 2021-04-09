@@ -151,6 +151,7 @@ public class UserDataManager extends DatabaseManager {
       throw new IllegalStateException("Must open a database first.");
     }
     List<Integer> collegeIDs = new ArrayList<>();
+
     try (PreparedStatement getUser = getConnection().prepareStatement(
         "SELECT colleges FROM users WHERE id = ?")) {
       getUser.setString(1, username);
@@ -199,8 +200,45 @@ public class UserDataManager extends DatabaseManager {
     }
   }
 
-  public void deleteUser(String username) throws SQLException {
-
+  /**
+   * Deletes all data (firstname, lastname, route, colleges) for a specific user.
+   * @param username the user whose data needs to be deleted.
+   * @return JsonObject indicating whether deletion was successful.
+   * @throws SQLException when no database connection is found.
+   */
+  public boolean deleteUserData(String username) throws SQLException{
+    if (checkUserExists(username)) {
+      try (PreparedStatement delete = getConnection().prepareStatement(
+          "UPDATE users SET route = NULL, colleges = NULL WHERE id= ? ;"
+      )) {
+        delete.setString(1, username);
+        delete.executeUpdate();
+        return true;
+      }
+    }
+    return false;
   }
+
+  /**
+   * Deletes an user account.
+   * @param username the user account to delete.
+   * @return JsonObject indicating whether deletion was successful
+   * @throws SQLException when no database connection is found.
+   */
+  public boolean deleteUserAccount(String username) throws SQLException{
+    if (checkUserExists(username)) {
+      try (PreparedStatement delete = getConnection().prepareStatement(
+          "DELETE FROM users WHERE id = ?;"
+      )) {
+        delete.setString(1, username);
+        delete.executeUpdate();
+        return true;
+
+      }
+    }
+    return false;
+  }
+
+
 }
 

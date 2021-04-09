@@ -111,6 +111,7 @@ public final class Main {
       Spark.post("/deleteCollege", userAPI.getUserDeleteCollege());
       Spark.post("/getRoute", userAPI.getRoute());
       Spark.post("/deleteData", userAPI.deleteData());
+      Spark.post("/deleteAccount", userAPI.deleteAccount());
     });
     Spark.path("/api/college", () -> {
       Spark.get("/defaultColleges", collegeAPI.getDefaultColleges());

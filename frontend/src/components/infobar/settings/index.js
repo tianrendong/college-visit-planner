@@ -66,20 +66,32 @@ const AccordionDetails = withStyles((theme) => ({
     },
 }))(MuiAccordionDetails);
 
+const DIALOG_INFO = {
+    'deleteData': {
+        type: 'deleteData',
+        title: 'Clear your data?',
+        message: 'If you click confirm, we will delete all of your stored trip information from our database. You will not be able to recover from this action.',
+    },
+    'deleteAccount': {
+        type: 'deleteAccount',
+        title: 'Delete your account?',
+        message: 'If you click confirm, we will remove your account and all associated data from our database. You will not be able to recover from this action.',
+    },
+}
 
 function Settings(props) {
     const dispatch = useDispatch();
     const [expanded, setExpanded] = useState(false);
-    const [deleteDataDialogOpen, setDeleteDataDialogOpen] = useState(false);
+    const [dialogOpen, setDialogOpen] = useState(false);
+    const [dialogInfo, setDialogInfo] = useState({});
 
-    const [open, setOpen] = React.useState(false);
-
-  const handleOpenDialog = () => {
-    setDeleteDataDialogOpen(true);
+  const handleOpenDialog = (type) => {
+    setDialogInfo(DIALOG_INFO[type]);
+    setDialogOpen(true);
   };
 
   const handleCloseDialog = () => {
-    setDeleteDataDialogOpen(false);
+    setDialogOpen(false);
   };
 
     const handleExpand = (panel) => (event, isExpanded) => {
@@ -92,12 +104,21 @@ function Settings(props) {
         })
     }
 
-    const handleDeleteData = () => {
-        setDeleteDataDialogOpen(false);
-        dispatch({
-            payload: props.user.username,
-            type: 'REQUEST_DELETE_DATA'
-        })
+    const handleConfirm = () => {
+        console.log(dialogInfo.type)
+        if (dialogInfo.type === "deleteData") {
+            dispatch({
+                payload: props.user.username,
+                type: 'REQUEST_DELETE_DATA'
+            })
+        }
+        if (dialogInfo.type === "deleteAccount") {
+            dispatch({
+                payload: props.user.username,
+                type: 'REQUEST_DELETE_ACCOUNT'
+            }) 
+        }
+        setDialogOpen(false);
     }
 
     return (
@@ -131,10 +152,20 @@ function Settings(props) {
                         button
                         aria-haspopup="true"
                         aria-controls="lock-menu"
-                        onClick={handleOpenDialog}
+                        onClick={() => handleOpenDialog('deleteData')}
                     >
                         <ListItemText primary="Clear data" secondary="Clear all trip and collge information on your account" />
                     </ListItem>
+
+                    <ListItem
+                        button
+                        aria-haspopup="true"
+                        aria-controls="lock-menu"
+                        onClick={() => handleOpenDialog('deleteAccount')}
+                    >
+                        <ListItemText primary="Delete Account" secondary="Delete your entire account" />
+                    </ListItem>
+
                     <ListItem
                         button
                         aria-haspopup="true"
@@ -145,27 +176,29 @@ function Settings(props) {
                     </ListItem>
                 </List>
 
+
                 <Dialog
-                    open={deleteDataDialogOpen}
+                    open={dialogOpen}
                     onClose={handleCloseDialog}
                     aria-labelledby="alert-dialog-title"
                     aria-describedby="alert-dialog-description"
                 >
-                    <DialogTitle id="alert-dialog-title">Clear your data?</DialogTitle>
+                    <DialogTitle id="alert-dialog-title">{dialogInfo.title}</DialogTitle>
                     <DialogContent>
                         <DialogContentText id="alert-dialog-description">
-                            If you click confirm, we will remove your account and all associated data from our database. You will not be able to recover from this action.
+                            {dialogInfo.message}
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={handleCloseDialog} color="primary">
                             Cancel
-          </Button>
-                        <Button onClick={handleDeleteData} color="primary" autoFocus>
+                    </Button>
+                        <Button onClick={handleConfirm} color="primary" autoFocus>
                             Confirm
-          </Button>
+                    </Button>
                     </DialogActions>
                 </Dialog>
+                
 
             </div>
 
