@@ -1,12 +1,11 @@
 package edu.brown.cs.termproject.router;
 
 import com.google.maps.errors.ApiException;
+import com.pholser.junit.quickcheck.generator.Gen;
 import edu.brown.cs.termproject.collegegraph.Path;
-import edu.brown.cs.termproject.graph.Edge;
-import edu.brown.cs.termproject.graph.GenericEdge;
-import edu.brown.cs.termproject.graph.GenericGraph;
-import edu.brown.cs.termproject.graph.Vertex;
+import edu.brown.cs.termproject.graph.*;
 import edu.brown.cs.termproject.main.GoogleMapAPIManager;
+import org.checkerframework.checker.units.qual.A;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,39 +21,44 @@ import java.util.Stack;
  * The class for Traveling Salesman Problem algorithm.
  */
 public class TSP<V extends Vertex, E extends Edge<V>> {
-  public TSP(){}
+  public TSP() {}
 
   /**
    * Finds the route that visits all the Locatables in locations once.
-   * @param g compelte CollegeGraph
+   * @param g complete CollegeGraph
    * @return List of Locatable in the optimal visiting order.
    */
-  public List<V> findRoute(GenericGraph g) throws InterruptedException, ApiException, IOException {
+  public List<V> findRoute(Graph<V, E> g) throws InterruptedException, ApiException, IOException {
     //List<Locatable> route = new ArrayList<>();
-    Comparator<Path> comp = new Comparator<Path>() {
+    Comparator<E> comp = new Comparator<E>() {
       @Override
-      public int compare(Path o1, Path o2) {
+      public int compare(E o1, E o2) {
         return Double.compare(o1.getWeight(), o2.getWeight());
       }
     };
-    Set<E> mst = MST.mst(g,comp);
-    GenericGraph mstGraph = new GenericGraph(mst);
-    TSPGraph tsp = new TSPGraph(mstGraph);
+    Set<E> mst = MST.mst(g, comp);
+    GenericGraph<V, E> mstGraph = new GenericGraph<>(mst);
+    TSPGraph<V, E> tsp = new TSPGraph<>(mstGraph);
     Set<GenericEdge<V>> matches = tsp.perfectMatches(g.getVertices());
-    GenericGraph graph = new GenericGraph(matches);
-    TSPGraph tspMatches = new TSPGraph(graph);
-    List<V> route = tspMatches.createEulerCircuit();
-
-    return route;
+    GenericGraph<V, GenericEdge<V>> graph = new GenericGraph<V, GenericEdge<V>>(matches);
+    TSPGraph<V, GenericEdge<V>> tspMatches = new TSPGraph<V, GenericEdge<V>>(graph);
+    ArrayList<GenericEdge<V>> list = new ArrayList<>();
+    for(GenericEdge e : matches){
+      list.add(e);
+    }
+    for(int i=1; i<matches.size(); i++) {
+      tspMatches.addEdge(list.get(i).getStart(), list.get(i).getEnd());
+    }
+    return tspMatches.createEulerCircuit();
   }
 
   private class TSPGraph<V extends Vertex, E extends Edge<V>> {
     private GenericGraph initGraph;
     private ArrayList<V> eulerianCircuit = new ArrayList<>();
     private HashMap<V, ArrayList<V>> adj;
-    private HashMap<V, Boolean> isVisited = new HashMap<V, Boolean>();
+    private HashMap<V, Boolean> isVisited;
 
-    private TSPGraph(GenericGraph g) {
+    private TSPGraph(GenericGraph<V, E> g) {
       this.initGraph = g;
       Set<V> verts = g.getVertices();
       int V = verts.size();
@@ -103,10 +107,16 @@ public class TSP<V extends Vertex, E extends Edge<V>> {
       while (it.hasNext()) {
         E next = it.next();
         V src = next.getStart();
+        V dst = next.getEnd();
         if (numNeighbors.containsKey(src)) {
           numNeighbors.replace(src, 1 + numNeighbors.get(src));
         } else {
           numNeighbors.put(src, 1);
+        }
+        if (numNeighbors.containsKey(dst)) {
+          numNeighbors.replace(dst, 1 + numNeighbors.get(dst));
+        } else {
+          numNeighbors.put(dst, 1);
         }
       }
       return numNeighbors;
@@ -117,7 +127,6 @@ public class TSP<V extends Vertex, E extends Edge<V>> {
       List<V> odd = this.getOddDegreeVertices();
       Set<E> mst = this.initGraph.getEdges();
       ArrayList<GenericEdge<V>> newedges = findMatches(odd, newEdges);
-
       ArrayList<GenericEdge<V>> result = new ArrayList<>();
       for (GenericEdge<V> edge : newedges) {
         result.add(edge);
@@ -204,7 +213,7 @@ public class TSP<V extends Vertex, E extends Edge<V>> {
       adj.replace(u, arr);
       ArrayList<V> arr2 = adj.get(v);
       arr2.add(u);
-      adj.replace(u, arr2);
+      adj.replace(v, arr2);
     }
 
 
@@ -212,12 +221,12 @@ public class TSP<V extends Vertex, E extends Edge<V>> {
       HashMap<V, Integer> neighbors = this.numNeighbors();
       V first_odd = null;
       for (V key : neighbors.keySet()) {
-        if (neighbors.get(key) % 2 == 1) {
+        if (adj.get(key).size() % 2 == 1) {
           first_odd = key;
           break;
         }
       }
-      eulerUtil(first_odd);
+      this.eulerUtil(first_odd);
       ArrayList<V> result = this.clearRepeats();
       return result;
     }
@@ -226,10 +235,10 @@ public class TSP<V extends Vertex, E extends Edge<V>> {
       for (int i = 0; i < this.adj.get(vert).size(); i++) {
         V v = this.adj.get(vert).get(i);
         if (isValidNextEdge(vert, v)) {
-          eulerianCircuit.add(vert);
-          eulerianCircuit.add(v);
+          this.eulerianCircuit.add(vert);
+          this.eulerianCircuit.add(v);
           removeEdge(vert, v);
-          eulerUtil(v);
+          this.eulerUtil(v);
         }
       }
     }
@@ -239,38 +248,35 @@ public class TSP<V extends Vertex, E extends Edge<V>> {
       if (this.adj.get(u).size() == 1) {
         return true;
       }
-      int count1 = dfsCount(u, this.isVisited);
-
-      removeEdge(u, v);
-      int count2 = dfsCount(u, this.isVisited);
-
-      addEdge(u, v);
+      this.isVisited = new HashMap<V, Boolean>();
+      int count1 = dfsCount(u);
+      this.removeEdge(u, v);
+      this.isVisited = new HashMap<V, Boolean>();
+      int count2 = dfsCount(u);
+      this.addEdge(u, v);
       return (count1 > count2) ? false : true;
     }
 
-    int dfsCount(V s, HashMap<V, Boolean> isVisited) {
-      int count=0;
+    int dfsCount(V s) {
+      int count = 0;
       Stack<V> stack = new Stack<>();
 
       stack.push(s);
 
-      while(stack.empty() == false)
-      {
-        s = stack.peek();
-        stack.pop();
+      while (stack.empty() == false) {
+        s = stack.pop();
 
-        if(isVisited.get(s) == false)
-        {
-          isVisited.put(s, true);
+
+        if (this.isVisited.containsKey(s) == false) {
+          this.isVisited.put(s, true);
           count++;
         }
 
         Iterator<V> itr = adj.get(s).iterator();
 
-        while (itr.hasNext())
-        {
+        while (itr.hasNext()) {
           V v = itr.next();
-          if(!isVisited.get(v)) {
+          if (!this.isVisited.containsKey(v)) {
             stack.push(v);
           }
         }
@@ -282,15 +288,12 @@ public class TSP<V extends Vertex, E extends Edge<V>> {
       ArrayList<V> verts = this.eulerianCircuit;
       HashMap<V, Integer> vertsArray = new HashMap<>();
       ArrayList<V> resultCircuit = new ArrayList<V>();
-      for(int i=0; i<verts.size(); i++) {
-        int v = vertsArray.get(verts.get(i));
-        v++;
-        vertsArray.replace(verts.get(i), v);
-        if(vertsArray.get(verts.get(i)) == 1) {
+      for (int i = 0; i < verts.size(); i++) {
+        if (!vertsArray.containsKey(verts.get(i))) {
+          vertsArray.put(verts.get(i), 1);
           resultCircuit.add(verts.get(i));
         }
       }
-      resultCircuit.add(resultCircuit.get(0));
       return resultCircuit;
     }
   }
