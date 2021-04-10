@@ -50,6 +50,7 @@ const routeReducer = (state = initialState, action) => {
                 infobar: '',
             };
         case "NAVIGATE_BACK":
+            console.log(action)
             return {
                 ...state,
                 sidebar: (action.payload.loggedIn === true) ? 'userhome' : 'login',

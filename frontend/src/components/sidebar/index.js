@@ -74,8 +74,8 @@ const Sidebar = (props) => {
     )
 }
 
-const mapStateToProps = ({ rRoute: { sidebar, sidebarOpen, currentCollege }, rMap : { viewport } }) => 
-({ sidebar, sidebarOpen, currentCollege, viewport});
+const mapStateToProps = ({ rUser: { loggedIn }, rRoute: { sidebar, sidebarOpen, currentCollege }, rMap : { viewport } }) => 
+({ loggedIn, sidebar, sidebarOpen, currentCollege, viewport});
 
 export default connect(mapStateToProps)(Sidebar);
 

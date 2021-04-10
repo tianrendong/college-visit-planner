@@ -1,5 +1,10 @@
+ .mapPageContainer {
+    display: flex;
+    flex-direction: row-reverse;
+ }
+ 
  .mapContainer {
-     width: 100vw;
+     width: 77vw;
      height: 100vh;
  }
 
