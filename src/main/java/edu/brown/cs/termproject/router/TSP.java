@@ -33,6 +33,14 @@ public class TSP<V extends Vertex, E extends Edge<V>> {
         return Double.compare(o1.getWeight(), o2.getWeight());
       }
     };
+    if(g.getVertices().size() ==1){
+      List<V> list = new ArrayList<>();
+      Set<V> verts = g.getVertices();
+      for(V v : verts ){
+        list.add(v);
+      }
+      return list;
+    }
     Set<E> mst = MST.mst(g, comp);
     GenericGraph<V, E> mstGraph = new GenericGraph<>(mst);
     TSPGraph<V, E> tsp = new TSPGraph<>(mstGraph);
