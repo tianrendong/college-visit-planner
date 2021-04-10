@@ -108,17 +108,13 @@ public class CollegeSQLManager extends DatabaseManager {
     if (getConnection() == null) {
       throw new IllegalStateException("Must open a database first.");
     }
-System.out.println("a");
     List<College> colleges = new ArrayList<College>();
     try (PreparedStatement getColleges = getConnection().prepareStatement(
         "SELECT id, name, latitude, longitude, city, state, url, description, nearbyColleges FROM colleges WHERE "
             + condition + ";")) {
-      System.out.println("b");
       try (ResultSet rs = getColleges.executeQuery()) {
         if (!rs.isClosed()) {
-          System.out.println("c");
           while (rs.next()) {
-            System.out.println("d");
             College newCollege = new College(
                 rs.getInt(1),
                 rs.getString(2),
@@ -127,8 +123,6 @@ System.out.println("a");
                 rs.getString(5),
                 rs.getString(6)
             );
-
-            System.out.println(rs.getInt(1));
 
             String url =  rs.getString(7);
             if (url != null) {

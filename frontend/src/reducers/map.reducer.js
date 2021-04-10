@@ -26,6 +26,12 @@ const mapReducer = (state = initialState, action) => {
                 selectedCluster: '',
                 viewport: 'clusters',
             };
+        case "UPDATE_CLUSTERS":
+            return {
+                ...state,
+                selectedCluster: '',
+                viewport: 'clusters',
+            };
         case "EXPAND_CLUSTER":
             console.log(action.payload.clusterIndex)
             return {

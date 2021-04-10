@@ -45,13 +45,13 @@ function Map(props) {
 
     // calculate clusters
     const getCollegeClusters = () => {
-        console.log(mapOptions)
+        // console.log(mapOptions)
         const clusters = supercluster(defaultColleges, {
             minZoom: 0,
             maxZoom: 16,
             radius: 60,
         });
-        console.log(clusters(mapOptions))
+        // console.log(clusters(mapOptions))
         return clusters(mapOptions);
     };
 
@@ -86,19 +86,6 @@ function Map(props) {
     }
 
     const handleApiLoaded = (map, maps) => {
-        // Store a reference to the google map instance in store
-        // const bounds = map.getBounds();
-        // const ne = bounds.getNorthEast();
-        // const sw = bounds.getSouthWest();
-        // const mapBounds = {
-        //     ne: ne,
-        //     nw: {lat: ne.lat, lng: sw.lng},
-        //     se: {lat: sw.lat, lng: ne.lng},
-        //     sw: sw,
-        // }
-        // console.log(mapBounds)
-        // console.log(map.getCenter());
-        // console.log(typeof(map.getBounds()));
         dispatch({
             payload: { map, maps },
             type: 'ON_LOADED',

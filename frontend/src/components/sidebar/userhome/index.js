@@ -17,7 +17,7 @@ const Userhome = (props) => {
     useEffect(() => {
         console.log(props.error);
         if (props.error !== '') {
-            enqueueSnackbar(props.error, {variant: 'error'});
+            enqueueSnackbar(props.error, { variant: 'error' });
         }
     }, [props.error])
 
@@ -31,10 +31,16 @@ const Userhome = (props) => {
     }
 
     const handleNavigateRoute = () => {
-        dispatch({
-            payload: props.user.colleges,
-            type: 'REQUEST_UPDATE_ROUTE',
-        })
+        if (props.clusterUpdated === true) {
+            dispatch({
+                type: 'UPDATE_CLUSTERS',
+            })
+        } else {
+            dispatch({
+                payload: props.user.colleges,
+                type: 'REQUEST_UPDATE_CLUSTERS',
+            })
+        }
     }
 
     const handleNavigateSettings = () => {
@@ -42,7 +48,7 @@ const Userhome = (props) => {
             dispatch(routeActions.navigateInfobar(''));
         } else {
             dispatch(routeActions.navigateInfobar('settings'));
-        } 
+        }
     }
 
     console.log(props.updatingRoute)
@@ -53,24 +59,25 @@ const Userhome = (props) => {
                 <h1 className="sidebarTitle Name">{props.user.firstname}!</h1>
             </div>
             <button className="optionButton" onClick={handleNavigateColleges}>
-                <MyCollegeIcon className="userhomeIcons" style={{ width: 55, height: 55 }}/>
+                <MyCollegeIcon className="userhomeIcons" style={{ width: 55, height: 55 }} />
                 <p className="optionText" >Colleges</p>
             </button>
             <button className="optionButton" onClick={handleNavigateRoute}>
-                <RouteIcon className="userhomeIcons" style={{ width: 50, height: 50 }}/>
+                <RouteIcon className="userhomeIcons" style={{ width: 50, height: 50 }} />
                 <p className="optionText">Route</p>
-                { props.updatingRoute &&  <CircularProgress style={{margin: 20, width: 30, height: 30}}/>}
+                {props.updatingRoute && <CircularProgress style={{ margin: 20, width: 30, height: 30 }} />}
             </button>
             <button className="optionButton" onClick={handleNavigateSettings}>
-                <SettingsIcon className="userhomeIcons" style={{ width: 45, height: 45 }}/>
+                <SettingsIcon className="userhomeIcons" style={{ width: 45, height: 45 }} />
                 <p className="optionText">Settings</p>
             </button>
-            {/* <Icon style={{ width: 50, height: 50 }} /> */}
         </div>
     );
 
 }
 
-const mapStateToProps = ({ rRoute: { infobar }, rUser: { user, error, updatingRoute } }) => ({ infobar, user, error, updatingRoute });
+const mapStateToProps =
+    ({ rRoute: { infobar }, rUser: { user, error, updatingRoute, clusterUpdated } }) => 
+    ({ infobar, user, error, updatingRoute, clusterUpdated });
 
 export default connect(mapStateToProps)(Userhome);

@@ -1,12 +1,12 @@
 const initialState = {
-    loginForm: {},
     loggedIn: false,
     updatingRoute: false,
     signingUp: false,
     signedUp: false,
     error: '',
     user: null,
-    dataConsent: false,
+    clusterUpdated: false,
+    routesUpdated: [],
 }
 
 const userReducer = (state = initialState, action) => {
@@ -23,7 +23,9 @@ const userReducer = (state = initialState, action) => {
                 loggingIn: false,
                 loggedIn: true,
                 user: action.payload.user,
-                error: ''
+                error: '',
+                clusterUpdated: action.payload.user.hasOwnProperty("route"),
+                routesUpdated: action.payload.user.hasOwnProperty("route") ? Array(action.payload.user.route.length).fill().map((x,i)=>i) : [],
             };
         case "LOGIN_FAILURE":
             return {
@@ -65,7 +67,6 @@ const userReducer = (state = initialState, action) => {
                 ...state,
                 error: ''
             };
-
         case "UPDATE_ROUTE":
             return {
                 ...state,
@@ -87,6 +88,8 @@ const userReducer = (state = initialState, action) => {
                 console.log("b")
                 return {
                     ...state,
+                    clusterUpdated: false,
+                    routesUpdated: [],
                     user: {
                         ...state.user,
                         colleges: [...state.user.colleges, action.payload.newCollege],
@@ -106,6 +109,8 @@ const userReducer = (state = initialState, action) => {
             console.log(action);
             return {
                 ...state,
+                clusterUpdated: false,
+                routesUpdated: [],
                 user: {
                     ...state.user,
                     colleges: [...state.user.colleges.filter(c => c.id !== action.payload.deletedCollegeID)],
@@ -131,6 +136,16 @@ const userReducer = (state = initialState, action) => {
                     colleges: [],
                 }
 
+            }
+        case "UPDATE_CLUSTERS":
+            return {
+                ...state,
+                clusterUpdated: true,
+                routesUpdated: action.payload ? [] : state.routesUpdated,
+                user: {
+                    ...state.user,
+                    route: action.payload ? action.payload.clusters : state.user.route
+                }
             }
         default:
             return state

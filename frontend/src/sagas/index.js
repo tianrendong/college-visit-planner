@@ -12,6 +12,7 @@ export default function* watchAll() {
         takeLatest('REQUEST_DELETE_COLLEGE', UserSaga.deleteCollegeAsync),
 
         takeLatest('REQUEST_UPDATE_ROUTE', UserSaga.updateRouteAsync),
+        takeLatest('REQUEST_UPDATE_CLUSTERS', UserSaga.updateClustersAsync),
         takeLatest('REQUEST_DELETE_DATA', UserSaga.deleteDataAsync),
         takeLatest('REQUEST_DELETE_ACCOUNT', UserSaga.deleteAccountAsync),
         takeLatest('REQUEST_COLLEGE_INFO', CollegeSaga.getCollegeInfoAsync),

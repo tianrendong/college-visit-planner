@@ -5,6 +5,7 @@ export const UserSaga = {
     loginAsync,
     signupAsync,
     updateRouteAsync,
+    updateClustersAsync,
     addCollegeAsync,
     deleteCollegeAsync,
     deleteDataAsync,
@@ -50,6 +51,16 @@ export function* updateRouteAsync(payload) {
         type: 'UPDATE_ROUTE',
     });
 }
+
+export function* updateClustersAsync(payload) {
+    const response = yield call(userAPI.requestUpdateClusters, payload.payload)
+    console.log(response);
+    yield put({
+        payload: { clusters: response },
+        type: 'UPDATE_CLUSTERS',
+    });
+}
+
 
 export function* addCollegeAsync(payload) {
     console.log(payload);

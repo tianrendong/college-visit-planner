@@ -47,10 +47,9 @@ public class UserAPI extends API {
   public Route getUserAddCollege() {
     return userAddCollege;
   }
-  public Route getUserDeleteCollege() {
-    return userDeleteCollege;
-  }
+  public Route getUserDeleteCollege() { return userDeleteCollege; }
   public Route getRoute() { return updateRoute; }
+  public Route getClusters() { return clusters; }
   public Route deleteData() { return deleteData; }
   public Route deleteAccount() { return deleteAccount; }
 
@@ -77,7 +76,6 @@ public class UserAPI extends API {
   };
 
   private final Route userAddCollege = (request, response) -> {
-    System.out.println(request.body());
     JsonObject data = GSON.fromJson(request.body(), JsonObject.class);
     String username = data.get("username").getAsString();
     int collegeID = data.get("collegeID").getAsInt();
@@ -85,29 +83,41 @@ public class UserAPI extends API {
   };
 
   private final Route userDeleteCollege = (request, response) -> {
-    System.out.println(request.body());
     JsonObject data = GSON.fromJson(request.body(), JsonObject.class);
     String username = data.get("username").getAsString();
     int collegeID = data.get("collegeID").getAsInt();
-    System.out.println(username);
-    System.out.println(collegeID);
     return userDB.deleteCollege(username, collegeID);
   };
 
   private final Route deleteData = (request, response) -> {
-    System.out.println(request.body());
     JsonObject data = GSON.fromJson(request.body(), JsonObject.class);
     String username = data.get("username").getAsString();
-    System.out.println(username);
     return userDB.deleteUserData(username);
   };
 
   private final Route deleteAccount = (request, response) -> {
-    System.out.println(request.body());
     JsonObject data = GSON.fromJson(request.body(), JsonObject.class);
     String username = data.get("username").getAsString();
-    System.out.println(username);
     return userDB.deleteUserAccount(username);
+  };
+
+  private final Route clusters = (request, response) -> {
+    JsonObject data = GSON.fromJson(request.body(), JsonObject.class);
+    JsonArray collegesInJson = data.get("colleges").getAsJsonArray();
+    List<College> colleges = new Gson().fromJson(collegesInJson,
+        new TypeToken<List<College>>() { }.getType());
+    System.out.println(colleges);
+
+    double maxDistance = 200.0;
+    Clustering<College> clustering = new Clustering<>(maxDistance);
+    //clustering algorithm
+    Map<Point, List<College>> clusterMap = clustering.makeClusters(colleges);
+    List<List<College>> clusterList = new ArrayList<>();
+    for (Map.Entry<Point, List<College>> entry : clusterMap.entrySet()) {
+      clusterList.add(entry.getValue());
+    }
+    System.out.println(clusterList);
+    return GSON.toJson(clusterList);
   };
 
   private final Route updateRoute = (request, response) -> {
@@ -115,7 +125,6 @@ public class UserAPI extends API {
     JsonArray collegesInJson = data.get("colleges").getAsJsonArray();
     List<College> colleges = new Gson().fromJson(collegesInJson,
         new TypeToken<List<College>>() { }.getType());
-    System.out.println(118);
     System.out.println(colleges);
 
     // TODO: set maxDistance to user input

@@ -1,11 +1,8 @@
 package edu.brown.cs.termproject.router;
 
 import com.google.maps.errors.ApiException;
-import com.pholser.junit.quickcheck.generator.Gen;
-import edu.brown.cs.termproject.collegegraph.Path;
 import edu.brown.cs.termproject.graph.*;
 import edu.brown.cs.termproject.main.GoogleMapAPIManager;
-import org.checkerframework.checker.units.qual.A;
 
 import java.io.IOException;
 import java.util.ArrayList;

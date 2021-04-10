@@ -163,7 +163,6 @@ public class UserDataManager extends DatabaseManager {
             if (colleges != null) {
               collegeIDs = new Gson().fromJson(colleges, new TypeToken<List<Integer>>() {
               }.getType());
-              System.out.println(collegeIDs);
             }
           }
         }

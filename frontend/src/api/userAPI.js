@@ -3,6 +3,7 @@ export const userAPI = {
     requestSignup,
     requestLogout,
     requestUpdateRoute,
+    requestUpdateClusters,
     requestAddCollege,
     requestDeleteCollege,
     requestDeleteData,
@@ -66,6 +67,19 @@ function requestUpdateRoute(payload) {
     return fetch(request)
         .then(response => response.json())
         .then(data => data);
+}
+
+function requestUpdateClusters(payload) {
+    console.log(payload)
+    const request = new Request("/api/user/getClusters", {
+        method: 'POST',
+        body: JSON.stringify({colleges: payload})
+    })
+    return fetch(request)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)
+            return data});
 }
 
 

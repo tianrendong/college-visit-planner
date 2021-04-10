@@ -1,9 +1,7 @@
 package edu.brown.cs.termproject.api;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
 import edu.brown.cs.termproject.airport.Airport;
 import edu.brown.cs.termproject.collegegraph.College;
 import edu.brown.cs.termproject.database.CollegeSQLManager;
@@ -67,15 +65,13 @@ public class CollegeAPI extends API{
     JsonObject payload = new JsonObject();
     payload.addProperty("college", GSON.toJson(college)); // add college
 
-    System.out.println(college);
-
     List<Airport> airports = Main.getAirportDatabase().getAllAirports();
     Airport airport = (Airport) nearest.findNearestLocation(college, airports);
     payload.addProperty("nearbyAirport", GSON.toJson(airport)); // add airport
 
     if (college.getNearbyColleges() != null) {
       List<College> colleges = collegeDB.getCollegeByID(college.getNearbyColleges());
-      payload.addProperty("nearbyColleges", GSON.toJson(colleges)); // add airport
+      payload.addProperty("nearbyColleges", GSON.toJson(colleges)); // add nearby colleges
     }
 
     return payload;

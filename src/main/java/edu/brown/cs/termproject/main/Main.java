@@ -110,6 +110,7 @@ public final class Main {
       Spark.post("/addCollege", userAPI.getUserAddCollege());
       Spark.post("/deleteCollege", userAPI.getUserDeleteCollege());
       Spark.post("/getRoute", userAPI.getRoute());
+      Spark.post("/getClusters", userAPI.getClusters());
       Spark.post("/deleteData", userAPI.deleteData());
       Spark.post("/deleteAccount", userAPI.deleteAccount());
     });

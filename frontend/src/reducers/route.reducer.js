@@ -47,6 +47,11 @@ const routeReducer = (state = initialState, action) => {
                 ...state,
                 infobar: '',
             };
+        case "UPDATE_CLUSTERS":
+            return {
+                ...state,
+                infobar: '',
+            };
         case "EXPAND_CLUSTER":
             return {
                 ...state,
@@ -73,7 +78,7 @@ const routeReducer = (state = initialState, action) => {
                 sidebarOpen: true,
                 sidebar: 'collegeInfo',
                 infobar: '',
-                currentCollege: action.payload.collegeInfo, 
+                currentCollege: action.payload.collegeInfo,
             }
         default:
             return state
