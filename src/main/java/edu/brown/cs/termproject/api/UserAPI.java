@@ -4,12 +4,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonArray;
 import com.google.gson.reflect.TypeToken;
 import edu.brown.cs.termproject.collegegraph.College;
+import edu.brown.cs.termproject.collegegraph.CollegeGraph;
+import edu.brown.cs.termproject.collegegraph.Path;
 import edu.brown.cs.termproject.database.UserDataManager;
 import edu.brown.cs.termproject.main.Encryption;
 import edu.brown.cs.termproject.main.User;
 import edu.brown.cs.termproject.router.Clustering;
 import edu.brown.cs.termproject.router.Locatable;
 import edu.brown.cs.termproject.router.Point;
+import edu.brown.cs.termproject.router.TSP;
 import spark.Route;
 
 import com.google.gson.Gson;
@@ -112,40 +115,60 @@ public class UserAPI extends API {
     JsonArray collegesInJson = data.get("colleges").getAsJsonArray();
     List<College> colleges = new Gson().fromJson(collegesInJson,
         new TypeToken<List<College>>() { }.getType());
+    System.out.println(118);
     System.out.println(colleges);
+
     // TODO: set maxDistance to user input
     double maxDistance = 200.0;
+    Clustering<College> clustering = new Clustering<>(maxDistance);
+
     //clustering algorithm
-    Clustering clustering = new Clustering(maxDistance);
     Map<Point, List<College>> clusterMap = clustering.makeClusters(colleges);
     List<List<College>> clusterList = new ArrayList<>();
     for (Map.Entry<Point, List<College>> entry : clusterMap.entrySet()) {
       clusterList.add(entry.getValue());
     }
-    // TODO: TSP on each cluster
-//    for (List<College> cluster : clusters) {
-//      //TSP on each cluster
-//    }
+    System.out.println(131);
+    System.out.println(clusterList);
+
+    List<List<College>> route = new ArrayList<>();
+
+    // TSP within each cluster, and add ordered cluster to route
+    TSP<College, Path> tspFinder = new TSP<>();
+    for (List<College> cluster : clusterList) {
+      CollegeGraph clusterGraph = new CollegeGraph(cluster);
+      System.out.println(140);
+      System.out.println(clusterGraph);
+      List<College> orderedCluster = tspFinder.findRoute(clusterGraph);
+      System.out.println(143);
+      System.out.println(orderedCluster);
+      route.add(orderedCluster);
+    }
+    System.out.println(147);
+    System.out.println(route);
+
+    // Store this route in the user database
+
 
     // TODO: update this route for the user(store in DB)
-    // return route
+     return GSON.toJson(route);
 
 
-    College c1 = new College(1, "Massachusetts Institute of Technology", 42.360001, -71.092003,
-        "placeholder", "placeholder");
-    College c2 = new College(2, "Stanford University", 37.428230, -122.168861,
-        "placeholder", "placeholder");
-    College c3 = new College(3, "Harvard University", 42.374443, -71.116943,
-        "placeholder", "placeholder");
-    College c4 = new College(4, "California Institute of Technology", 34.138000, -118.125000,
-        "placeholder", "placeholder");
-    College c5 = new College(4, "UCLA", 34.05224385538, -118.2436864078,
-        "placeholder", "placeholder");
-
-    List<College> cluster1 = new ArrayList<>(Arrays.asList(c2, c4, c5));
-    List<College> cluster2 = new ArrayList<>(Arrays.asList(c1, c3));
-    List<List<College>> route1= new ArrayList<>(Arrays.asList(cluster1, cluster2));
-
-    return GSON.toJson(route1);
+//    College c1 = new College(1, "Massachusetts Institute of Technology", 42.360001, -71.092003,
+//        "placeholder", "placeholder");
+//    College c2 = new College(2, "Stanford University", 37.428230, -122.168861,
+//        "placeholder", "placeholder");
+//    College c3 = new College(3, "Harvard University", 42.374443, -71.116943,
+//        "placeholder", "placeholder");
+//    College c4 = new College(4, "California Institute of Technology", 34.138000, -118.125000,
+//        "placeholder", "placeholder");
+//    College c5 = new College(4, "UCLA", 34.05224385538, -118.2436864078,
+//        "placeholder", "placeholder");
+//
+//    List<College> cluster1 = new ArrayList<>(Arrays.asList(c2, c4, c5));
+//    List<College> cluster2 = new ArrayList<>(Arrays.asList(c1, c3));
+//    List<List<College>> route1= new ArrayList<>(Arrays.asList(cluster1, cluster2));
+//
+//    return GSON.toJson(route1);
   };
 }

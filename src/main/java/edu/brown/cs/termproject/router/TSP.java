@@ -2,10 +2,7 @@ package edu.brown.cs.termproject.router;
 
 import com.google.maps.errors.ApiException;
 import edu.brown.cs.termproject.collegegraph.Path;
-import edu.brown.cs.termproject.graph.Edge;
-import edu.brown.cs.termproject.graph.GenericEdge;
-import edu.brown.cs.termproject.graph.GenericGraph;
-import edu.brown.cs.termproject.graph.Vertex;
+import edu.brown.cs.termproject.graph.*;
 import edu.brown.cs.termproject.main.GoogleMapAPIManager;
 
 import java.io.IOException;
@@ -22,30 +19,28 @@ import java.util.Stack;
  * The class for Traveling Salesman Problem algorithm.
  */
 public class TSP<V extends Vertex, E extends Edge<V>> {
-  public TSP(){}
+  public TSP() {}
 
   /**
    * Finds the route that visits all the Locatables in locations once.
-   * @param g compelte CollegeGraph
+   * @param g complete CollegeGraph
    * @return List of Locatable in the optimal visiting order.
    */
-  public List<V> findRoute(GenericGraph g) throws InterruptedException, ApiException, IOException {
+  public List<V> findRoute(Graph<V, E> g) throws InterruptedException, ApiException, IOException {
     //List<Locatable> route = new ArrayList<>();
-    Comparator<Path> comp = new Comparator<Path>() {
+    Comparator<E> comp = new Comparator<E>() {
       @Override
-      public int compare(Path o1, Path o2) {
+      public int compare(E o1, E o2) {
         return Double.compare(o1.getWeight(), o2.getWeight());
       }
     };
-    Set<E> mst = MST.mst(g,comp);
-    GenericGraph mstGraph = new GenericGraph(mst);
-    TSPGraph tsp = new TSPGraph(mstGraph);
+    Set<E> mst = MST.mst(g, comp);
+    GenericGraph<V, E> mstGraph = new GenericGraph<>(mst);
+    TSPGraph<V, E> tsp = new TSPGraph<>(mstGraph);
     Set<GenericEdge<V>> matches = tsp.perfectMatches(g.getVertices());
-    GenericGraph graph = new GenericGraph(matches);
-    TSPGraph tspMatches = new TSPGraph(graph);
-    List<V> route = tspMatches.createEulerCircuit();
-
-    return route;
+    GenericGraph<V, GenericEdge<V>> graph = new GenericGraph<V, GenericEdge<V>>(matches);
+    TSPGraph<V, GenericEdge<V>> tspMatches = new TSPGraph<V, GenericEdge<V>>(graph);
+    return tspMatches.createEulerCircuit();
   }
 
   private class TSPGraph<V extends Vertex, E extends Edge<V>> {
@@ -54,7 +49,7 @@ public class TSP<V extends Vertex, E extends Edge<V>> {
     private HashMap<V, ArrayList<V>> adj;
     private HashMap<V, Boolean> isVisited = new HashMap<V, Boolean>();
 
-    private TSPGraph(GenericGraph g) {
+    private TSPGraph(GenericGraph<V, E> g) {
       this.initGraph = g;
       Set<V> verts = g.getVertices();
       int V = verts.size();
