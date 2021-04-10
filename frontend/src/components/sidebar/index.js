@@ -13,6 +13,7 @@ import { routeActions } from "../../actions/routeActions";
 import Drawer from '@material-ui/core/Drawer';
 import IconButton from '@material-ui/core/IconButton';
 import PersonIcon from '@material-ui/icons/Person';
+import ReplyIcon from '@material-ui/icons/Reply';
 import CloseIcon from '@material-ui/icons/Close';
 
 const routes = {
@@ -21,6 +22,12 @@ const routes = {
     'userhome': <Userhome />,
     'collegeInfo': <CollegeInfo />,
     'routeInfo': <RouteInfo/>
+}
+
+const back = {
+    'clusters': 'default',
+    'zoomedIn': 'clusters',
+    'default': 'default'
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -37,30 +44,27 @@ const Sidebar = (props) => {
     const classes = useStyles();
     const dispatch = useDispatch();
 
-    const toggleSidebarOpen = () => {
+    const handleGoBack = () => {
         dispatch({
-            type: 'TOGGLE_SIDEBAR'
-        });
-        dispatch(routeActions.navigateInfobar(''));
+            payload: {viewport: back[props.viewport], loggedIn: props.loggedIn},
+            type: 'NAVIGATE_BACK',
+        })
     }
 
     return (
         <div className={classes.root} >
-            <IconButton
-                onClick={() => toggleSidebarOpen()}>
-                <PersonIcon fontSize="large" className="iconMargin"/>
-            </IconButton>
             <Drawer 
                 classes={{paper: classes.paper}}
                 variant="persistent"
                 anchor="left"
-                open={props.sidebarOpen}
+                open={true}
                 docked='true'>
                 <div className="drawerHeader">
-                    <IconButton
-                        onClick={() => toggleSidebarOpen()}>
-                        <CloseIcon className="closeIcon" />
+                   { ((props.viewport !== 'default') || (props.currentCollege !== null)) && 
+                    <IconButton size="large" onClick={handleGoBack}>
+                        <ReplyIcon fontSize="large" className="iconMargin"/>
                     </IconButton>
+                }    
                 </div>
                 <div className="sidebarInnerContainer">
                     {routes[props.sidebar]}
@@ -70,7 +74,8 @@ const Sidebar = (props) => {
     )
 }
 
-const mapStateToProps = ({ rRoute: { sidebar, sidebarOpen} }) => ({ sidebar, sidebarOpen});
+const mapStateToProps = ({ rRoute: { sidebar, sidebarOpen, currentCollege }, rMap : { viewport } }) => 
+({ sidebar, sidebarOpen, currentCollege, viewport});
 
 export default connect(mapStateToProps)(Sidebar);
 
