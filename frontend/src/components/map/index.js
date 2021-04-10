@@ -7,7 +7,6 @@ import CollegeMarker from './Marker/collegeMarker.js'
 import RouteClusterMarker from './routeClusterMarker.js'
 import ClusterMarker from './Marker/clusterMarker.js';
 import supercluster from 'points-cluster';
-import Slider from '@material-ui/core/Slider';
 import { ClusterSlider } from './clusterSlider'
 import { findCenter } from './geocoordinateCalculations';
 import { renderDirections, clearDirections } from './directionsRenderer'
@@ -32,7 +31,13 @@ function Map(props) {
 
     const handleSliderChange = (event, value) => {
         setSliderValue(value);
-
+        dispatch({
+            payload: {
+                colleges: props.user.colleges,
+                radius: value,
+            },
+            type: 'REQUEST_UPDATE_CLUSTERS',
+        })
     }
 
 
@@ -211,7 +216,7 @@ function Map(props) {
         </div>
         {(props.viewport === 'clusters') &&
             <div className="sliderContainer">
-                <ClusterSlider valueLabelDisplay="off" defaultValue={300} step={60} min={240} max={420} 
+                <ClusterSlider valueLabelDisplay="off" defaultValue={350} step={100} min={350} max={550} 
                 value={sliderValue} onChangeCommitted={handleSliderChange}/>
             </div>
          }

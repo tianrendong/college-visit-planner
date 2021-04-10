@@ -126,13 +126,13 @@ public class UserAPI extends API {
   private final Route clusters = (request, response) -> {
     JsonObject data = GSON.fromJson(request.body(), JsonObject.class);
     JsonArray collegesInJson = data.get("colleges").getAsJsonArray();
+    Integer radius = data.get("radius").getAsInt();
     List<College> colleges = new Gson().fromJson(collegesInJson,
         new TypeToken<List<College>>() {
         }.getType());
     System.out.println(colleges);
 
-    double maxDistance = 300.0;
-    Clustering<College> clustering = new Clustering<>(maxDistance);
+    Clustering<College> clustering = new Clustering<>(radius);
     Map<Point, List<College>> clusterMap = clustering.makeClusters(colleges);
     List<List<College>> clusterList = new ArrayList<>();
     for (Map.Entry<Point, List<College>> entry : clusterMap.entrySet()) {

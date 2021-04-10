@@ -37,7 +37,10 @@ const Userhome = (props) => {
             })
         } else {
             dispatch({
-                payload: props.user.colleges,
+                payload: {
+                    colleges: props.user.colleges,
+                    radius: 350,
+                },
                 type: 'REQUEST_UPDATE_CLUSTERS',
             })
         }

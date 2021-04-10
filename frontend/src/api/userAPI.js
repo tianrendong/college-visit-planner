@@ -72,7 +72,7 @@ function requestUpdateClusters(payload) {
     console.log(payload)
     const request = new Request("/api/user/getClusters", {
         method: 'POST',
-        body: JSON.stringify({colleges: payload})
+        body: JSON.stringify(payload)
     })
     return fetch(request)
         .then(response => response.json())
