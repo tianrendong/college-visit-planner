@@ -38,7 +38,7 @@ let directionsBorderDisplay;
 function setDirectionsRenderer() {
     directionsInnerDisplay = new window.google.maps.DirectionsRenderer({
         suppressInfoWindows: true,
-        suppressMarkers: true,
+        // suppressMarkers: true,
         polylineOptions: renderOptionsMain,
     });
     directionsBorderDisplay = new window.google.maps.DirectionsRenderer({

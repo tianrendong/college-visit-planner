@@ -72,9 +72,9 @@ const userReducer = (state = initialState, action) => {
                 error: '',
                 user: {
                     ...state.user,
-                    updatingRoute: false,
                     route: action.payload.route,
-                }
+                },
+                updatingRoute: false,
             };
         case "REQUEST_ADD_COLLEGE":
             return {

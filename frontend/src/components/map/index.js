@@ -22,85 +22,107 @@ const MAP = {
 
 function Map(props) {
     const [clustersDisplayed, setClustersDisplayed] = useState([]);
-    const [mapOptions, setMapOptions] = useState(
-        {
-            center: MAP.defaultCenter,
-            zoom: MAP.defaultZoom,
-        });
+    const [defaultColleges, setDefaultColleges] = useState([]);
+    const [mapOptions, setMapOptions] = useState({});
 
     const dispatch = useDispatch();
 
+    // request default colleges when page is first loaded
     useEffect(() => {
         dispatch({
             type: 'REQUEST_DEFAULT_COLLEGES',
         })
     }, [])
 
-    // const defaultMarkers = () => Object.values(props.defaultColleges).map((college, index) => (
-    //     <CollegeMarker lat={college.lat} lng={college.lon}
-    //         college={college} index={index} />
-    // ))
+    // parse default colleges and store in local state right after we get them from backend
+    useEffect(() => {
+        setDefaultColleges(Object.values(props.defaultColleges).map((c, index) => ({
+            id: c.id,
+            lat: c.lat,
+            lng: c.lon
+        })))
+    }, [props.defaultColleges])
 
-    const getColleges = () => Object.values(props.defaultColleges).map((c, index) => ({
-        id: c.id, 
-        lat: c.lat,
-        lng: c.lon
-    }));
-
+    // calculate clusters
     const getCollegeClusters = () => {
-        const clusters = supercluster(getColleges(), {
+        console.log(mapOptions)
+        const clusters = supercluster(defaultColleges, {
             minZoom: 0,
             maxZoom: 16,
             radius: 60,
         });
         console.log(clusters(mapOptions))
-        return clusters(mapOptions); 
+        return clusters(mapOptions);
     };
 
     const createClusters = () => {
         setClustersDisplayed(
-            mapOptions.hasOwnProperty("bounds") ? 
-            getCollegeClusters().map(({ wx, wy, numPoints, points }) => ({
-                lat: wy,
-                lng: wx,
-                numPoints,
-                id: `${numPoints}_${points[0].id}`,
-                points,
+            mapOptions.hasOwnProperty("bounds") ?
+                getCollegeClusters().map(({ wx, wy, numPoints, points }) => ({
+                    lat: wy,
+                    lng: wx,
+                    numPoints,
+                    id: `${numPoints}_${points[0].id}`,
+                    points,
                 }))
                 : [],
         );
     };
 
     const handleMapChange = ({ center, zoom, bounds }) => {
-        setMapOptions({
-                    center,
-                    zoom,
-                    bounds,
-                },
+        setMapOptions({center, zoom, bounds},
         );
     };
 
-    useEffect(() => {
-        createClusters(); 
-    }, [mapOptions])
+    useEffect(createClusters, [mapOptions])
 
     function getRouteClusters() {
         return Object.values(props.user.route).map(cluster =>
             findCenter(Object.values(cluster).map(college => [college.lat, college.lon]))
         )
     }
-
     function getCurrentRouteCluster() {
         return Object.values(Object.values(props.user.route)[props.selectedCluster]);
     }
 
     const handleApiLoaded = (map, maps) => {
         // Store a reference to the google map instance in store
+        // const bounds = map.getBounds();
+        // const ne = bounds.getNorthEast();
+        // const sw = bounds.getSouthWest();
+        // const mapBounds = {
+        //     ne: ne,
+        //     nw: {lat: ne.lat, lng: sw.lng},
+        //     se: {lat: sw.lat, lng: ne.lng},
+        //     sw: sw,
+        // }
+        // console.log(mapBounds)
+        // console.log(map.getCenter());
+        // console.log(typeof(map.getBounds()));
         dispatch({
             payload: { map, maps },
             type: 'ON_LOADED',
         })
     }
+
+    useEffect(() => {
+        if ((props.mapRef !== null) && (props.mapsRef !== null)) {
+            const bounds = props.mapRef.getBounds();
+            const ne = bounds.getNorthEast();
+            const sw = bounds.getSouthWest();
+            const mapBounds = {
+                ne: ne,
+                nw: {lat: ne.lat, lng: sw.lng},
+                se: {lat: sw.lat, lng: ne.lng},
+                sw: sw,
+        }
+            handleMapChange({
+                center: props.mapRef.getCenter(), 
+                zoom: props.mapRef.getZoom(), 
+                bounds: mapBounds})
+        }
+    }
+        , [props.mapRef, props.mapsRef])
 
     const distanceToMouse = (pt, mp) => {
         if (pt && mp) {
@@ -154,49 +176,40 @@ function Map(props) {
                 onGoogleApiLoaded={({ map, maps }) => { handleApiLoaded(map, maps) }}
             >
 
-                {/* {(props.viewport === 'default') && defaultMarkers()}  */}
-
                 {(props.viewport === 'default') && clustersDisplayed.map(item => {
-                    console.log(item);
                     if (item.numPoints === 1) {
-                      return (
-                        //   <div lat={item.points[0].lat}
-                        //      lng={item.points[0].lng}>aaa</div>
-                        <CollegeMarker
-                          collegeID={item.points[0].id}
-                          lat={item.points[0].lat}
-                          lng={item.points[0].lng}
-                        />
-                      );
+                        return (
+                            <CollegeMarker
+                                collegeID={item.points[0].id}
+                                lat={item.points[0].lat}
+                                lng={item.points[0].lng}
+                            />
+                        );
                     }
 
-                    return (
-                        <ClusterMarker
-                          index={item.id}
-                          lat={item.lat}
-                          lng={item.lng}
-                          points={item.points}
-                        />
-                      );
-                
+                    // return (
+                    //     <ClusterMarker
+                    //         index={item.id}
+                    //         lat={item.lat}
+                    //         lng={item.lng}
+                    //         points={item.points}
+                    //     />
+                    // );
+
                 })}
 
+                {(props.viewport === 'clusters') &&
+                    getRouteClusters().map((cluster, index) => (
+                        <RouteClusterMarker index={index} lat={cluster[0]} lng={cluster[1]} />
+                    ))
+                }
 
-                    {
-                        (props.viewport === 'clusters') &&
-                            getRouteClusters().map((cluster, index) => (
-                                <RouteClusterMarker index={index} lat={cluster[0]} lng={cluster[1]} />
-                            ))
-                    }
+                {(props.viewport === 'zoomedIn') &&
+                    getCurrentRouteCluster().map((college, index) => (
+                        <div lat={college.lat} lng={college.lon}> {college.name}</div>
+                    ))
+                }
 
-                    {
-                        (props.viewport === 'zoomedIn') &&
-                            getCurrentRouteCluster().map((college, index) => (
-                                <div lat={college.lat} lng={college.lon}> {college.name}</div>
-                            ))
-                    }
-
-                
             </GoogleMap>
         </div>
 
@@ -204,7 +217,7 @@ function Map(props) {
 }
 
 
-const mapStateToProps = ({ rMap: { mapRef, defaultColleges, selectedCluster, viewport, markerClicked }, rUser: { user } }) =>
-    ({ mapRef, defaultColleges, selectedCluster, viewport, user, markerClicked });
+const mapStateToProps = ({ rMap: { mapRef, mapsRef, defaultColleges, selectedCluster, viewport, markerClicked }, rUser: { user } }) =>
+    ({ mapRef, mapsRef, defaultColleges, selectedCluster, viewport, user, markerClicked });
 
 export default connect(mapStateToProps)(Map);

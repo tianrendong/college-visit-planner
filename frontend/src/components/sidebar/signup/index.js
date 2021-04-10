@@ -15,7 +15,6 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { DataPolicy } from '../../../assets/dataPolicy'
 import { useSnackbar } from 'notistack';
 import { connect, useDispatch } from 'react-redux';
-import validator from "validator/es";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -37,6 +36,8 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+const PASSWORD_ERROR = "Password needs to be at least 8 characters long with uppercase, lowercase, and numbers."
+const PASSWORD_CONFIRM_ERROR = "Passwords must match"
 function SignUp(props) {
     const dispatch = useDispatch();
     const classes = useStyles();
@@ -46,35 +47,24 @@ function SignUp(props) {
     const [lastname, setLastname] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [passwordIsValid, setPasswordIsValid] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [passwordStrength, setPasswordStrength] = useState(false)
-    const [passwordConfirmation, setPasswordConfirmation] = useState("")
+    const [passwordConfirmation, setPasswordConfirmation] = useState(false)
 
     const passwordFieldOnChange = (value) => {
         setPassword(value)
-        console.log(value);
-        if (validator.isStrongPassword(value, {
-            minLength: 8, minLowercase: 1,
-            minUppercase: 1, minNumbers: 1
-        })) {
-            setPasswordStrength(true)
-        } else {
-            setPasswordStrength("Password needs to be at least 8 characters long containing uppercase, lowercase, and symbols.")
-        }
-    } 
+        setPasswordIsValid(value.match("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$"))
+        setPasswordConfirmation(value === confirmPassword)
+    }
 
     const handleConfirmPasswordFieldOnChange = (value) => {
         setConfirmPassword(value)
-        if (value !== password) {
-            setPasswordConfirmation("Passwords must match")  
-        } else {
-            setPasswordConfirmation(true)
-        }
+        setPasswordConfirmation(value === password)
     }
 
     useEffect(() => {
         if (props.error !== '') {
-            enqueueSnackbar(props.error, {variant: 'error'});
+            enqueueSnackbar(props.error, { variant: 'error' });
         }
     }, [props.error])
 
@@ -140,8 +130,8 @@ function SignUp(props) {
                                 type="password"
                                 id="password"
                                 value={password}
-                                helperText={(password !== '') && passwordStrength}
-                                error={(password !== '') && (passwordStrength !== true)}
+                                helperText={(password !== '') && !passwordIsValid && PASSWORD_ERROR}
+                                error={(password !== '') && !passwordIsValid}
                                 onChange={(e) => passwordFieldOnChange(e.target.value)}
                             />
                         </Grid>
@@ -154,8 +144,8 @@ function SignUp(props) {
                                 label="Confirm Password"
                                 type="password"
                                 value={confirmPassword}
-                                helperText={(confirmPassword !== '') && passwordConfirmation}
-                                error={(confirmPassword !== '') && (passwordConfirmation !== true)}
+                                helperText={(confirmPassword !== '') && (passwordConfirmation === false) && PASSWORD_CONFIRM_ERROR}
+                                error={(confirmPassword !== '') && (passwordConfirmation === false)}
                                 onChange={(e) => handleConfirmPasswordFieldOnChange(e.target.value)}
                             />
                         </Grid>
@@ -171,7 +161,7 @@ function SignUp(props) {
                                 aria-label="Acknowledge"
                                 onClick={(event) => event.stopPropagation()}
                                 onFocus={(event) => event.stopPropagation()}
-                                control={<Checkbox required/>}
+                                control={<Checkbox required />}
                                 label="I confirm to the terms and conditions of this website."
                             />
                         </AccordionSummary>
@@ -183,7 +173,7 @@ function SignUp(props) {
                         variant="contained"
                         color="primary"
                         className={classes.submit}
-                        disabled={(passwordStrength !== true) || (passwordConfirmation !== true)}
+                        disabled={(password === null) || (passwordConfirmation === false)}
                     >
                         Sign Up
                     </Button>

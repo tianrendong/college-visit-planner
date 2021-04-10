@@ -13,12 +13,10 @@ import { ReactComponent as College6 } from '../../../assets/collegeSVG/college6.
 
 const CollegeMarker = (props) => {
     const dispatch = useDispatch();
-    const { college = {},
-    collegeID
-    } = props;
+    const { collegeID } = props;
 
     const clicked = () => {
-        return (props.markerClicked.type === 'defaultMarker') && (props.markerClicked.content.id === college.id)
+        return ( props.currentCollege !== {} ) && (props.currentCollege.id === collegeID)
     };
 
     const icons = [
@@ -41,13 +39,12 @@ const CollegeMarker = (props) => {
 
     return (
         <div className="collegeMarkerContainer" onClick={handleClick}>
-            <div>a</div>
-            {/* <div>{getIcon(index)}</div>
-            <div className={ clicked() ? "collegeMarkerLabelClicked" : "collegeMarkerLabel"}>{college.name}</div> */}
+            <div>{getIcon(collegeID)}</div>
+            {/* <div className={ clicked() ? "collegeMarkerLabelClicked" : "collegeMarkerLabel"}>{props.currentCollege.name}</div> */}
         </div>
     )
 }
 
-const mapStateToProps = ({ rMap: { markerClicked} }) => ({ markerClicked });
+const mapStateToProps = ({ rRoute: { currentCollege } }) => ({ currentCollege });
 
 export default connect(mapStateToProps)(CollegeMarker);
