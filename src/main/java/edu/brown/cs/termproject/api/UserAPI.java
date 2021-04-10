@@ -32,27 +32,48 @@ public class UserAPI extends API {
 
   /**
    * Creates a TripPlannerAPI object to provide API handlers.
+   *
    * @param userDB Database for colleges.
    */
   public UserAPI(UserDataManager userDB) {
     this.userDB = userDB;
   }
 
-  public Route getLogin() { return login; }
+  public Route getLogin() {
+    return login;
+  }
+
   public Route getSignUp() {
     return signup;
   }
+
   public Route getCheckUsername() {
     return checkUsername;
   }
+
   public Route getUserAddCollege() {
     return userAddCollege;
   }
-  public Route getUserDeleteCollege() { return userDeleteCollege; }
-  public Route getRoute() { return updateRoute; }
-  public Route getClusters() { return clusters; }
-  public Route deleteData() { return deleteData; }
-  public Route deleteAccount() { return deleteAccount; }
+
+  public Route getUserDeleteCollege() {
+    return userDeleteCollege;
+  }
+
+  public Route getRoute() {
+    return updateRoute;
+  }
+
+  public Route getClusters() {
+    return clusters;
+  }
+
+  public Route deleteData() {
+    return deleteData;
+  }
+
+  public Route deleteAccount() {
+    return deleteAccount;
+  }
 
   private final Route login = (request, response) -> {
     JsonObject data = GSON.fromJson(request.body(), JsonObject.class);
@@ -106,7 +127,8 @@ public class UserAPI extends API {
     JsonObject data = GSON.fromJson(request.body(), JsonObject.class);
     JsonArray collegesInJson = data.get("colleges").getAsJsonArray();
     List<College> colleges = new Gson().fromJson(collegesInJson,
-        new TypeToken<List<College>>() { }.getType());
+      new TypeToken<List<College>>() {
+      }.getType());
     System.out.println(colleges);
 
     double maxDistance = 200.0;
@@ -123,7 +145,8 @@ public class UserAPI extends API {
     JsonObject data = GSON.fromJson(request.body(), JsonObject.class);
     JsonArray collegesInJson = data.get("colleges").getAsJsonArray();
     List<College> colleges = new Gson().fromJson(collegesInJson,
-        new TypeToken<List<College>>() { }.getType());
+      new TypeToken<List<College>>() {
+      }.getType());
     System.out.println(colleges);
 
     CollegeGraph clusterGraph = new CollegeGraph(colleges);
@@ -135,3 +158,4 @@ public class UserAPI extends API {
 
     return GSON.toJson(orderedCluster);
   };
+}
