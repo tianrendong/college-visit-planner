@@ -14,7 +14,7 @@ import java.util.Map;
  */
 public class Clustering<L extends Locatable> {
 
-  private final double maxDistance;
+  private final double maxDistance; // in kilometers
   private static final int RADIAN = 180;
 
   public Clustering(double maxDistance) {

@@ -152,7 +152,6 @@ function Map(props) {
     }, [props.viewport])
 
     return (
-        <div className="mapPageContainer">
         <div className="mapContainer">
             <GoogleMap
                 bootstrapURLKeys={{ key: 'AIzaSyBIJk5AqilYH8PHt2TP4f5d7QY-UxtJf58' }} //process.env.REACT_APP_GOOGLE_KEY
@@ -200,7 +199,6 @@ function Map(props) {
                 }
 
             </GoogleMap>
-        </div>
         </div>
     );
 }

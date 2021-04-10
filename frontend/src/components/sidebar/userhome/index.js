@@ -64,7 +64,7 @@ const Userhome = (props) => {
             <button className="optionButton" onClick={handleNavigateRoute}>
                 <RouteIcon className="userhomeIcons" style={{ width: 50, height: 50 }} />
                 <p className="optionText">Route</p>
-                {props.updatingRoute && <CircularProgress style={{ margin: 20, width: 30, height: 30 }} />}
+                {/* {props.updatingRoute && <CircularProgress style={{ margin: 20, width: 30, height: 30 }} />} */}
             </button>
             <button className="optionButton" onClick={handleNavigateSettings}>
                 <SettingsIcon className="userhomeIcons" style={{ width: 45, height: 45 }} />
