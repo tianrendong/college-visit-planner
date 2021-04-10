@@ -52,12 +52,6 @@ const routeReducer = (state = initialState, action) => {
                 ...state,
                 infobar: '',
             };
-        case "EXPAND_CLUSTER":
-            return {
-                ...state,
-                sidebarOpen: false,
-                infobar: '',
-            };
         case "LOGOUT":
             return {
                 ...state,

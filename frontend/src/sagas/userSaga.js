@@ -44,15 +44,19 @@ export function* signupAsync(payload) {
 }
 
 export function* updateRouteAsync(payload) {
-    const response = yield call(userAPI.requestUpdateRoute, payload.payload)
+    const response = yield call(userAPI.requestUpdateRoute, payload.payload.colleges)
     console.log(response);
     yield put({
-        payload: { route: response },
+        payload: { 
+            clusterIndex: payload.payload.clusterIndex,
+            route: response, 
+        },
         type: 'UPDATE_ROUTE',
     });
 }
 
 export function* updateClustersAsync(payload) {
+    console.log(payload)
     const response = yield call(userAPI.requestUpdateClusters, payload.payload)
     console.log(response);
     yield put({
@@ -63,7 +67,6 @@ export function* updateClustersAsync(payload) {
 
 
 export function* addCollegeAsync(payload) {
-    console.log(payload);
     const response = yield call(userAPI.requestAddCollege, payload.payload)
     console.log(response);
     if (response.hasOwnProperty("newCollege")) {

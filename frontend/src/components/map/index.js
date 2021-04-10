@@ -77,10 +77,11 @@ function Map(props) {
     useEffect(createClusters, [mapOptions])
 
     function getRouteClusters() {
-        return Object.values(props.user.route).map(cluster =>
+        return props.user.route.map(cluster =>
             findCenter(Object.values(cluster).map(college => [college.lat, college.lon]))
         )
     }
+
     function getCurrentRouteCluster() {
         return Object.values(Object.values(props.user.route)[props.selectedCluster]);
     }

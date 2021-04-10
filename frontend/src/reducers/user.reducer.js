@@ -68,15 +68,21 @@ const userReducer = (state = initialState, action) => {
                 error: ''
             };
         case "UPDATE_ROUTE":
+            const updatedClusterIndex = action.payload.clusterIndex
+            const clusterAlreadyUpdated = state.routesUpdated.includes(updatedClusterIndex)
             return {
                 ...state,
                 error: '',
+                // if the cluster is not already updated, add it into the updated list
+                routesUpdated: clusterAlreadyUpdated ? state.routesUpdated : [...state.routesUpdated, updatedClusterIndex],
                 user: {
                     ...state.user,
-                    route: action.payload.route,
+                    // if the cluster is not already updated, update the specific cluster based on the index passed in
+                    route: clusterAlreadyUpdated ? state.user.route : (state.user.route.map((cluster, i) => i === updatedClusterIndex ? action.payload.route : cluster))
                 },
                 updatingRoute: false,
             };
+
         case "REQUEST_ADD_COLLEGE":
             return {
                 ...state,

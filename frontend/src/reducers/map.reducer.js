@@ -23,21 +23,14 @@ const mapReducer = (state = initialState, action) => {
         case "UPDATE_ROUTE":
             return {
                 ...state,
-                selectedCluster: '',
-                viewport: 'clusters',
+                selectedCluster: action.payload.clusterIndex,
+                viewport: 'zoomedIn',
             };
         case "UPDATE_CLUSTERS":
             return {
                 ...state,
                 selectedCluster: '',
                 viewport: 'clusters',
-            };
-        case "EXPAND_CLUSTER":
-            console.log(action.payload.clusterIndex)
-            return {
-                ...state,
-                selectedCluster: action.payload.clusterIndex,
-                viewport: 'zoomedIn',
             };
         case "LOGOUT":
             return {

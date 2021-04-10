@@ -59,7 +59,6 @@ function requestLogout() {
 }
 
 function requestUpdateRoute(payload) {
-    console.log(payload)
     const request = new Request("/api/user/getRoute", {
         method: 'POST',
         body: JSON.stringify({colleges: payload})
@@ -77,9 +76,7 @@ function requestUpdateClusters(payload) {
     })
     return fetch(request)
         .then(response => response.json())
-        .then(data => {
-            console.log(data)
-            return data});
+        .then(data => data);
 }
 
 

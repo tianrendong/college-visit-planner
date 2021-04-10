@@ -1,31 +1,41 @@
 import React from 'react'
-import RoomIcon from '@material-ui/icons/Room';
 import './index.css'
-import { ReactComponent as ClusterIcon } from '../../assets/mapsSVG/flag.svg'
-
 import { connect, useDispatch } from 'react-redux';
+import { ReactComponent as ClusterIcon } from '../../assets/mapsSVG/flag.svg'
 
 const RouteClusterMarker = (props) => {
     const dispatch = useDispatch();
-    const { college = {},
-        onClick = () => {},
-        showInfo = () => { },
-        index,
+    const { index,
     } = props;
     
     const handleClickCluster = () => {
-        console.log(props.index)
-        dispatch({
-            payload: {clusterIndex: props.index},
-            type: 'EXPAND_CLUSTER',
-        })
+        if (props.routesUpdated.includes(props.index)) {{
+            console.log("heyy")
+            dispatch({
+                payload: {
+                    clusterIndex: props.index,
+                },
+                type: 'UPDATE_ROUTE'
+            })
+        }} else {
+            console.log("bbbb")
+            dispatch({
+                payload: {
+                    clusterIndex: props.index,
+                    colleges: props.user.route[props.index],
+                },
+                type: 'REQUEST_UPDATE_ROUTE'
+            })
+        }
     }
 
     return (
-        // <div>a</div>
-        // <ClusterIcon style={{width: 40, height: 40}} onClick={handleClickCluster()}/>
         <ClusterIcon style={{width: 40, height: 40}} onClick={handleClickCluster}/>
     )
 }
 
-export default RouteClusterMarker;
+const mapStateToProps =
+    ({ rUser: { user, clusterUpdated, routesUpdated } }) => 
+    ({ user, clusterUpdated, routesUpdated });
+
+export default connect(mapStateToProps)(RouteClusterMarker);

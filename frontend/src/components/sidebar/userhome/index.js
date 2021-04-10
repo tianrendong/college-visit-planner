@@ -51,7 +51,6 @@ const Userhome = (props) => {
         }
     }
 
-    console.log(props.updatingRoute)
     return (
         <div className="userContainer">
             <div className="sidebarHeader">
