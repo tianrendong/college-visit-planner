@@ -9,7 +9,6 @@ public class User {
   private String password;
   private String firstname;
   private String lastname;
-  private List<List<College>> route;
   private List<College> colleges;
 
   public User(String username, String password, String firstname, String lastname) {
@@ -20,13 +19,12 @@ public class User {
   }
 
   public User(String username, String password, String firstname,
-              String lastname, List<College> colleges, List<List<College>> route) {
+              String lastname, List<College> colleges) {
     this.username = username;
     this.password = password;
     this.firstname = firstname;
     this.lastname = lastname;
     this.colleges = colleges;
-    this.route = route;
   }
 
   public String getUserName() {
@@ -45,16 +43,8 @@ public class User {
     return lastname;
   }
 
-  public List<List<College>> getRoute() {
-    return route;
-  }
-
   public List<College> getColleges() {
     return colleges;
-  }
-
-  public void setRoute(List<List<College>> route) {
-    this.route = route;
   }
 
   public void setColleges(List<College> colleges) {

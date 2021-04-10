@@ -98,7 +98,7 @@ public class UserDataManager extends DatabaseManager {
     }
     User user = null;
     try (PreparedStatement getUserInfo = getConnection().prepareStatement(
-        "SELECT password, firstname, lastname, colleges, route FROM users WHERE id = ?")) {
+        "SELECT password, firstname, lastname, colleges FROM users WHERE id = ?")) {
       getUserInfo.setString(1, username);
 
       try (ResultSet rs = getUserInfo.executeQuery()) {
@@ -108,7 +108,6 @@ public class UserDataManager extends DatabaseManager {
             String firstname = rs.getString(2);
             String lastname = rs.getString(3);
             String colleges = rs.getString(4);
-            String route = rs.getString(5);
 
             user = new User(username, password, firstname, lastname);
 
@@ -118,12 +117,6 @@ public class UserDataManager extends DatabaseManager {
               user.setColleges(collegeDatabase.getCollegeByID(collegeIDs));
             }
 
-            if (route != null) {
-              List<List<College>> routeAsObject =
-                  new Gson().fromJson(route, new TypeToken<List<List<College>>>() {
-                  }.getType());
-              user.setRoute(routeAsObject);
-            }
           }
         }
       }
@@ -196,7 +189,7 @@ public class UserDataManager extends DatabaseManager {
   }
 
   /**
-   * Deletes all data (firstname, lastname, route, colleges) for a specific user.
+   * Deletes all college data for a specific user.
    * @param username the user whose data needs to be deleted.
    * @return JsonObject indicating whether deletion was successful.
    * @throws SQLException when no database connection is found.
@@ -204,7 +197,7 @@ public class UserDataManager extends DatabaseManager {
   public boolean deleteUserData(String username) throws SQLException{
     if (checkUserExists(username)) {
       try (PreparedStatement delete = getConnection().prepareStatement(
-          "UPDATE users SET route = NULL, colleges = NULL WHERE id= ? ;"
+          "UPDATE users SET colleges = NULL WHERE id= ? ;"
       )) {
         delete.setString(1, username);
         delete.executeUpdate();

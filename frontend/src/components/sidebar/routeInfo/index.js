@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
 const RouteInfo = (props) => {
 
     const classes = useStyles()
-    const currentCluster = () => Object.values(Object.values(props.user.route)[props.selectedCluster])
+    const currentCluster = () => Object.values(Object.values(props.route)[props.selectedCluster])
     const [directionBoxes, setDirectionBoxes] = useState([]);
     const [display, setDisplay] = useState([])
 
@@ -59,7 +59,7 @@ const RouteInfo = (props) => {
 
     useEffect(() => {
         renderRoutes(currentCluster())
-    }, [props.user.route])
+    }, [props.route])
 
     useEffect(() => {
         if (directionBoxes.length !== 0) {
@@ -154,6 +154,6 @@ const DirectionBox = (props) => {
     )
 }
 
-const mapStateToProps = ({ rUser: { user }, rMap: { selectedCluster } }) => ({ user, selectedCluster });
+const mapStateToProps = ({ rUser: { user, route }, rMap: { selectedCluster } }) => ({ user, route, selectedCluster });
 
 export default connect(mapStateToProps)(RouteInfo);

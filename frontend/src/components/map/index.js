@@ -77,13 +77,13 @@ function Map(props) {
     useEffect(createClusters, [mapOptions])
 
     function getRouteClusters() {
-        return props.user.route.map(cluster =>
+        return props.route.map(cluster =>
             findCenter(Object.values(cluster).map(college => [college.lat, college.lon]))
         )
     }
 
     function getCurrentRouteCluster() {
-        return Object.values(Object.values(props.user.route)[props.selectedCluster]);
+        return Object.values(Object.values(props.route)[props.selectedCluster]);
     }
 
     const handleApiLoaded = (map, maps) => {
@@ -205,7 +205,7 @@ function Map(props) {
 }
 
 
-const mapStateToProps = ({ rMap: { mapRef, mapsRef, defaultColleges, selectedCluster, viewport, markerClicked }, rUser: { user } }) =>
-    ({ mapRef, mapsRef, defaultColleges, selectedCluster, viewport, user, markerClicked });
+const mapStateToProps = ({ rMap: { mapRef, mapsRef, defaultColleges, selectedCluster, viewport, }, rUser: { user, route } }) =>
+    ({ mapRef, mapsRef, defaultColleges, selectedCluster, viewport, user, route });
 
 export default connect(mapStateToProps)(Map);

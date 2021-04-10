@@ -7,6 +7,7 @@ const initialState = {
     user: null,
     clusterUpdated: false,
     routesUpdated: [],
+    route: []
 }
 
 const userReducer = (state = initialState, action) => {
@@ -24,8 +25,6 @@ const userReducer = (state = initialState, action) => {
                 loggedIn: true,
                 user: action.payload.user,
                 error: '',
-                clusterUpdated: action.payload.user.hasOwnProperty("route"),
-                routesUpdated: action.payload.user.hasOwnProperty("route") ? Array(action.payload.user.route.length).fill().map((x,i)=>i) : [],
             };
         case "LOGIN_FAILURE":
             return {
@@ -75,11 +74,8 @@ const userReducer = (state = initialState, action) => {
                 error: '',
                 // if the cluster is not already updated, add it into the updated list
                 routesUpdated: clusterAlreadyUpdated ? state.routesUpdated : [...state.routesUpdated, updatedClusterIndex],
-                user: {
-                    ...state.user,
-                    // if the cluster is not already updated, update the specific cluster based on the index passed in
-                    route: clusterAlreadyUpdated ? state.user.route : (state.user.route.map((cluster, i) => i === updatedClusterIndex ? action.payload.route : cluster))
-                },
+                 // if the cluster is not already updated, update the specific cluster based on the index passed in
+                route: clusterAlreadyUpdated ? state.route : (state.route.map((cluster, i) => i === updatedClusterIndex ? action.payload.route : cluster)),
                 updatingRoute: false,
             };
 
@@ -148,10 +144,7 @@ const userReducer = (state = initialState, action) => {
                 ...state,
                 clusterUpdated: true,
                 routesUpdated: action.payload ? [] : state.routesUpdated,
-                user: {
-                    ...state.user,
-                    route: action.payload ? action.payload.clusters : state.user.route
-                }
+                route: action.payload ? action.payload.clusters : state.route
             }
         default:
             return state

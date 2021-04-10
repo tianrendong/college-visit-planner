@@ -22,7 +22,7 @@ const RouteClusterMarker = (props) => {
             dispatch({
                 payload: {
                     clusterIndex: props.index,
-                    colleges: props.user.route[props.index],
+                    colleges: props.route[props.index],
                 },
                 type: 'REQUEST_UPDATE_ROUTE'
             })
@@ -35,7 +35,7 @@ const RouteClusterMarker = (props) => {
 }
 
 const mapStateToProps =
-    ({ rUser: { user, clusterUpdated, routesUpdated } }) => 
-    ({ user, clusterUpdated, routesUpdated });
+    ({ rUser: { user, route, clusterUpdated, routesUpdated } }) => 
+    ({ user, route, clusterUpdated, routesUpdated });
 
 export default connect(mapStateToProps)(RouteClusterMarker);
