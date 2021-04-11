@@ -1,13 +1,14 @@
 package edu.brown.cs.termproject.api;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonArray;
 import com.google.gson.reflect.TypeToken;
-import edu.brown.cs.termproject.collegegraph.College;
-import edu.brown.cs.termproject.collegegraph.CollegeGraph;
-import edu.brown.cs.termproject.collegegraph.Path;
+import edu.brown.cs.termproject.airport.Airport;
+import edu.brown.cs.termproject.collegegraph.*;
 import edu.brown.cs.termproject.database.UserDataManager;
+import edu.brown.cs.termproject.iotools.CenterCalculator;
+import edu.brown.cs.termproject.main.Main;
 import edu.brown.cs.termproject.router.Clustering;
+import edu.brown.cs.termproject.router.Nearest;
 import edu.brown.cs.termproject.router.Point;
 import edu.brown.cs.termproject.router.TSP;
 import spark.Route;
@@ -19,12 +20,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class UserAPI extends API {
+public class UserAPI {
 
   private static final Gson GSON = new Gson();
   private UserDataManager userDB;
-  private final ObjectMapper om = new ObjectMapper(); // used to turn objects into JSON
-  private final TSP<College, Path> tspFinder = new TSP<>();
+  private final TSP<LocationWrapper, LocationPath> tspFinder = new TSP<>();
+  private final Nearest nearest = new Nearest();
 
   /**
    * Creates a TripPlannerAPI object to provide API handlers.
@@ -145,13 +146,19 @@ public class UserAPI extends API {
         }.getType());
     System.out.println(colleges);
 
-    CollegeGraph clusterGraph = new CollegeGraph(colleges);
-    System.out.println(140);
-    System.out.println(clusterGraph);
-    List<College> orderedCluster = tspFinder.findRoute(clusterGraph);
-    System.out.println(143);
-    System.out.println(orderedCluster);
+    Point center = CenterCalculator.getCentroid(colleges);
 
-    return GSON.toJson(orderedCluster);
+    List<Airport> airports = Main.getAirportDatabase().getAllAirports();
+    Airport airport = (Airport) nearest.findNearestLocation(center, airports);
+
+//    LocationGraph graph = new LocationGraph(colleges);
+//    graph.addNode(airport);
+//
+//    List<College> orderedCluster = tspFinder.findRoute(graph);
+//    System.out.println(143);
+//    System.out.println(orderedCluster);
+
+    return true;
+//    return GSON.toJson(orderedCluster);
   };
 }

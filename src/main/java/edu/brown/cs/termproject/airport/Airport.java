@@ -1,8 +1,9 @@
 package edu.brown.cs.termproject.airport;
 
+import edu.brown.cs.termproject.graph.Vertex;
 import edu.brown.cs.termproject.router.Locatable;
 
-public class Airport implements Locatable {
+public class Airport implements Locatable, Vertex {
   private final String name;
   private final double lat;
   private final double lon;

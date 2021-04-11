@@ -14,7 +14,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class CollegeAPI extends API {
+public class CollegeAPI {
 
   private CollegeSQLManager collegeDB;
   private static final Gson GSON = new Gson();

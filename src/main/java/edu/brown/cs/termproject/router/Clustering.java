@@ -1,5 +1,6 @@
 package edu.brown.cs.termproject.router;
 
+import edu.brown.cs.termproject.iotools.CenterCalculator;
 import edu.brown.cs.termproject.iotools.DistanceCalculator;
 
 import java.util.ArrayList;
@@ -42,7 +43,7 @@ public class Clustering<L extends Locatable> {
           if (DistanceCalculator.getDistance(curLoc, entry.getKey()) < this.maxDistance) {
             List<L> newCluster = entry.getValue();
             newCluster.add(curLoc);
-            newCentroid = getCentroid(newCluster);
+            newCentroid = CenterCalculator.getCentroid(newCluster);
             clusters.remove(entry.getKey());
             clusters.put(newCentroid, newCluster);
             break;
@@ -69,48 +70,5 @@ public class Clustering<L extends Locatable> {
       }
     }
     return clusters;
-  }
-
-  /**
-   * Gets the middle centroid point of a cluster given a list of locations.
-   * @param locations list of Locatable.
-   * @return the centroid point of the cluster.
-   */
-  public Point getCentroid(List<L> locations) {
-    if (locations.size() <= 0) {
-      return null;
-    }
-
-    int numLoc = locations.size();
-
-    double x = 0.0;
-    double y = 0.0;
-    double z = 0.0;
-
-    for (L location : locations) {
-      double lat = location.getLat() * Math.PI / RADIAN;
-      double lon = location.getLon() * Math.PI / RADIAN;
-
-      double a = Math.cos(lat) * Math.cos(lon);
-      double b = Math.cos(lat) * Math.sin(lon);
-      double c = Math.sin(lat);
-
-      x += a;
-      y += b;
-      z += c;
-    }
-
-    x = x / numLoc;
-    y = y / numLoc;
-    z = z / numLoc;
-
-    double lon = Math.atan2(y, x);
-    double hyp = Math.sqrt(x * x + y * y);
-    double lat = Math.atan2(z, hyp);
-
-    double newX = (lat * RADIAN / Math.PI);
-    double newY = (lon * RADIAN / Math.PI);
-
-    return new Point(newX, newY);
   }
 }
