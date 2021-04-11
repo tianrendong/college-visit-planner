@@ -55,6 +55,7 @@ const routeReducer = (state = initialState, action) => {
                 ...state,
                 sidebar: (action.payload.loggedIn === true) ? 'userhome' : 'login',
                 infobar: '',
+                currentCollege: null,
             };
         case "UPDATE_CURRENT_COLLEGE":
             return {
