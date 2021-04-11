@@ -64,14 +64,9 @@ const CollegeInfo = (props) => {
                 <Typography className={classes.title} color="textSecondary" gutterBottom>
                     Nearby Colleges
                 </Typography>
-<<<<<<< HEAD
             </div> */}
 
             {hasNearbyColleges() && nearbyColleges().map(c => <AirportInfo airport={c}/>)}
-=======
-            </div>
-            {nearbyColleges().map(c => <AirportInfo airport={c}/>)}
->>>>>>> 42a463a83c4ebce914f67050d5296f2f5ef32222
         </div>
     );
 
