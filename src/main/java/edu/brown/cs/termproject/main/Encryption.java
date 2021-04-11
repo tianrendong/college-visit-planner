@@ -6,21 +6,20 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
-import java.security.GeneralSecurityException;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
-import java.util.Arrays;
 import java.util.Base64;
 
+@SuppressWarnings("checkstyle:HideUtilityClassConstructor")
 public class Encryption {
 
   private static final String SECRET_KEY = "my_super_secret_key_ho_ho_ho";
   private static final String SALT = "ssshhhhhhhhhhh!!!!";
+  private static final int ITERATION_COUNT = 65536;
+  private static final int KEY_LENGTH = 256;
   private static SecretKeyFactory factory;
   private static IvParameterSpec ivspec;
   private static KeySpec spec;
@@ -31,7 +30,7 @@ public class Encryption {
       byte[] iv = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
       ivspec = new IvParameterSpec(iv);
       factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
-      spec = new PBEKeySpec(SECRET_KEY.toCharArray(), SALT.getBytes(), 65536, 256);
+      spec = new PBEKeySpec(SECRET_KEY.toCharArray(), SALT.getBytes(), ITERATION_COUNT, KEY_LENGTH);
       SecretKey tmp = factory.generateSecret(spec);
       secretKey = new SecretKeySpec(tmp.getEncoded(), "AES");
     } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
@@ -42,14 +41,14 @@ public class Encryption {
   public static String encrypt(String strToEncrypt) {
     try {
       SecretKey tmp = factory.generateSecret(spec);
-      SecretKeySpec secretKey = new SecretKeySpec(tmp.getEncoded(), "AES");
+      SecretKeySpec sk = new SecretKeySpec(tmp.getEncoded(), "AES");
 
       Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-      cipher.init(Cipher.ENCRYPT_MODE, secretKey, ivspec);
+      cipher.init(Cipher.ENCRYPT_MODE, sk, ivspec);
       return Base64.getEncoder()
           .encodeToString(cipher.doFinal(strToEncrypt.getBytes(StandardCharsets.UTF_8)));
     } catch (Exception e) {
-      System.out.println("ERROR: durng encryption");
+      System.out.println("ERROR: during encryption");
     }
     return null;
   }

@@ -8,11 +8,27 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class for managing airport database.
+ */
 public class AirportSQLManager extends DatabaseManager {
+  public static final int NAME_COL = 2;
+  public static final int LAT_COL = 5;
+  public static final int LON_COL = 6;
+  public static final int WEBSITE_COL = 7;
+
+  /**
+   * Function that connects to the database.
+   * @param filepath filepath to the SQL database
+   */
   public void connect(String filepath) {
     super.connect(filepath);
   }
 
+  /**
+   * Function that get all the airports in the database and returns them as Airport objects.
+   * @return list of airport
+   */
   public List<Airport> getAllAirports() throws SQLException {
     List<Airport> airports = new ArrayList<>();
     if (getConnection() == null) {
@@ -26,10 +42,10 @@ public class AirportSQLManager extends DatabaseManager {
           while (rs.next()) {
             airports.add(
                 new Airport(
-                    rs.getString(2),
-                    rs.getDouble(5),
-                    rs.getDouble(6),
-                    rs.getString(7)
+                    rs.getString(NAME_COL),
+                    rs.getDouble(LAT_COL),
+                    rs.getDouble(LON_COL),
+                    rs.getString(WEBSITE_COL)
                 ));
           }
         }

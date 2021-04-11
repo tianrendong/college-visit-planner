@@ -14,7 +14,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class CollegeAPI extends API{
+public class CollegeAPI extends API {
 
   private CollegeSQLManager collegeDB;
   private static final Gson GSON = new Gson();
@@ -34,7 +34,9 @@ public class CollegeAPI extends API{
   public Route getAutocorrect() {
     return autocorrect;
   }
-  public Route getCollegeInfo() { return collegeInfo; }
+  public Route getCollegeInfo() {
+    return collegeInfo;
+  }
 
   private final Route defaultColleges = (request, response) -> {
     List<College> colleges = collegeDB.getDefaultColleges();

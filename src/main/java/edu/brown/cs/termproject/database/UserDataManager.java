@@ -1,7 +1,6 @@
 package edu.brown.cs.termproject.database;
 
 import com.google.gson.reflect.TypeToken;
-import edu.brown.cs.termproject.collegegraph.College;
 import edu.brown.cs.termproject.main.Encryption;
 import edu.brown.cs.termproject.main.Main;
 import edu.brown.cs.termproject.main.User;
@@ -13,9 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.google.gson.Gson;
@@ -28,9 +25,19 @@ import com.google.gson.JsonObject;
 public class UserDataManager extends DatabaseManager {
 
   private static final Gson GSON = new Gson();
-  private static final CollegeSQLManager collegeDatabase = Main.getCollegeDatabase();
+  private static final CollegeSQLManager COLLEGE_DB = Main.getCollegeDatabase();
 
-  public JsonObject signup(String username, String password, String firstname, String lastname) throws SQLException {
+  /**
+   * Logs in the user.
+   * @param username the user
+   * @param password password
+   * @param firstname the first name
+   * @param lastname lastname
+   * @return JsonObject with payload
+   * @throws SQLException when no database connection is found.
+   */
+  public JsonObject signup(String username, String password, String firstname, String lastname)
+      throws SQLException {
     if (getConnection() == null) {
       throw new IllegalStateException("Must open a database first.");
     }
@@ -41,8 +48,8 @@ public class UserDataManager extends DatabaseManager {
       payload.addProperty("error", "Username already exists.");
     } else {
       try (PreparedStatement registerUser = getConnection().prepareStatement(
-          "INSERT INTO users (id, password, firstname, lastname)" +
-              "VALUES (?, ?, ?, ?);"
+          "INSERT INTO users (id, password, firstname, lastname)"
+              + "VALUES (?, ?, ?, ?);"
       )) {
         registerUser.setString(1, username);
         registerUser.setString(2, Encryption.encrypt(password));
@@ -55,8 +62,19 @@ public class UserDataManager extends DatabaseManager {
     return payload;
   }
 
+  /**
+   * Logs in the user.
+   * @param username the user
+   * @param password password
+   * @return JsonObject with payload
+   * @throws SQLException when no database connection is found.
+   * @throws InvalidKeySpecException when key is invalid
+   * @throws NoSuchAlgorithmException when algorithm not found
+   * @throws UnsupportedEncodingException when encoding not supported
+   */
   public JsonObject login(String username, String password)
-      throws SQLException, InvalidKeySpecException, NoSuchAlgorithmException, UnsupportedEncodingException {
+      throws SQLException, InvalidKeySpecException, NoSuchAlgorithmException,
+      UnsupportedEncodingException {
     JsonObject payload = new JsonObject();
     User user = getUserInfo(username);
     if (user == null) {
@@ -77,6 +95,12 @@ public class UserDataManager extends DatabaseManager {
     return payload;
   }
 
+  /**
+   * Checks whether the user exists.
+   * @param username the user account to add college to
+   * @return boolean whether the user exists
+   * @throws SQLException when no database connection is found.
+   */
   public boolean checkUserExists(String username) throws SQLException {
     if (getConnection() == null) {
       throw new IllegalStateException("Must open a database first.");
@@ -92,6 +116,12 @@ public class UserDataManager extends DatabaseManager {
     }
   }
 
+  /**
+   * Get the information of the user.
+   * @param username the user account to add college to
+   * @return User the user objectto return.
+   * @throws SQLException when no database connection is found.
+   */
   public User getUserInfo(String username) throws SQLException {
     if (getConnection() == null) {
       throw new IllegalStateException("Must open a database first.");
@@ -111,10 +141,10 @@ public class UserDataManager extends DatabaseManager {
 
             user = new User(username, password, firstname, lastname);
 
-            if ((colleges != null) && (collegeDatabase.getConnection() != null)) {
-              List<Integer> collegeIDs = new Gson().fromJson(colleges, new TypeToken<List<Integer>>() {
-              }.getType());
-              user.setColleges(collegeDatabase.getCollegeByID(collegeIDs));
+            if ((colleges != null) && (COLLEGE_DB.getConnection() != null)) {
+              List<Integer> collegeIDs = new Gson().fromJson(colleges,
+                  new TypeToken<List<Integer>>() { }.getType());
+              user.setColleges(COLLEGE_DB.getCollegeByID(collegeIDs));
             }
 
           }
@@ -124,13 +154,20 @@ public class UserDataManager extends DatabaseManager {
     }
   }
 
+  /**
+   * Adds college to user account.
+   * @param username the user account to add college to
+   * @param collegeID the ID of the college to add
+   * @return JsonObject indicating college info
+   * @throws SQLException when no database connection is found.
+   */
   public JsonObject addCollege(String username, int collegeID) throws SQLException {
     JsonObject payload = new JsonObject();
     List<Integer> currentColleges = getUserColleges(username);
     if (currentColleges.contains(collegeID)) {
       payload.addProperty("error", "College already added.");
     } else {
-      payload.addProperty("newCollege", GSON.toJson(collegeDatabase.getCollegeByID(collegeID)));
+      payload.addProperty("newCollege", GSON.toJson(COLLEGE_DB.getCollegeByID(collegeID)));
       currentColleges.add(collegeID);
     }
 
@@ -139,6 +176,12 @@ public class UserDataManager extends DatabaseManager {
     return payload;
   }
 
+  /**
+   * Gets the colleges stored in user.
+   * @param username the user account.
+   * @return List of College IDs associated with the user.
+   * @throws SQLException when no database connection is found.
+   */
   public List<Integer> getUserColleges(String username) throws SQLException {
     if (getConnection() == null) {
       throw new IllegalStateException("Must open a database first.");
@@ -165,6 +208,13 @@ public class UserDataManager extends DatabaseManager {
     }
   }
 
+  /**
+   * Deletes a college.
+   * @param username the user account to delete.
+   * @param collegeID the college to delete
+   * @return JsonObject indicating whether deletion was successful
+   * @throws SQLException when no database connection is found.
+   */
   public JsonObject deleteCollege(String username, int collegeID) throws SQLException {
     JsonObject payload = new JsonObject();
     List<Integer> currentColleges = getUserColleges(username);
@@ -172,13 +222,19 @@ public class UserDataManager extends DatabaseManager {
       payload.addProperty("error", "College not stored");
     } else {
       currentColleges =
-          currentColleges.stream().filter(id -> id != collegeID).collect(Collectors.toCollection(ArrayList::new));
+          currentColleges.stream().filter(id -> id != collegeID).collect(
+              Collectors.toCollection(ArrayList::new));
       payload.addProperty("deletedCollegeID", collegeID);
     }
     updateUserInfo(username, "colleges = '" + GSON.toJson(currentColleges) + "'");
     return payload;
   }
-
+  /**
+   * Updates user information.
+   * @param username the user account to update
+   * @param condition the conditions
+   * @throws SQLException when no database connection is found.
+   */
   private void updateUserInfo(String username, String condition) throws SQLException {
     try (PreparedStatement addCollege = getConnection().prepareStatement(
         "UPDATE users SET " + condition + " WHERE id= ? ;"
@@ -194,7 +250,7 @@ public class UserDataManager extends DatabaseManager {
    * @return JsonObject indicating whether deletion was successful.
    * @throws SQLException when no database connection is found.
    */
-  public boolean deleteUserData(String username) throws SQLException{
+  public boolean deleteUserData(String username) throws SQLException {
     if (checkUserExists(username)) {
       try (PreparedStatement delete = getConnection().prepareStatement(
           "UPDATE users SET colleges = NULL WHERE id= ? ;"
@@ -213,7 +269,7 @@ public class UserDataManager extends DatabaseManager {
    * @return JsonObject indicating whether deletion was successful
    * @throws SQLException when no database connection is found.
    */
-  public boolean deleteUserAccount(String username) throws SQLException{
+  public boolean deleteUserAccount(String username) throws SQLException {
     if (checkUserExists(username)) {
       try (PreparedStatement delete = getConnection().prepareStatement(
           "DELETE FROM users WHERE id = ?;"
@@ -226,7 +282,4 @@ public class UserDataManager extends DatabaseManager {
     }
     return false;
   }
-
-
 }
-

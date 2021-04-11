@@ -1,7 +1,11 @@
 package edu.brown.cs.termproject.router;
 
 import com.google.maps.errors.ApiException;
-import edu.brown.cs.termproject.graph.*;
+import edu.brown.cs.termproject.graph.Edge;
+import edu.brown.cs.termproject.graph.GenericEdge;
+import edu.brown.cs.termproject.graph.GenericGraph;
+import edu.brown.cs.termproject.graph.Graph;
+import edu.brown.cs.termproject.graph.Vertex;
 import edu.brown.cs.termproject.main.GoogleMapAPIManager;
 
 import java.io.IOException;
@@ -18,8 +22,10 @@ import java.util.Stack;
  * The class for Traveling Salesman Problem algorithm.
  */
 public class TSP<V extends Vertex, E extends Edge<V>> {
-  public TSP() {}
-
+  /**
+   * Constructor for TSP.
+   */
+  public TSP() { }
   /**
    * Finds the route that visits all the Locatables in locations once.
    * @param g complete CollegeGraph

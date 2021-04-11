@@ -11,6 +11,7 @@ public class Nearest<A extends Locatable, B extends Locatable> {
   /**
    * Gets the closest location based on the each cluster in map.
    * @param clusters map of centroid to Locatable.
+   * @param locations list of locations.
    * @return a map, mapping an airport to its cluster.
    */
   public Map<B, List<A>> findAllNearestLocations(
@@ -31,7 +32,9 @@ public class Nearest<A extends Locatable, B extends Locatable> {
 
   /**
    * Finds the closet location to point.
-   * @return
+   * @param point nearest from point
+   * @param locations list of locations
+   * @return best location.
    */
   public B findNearestLocation(A point, List<B> locations) {
     double bestDistance = Double.POSITIVE_INFINITY;

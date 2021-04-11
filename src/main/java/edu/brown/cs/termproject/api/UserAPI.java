@@ -7,10 +7,7 @@ import edu.brown.cs.termproject.collegegraph.College;
 import edu.brown.cs.termproject.collegegraph.CollegeGraph;
 import edu.brown.cs.termproject.collegegraph.Path;
 import edu.brown.cs.termproject.database.UserDataManager;
-import edu.brown.cs.termproject.main.Encryption;
-import edu.brown.cs.termproject.main.User;
 import edu.brown.cs.termproject.router.Clustering;
-import edu.brown.cs.termproject.router.Locatable;
 import edu.brown.cs.termproject.router.Point;
 import edu.brown.cs.termproject.router.TSP;
 import spark.Route;
@@ -19,7 +16,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 

@@ -112,6 +112,5 @@ public class Clustering<L extends Locatable> {
     double newY = (lon * RADIAN / Math.PI);
 
     return new Point(newX, newY);
-//    return new Point(totalLat / locations.size(), totalLon / locations.size());
   }
 }
