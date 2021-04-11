@@ -7,12 +7,13 @@ import CollegeMarker from './Marker/collegeMarker.js'
 import RouteClusterMarker from './routeClusterMarker.js'
 import ClusterMarker from './Marker/clusterMarker.js';
 import supercluster from 'points-cluster';
+import { ClusterSlider } from './clusterSlider'
 import { findCenter } from './geocoordinateCalculations';
 import { renderDirections, clearDirections } from './directionsRenderer'
 
 const MAP = {
     defaultZoom: 5,
-    defaultCenter: { lat: 37.5, lng: -104 }, // center of US (slightly adjusted)
+    defaultCenter: { lat: 37.5, lng: -97 }, // center of US (slightly adjusted)
     options: {
         styles: mapStyles.basic,
         disableDefaultUI: true,
@@ -24,8 +25,21 @@ function Map(props) {
     const [clustersDisplayed, setClustersDisplayed] = useState([]);
     const [defaultColleges, setDefaultColleges] = useState([]);
     const [mapOptions, setMapOptions] = useState({});
+    const [sliderValue, setSliderValue] = useState(20);
 
     const dispatch = useDispatch();
+
+    const handleSliderChange = (event, value) => {
+        setSliderValue(value);
+        dispatch({
+            payload: {
+                colleges: props.user.colleges,
+                radius: value,
+            },
+            type: 'REQUEST_UPDATE_CLUSTERS',
+        })
+    }
+
 
     // request default colleges when page is first loaded
     useEffect(() => {
@@ -45,15 +59,19 @@ function Map(props) {
 
     // calculate clusters
     const getCollegeClusters = () => {
-        // console.log(mapOptions)
+        console.log(mapOptions)
         const clusters = supercluster(defaultColleges, {
             minZoom: 0,
             maxZoom: 16,
             radius: 60,
         });
-        // console.log(clusters(mapOptions))
         return clusters(mapOptions);
     };
+
+    function getCurrentRouteCluster() {
+        return Object.values(Object.values(props.route)[props.selectedCluster]);
+    }
+
 
     const createClusters = () => {
         setClustersDisplayed(
@@ -69,10 +87,7 @@ function Map(props) {
         );
     };
 
-    const handleMapChange = ({ center, zoom, bounds }) => {
-        setMapOptions({center, zoom, bounds},
-        );
-    };
+    const handleMapChange = ({ center, zoom, bounds }) => { setMapOptions({ center, zoom, bounds });};
 
     useEffect(createClusters, [mapOptions])
 
@@ -82,10 +97,7 @@ function Map(props) {
         )
     }
 
-    function getCurrentRouteCluster() {
-        return Object.values(Object.values(props.route)[props.selectedCluster]);
-    }
-
+  
     const handleApiLoaded = (map, maps) => {
         dispatch({
             payload: { map, maps },
@@ -95,19 +107,21 @@ function Map(props) {
 
     useEffect(() => {
         if ((props.mapRef !== null) && (props.mapsRef !== null)) {
+            const center = props.mapRef.getCenter();
             const bounds = props.mapRef.getBounds();
-            const ne = bounds.getNorthEast();
-            const sw = bounds.getSouthWest();
+            const ne = { lat: bounds.getNorthEast().lat(), lng: bounds.getNorthEast().lng() };
+            const sw = { lat: bounds.getSouthWest().lat(), lng: bounds.getSouthWest().lng() }
             const mapBounds = {
                 ne: ne,
-                nw: {lat: ne.lat, lng: sw.lng},
-                se: {lat: sw.lat, lng: ne.lng},
+                nw: { lat: ne.lat, lng: sw.lng },
+                se: { lat: sw.lat, lng: ne.lng },
                 sw: sw,
-        }
+            }
             handleMapChange({
-                center: props.mapRef.getCenter(), 
-                zoom: props.mapRef.getZoom(), 
-                bounds: mapBounds})
+                center: { lat: center.lat(), lng: center.lng() },
+                zoom: props.mapRef.getZoom(),
+                bounds: mapBounds
+            })
         }
     }
         , [props.mapRef, props.mapsRef])
@@ -151,9 +165,9 @@ function Map(props) {
     }, [props.viewport])
 
     return (
-        <div style={{ position: 'absolute' }}>
+        <>
+        <div className="mapContainer">
             <GoogleMap
-                style={{ height: '100vh', width: '100vw', zIndex: -1 }}
                 bootstrapURLKeys={{ key: 'AIzaSyBIJk5AqilYH8PHt2TP4f5d7QY-UxtJf58' }} //process.env.REACT_APP_GOOGLE_KEY
                 defaultCenter={MAP.defaultCenter}
                 defaultZoom={MAP.defaultZoom}
@@ -200,7 +214,13 @@ function Map(props) {
 
             </GoogleMap>
         </div>
-
+        {(props.viewport === 'clusters') &&
+            <div className="sliderContainer">
+                <ClusterSlider valueLabelDisplay="off" defaultValue={350} step={100} min={350} max={550} 
+                value={sliderValue} onChangeCommitted={handleSliderChange}/>
+            </div>
+         }
+        </>
     );
 }
 

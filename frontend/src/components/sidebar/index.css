@@ -10,6 +10,7 @@
 .drawerHeader {
     display: flex;
     flex-direction: row-reverse;
+    height: 70px;
 }
 
 .closeIcon {
