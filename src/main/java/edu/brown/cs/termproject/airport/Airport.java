@@ -7,10 +7,14 @@ public class Airport implements Locatable {
   private final double lat;
   private final double lon;
   private final String website;
-  public Airport(String name, double lat, double lon, String website) {
+  private final String city;
+  private final String state;
+  public Airport(String name, double lat, double lon, String city, String state, String website) {
     this.name = name;
     this.lat = lat;
     this.lon = lon;
+    this.city = city;
+    this.state = state;
     this.website = website;
   }
   public String getName() {
@@ -23,9 +27,6 @@ public class Airport implements Locatable {
   @Override
   public double getLon() {
     return this.lon;
-  }
-  public String getWebsite() {
-    return this.website;
   }
   @Override
   public String toString() {

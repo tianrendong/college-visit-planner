@@ -13,6 +13,8 @@ import java.util.List;
  */
 public class AirportSQLManager extends DatabaseManager {
   public static final int NAME_COL = 2;
+  public static final int CITY_COL = 3;
+  public static final int STATE_COL = 4;
   public static final int LAT_COL = 5;
   public static final int LON_COL = 6;
   public static final int WEBSITE_COL = 7;
@@ -45,6 +47,8 @@ public class AirportSQLManager extends DatabaseManager {
                     rs.getString(NAME_COL),
                     rs.getDouble(LAT_COL),
                     rs.getDouble(LON_COL),
+                    rs.getString(CITY_COL),
+                    rs.getString(STATE_COL),
                     rs.getString(WEBSITE_COL)
                 ));
           }
