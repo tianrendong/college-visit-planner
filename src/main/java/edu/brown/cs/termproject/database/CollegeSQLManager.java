@@ -113,7 +113,7 @@ public class CollegeSQLManager extends DatabaseManager {
    * @throws SQLException if errors occur during SQL query
    */
   public List<College> getDefaultColleges() throws SQLException {
-    return getColleges("name like 'A%'");
+    return getColleges("top_100 = 'true'");
   }
 
   private List<College> getColleges(String condition) throws SQLException {
@@ -157,6 +157,8 @@ public class CollegeSQLManager extends DatabaseManager {
             colleges.add(newCollege);
           }
         }
+      } catch (SQLException e) {
+        System.out.println(e.getMessage());
       }
       return colleges;
     }

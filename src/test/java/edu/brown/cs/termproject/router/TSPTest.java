@@ -90,6 +90,6 @@ public class TSPTest {
     CollegeGraph graph = new CollegeGraph(_colleges);
     List<College> tsp = _tsp.findRoute(graph);
     System.out.println(tsp);
-    assertEquals(0, tsp.size());
+    assertEquals(1, tsp.size());
   }
 }
