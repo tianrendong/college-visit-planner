@@ -65,8 +65,7 @@ const CollegeInfo = (props) => {
                     Nearby Colleges
                 </Typography>
             </div>
-
-            {hasNearbyColleges() && nearbyColleges().map(c => <AirportInfo airport={c}/>)}
+            {nearbyColleges().map(c => <AirportInfo airport={c}/>)}
         </div>
     );
 
