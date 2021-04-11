@@ -5,9 +5,9 @@ import edu.brown.cs.termproject.graph.Edge;
 /**
  * The class for Path.
  */
-public class LocationPath implements Edge<LocationWrapper> {
-  private LocationWrapper start;
-  private LocationWrapper end;
+public class LocationPath implements Edge<Location> {
+  private Location start;
+  private Location end;
   private double weight;
 
   /**
@@ -16,19 +16,19 @@ public class LocationPath implements Edge<LocationWrapper> {
    * @param end end College.
    * @param weight weight of the Path.
    */
-  public LocationPath(LocationWrapper start, LocationWrapper end, double weight) {
+  public LocationPath(Location start, Location end, double weight) {
     this.start = start;
     this.end = end;
     this.weight = weight;
   }
 
   @Override
-  public LocationWrapper getStart() {
+  public Location getStart() {
     return start;
   }
 
   @Override
-  public LocationWrapper getEnd() {
+  public Location getEnd() {
     return end;
   }
 

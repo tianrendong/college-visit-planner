@@ -11,10 +11,10 @@ import java.util.*;
 /**
  * Class for an undirected college graph.
  */
-public class LocationGraph<T extends Vertex> implements Graph<LocationWrapper, LocationPath> {
+public class LocationGraph<T extends Vertex> implements Graph<Location, LocationPath> {
 
-  private final Map<LocationWrapper, List<LocationPath>> graph = new HashMap<>(); // graph stored as adjacency list
-  private Set<LocationWrapper> locations;
+  private final Map<Location, List<LocationPath>> graph = new HashMap<>(); // graph stored as adjacency list
+  private Set<Location> locations;
 
   /**
    * Initializes a complete college graph with a list of colleges.
@@ -23,7 +23,7 @@ public class LocationGraph<T extends Vertex> implements Graph<LocationWrapper, L
    * @throws ApiException if errors occur during Google Map requests
    * @throws IOException if errors occur during Google Map requests
    */
-  public LocationGraph(List<LocationWrapper> locations)
+  public LocationGraph(List<Location> locations)
       throws InterruptedException, ApiException, IOException {
     this.locations = new HashSet<>(locations);
     buildCompleteGraph(locations);
@@ -40,12 +40,12 @@ public class LocationGraph<T extends Vertex> implements Graph<LocationWrapper, L
 //  }
 
 
-  private void buildCompleteGraph(List<LocationWrapper> allLocations)
+  private void buildCompleteGraph(List<Location> allLocations)
       throws InterruptedException, ApiException, IOException {
     for (int i = 0; i < allLocations.size(); i++) {
       for (int j = i + 1; j < allLocations.size(); j++) {
-        LocationWrapper start = allLocations.get(i);
-        LocationWrapper end = allLocations.get(j);
+        Location start = allLocations.get(i);
+        Location end = allLocations.get(j);
 
         //get optimal distance between colleges.get(i) and colleges.get(j) using Google Maps API
         double distance = GoogleMapAPIManager.getTravelDistance(
@@ -61,8 +61,8 @@ public class LocationGraph<T extends Vertex> implements Graph<LocationWrapper, L
 
   @Override
   public void addEdge(LocationPath p) {
-    LocationWrapper start = p.getStart();
-    LocationWrapper end = p.getEnd();
+    Location start = p.getStart();
+    Location end = p.getEnd();
     locations.add(start);
     locations.add(end);
     if (graph.containsKey(start)) {
@@ -73,14 +73,14 @@ public class LocationGraph<T extends Vertex> implements Graph<LocationWrapper, L
   }
 
   @Override
-  public Set<LocationWrapper> getVertices() {
+  public Set<Location> getVertices() {
     return locations;
   }
 
   @Override
   public Set<LocationPath> getEdges() {
     Set<LocationPath> edges = new HashSet<>();
-    for (Map.Entry<LocationWrapper, List<LocationPath>> entry : graph.entrySet()) {
+    for (Map.Entry<Location, List<LocationPath>> entry : graph.entrySet()) {
       edges.addAll(entry.getValue());
     }
     return edges;
@@ -94,10 +94,10 @@ public class LocationGraph<T extends Vertex> implements Graph<LocationWrapper, L
    * @throws ApiException if errors occur during Google Map requests
    * @throws IOException if errors occur during Google Map requests
    */
-  public void addNode(LocationWrapper newLocation) throws InterruptedException, ApiException, IOException {
-    Set<LocationWrapper> allLocations = new HashSet<>(graph.keySet());
+  public void addNode(Location newLocation) throws InterruptedException, ApiException, IOException {
+    Set<Location> allLocations = new HashSet<>(graph.keySet());
     // add a path from this node to every other node
-    for (LocationWrapper c : allLocations) {
+    for (Location c : allLocations) {
       double distance = GoogleMapAPIManager.getTravelDistance(
           newLocation.getLat(), newLocation.getLon(), c.getLat(), c.getLon());
       addEdge(new LocationPath(newLocation, c, distance));
@@ -122,7 +122,7 @@ public class LocationGraph<T extends Vertex> implements Graph<LocationWrapper, L
   @Override
   public String toString() {
     String output = "";
-    List<LocationWrapper> allLocations = new ArrayList<>(graph.keySet());
+    List<Location> allLocations = new ArrayList<>(graph.keySet());
     for (int i = 0; i < allLocations.size(); i++) {
       List<LocationPath> paths = graph.get(allLocations.get(i));
       for (int j = 0; j < paths.size(); j++) {

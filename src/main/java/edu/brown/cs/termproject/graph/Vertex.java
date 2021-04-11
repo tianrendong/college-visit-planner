@@ -7,6 +7,6 @@ import edu.brown.cs.termproject.router.Locatable;
  */
 public interface Vertex extends Locatable {
 
-  String getName();
+  int getId();
 
 }

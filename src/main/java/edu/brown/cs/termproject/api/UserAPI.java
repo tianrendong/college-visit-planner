@@ -7,24 +7,19 @@ import edu.brown.cs.termproject.collegegraph.*;
 import edu.brown.cs.termproject.database.UserDataManager;
 import edu.brown.cs.termproject.iotools.CenterCalculator;
 import edu.brown.cs.termproject.main.Main;
-import edu.brown.cs.termproject.router.Clustering;
-import edu.brown.cs.termproject.router.Nearest;
-import edu.brown.cs.termproject.router.Point;
-import edu.brown.cs.termproject.router.TSP;
+import edu.brown.cs.termproject.router.*;
 import spark.Route;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class UserAPI {
 
   private static final Gson GSON = new Gson();
   private UserDataManager userDB;
-  private final TSP<LocationWrapper, LocationPath> tspFinder = new TSP<>();
+  private final TSP<Location, LocationPath> tspFinder = new TSP<>();;
   private final Nearest nearest = new Nearest();
 
   /**
@@ -146,19 +141,23 @@ public class UserAPI {
         }.getType());
     System.out.println(colleges);
 
+    // find center of the colleges and use it to find nearest airport
     Point center = CenterCalculator.getCentroid(colleges);
-
     List<Airport> airports = Main.getAirportDatabase().getAllAirports();
     Airport airport = (Airport) nearest.findNearestLocation(center, airports);
 
-//    LocationGraph graph = new LocationGraph(colleges);
-//    graph.addNode(airport);
-//
-//    List<College> orderedCluster = tspFinder.findRoute(graph);
-//    System.out.println(143);
-//    System.out.println(orderedCluster);
+    // wrap all colleges and airports in Location objects and add them to a list
+    List<Location> locations = new ArrayList<>();
+    for (College c : colleges) {
+      locations.add(new Location(c.getId(), c.getName(), c.getLat(), c.getLon(), "college"));
+    }
+    locations.add(new Location(airport.getId(), airport.getName(), airport.getLat(), airport.getLon(), "airport"));
 
-    return true;
-//    return GSON.toJson(orderedCluster);
+    //perform TSP and reorder the found route
+    LocationGraph graph = new LocationGraph(locations);
+    List<Location> tsp = OrderRoute.orderRoute(tspFinder.findRoute(graph));
+
+    return GSON.toJson(tsp);
   };
+
 }

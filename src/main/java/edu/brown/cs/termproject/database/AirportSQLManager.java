@@ -18,6 +18,7 @@ public class AirportSQLManager extends DatabaseManager {
   public static final int LAT_COL = 5;
   public static final int LON_COL = 6;
   public static final int WEBSITE_COL = 7;
+  public static final int ID_COL = 8;
 
   /**
    * Function that connects to the database.
@@ -44,6 +45,7 @@ public class AirportSQLManager extends DatabaseManager {
           while (rs.next()) {
             airports.add(
                 new Airport(
+                    rs.getInt(ID_COL),
                     rs.getString(NAME_COL),
                     rs.getDouble(LAT_COL),
                     rs.getDouble(LON_COL),

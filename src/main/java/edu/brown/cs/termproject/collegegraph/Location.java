@@ -8,25 +8,26 @@ import java.util.List;
 /**
  * The class College that implements Locatable interface.
  */
-public class LocationWrapper implements Locatable, Vertex {
+public class Location implements Locatable, Vertex {
 
+  private int id;
   private String name;
   private double lat;
   private double lon;
-  private Object content;
+  private String type;
 
-  public LocationWrapper(String name, double lat, double lon, Object content) {
+  public Location(int id, String name, double lat, double lon, String type) {
+    this.id = id;
     this.name = name;
     this.lat = lat;
     this.lon = lon;
-    this.content = content;
+    this.type = type;
   }
 
   /**
    * returns college name.
    * @return college name
    */
-  @Override
   public String getName() {
     return name;
   }
@@ -56,5 +57,14 @@ public class LocationWrapper implements Locatable, Vertex {
   @Override
   public String toString() {
     return name + ": (" + lat + ", " + lon + ")";
+  }
+
+  @Override
+  public int getId() {
+    return id;
+  }
+
+  public String getType() {
+    return type;
   }
 }

@@ -68,6 +68,7 @@ public class College implements Locatable, Vertex {
    * returns college iD.
    * @return id
    */
+  @Override
   public int getId() {
     return id;
   }
@@ -76,7 +77,6 @@ public class College implements Locatable, Vertex {
    * returns college name.
    * @return college name
    */
-  @Override
   public String getName() {
     return name;
   }
