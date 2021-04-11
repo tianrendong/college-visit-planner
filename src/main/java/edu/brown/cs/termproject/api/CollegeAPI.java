@@ -71,10 +71,9 @@ public class CollegeAPI {
     Airport airport = (Airport) nearest.findNearestLocation(college, airports);
     payload.addProperty("nearbyAirport", GSON.toJson(airport)); // add airport
 
-    if (college.getNearbyColleges() != null) {
-      List<College> colleges = collegeDB.getCollegeByID(college.getNearbyColleges());
-      payload.addProperty("nearbyColleges", GSON.toJson(colleges)); // add nearby colleges
-    }
+    List<College> colleges = collegeDB.getNearbyColleges(college);
+    payload.addProperty("nearbyColleges", GSON.toJson(colleges)); // add nearby colleges
+    System.out.println(colleges);
 
     return payload;
   };

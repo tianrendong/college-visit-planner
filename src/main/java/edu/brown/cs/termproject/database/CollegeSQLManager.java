@@ -116,6 +116,30 @@ public class CollegeSQLManager extends DatabaseManager {
     return getColleges("top_100 = 'true'");
   }
 
+  /**
+   *
+   * @param college
+   * @return
+   * @throws SQLException
+   */
+  public List<College> getNearbyColleges(College college) throws SQLException {
+    double distance = 200;
+    double latRatio = distance / 69;
+    double lonRatio = distance / 54.6;
+
+    double lat = college.getLat();
+    double lon = college.getLon();
+
+    double nwLat, nwLon, seLat, seLon;
+    nwLat = lat + latRatio;
+    nwLon = lon - lonRatio;
+    seLat = lat - latRatio;
+    seLon = lon + lonRatio;
+
+    return getColleges("(latitude BETWEEN " + seLat + " AND " + nwLat
+        + ") AND (longitude BETWEEN " + nwLon + " AND " + seLon + ")");
+  }
+
   private List<College> getColleges(String condition) throws SQLException {
     if (getConnection() == null) {
       throw new IllegalStateException("Must open a database first.");
