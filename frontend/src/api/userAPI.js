@@ -65,7 +65,10 @@ function requestUpdateRoute(payload) {
     })
     return fetch(request)
         .then(response => response.json())
-        .then(data => data);
+        .then(data => {
+            console.log(data)
+            return data}
+            );
 }
 
 function requestUpdateClusters(payload) {

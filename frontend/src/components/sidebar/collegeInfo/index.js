@@ -38,15 +38,15 @@ const CollegeInfo = (props) => {
                 </Typography>
             </div>
 
+            <div className="collegeInfoFooter">
+                <Button size="small" href={college().url} target="_blank">Visit Website</Button>
+            </div>
+
             <div className="collegeInfoContent"> 
                 <Typography variant="body2" color="textSecondary" component="p">
                     {college().description}
                 </Typography>
                 
-            </div>
-
-            <div className="collegeInfoFooter">
-                <Button size="small" href={college().url} target="_blank">Visit Website</Button>
             </div>
             
             {hasNearbyAirport() && 
@@ -60,11 +60,11 @@ const CollegeInfo = (props) => {
                 </>
             }
 
-            <div className="sidebarHeader">
+            {/* <div className="sidebarHeader">
                 <Typography className={classes.title} color="textSecondary" gutterBottom>
                     Nearby Colleges
                 </Typography>
-            </div>
+            </div> */}
 
             {hasNearbyColleges() && nearbyColleges().map(c => <AirportInfo airport={c}/>)}
         </div>

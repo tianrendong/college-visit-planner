@@ -21,9 +21,9 @@ public class OrderRouteTest {
 
     List<Location> _locations = new ArrayList<>();
     for (College c : _colleges) {
-      _locations.add(new Location(c.getId(), c.getName(), c.getLat(), c.getLon(), "college"));
+      _locations.add(new Location(c.getId(), c.getName(), c.getLat(), c.getLon(), "college", c));
     }
-    _locations.add(new Location(a.getId(), a.getName(), a.getLat(), a.getLon(), "airport"));
+    _locations.add(new Location(a.getId(), a.getName(), a.getLat(), a.getLon(), "airport", a));
     System.out.println(OrderRoute.orderRoute(_locations));
   }
 

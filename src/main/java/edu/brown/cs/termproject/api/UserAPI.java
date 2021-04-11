@@ -149,9 +149,9 @@ public class UserAPI {
     // wrap all colleges and airports in Location objects and add them to a list
     List<Location> locations = new ArrayList<>();
     for (College c : colleges) {
-      locations.add(new Location(c.getId(), c.getName(), c.getLat(), c.getLon(), "college"));
+      locations.add(new Location(c.getId(), c.getName(), c.getLat(), c.getLon(), "college", c));
     }
-    locations.add(new Location(airport.getId(), airport.getName(), airport.getLat(), airport.getLon(), "airport"));
+    locations.add(new Location(airport.getId(), airport.getName(), airport.getLat(), airport.getLon(), "airport", airport));
 
     //perform TSP and reorder the found route
     LocationGraph graph = new LocationGraph(locations);

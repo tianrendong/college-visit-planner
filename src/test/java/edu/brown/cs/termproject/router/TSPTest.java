@@ -132,10 +132,10 @@ public void testFindRouteReachesAll() throws InterruptedException, ApiException,
 
     List<Location> _locations = new ArrayList<>();
     for (College c : _colleges) {
-      _locations.add(new Location(c.getId(), c.getName(), c.getLat(), c.getLon(), "college"));
+      _locations.add(new Location(c.getId(), c.getName(), c.getLat(), c.getLon(), "college", c));
     }
     LocationGraph graph = new LocationGraph(_locations);
-    graph.addNode(new Location(a.getId(), a.getName(), a.getLat(), a.getLon(), "airport"));
+    graph.addNode(new Location(a.getId(), a.getName(), a.getLat(), a.getLon(), "airport", a));
     TSP<Location, LocationPath> _tsp2 = new TSP<>();;
     List<Location> tsp = _tsp2.findRoute(graph);
     System.out.println(tsp);

@@ -2,44 +2,20 @@ import React, { useEffect, useState } from 'react'
 import './index.css'
 import { connect } from 'react-redux'
 import Typography from '@material-ui/core/Typography';
-import { Collapse, makeStyles } from "@material-ui/core";
-import Divider from "@material-ui/core/Divider";
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import IconButton from "@material-ui/core/IconButton";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import * as PropTypes from "prop-types";
-import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
 import DriveEtaIcon from '@material-ui/icons/DriveEta';
-
-const useStyles = makeStyles((theme) => ({
-    state: {
-        fontSize: 19,
-    },
-    cardRoot: {
-        minWidth: 275,
-        margin: '10px 20px 15px 0',
-        width: '100%',
-    },
-    cardContentRoot: {
-        backgroundColor: '#fffefc',
-    },
-    navigateIcon: {
-        // margin: '3px',
-    },
-    navigateGPS: {
-        // width: '2px',
-        // height: '2px',
-        padding: '0'
-    }
-}));
+import LocalAirportIcon from '@material-ui/icons/LocalAirport';
+import { useStyles } from './styles'
 
 const RouteInfo = (props) => {
 
-    const classes = useStyles()
     const currentCluster = () => Object.values(Object.values(props.route)[props.selectedCluster])
     const [directionBoxes, setDirectionBoxes] = useState([]);
     const [display, setDisplay] = useState([])
+    // const [travelDist, setTravelDist] = useState(0);
+    // const [travelTime, setTravelTime] = useState(0);
 
     const renderRoutes = async (cluster) => {
         const start = new window.google.maps.LatLng(cluster[0].lat, cluster[0].lon);
@@ -65,7 +41,7 @@ const RouteInfo = (props) => {
         if (directionBoxes.length !== 0) {
             for (let i = 0; i < currentCluster().length; i++) {
                 console.log("c")
-                const college = <CollegeBox college={currentCluster()[i]} />
+                const college = <LocationBox location={currentCluster()[i]} />
                 setDisplay(display => [...display, college])
                 if (i < currentCluster().length - 1) {
                     setDisplay(display => [...display, directionBoxes[i]])
@@ -80,9 +56,12 @@ const RouteInfo = (props) => {
                 <h1 className="sidebarTitle">Route Information</h1>
             </div>
             {props.selectedCluster !== '' && <div>{display}</div>}
+
             {/* <div className="sidebarHeader">
-                <h2 className="sidebarTitle">Nearby Airports</h2>
+                <Typography>Total travel distance: {"300miles"}</Typography>
+                <Typography>Total travel distance: {"300miles"}</Typography>
             </div> */}
+
         </div>
     );
 }
@@ -106,18 +85,19 @@ function calculateRoute(start, end, waypts) {
 }
 
 
-const CollegeBox = (props) => {
-    const { college } = props;
-    console.log(college)
+const LocationBox = (props) => {
+    const { location } = props;
+    console.log(location)
     const classes = useStyles();
     return (
         <div className="collegeCardContainer">
             <div className="collegeCardInnerContainer">
-                <div className="collegeName">{college.name}</div>
+                <div className="collegeName">{location.name}</div>
                 <Typography className={classes.state}>
-                {college.city}, {college.state}
+                {location.content.city}, {location.content.state}
                 </Typography>
             </div>
+            { (location.type === "airport") ? <LocalAirportIcon fontSize="middle" className={classes.icon}/> : <></> }
             {/* <IconButton size="large">
                     <NavigateNextIcon fontSize="middle" classes={classes.navigateIcon}/>
             </IconButton>  */}

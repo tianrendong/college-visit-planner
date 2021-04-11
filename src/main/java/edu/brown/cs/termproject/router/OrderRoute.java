@@ -29,7 +29,7 @@ public final class OrderRoute {
     while (tempLocations.peek() != null) {
       orderedRoute.add(tempLocations.poll());
     }
-    orderedRoute.add(foundAirport); //add airport again (go back to airport)
+
     return orderedRoute;
   }
 }

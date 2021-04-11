@@ -19,23 +19,22 @@ const useStyles = makeStyles((theme) => ({
         margin: '20px 0 0 0',
     },
     cardRoot: {
-        minWidth: 275,
-        margin: '10px 20px 15px 0',
-        width: '100%',
+        alignSelf: 'center',
+        width: '90%'
     },
     cardContentRoot: {
         backgroundColor: '#fffefc',
     },
-    expand: {
-        transform: 'rotate(0deg)',
-        marginLeft: 'auto',
-        transition: theme.transitions.create('transform', {
-            duration: theme.transitions.duration.shortest,
-        }),
-    },
-    expandOpen: {
-        transform: 'rotate(180deg)',
-    },
+    // expand: {
+    //     transform: 'rotate(0deg)',
+    //     marginLeft: 'auto',
+    //     transition: theme.transitions.create('transform', {
+    //         duration: theme.transitions.duration.shortest,
+    //     }),
+    // },
+    // expandOpen: {
+    //     transform: 'rotate(180deg)',
+    // },
 }));
 
 const AirportInfo = (props) => {
@@ -50,7 +49,7 @@ const AirportInfo = (props) => {
 
     return (
         <Card classes={{ root: classes.cardRoot }}>
-            <div className="collegeSearchResultInnerContainer">
+            {/* <div className="collegeSearchResultInnerContainer"> */}
             <CardContent
                 classes={{ root: classes.cardContentRoot }}>
                 <Typography variant="h6" component="h2">
@@ -60,7 +59,8 @@ const AirportInfo = (props) => {
                     {airport.city}, {airport.state}
                 </Typography>
             </CardContent>
-            <IconButton
+            {/* </div> */}
+            {/* <IconButton
                 className={clsx(classes.expand, {
                     [classes.expandOpen]: expanded,
                 })}
@@ -73,10 +73,9 @@ const AirportInfo = (props) => {
             </div>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent>
-                    {/* <Typography paragraph>{college.description}</Typography> */}
                     <Button size="small" href={airport.website} target="_blank">Learn More</Button>
                 </CardContent>
-            </Collapse>
+            </Collapse> */}
         </Card>
     )
 }

@@ -15,13 +15,15 @@ public class Location implements Locatable, Vertex {
   private double lat;
   private double lon;
   private String type;
+  private Object content;
 
-  public Location(int id, String name, double lat, double lon, String type) {
+  public Location(int id, String name, double lat, double lon, String type, Object content) {
     this.id = id;
     this.name = name;
     this.lat = lat;
     this.lon = lon;
     this.type = type;
+    this.content = content;
   }
 
   /**
