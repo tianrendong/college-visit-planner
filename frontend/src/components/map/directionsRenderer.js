@@ -23,7 +23,8 @@ function calculateAndDisplayRoute(directionsService, directionsRenderer, start, 
 
 const renderOptionsMain = {
     strokeColor: '#265A8A',
-    strokeWeight: '5',
+    strokeOpacity: '0.9',
+    strokeWeight: '8',
 };
 
 const renderOptionsBorder = {
@@ -70,9 +71,9 @@ export function renderDirections(map, start, end, waypts) {
     const directionsService = new window.google.maps.DirectionsService();
     setDirectionsRenderer();
     directionsInnerDisplay.setMap(map);
-    directionsBorderDisplay.setMap(map);
+    // directionsBorderDisplay.setMap(map);
     calculateAndDisplayRoute(directionsService, directionsInnerDisplay, start, end, waypts, map);
-    calculateAndDisplayRoute(directionsService, directionsBorderDisplay, start, end, waypts, map);
+    // calculateAndDisplayRoute(directionsService, directionsBorderDisplay, start, end, waypts, map);
 }
 
 export function clearDirections(){

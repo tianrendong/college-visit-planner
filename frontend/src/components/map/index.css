@@ -50,3 +50,11 @@
     bottom: 40px;
     right: 70px;
 }
+
+.collegeLabel {
+    text-align: center;
+    font-size: medium;
+    font-family: 'Roboto', sans-serif;
+    -webkit-text-stroke: .3px white;
+	-webkit-text-fill-color: black;
+}

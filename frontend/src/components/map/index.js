@@ -40,7 +40,6 @@ function Map(props) {
         })
     }
 
-
     // request default colleges when page is first loaded
     useEffect(() => {
         dispatch({
@@ -71,7 +70,6 @@ function Map(props) {
     function getCurrentRouteCluster() {
         return Object.values(Object.values(props.route)[props.selectedCluster]);
     }
-
 
     const createClusters = () => {
         setClustersDisplayed(
@@ -208,7 +206,7 @@ function Map(props) {
 
                 {(props.viewport === 'zoomedIn') &&
                     getCurrentRouteCluster().map((college, index) => (
-                        <div lat={college.lat} lng={college.lon}> {college.name}</div>
+                        <div lat={college.lat} lng={college.lon} className="collegeLabel"> {college.name}</div>
                     ))
                 }
 
