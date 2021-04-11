@@ -2,9 +2,7 @@ import React, { useState } from 'react';
 import { connect, useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles';
 import { withStyles } from '@material-ui/core/styles';
-import MuiAccordion from '@material-ui/core/Accordion';
-import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
-import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
+
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Typography from '@material-ui/core/Typography';
@@ -19,52 +17,15 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import {dataPolicy} from './policies.js'
 import './index.css'
+import { Accordion, AccordionSummary, AccordionDetails } from './styles'
 
-const Accordion = withStyles({
-    root: {
-        // border: '1px solid rgba(0, 0, 0, .125)',
-        border: 'none',
-        background: 'transparent',
-        boxShadow: 'none',
-        '&:not(:last-child)': {
-            borderBottom: 0,
-        },
-        '&:before': {
-            display: 'none',
-        },
-        '&$expanded': {
-            margin: 'auto',
-        },
+const useStyles = makeStyles(() => ({
+    settingsControl: {
+        padding: '0 16px'
     },
-    expanded: {},
-})(MuiAccordion);
-
-const AccordionSummary = withStyles({
-    root: {
-        backgroundColor: 'transparent',
-        marginBottom: -1,
-        padding: '0 16px',
-        minHeight: 56,
-        '&$expanded': {
-            minHeight: 56,
-        },
-    },
-    content: {
-        '&$expanded': {
-            margin: '12px 0',
-        },
-    },
-    expanded: {},
-})(MuiAccordionSummary);
-
-const AccordionDetails = withStyles((theme) => ({
-    root: {
-        padding: '0 0 16px 16px',
-        // padding: 0,
-        // marginBottom: theme.spacing(2),
-    },
-}))(MuiAccordionDetails);
+}));
 
 const DIALOG_INFO = {
     'deleteData': {
@@ -80,8 +41,9 @@ const DIALOG_INFO = {
 }
 
 function Settings(props) {
+    const classes = useStyles();
     const dispatch = useDispatch();
-    const [expanded, setExpanded] = useState(false);
+    const [expanded, setExpanded] = useState([]);
     const [dialogOpen, setDialogOpen] = useState(false);
     const [dialogInfo, setDialogInfo] = useState({});
 
@@ -95,7 +57,7 @@ function Settings(props) {
   };
 
     const handleExpand = (panel) => (event, isExpanded) => {
-        setExpanded(isExpanded ? panel : false);
+        setExpanded(isExpanded ? [...expanded, panel] : expanded.filter(item => item !== panel));
     };
 
     const handleLogOut = () => {
@@ -124,35 +86,21 @@ function Settings(props) {
     return (
         <div className="settingsContainer">
             <h1 className="leftPadd" >Settings</h1>
-            <div className="settingsInnerContainer">
-                <Typography variant="h6" className="leftPadd">
-                    Data Policy
-                </Typography>
-                <Accordion square expanded={expanded === 'panel1'} onChange={handleExpand('panel1')}>
-                    <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
-                        <Typography>Collapsible Group Item #1</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                        <Typography>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-                            sit amet blandit leo lobortis eget. Lorem ipsum dolor sit amet, consectetur adipiscing
-                            elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.
-                    </Typography>
-                    </AccordionDetails>
-                </Accordion>
-            </div>
+        
 
             <div>
                 <Typography variant="h6" className="leftPadd">
                     My Account
-            </Typography>
+                </Typography>
 
-                <List component="nav" aria-label="Device settings">
+                <List component="nav">
                     <ListItem
                         button
                         aria-haspopup="true"
                         aria-controls="lock-menu"
+                        className="settingsControl"
                         onClick={() => handleOpenDialog('deleteData')}
+                        classes={{root: classes.settingsControl}}
                     >
                         <ListItemText primary="Clear data" secondary="Clear all trip and collge information on your account" />
                     </ListItem>
@@ -162,6 +110,7 @@ function Settings(props) {
                         aria-haspopup="true"
                         aria-controls="lock-menu"
                         onClick={() => handleOpenDialog('deleteAccount')}
+                        classes={{root: classes.settingsControl}}
                     >
                         <ListItemText primary="Delete Account" secondary="Delete your entire account" />
                     </ListItem>
@@ -171,13 +120,15 @@ function Settings(props) {
                         aria-haspopup="true"
                         aria-controls="lock-menu"
                         onClick={handleLogOut}
+                        classes={{root: classes.settingsControl}}
                     >
                         <ListItemText primary="Log Out" secondary="Log out of current account" />
                     </ListItem>
                 </List>
 
+            </div>
 
-                <Dialog
+            <Dialog
                     open={dialogOpen}
                     onClose={handleCloseDialog}
                     aria-labelledby="alert-dialog-title"
@@ -198,8 +149,37 @@ function Settings(props) {
                     </Button>
                     </DialogActions>
                 </Dialog>
-                
 
+            <div className="settingsInnerContainer">
+                <Typography variant="h6" className="leftPadd">
+                    Privacy and Data Policy
+                </Typography>
+                <Accordion square expanded={expanded.includes('panel1')} onChange={handleExpand('panel1')}>
+                    <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
+                        <Typography>How do we collect, use, and store your data?</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        {dataPolicy.collectionAndUsage()}
+                    </AccordionDetails>
+                </Accordion>
+
+                <Accordion square expanded={expanded.includes('panel2')} onChange={handleExpand('panel2')}>
+                    <AccordionSummary aria-controls="panel2d-content" id="panel2d-header">
+                        <Typography>What are your data protection rights?</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        {dataPolicy.dataProtectionRights()}
+                    </AccordionDetails>
+                </Accordion>                   
+                    
+            </div>
+            <div className="settingsInnerContainer">
+                <Typography variant="h6" className="leftPadd">
+                    Contact Us
+                </Typography>
+                <div style={{marginLeft: '16px'}}>
+                    {dataPolicy.contactUs()}
+                </div>
             </div>
 
         </div>

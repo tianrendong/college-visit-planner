@@ -5,22 +5,3 @@
 .settingsInnerContainer {
     padding: 15px 0 15px 0;
 }
-
-.logoutButton {
-    margin-left: 20px;
-    padding: 12px 25px;
-    border-radius: 50px;
-    border: none;
-    background: rgb(39, 39, 39);
-    font-family: "Inter";
-    color: white;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-  }
-
-  .logoutButtonContainer{
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-  }

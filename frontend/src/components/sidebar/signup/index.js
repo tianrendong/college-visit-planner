@@ -12,7 +12,6 @@ import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { DataPolicy } from '../../../assets/dataPolicy'
 import { useSnackbar } from 'notistack';
 import { connect, useDispatch } from 'react-redux';
 
@@ -165,7 +164,7 @@ function SignUp(props) {
                                 label="I confirm to the terms and conditions of this website."
                             />
                         </AccordionSummary>
-                        <AccordionDetails>{DataPolicy}</AccordionDetails>
+                        <AccordionDetails>data policy</AccordionDetails>
                     </Accordion>
                     <Button
                         type="submit"

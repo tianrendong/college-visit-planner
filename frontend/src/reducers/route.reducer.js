@@ -1,6 +1,7 @@
 const initialState = {
     sidebar: 'login',
-    infobar: '',
+    // infobar: '',
+    infobar: 'settings',
     popDialog: '',
     currentCollege: null,
 }
