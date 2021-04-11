@@ -80,9 +80,9 @@ const RouteInfo = (props) => {
                 <h1 className="sidebarTitle">Route Information</h1>
             </div>
             {props.selectedCluster !== '' && <div>{display}</div>}
-            <div className="sidebarHeader">
+            {/* <div className="sidebarHeader">
                 <h2 className="sidebarTitle">Nearby Airports</h2>
-            </div>
+            </div> */}
         </div>
     );
 }
@@ -108,13 +108,14 @@ function calculateRoute(start, end, waypts) {
 
 const CollegeBox = (props) => {
     const { college } = props;
+    console.log(college)
     const classes = useStyles();
     return (
         <div className="collegeCardContainer">
             <div className="collegeCardInnerContainer">
                 <div className="collegeName">{college.name}</div>
                 <Typography className={classes.state}>
-                    city, state
+                {college.city}, {college.state}
                 </Typography>
             </div>
             {/* <IconButton size="large">
