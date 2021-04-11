@@ -2,6 +2,7 @@ package edu.brown.cs.termproject.iotools;
 
 import edu.brown.cs.termproject.router.Locatable;
 
+@SuppressWarnings("checkstyle:HideUtilityClassConstructor")
 public class DistanceCalculator {
 
   private static final int R = 6371;

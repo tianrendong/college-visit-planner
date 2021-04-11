@@ -5,6 +5,9 @@ import edu.brown.cs.termproject.router.Locatable;
 
 import java.util.List;
 
+/**
+ * The class College that implements Locatable interface.
+ */
 public class College implements Locatable, Vertex {
 
   private int id;
@@ -23,6 +26,8 @@ public class College implements Locatable, Vertex {
    * @param name college name
    * @param lat latitude
    * @param lon longitude
+   * @param city city of college
+   * @param state state of college
    */
   public College(int id, String name, double lat, double lon, String city, String state) {
     this.id = id;
@@ -33,6 +38,19 @@ public class College implements Locatable, Vertex {
     this.state = state;
   }
 
+  /**
+   * Constructs a college.
+   * @param id college id
+   * @param name college name
+   * @param lat latitude
+   * @param lon longitude
+   * @param city city of college
+   * @param state state of college
+   * @param url url
+   * @param description description
+   * @param nearbyColleges nearby colleges
+   */
+  @SuppressWarnings("checkstyle:ParameterNumber")
   public College(int id, String name, double lat, double lon, String city, String state, String url,
                  String description, List<Integer> nearbyColleges) {
     this.id = id;
@@ -46,32 +64,76 @@ public class College implements Locatable, Vertex {
     this.nearbyColleges = nearbyColleges;
   }
 
+  /**
+   * returns college iD.
+   * @return id
+   */
   public int getId() {
     return id;
   }
 
+  /**
+   * returns college name.
+   * @return college name
+   */
   public String getName() {
     return name;
   }
 
-  public void setUrl(String url) { this.url = url;}
+  /**
+   * Sets college URL.
+   * @param url
+   */
+  public void setUrl(String url) {
+    this.url = url;
+  }
 
-  public void setDescription(String description) { this.description = description;}
+  /**
+   * Sets college description.
+   * @param description description
+   */
+  public void setDescription(String description) {
+    this.description = description;
+  }
 
-  public void setNearbyColleges(List<Integer> nearbyColleges) { this.nearbyColleges = nearbyColleges;}
+  /**
+   * Sets nearby colleges.
+   * @param nearbyColleges nearby Colleges
+   */
+  public void setNearbyColleges(List<Integer> nearbyColleges) {
+    this.nearbyColleges = nearbyColleges;
+  }
 
-  public List<Integer> getNearbyColleges() { return nearbyColleges; }
+  /**
+   * returns nearby colleges.
+   * @return list of nearby colleges
+   */
+  public List<Integer> getNearbyColleges() {
+    return nearbyColleges;
+  }
 
+  /**
+   * returns latitude of college.
+   * @return latitude
+   */
   @Override
   public double getLat() {
     return lat;
   }
 
+  /**
+   * returns longitude of college.
+   * @return longitude
+   */
   @Override
   public double getLon() {
     return lon;
   }
 
+  /**
+   * custom toString method.
+   * @return college in string.
+   */
   @Override
   public String toString() {
     return name + ": (" + lat + ", " + lon + ")";

@@ -22,11 +22,11 @@ public final class Main {
   private static final String DEFAULT_COLLEGE_DB = "./data/universities.sqlite3";
   private static final String DEFAULT_USER_DB = "./data/sampleUsers.sqlite3";
   private static final String DEFAULT_AIRPORT_DB = "./data/airports.sqlite3";
-  private static final CollegeSQLManager collegeDatabase = new CollegeSQLManager();
-  private static final UserDataManager userDatabase = new UserDataManager();
-  private static final AirportSQLManager airportDatabase = new AirportSQLManager();
-  private final CollegeAPI collegeAPI = new CollegeAPI(collegeDatabase);
-  private final UserAPI userAPI = new UserAPI(userDatabase);
+  private static final CollegeSQLManager COLLEGE_DATABASE = new CollegeSQLManager();
+  private static final UserDataManager USER_DATABASE = new UserDataManager();
+  private static final AirportSQLManager AIRPORT_DATABASE = new AirportSQLManager();
+  private final CollegeAPI collegeAPI = new CollegeAPI(COLLEGE_DATABASE);
+  private final UserAPI userAPI = new UserAPI(USER_DATABASE);
   private final Repl repl = new Repl();
 
   /**
@@ -45,10 +45,10 @@ public final class Main {
   }
 
   public static CollegeSQLManager getCollegeDatabase() {
-    return collegeDatabase;
+    return COLLEGE_DATABASE;
   }
   public static AirportSQLManager getAirportDatabase() {
-    return airportDatabase;
+    return AIRPORT_DATABASE;
   }
 
   private void run() {
@@ -65,9 +65,9 @@ public final class Main {
         .defaultsTo(DEFAULT_AIRPORT_DB);
     OptionSet options = parser.parse(args);
 
-    collegeDatabase.connect((String) options.valueOf("college-database"));
-    userDatabase.connect((String) options.valueOf("user-database"));
-    airportDatabase.connect((String) options.valueOf("airport-database"));
+    COLLEGE_DATABASE.connect((String) options.valueOf("college-database"));
+    USER_DATABASE.connect((String) options.valueOf("user-database"));
+    AIRPORT_DATABASE.connect((String) options.valueOf("airport-database"));
 
     if (options.has("gui")) {
       runSparkServer((int) options.valueOf("port"));

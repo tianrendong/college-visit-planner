@@ -27,7 +27,7 @@ public class DatabaseManager {
     if (conn != null) {
       try {
         conn.close();
-      } catch(SQLException e) {
+      } catch (SQLException e) {
         System.err.println("ERROR: unable to close previous connection.");
       }
     }
