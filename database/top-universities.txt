@@ -1,0 +1,100 @@
+Massachusetts Institute of Technology
+Harvard University
+Stanford University
+Cornell University
+University of California, Berkeley
+Johns Hopkins University
+Columbia University in the City of New York
+University of Michigan
+University of Washington
+University of Minnesota-Twin Cities
+Penn State University
+University of California, Los Angeles
+University of Pennsylvania
+Yale University
+Purdue University
+The University of Texas at Austin
+New York University
+University of Wisconsin-Madison
+Carnegie Mellon University
+University of Southern California
+Princeton University
+University of Chicago
+Arizona State University
+University of Illinois at Urbana-Champaign
+Michigan State University
+University of California, San Diego
+University of California, Irvine
+University of Florida
+University of California, Davis
+Duke University
+Northwestern University
+University of North Carolina at Chapel Hill
+University of Colorado Boulder
+Rutgers, The State University of New Jersey
+The University of Arizona
+University of Maryland
+Boston University
+The University of Utah
+Texas A&M University
+University of Virginia
+The Ohio State University
+Georgia Institute of Technology
+University of Pittsburgh
+North Carolina State University
+Indiana University Bloomington
+Virginia Polytechnic Institute and State University
+Oregon State University
+Washington University in St. Louis
+University of California, Santa Barbara
+California Institute of Technology
+Florida State University
+University of Massachusetts Amherst
+Brigham Young University
+Tufts University
+University of Nebraska-Lincoln
+Georgetown University
+University of Georgia
+Iowa State University
+University of Rochester
+University of Iowa
+University of South Florida
+George Washington University
+Washington State University
+Brown University
+University of Houston
+University at Buffalo, State University of New York
+Dartmouth College
+Vanderbilt University
+University of Delaware
+Georgia State University
+William Marsh Rice University
+University of Illinois at Chicago
+University of California, Riverside
+University of California, Santa Cruz
+Colorado State University
+University of Notre Dame
+University of Oregon
+University of Central Florida
+Emory University
+University of California, San Francisco
+University of Connecticut
+University of New Mexico
+Syracuse University
+Northeastern University
+University of Kansas
+George Mason University
+University of Missouri
+University of Kentucky
+Temple University
+The University of Tennessee, Knoxville
+Florida International University
+Drexel University
+San Diego State University
+Rochester Institute of Technology
+University of Miami
+California State University, Northridge
+The University of Alabama
+Louisiana State University
+The University of Oklahoma
+University of Cincinnati

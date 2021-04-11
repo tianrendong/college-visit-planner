@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Unit tests for TSP algorithm.
@@ -27,18 +28,68 @@ public class TSPTest {
 
   @Before
   public void setUp() {
+    _tsp = new TSP<>();
+  }
+
+  @Test
+  public void testFindRouteReachesAll() throws InterruptedException, ApiException, IOException {
     College c1 = new College(2, "UCLA", 34.068921, -118.4451811, "placeholder", "placeholder");
     College c2 = new College(2, "Stanford University", 37.428230, -122.168861, "placeholder", "placeholder");
     College c3 = new College(2, "UCB", 37.8718992, -122.2585399, "placeholder", "placeholder");
     College c4 = new College(4, "California Institute of Technology", 34.138000, -118.125000, "placeholder", "placeholder");
     _colleges = new ArrayList<>(Arrays.asList(c1, c2, c3, c4));
-    _tsp = new TSP<>();
-  }
 
-  @Test
-  public void testFindRoute() throws InterruptedException, ApiException, IOException {
     CollegeGraph graph = new CollegeGraph(_colleges);
     List<College> tsp = _tsp.findRoute(graph);
     System.out.println(tsp);
+
+    assertTrue(tsp.contains(c1));
+    assertTrue(tsp.contains(c2));
+    assertTrue(tsp.contains(c3));
+    assertTrue(tsp.contains(c4));
+  }
+
+  @Test
+  public void testFindRouteVisitsOnce() throws InterruptedException, ApiException, IOException {
+    College c1 = new College(2, "UCLA", 34.068921, -118.4451811, "placeholder", "placeholder");
+    College c2 = new College(2, "Stanford University", 37.428230, -122.168861, "placeholder", "placeholder");
+    College c3 = new College(2, "UCB", 37.8718992, -122.2585399, "placeholder", "placeholder");
+    College c4 = new College(4, "California Institute of Technology", 34.138000, -118.125000, "placeholder", "placeholder");
+    _colleges = new ArrayList<>(Arrays.asList(c1, c2, c3, c4));
+
+    CollegeGraph graph = new CollegeGraph(_colleges);
+    List<College> tsp = _tsp.findRoute(graph);
+    System.out.println(tsp);
+
+    int count1 = 0;
+    int count2 = 0;
+    int count3 = 0;
+    int count4 = 0;
+    for (College c : tsp) {
+      if (c.equals(c1)) {
+        count1 += 1;
+      } else if (c.equals(c2)) {
+        count2 += 1;
+      } else if (c.equals(c3)) {
+        count3 += 1;
+      } else if (c.equals(c4)) {
+        count4 += 1;
+      }
+    }
+    assertEquals(1, count1);
+    assertEquals(1, count2);
+    assertEquals(1, count3);
+    assertEquals(1, count4);
+  }
+
+  @Test
+  public void testOne() throws InterruptedException, ApiException, IOException {
+    College c1 = new College(2, "UCLA", 34.068921, -118.4451811, "placeholder", "placeholder");
+    _colleges = new ArrayList<>(Arrays.asList(c1));
+
+    CollegeGraph graph = new CollegeGraph(_colleges);
+    List<College> tsp = _tsp.findRoute(graph);
+    System.out.println(tsp);
+    assertEquals(0, tsp.size());
   }
 }

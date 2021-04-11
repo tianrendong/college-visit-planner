@@ -5,11 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fdb581c7-287d-4d72-b22a-5fe6bbfd9325" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/test/java/edu/brown/cs/termproject/router/TSPTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/college-visit-planner.iws" beforeDir="false" afterPath="$PROJECT_DIR$/college-visit-planner.iws" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/sampleUsers.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/data/sampleUsers.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/brown/cs/termproject/api/UserAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/brown/cs/termproject/api/UserAPI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/brown/cs/termproject/router/TSP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/brown/cs/termproject/router/TSP.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/universities.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/database/universities.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/edu/brown/cs/termproject/router/TSPTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/edu/brown/cs/termproject/router/TSPTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -264,7 +262,7 @@
     <property name="aspect.path.notification.shown" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="JUnit.TSPTest.testOne">
     <configuration selected="false" default="true" type="Applet" factoryName="Applet">
       <module name="" />
       <option name="MAIN_CLASS_NAME" />
@@ -315,6 +313,48 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="TSPTest.testFindRouteReachesAll" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="college-visit-planner" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="edu.brown.cs.termproject.router.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="edu.brown.cs.termproject.router" />
+      <option name="MAIN_CLASS_NAME" value="edu.brown.cs.termproject.router.TSPTest" />
+      <option name="METHOD_NAME" value="testFindRouteReachesAll" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="wholeProject" />
+      </option>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TSPTest.testOne" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="college-visit-planner" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="edu.brown.cs.termproject.router.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="edu.brown.cs.termproject.router" />
+      <option name="MAIN_CLASS_NAME" value="edu.brown.cs.termproject.router.TSPTest" />
+      <option name="METHOD_NAME" value="testOne" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="wholeProject" />
+      </option>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit">
       <option name="TEST_OBJECT" value="class" />
       <option name="VM_PARAMETERS" />
@@ -328,6 +368,8 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.TSPTest.testOne" />
+        <item itemvalue="JUnit.TSPTest.testFindRouteReachesAll" />
         <item itemvalue="JUnit.TSPTest.testFindRoute" />
       </list>
     </recent_temporary>
