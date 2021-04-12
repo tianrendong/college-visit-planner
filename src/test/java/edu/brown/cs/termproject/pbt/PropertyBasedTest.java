@@ -23,7 +23,7 @@ public class PropertyBasedTest {
   @Test
   public void pbt() throws SQLException, InterruptedException, ApiException, IOException {
     int i = 0;
-    while (i < 5) {
+    while (i < 1) {
       try {
         RandomGraphGenerator generator = new RandomGraphGenerator();
         Graph<Location, LocationPath> graph = generator.generateRandomGraph();

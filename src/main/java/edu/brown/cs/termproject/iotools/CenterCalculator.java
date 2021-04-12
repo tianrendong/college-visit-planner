@@ -5,14 +5,18 @@ import edu.brown.cs.termproject.router.Point;
 
 import java.util.List;
 
-@SuppressWarnings("checkstyle:HideUtilityClassConstructor")
-public class CenterCalculator {
+/**
+ * Calculator for center of multiple coordinates in latitude/longitude.
+ */
+public final class CenterCalculator {
 
   private static final int RADIAN = 180;
+  private CenterCalculator() { }
 
   /**
    * Gets the middle centroid point of a cluster given a list of locations.
    * @param locations list of Locatable.
+   * @param <L> tyep that extends locatable.
    * @return the centroid point of the cluster.
    */
   public static <L extends Locatable> Point getCentroid(List<L> locations) {

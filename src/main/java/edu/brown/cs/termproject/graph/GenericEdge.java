@@ -1,5 +1,9 @@
 package edu.brown.cs.termproject.graph;
 
+/**
+ * Class for generic edge.
+ * @param <V> Vertex stored in the edge.
+ */
 public class GenericEdge<V extends Vertex> implements Edge<V> {
   private V start;
   private V end;
@@ -19,7 +23,7 @@ public class GenericEdge<V extends Vertex> implements Edge<V> {
 
   /**
    * Gets the start of edge.
-   * @returns start of edge
+   * @return start of edge
    */
   @Override
   public V getStart() {
@@ -28,7 +32,7 @@ public class GenericEdge<V extends Vertex> implements Edge<V> {
 
   /**
    * Gets the end of edge.
-   * @returns end of edge
+   * @return end of edge
    */
   @Override
   public V getEnd() {

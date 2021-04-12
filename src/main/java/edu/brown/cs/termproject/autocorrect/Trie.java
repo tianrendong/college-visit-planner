@@ -1,6 +1,12 @@
 package edu.brown.cs.termproject.autocorrect;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Trie data structure for storing strings, prefixes in particular.

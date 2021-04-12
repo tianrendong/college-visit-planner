@@ -14,6 +14,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * API class for college related requests.
+ */
 public class CollegeAPI {
 
   private CollegeSQLManager collegeDB;
@@ -28,12 +31,26 @@ public class CollegeAPI {
     this.collegeDB = collegeDB;
   }
 
+  /**
+   * Gets the default colleges.
+   * @return Route that contains the default colleges.
+   */
   public Route getDefaultColleges() {
     return defaultColleges;
   }
+
+  /**
+   * Gets the autocorrect suggestions.
+   * @return Route containing autocorrect suggestions.
+   */
   public Route getAutocorrect() {
     return autocorrect;
   }
+
+  /**
+   * Gets the information of a college.
+   * @return Route containing college information.
+   */
   public Route getCollegeInfo() {
     return collegeInfo;
   }
@@ -63,7 +80,6 @@ public class CollegeAPI {
     JsonObject data = GSON.fromJson(request.body(), JsonObject.class);
     int collegeID = data.get("collegeID").getAsInt();
     College college = collegeDB.getCollegeByID(collegeID);
-
     JsonObject payload = new JsonObject();
     payload.addProperty("college", GSON.toJson(college)); // add college
 

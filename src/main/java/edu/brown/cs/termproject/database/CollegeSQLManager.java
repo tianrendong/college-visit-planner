@@ -19,6 +19,9 @@ public class CollegeSQLManager extends DatabaseManager {
   private static final int URL_COL = 7;
   private static final int DESCRIPTION_COL = 8;
   private static final int NEARBY_COL = 9;
+  private static final double MAX_DISTANCE = 100;
+  private static final double DISTANCE_LAT_RATIO = 69;
+  private static final double DISTANCE_LON_RATIO = 54.6;
 
   private Autocorrector autocorrector;
 
@@ -117,15 +120,14 @@ public class CollegeSQLManager extends DatabaseManager {
   }
 
   /**
-   *
-   * @param college
-   * @return
-   * @throws SQLException
+   * Gets colleges nearby for a specific college.
+   * @param college target college to search around.
+   * @return List of colleges nearby.
+   * @throws SQLException when query errors.
    */
   public List<College> getNearbyColleges(College college) throws SQLException {
-    double distance = 100;
-    double latRatio = distance / 69;
-    double lonRatio = distance / 54.6;
+    double latRatio = MAX_DISTANCE / DISTANCE_LAT_RATIO;
+    double lonRatio = MAX_DISTANCE / DISTANCE_LON_RATIO;
 
     double lat = college.getLat();
     double lon = college.getLon();

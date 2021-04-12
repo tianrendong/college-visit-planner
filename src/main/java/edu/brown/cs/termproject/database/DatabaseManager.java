@@ -16,6 +16,9 @@ public class DatabaseManager {
 
   private Connection conn = null;
 
+  /**
+   * Constructs a DatabaseManager.
+   */
   public DatabaseManager() { }
 
   /**

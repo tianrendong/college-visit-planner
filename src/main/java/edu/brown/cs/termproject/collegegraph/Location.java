@@ -3,7 +3,6 @@ package edu.brown.cs.termproject.collegegraph;
 import edu.brown.cs.termproject.graph.Vertex;
 import edu.brown.cs.termproject.router.Locatable;
 
-import java.util.List;
 
 /**
  * The class College that implements Locatable interface.
@@ -17,6 +16,15 @@ public class Location implements Locatable, Vertex {
   private String type;
   private Object content;
 
+  /**
+   * Constructs a location.
+   * @param id id
+   * @param name name
+   * @param lat latitude.
+   * @param lon longitude
+   * @param type type of location
+   * @param content Object being wrapped.
+   */
   public Location(int id, String name, double lat, double lon, String type, Object content) {
     this.id = id;
     this.name = name;
@@ -66,6 +74,10 @@ public class Location implements Locatable, Vertex {
     return id;
   }
 
+  /**
+   * Gets the type of location.
+   * @return type of location.
+   */
   public String getType() {
     return type;
   }

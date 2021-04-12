@@ -3,18 +3,30 @@ package edu.brown.cs.termproject.api;
 import com.google.gson.JsonArray;
 import com.google.gson.reflect.TypeToken;
 import edu.brown.cs.termproject.airport.Airport;
-import edu.brown.cs.termproject.collegegraph.*;
+import edu.brown.cs.termproject.collegegraph.College;
+import edu.brown.cs.termproject.collegegraph.Location;
+import edu.brown.cs.termproject.collegegraph.LocationGraph;
+import edu.brown.cs.termproject.collegegraph.LocationPath;
 import edu.brown.cs.termproject.database.UserDataManager;
 import edu.brown.cs.termproject.iotools.CenterCalculator;
 import edu.brown.cs.termproject.main.Main;
-import edu.brown.cs.termproject.router.*;
+import edu.brown.cs.termproject.router.Clustering;
+import edu.brown.cs.termproject.router.Nearest;
+import edu.brown.cs.termproject.router.OrderRoute;
+import edu.brown.cs.termproject.router.Point;
+import edu.brown.cs.termproject.router.TSP;
 import spark.Route;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
+/**
+ * API for user related requests.
+ */
 public class UserAPI {
 
   private static final Gson GSON = new Gson();
@@ -31,38 +43,74 @@ public class UserAPI {
     this.userDB = userDB;
   }
 
+  /**
+   * Gets login information.
+   * @return Route containing login status.
+   */
   public Route getLogin() {
     return login;
   }
 
+  /**
+   * Gets signup information.
+   * @return Route containing signup status.
+   */
   public Route getSignUp() {
     return signup;
   }
 
+  /**
+   * Gets username check.
+   * @return Route indicating whether username is used.
+   */
   public Route getCheckUsername() {
     return checkUsername;
   }
 
+  /**
+   * Gets user adding college request.
+   * @return Route containing information for adding college.
+   */
   public Route getUserAddCollege() {
     return userAddCollege;
   }
 
+  /**
+   * Gets user deleting college request.
+   * @return Route containing information for deleting college.
+   */
   public Route getUserDeleteCollege() {
     return userDeleteCollege;
   }
 
+  /**
+   * Gets information for route.
+   * @return Route containing information about the calculated route.
+   */
   public Route getRoute() {
     return updateRoute;
   }
 
+  /**
+   * Gets cluster information.
+   * @return Route containing information for clusters.
+   */
   public Route getClusters() {
     return clusters;
   }
 
+  /**
+   * Gets information for deleting user data.
+   * @return Route indicating whether user data was deleted.
+   */
   public Route deleteData() {
     return deleteData;
   }
 
+  /**
+   * Gets information for deleting user account.
+   * @return Route indicating whether user account was deleted.
+   */
   public Route deleteAccount() {
     return deleteAccount;
   }
@@ -159,5 +207,4 @@ public class UserAPI {
 
     return GSON.toJson(tsp);
   };
-
 }

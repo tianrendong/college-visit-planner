@@ -31,6 +31,7 @@ public class AirportSQLManager extends DatabaseManager {
   /**
    * Function that get all the airports in the database and returns them as Airport objects.
    * @return list of airport
+   * @throws SQLException when query erroed.
    */
   public List<Airport> getAllAirports() throws SQLException {
     List<Airport> airports = new ArrayList<>();
@@ -64,6 +65,7 @@ public class AirportSQLManager extends DatabaseManager {
    * Gets the airport with id from the connected database.
    * @param id ID of the airport to get.
    * @return Airport with id in the database.
+   * @throws SQLException when query errored.
    */
   public Airport getAirportById(int id) throws SQLException {
     if (getConnection() == null) {

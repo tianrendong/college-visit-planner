@@ -38,31 +38,32 @@ public class College implements Locatable, Vertex {
     this.state = state;
   }
 
-  /**
-   * Constructs a college.
-   * @param id college id
-   * @param name college name
-   * @param lat latitude
-   * @param lon longitude
-   * @param city city of college
-   * @param state state of college
-   * @param url url
-   * @param description description
-   * @param nearbyColleges nearby colleges
-   */
-  @SuppressWarnings("checkstyle:ParameterNumber")
-  public College(int id, String name, double lat, double lon, String city, String state, String url,
-                 String description, List<Integer> nearbyColleges) {
-    this.id = id;
-    this.name = name;
-    this.lat = lat;
-    this.lon = lon;
-    this.city = city;
-    this.state = state;
-    this.url = url;
-    this.description = description;
-    this.nearbyColleges = nearbyColleges;
-  }
+//  /**
+//   * Constructs a college.
+//   * @param id college id
+//   * @param name college name
+//   * @param lat latitude
+//   * @param lon longitude
+//   * @param city city of college
+//   * @param state state of college
+//   * @param url url
+//   * @param description description
+//   * @param nearbyColleges nearby colleges
+//   */
+//  @SuppressWarnings("checkstyle:ParameterNumber")
+//  public College(int id, String name, double lat, double lon,
+//                 String city, String state, String url,
+//                 String description, List<Integer> nearbyColleges) {
+//    this.id = id;
+//    this.name = name;
+//    this.lat = lat;
+//    this.lon = lon;
+//    this.city = city;
+//    this.state = state;
+//    this.url = url;
+//    this.description = description;
+//    this.nearbyColleges = nearbyColleges;
+//  }
 
   /**
    * returns college iD.
@@ -83,7 +84,7 @@ public class College implements Locatable, Vertex {
 
   /**
    * Sets college URL.
-   * @param url
+   * @param url url for college website
    */
   public void setUrl(String url) {
     this.url = url;

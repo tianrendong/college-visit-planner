@@ -2,18 +2,23 @@ package edu.brown.cs.termproject.collegegraph;
 
 import com.google.maps.errors.ApiException;
 import edu.brown.cs.termproject.graph.Graph;
-import edu.brown.cs.termproject.graph.Vertex;
 import edu.brown.cs.termproject.main.GoogleMapAPIManager;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Class for an undirected college graph.
  */
 public class LocationGraph implements Graph<Location, LocationPath> {
 
-  private final Map<Location, List<LocationPath>> graph = new HashMap<>(); // graph stored as adjacency list
+  private final Map<Location, List<LocationPath>> graph = new HashMap<>();
   private Set<Location> locations;
 
   /**
@@ -108,7 +113,8 @@ public class LocationGraph implements Graph<Location, LocationPath> {
 //  public void addNode(T newVertex) throws InterruptedException, ApiException, IOException {
 //    Set<LocationWrapper> allLocations = new HashSet<>(graph.keySet());
 //    System.out.println(allLocations);
-//    LocationWrapper newLoc = new LocationWrapper(newVertex.getName(), newVertex.getLat(), newVertex.getLon(), newVertex);
+//    LocationWrapper newLoc =
+//    new LocationWrapper(newVertex.getName(), newVertex.getLat(), newVertex.getLon(), newVertex);
 //    // add a path from this node to every other node
 //    for (LocationWrapper loc : allLocations) {
 //      System.out.println(loc);

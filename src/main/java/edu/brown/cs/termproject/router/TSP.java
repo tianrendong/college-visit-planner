@@ -33,6 +33,9 @@ public class TSP<V extends Vertex, E extends Edge<V>> {
    *
    * @param g complete CollegeGraph
    * @return List of Locatable in the optimal visiting order.
+   * @throws InterruptedException when interrupted.
+   * @throws ApiException when google maps api errored.
+   * @throws IOException when errored.
    */
   public List<V> findRoute(Graph<V, E> g) throws InterruptedException, ApiException, IOException {
     //List<Locatable> route = new ArrayList<>();

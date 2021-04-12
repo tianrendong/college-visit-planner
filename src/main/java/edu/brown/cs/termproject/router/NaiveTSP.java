@@ -19,7 +19,7 @@ public final class NaiveTSP {
    * Finds the approximation from a MST.
    * @param mst Minimum spanning tree of all the nodes to visit.
    * @param <T> Type of the nodes that extends
-   * @return
+   * @return list in visiting order of the nodes.
    */
   public static <T extends Vertex> List<T> findRoute(Set<? extends Edge<T>> mst) {
     List<T> tsp = new ArrayList<>();

@@ -8,6 +8,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Class for a generic graph.
+ * @param <V> type that extends Vertex.
+ * @param <E>type that extends Edge.>
+ */
 public class GenericGraph<V extends Vertex, E extends Edge<V>> implements Graph<V, E> {
   private Set<E> edges;
   private final Map<V, List<E>> graph = new HashMap<>(); // graph stored as adjacency list
@@ -52,7 +57,7 @@ public class GenericGraph<V extends Vertex, E extends Edge<V>> implements Graph<
 
   /**
    * Gets the vertices of graph.
-   * @returns set of vertices.
+   * @return set of vertices.
    */
   @Override
   public Set<V> getVertices() {
@@ -61,7 +66,7 @@ public class GenericGraph<V extends Vertex, E extends Edge<V>> implements Graph<
 
   /**
    * Gets the edges of graph.
-   * @returns set of edges.
+   * @return set of edges.
    */
   @Override
   public Set<E> getEdges() {
