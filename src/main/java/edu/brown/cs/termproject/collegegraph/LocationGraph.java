@@ -11,7 +11,7 @@ import java.util.*;
 /**
  * Class for an undirected college graph.
  */
-public class LocationGraph<T extends Vertex> implements Graph<Location, LocationPath> {
+public class LocationGraph implements Graph<Location, LocationPath> {
 
   private final Map<Location, List<LocationPath>> graph = new HashMap<>(); // graph stored as adjacency list
   private Set<Location> locations;

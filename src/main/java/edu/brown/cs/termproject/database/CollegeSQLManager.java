@@ -123,7 +123,7 @@ public class CollegeSQLManager extends DatabaseManager {
    * @throws SQLException
    */
   public List<College> getNearbyColleges(College college) throws SQLException {
-    double distance = 200;
+    double distance = 100;
     double latRatio = distance / 69;
     double lonRatio = distance / 54.6;
 

@@ -1,15 +1,8 @@
 package edu.brown.cs.termproject.router;
 
-import com.google.maps.errors.ApiException;
 import edu.brown.cs.termproject.collegegraph.College;
-import edu.brown.cs.termproject.collegegraph.CollegeGraph;
-import edu.brown.cs.termproject.collegegraph.Path;
-import edu.brown.cs.termproject.graph.Graph;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.*;
 
 import static org.junit.Assert.assertEquals;

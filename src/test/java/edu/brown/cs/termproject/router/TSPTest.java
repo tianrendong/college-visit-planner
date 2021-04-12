@@ -3,7 +3,7 @@ package edu.brown.cs.termproject.router;
 import com.google.maps.errors.ApiException;
 import edu.brown.cs.termproject.airport.Airport;
 import edu.brown.cs.termproject.collegegraph.*;
-import org.junit.Before;
+import edu.brown.cs.termproject.graph.Graph;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -19,12 +19,24 @@ import static org.junit.Assert.assertTrue;
  */
 public class TSPTest {
 
-  List<College> _colleges;
-  TSP<College, Path> _tsp;
+  private final List<College> _colleges = new ArrayList<>();
+  private final List<Location> _locations = new ArrayList<>();
+  private final TSP<Location, LocationPath> _tsp = new TSP<>();;
 
-  @Before
   public void setUp() {
-    _tsp = new TSP<>();
+    College c1 = new College(2, "UCLA", 34.068921, -118.4451811, "placeholder", "placeholder");
+    College c2 = new College(2, "Stanford University", 37.428230, -122.168861, "placeholder", "placeholder");
+    College c3 = new College(2, "UCB", 37.8718992, -122.2585399, "placeholder", "placeholder");
+    College c4 = new College(4, "California Institute of Technology", 34.138000, -118.125000, "placeholder", "placeholder");
+    _colleges.addAll(new ArrayList<>(Arrays.asList(c1, c2, c3, c4)));
+    for (College c : _colleges) {
+      _locations.add(new Location(c.getId(), c.getName(), c.getLat(), c.getLon(), "college", c));
+    }
+  }
+
+  public void tearDown() {
+    _colleges.clear();
+    _locations.clear();
   }
 
 //  @Test
@@ -44,65 +56,62 @@ public class TSPTest {
 //    assertTrue(tsp.contains(c3));
 //    assertTrue(tsp.contains(c4));
 //  }
+
 @Test
 public void testFindRouteReachesAll() throws InterruptedException, ApiException, IOException {
-  College c1 = new College(2, "UCLA", 34.068921, -118.4451811, "placeholder", "placeholder");
-  College c2 = new College(2, "Stanford University", 37.428230, -122.168861, "placeholder", "placeholder");
-  College c3 = new College(2, "UCB", 37.8718992, -122.2585399, "placeholder", "placeholder");
-  College c4 = new College(4, "California Institute of Technology", 34.138000, -118.125000, "placeholder", "placeholder");
-  _colleges = new ArrayList<>(Arrays.asList(c1, c2, c3, c4));
-  CollegeGraph graph = new CollegeGraph(_colleges);
-  List<College> tsp = _tsp.findRoute(graph);
+  setUp();
+  Graph<Location, LocationPath> graph = new LocationGraph(_locations);
+  List<Location> tsp = _tsp.findRoute(graph);
   System.out.println(tsp);
 
-  assertTrue(tsp.contains(c1));
-  assertTrue(tsp.contains(c2));
-  assertTrue(tsp.contains(c3));
-  assertTrue(tsp.contains(c4));
+  assertTrue(tsp.contains(_locations.get(0)));
+  assertTrue(tsp.contains(_locations.get(1)));
+  assertTrue(tsp.contains(_locations.get(2)));
+  assertTrue(tsp.contains(_locations.get(3)));
+  tearDown();
 }
 
   @Test
   public void testFindRouteVisitsOnce() throws InterruptedException, ApiException, IOException {
-    College c1 = new College(2, "UCLA", 34.068921, -118.4451811, "placeholder", "placeholder");
-    College c2 = new College(2, "Stanford University", 37.428230, -122.168861, "placeholder", "placeholder");
-    College c3 = new College(2, "UCB", 37.8718992, -122.2585399, "placeholder", "placeholder");
-    College c4 = new College(4, "California Institute of Technology", 34.138000, -118.125000, "placeholder", "placeholder");
-    _colleges = new ArrayList<>(Arrays.asList(c1, c2, c3, c4));
-
-    CollegeGraph graph = new CollegeGraph(_colleges);
-    List<College> tsp = _tsp.findRoute(graph);
+    setUp();
+    Graph<Location, LocationPath> graph = new LocationGraph(_locations);
+    List<Location> tsp = _tsp.findRoute(graph);
     System.out.println(tsp);
 
     int count1 = 0;
     int count2 = 0;
     int count3 = 0;
     int count4 = 0;
-    for (College c : tsp) {
-      if (c.equals(c1)) {
+    for (Location c : tsp) {
+      if (c.equals(_locations.get(0))) {
         count1 += 1;
-      } else if (c.equals(c2)) {
+      } else if (c.equals(_locations.get(1))) {
         count2 += 1;
-      } else if (c.equals(c3)) {
+      } else if (c.equals(_locations.get(2))) {
         count3 += 1;
-      } else if (c.equals(c4)) {
+      } else if (c.equals(_locations.get(3))) {
         count4 += 1;
       }
     }
+
     assertEquals(1, count1);
     assertEquals(1, count2);
     assertEquals(1, count3);
     assertEquals(1, count4);
+    tearDown();
   }
 
   @Test
-  public void testOne() throws InterruptedException, ApiException, IOException {
-    College c1 = new College(2, "UCLA", 34.068921, -118.4451811, "placeholder", "placeholder");
-    _colleges = new ArrayList<>(Arrays.asList(c1));
+  public void testOneLocation() throws InterruptedException, ApiException, IOException {
+    College c = new College(2, "UCLA", 34.068921, -118.4451811, "placeholder", "placeholder");
+    _colleges.add(c);
+    _locations.add(new Location(c.getId(), c.getName(), c.getLat(), c.getLon(), "college", c));
 
-    CollegeGraph graph = new CollegeGraph(_colleges);
-    List<College> tsp = _tsp.findRoute(graph);
+    Graph<Location, LocationPath> graph = new LocationGraph(_locations);
+    List<Location> tsp = _tsp.findRoute(graph);
     System.out.println(tsp);
     assertEquals(1, tsp.size());
+    tearDown();
   }
 
 //  @Test
@@ -122,7 +131,7 @@ public void testFindRouteReachesAll() throws InterruptedException, ApiException,
 //  }
 
   @Test
-  public void testGenerics2() throws InterruptedException, ApiException, IOException {
+  public void testGenerics() throws InterruptedException, ApiException, IOException {
     College c1 = new College(2, "UCLA", 34.068921, 118.4451811, "placeholder", "placeholder");
     College c2 = new College(2, "Stanford University", 37.428230, 122.168861, "placeholder", "placeholder");
     College c3 = new College(2, "UCB", 37.8718992, 122.2585399, "placeholder", "placeholder");
