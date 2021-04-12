@@ -4,10 +4,10 @@ import './index.css'
 import mapStyles from './mapStyles'
 import { connect, useDispatch } from 'react-redux';
 import CollegeMarker from './Marker/collegeMarker.js'
-import RouteClusterMarker from './routeClusterMarker.js'
+import RouteClusterMarker from './Marker/routeClusterMarker.js'
 import ClusterMarker from './Marker/clusterMarker.js';
 import supercluster from 'points-cluster';
-import { ClusterSlider } from './clusterSlider'
+import ClusterSlider from './clusterSlider'
 import { findCenter } from './geocoordinateCalculations';
 import { renderDirections, clearDirections } from './directionsRenderer'
 
@@ -16,7 +16,7 @@ const MAP = {
     defaultCenter: { lat: 37.5, lng: -97 }, // center of US (slightly adjusted)
     options: {
         styles: mapStyles.basic,
-        disableDefaultUI: true,
+        // disableDefaultUI: true,
         // minZoom: 4.3
     },
 };
@@ -25,20 +25,8 @@ function Map(props) {
     const [clustersDisplayed, setClustersDisplayed] = useState([]);
     const [defaultColleges, setDefaultColleges] = useState([]);
     const [mapOptions, setMapOptions] = useState({});
-    const [sliderValue, setSliderValue] = useState(20);
 
     const dispatch = useDispatch();
-
-    const handleSliderChange = (event, value) => {
-        setSliderValue(value);
-        dispatch({
-            payload: {
-                colleges: props.user.colleges,
-                radius: value,
-            },
-            type: 'REQUEST_UPDATE_CLUSTERS',
-        })
-    }
 
     // request default colleges when page is first loaded
     useEffect(() => {
@@ -58,7 +46,6 @@ function Map(props) {
 
     // calculate clusters
     const getCollegeClusters = () => {
-        console.log(mapOptions)
         const clusters = supercluster(defaultColleges, {
             minZoom: 0,
             maxZoom: 16,
@@ -95,7 +82,6 @@ function Map(props) {
         )
     }
 
-  
     const handleApiLoaded = (map, maps) => {
         dispatch({
             payload: { map, maps },
@@ -213,10 +199,7 @@ function Map(props) {
             </GoogleMap>
         </div>
         {(props.viewport === 'clusters') &&
-            <div className="sliderContainer">
-                <ClusterSlider valueLabelDisplay="off" defaultValue={350} step={100} min={350} max={550} 
-                value={sliderValue} onChangeCommitted={handleSliderChange}/>
-            </div>
+            <ClusterSlider/>
          }
         </>
     );

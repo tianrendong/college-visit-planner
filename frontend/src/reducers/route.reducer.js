@@ -3,6 +3,7 @@ const initialState = {
     infobar: '',
     popDialog: '',
     currentCollege: null,
+    tooltip: [],
 }
 
 const routeReducer = (state = initialState, action) => {
@@ -63,6 +64,11 @@ const routeReducer = (state = initialState, action) => {
                 sidebar: 'collegeInfo',
                 infobar: '',
                 currentCollege: action.payload.collegeInfo,
+            }
+        case "ADD_TOOLTIP":
+            return {
+                ...state,
+                tooltip: [...state.tooltip, action.payload.tooltip]
             }
         default:
             return state

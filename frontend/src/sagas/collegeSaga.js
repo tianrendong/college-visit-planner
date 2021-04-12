@@ -8,7 +8,6 @@ export const CollegeSaga = {
 
 export function* defaultCollegesAsync() {
     const response = yield call(collegeAPI.getDefaultColleges)
-    console.log(response);
     yield put({
         payload: { defaultColleges: response },
         type: 'RENDER_DEFAULT_COLLEGES',
@@ -16,7 +15,6 @@ export function* defaultCollegesAsync() {
 }
 
 export function* getCollegeInfoAsync(payload) {
-    console.log(payload);
     const response = yield call(collegeAPI.getCollegeInfo, payload.payload)
     console.log(response);
     console.log(typeof(response))

@@ -31,6 +31,9 @@ const CollegeMarker = (props) => {
     const getIcon = (i) => { return icons[i % icons.length]}
 
     const handleClick = () => {
+        if (!props.tooltip.includes("default")) {
+            dispatch(routeActions.addTooltipShowed("default"))
+        }
         dispatch({
             payload: collegeID,
             type: 'REQUEST_COLLEGE_INFO'
@@ -45,6 +48,6 @@ const CollegeMarker = (props) => {
     )
 }
 
-const mapStateToProps = ({ rRoute: { currentCollege } }) => ({ currentCollege });
+const mapStateToProps = ({ rRoute: { currentCollege, tooltip } }) => ({ currentCollege, tooltip });
 
 export default connect(mapStateToProps)(CollegeMarker);

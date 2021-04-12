@@ -51,7 +51,6 @@ const Sidebar = (props) => {
         })
     }
 
-    console.log(props.currentCollege)
     return (
         <div className={classes.root} >
             <Drawer 
