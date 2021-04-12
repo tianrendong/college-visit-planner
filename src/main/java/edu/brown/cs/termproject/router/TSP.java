@@ -25,9 +25,12 @@ public class TSP<V extends Vertex, E extends Edge<V>> {
   /**
    * Constructor for TSP.
    */
-  public TSP() { }
+  public TSP() {
+  }
+
   /**
    * Finds the route that visits all the Locatables in locations once.
+   *
    * @param g complete CollegeGraph
    * @return List of Locatable in the optimal visiting order.
    */
@@ -39,10 +42,10 @@ public class TSP<V extends Vertex, E extends Edge<V>> {
         return Double.compare(o1.getWeight(), o2.getWeight());
       }
     };
-    if(g.getVertices().size() ==1){
+    if (g.getVertices().size() == 1) {
       List<V> list = new ArrayList<>();
       Set<V> verts = g.getVertices();
-      for(V v : verts ){
+      for (V v : verts) {
         list.add(v);
       }
       return list;
@@ -54,10 +57,10 @@ public class TSP<V extends Vertex, E extends Edge<V>> {
     GenericGraph<V, GenericEdge<V>> graph = new GenericGraph<V, GenericEdge<V>>(matches);
     TSPGraph<V, GenericEdge<V>> tspMatches = new TSPGraph<V, GenericEdge<V>>(graph);
     ArrayList<GenericEdge<V>> list = new ArrayList<>();
-    for(GenericEdge e : matches){
+    for (GenericEdge e : matches) {
       list.add(e);
     }
-    for(int i=1; i<matches.size(); i++) {
+    for (int i = 1; i < matches.size(); i++) {
       tspMatches.addEdge(list.get(i).getStart(), list.get(i).getEnd());
     }
     return tspMatches.createEulerCircuit();
@@ -180,7 +183,7 @@ public class TSP<V extends Vertex, E extends Edge<V>> {
           curr2 = oddDegreeVertices.get(k);
 
           distance = GoogleMapAPIManager.getTravelDistance(
-            curr.getLat(), curr.getLon(), curr2.getLat(), curr2.getLon());
+              curr.getLat(), curr.getLon(), curr2.getLat(), curr2.getLon());
 
           if (distance < min) {
             min = distance;
@@ -191,7 +194,7 @@ public class TSP<V extends Vertex, E extends Edge<V>> {
 
         curr2 = oddDegreeVertices.get(indexForRemove);
         currEdge = new GenericEdge<V>(curr, curr2, GoogleMapAPIManager.getTravelDistance(
-          curr.getLat(), curr.getLon(), curr2.getLat(), curr2.getLon()));
+            curr.getLat(), curr.getLon(), curr2.getLat(), curr2.getLon()));
         newEdges.add(currEdge);
 
         min = Integer.MAX_VALUE;
@@ -201,7 +204,7 @@ public class TSP<V extends Vertex, E extends Edge<V>> {
           V one = oddDegreeVertices.get(0);
           V two = oddDegreeVertices.get(1);
           currEdge = new GenericEdge(one, two, GoogleMapAPIManager.getTravelDistance(
-            one.getLat(), one.getLon(), two.getLat(), two.getLon()));
+              one.getLat(), one.getLon(), two.getLat(), two.getLon()));
           newEdges.add(currEdge);
           break;
         }

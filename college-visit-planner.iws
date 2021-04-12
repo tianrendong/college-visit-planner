@@ -5,17 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fdb581c7-287d-4d72-b22a-5fe6bbfd9325" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/brown/cs/termproject/router/NaiveTSP.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/edu/brown/cs/termproject/pbt/PropertyBasedTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/edu/brown/cs/termproject/pbt/RandomGraphGenerator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/edu/brown/cs/termproject/router/NaiveTSPTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/college-visit-planner.ipr" beforeDir="false" afterPath="$PROJECT_DIR$/college-visit-planner.ipr" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/college-visit-planner.iws" beforeDir="false" afterPath="$PROJECT_DIR$/college-visit-planner.iws" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/sampleUsers.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/data/sampleUsers.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/brown/cs/termproject/collegegraph/CollegeGraph.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/brown/cs/termproject/collegegraph/LocationGraph.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/brown/cs/termproject/collegegraph/LocationGraph.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/brown/cs/termproject/database/CollegeSQLManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/brown/cs/termproject/database/CollegeSQLManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/edu/brown/cs/termproject/collegegraph/CollegeGraphTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/edu/brown/cs/termproject/database/UserDatabaseTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/edu/brown/cs/termproject/database/UserDatabaseTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/edu/brown/cs/termproject/router/ClusteringTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/edu/brown/cs/termproject/router/ClusteringTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/edu/brown/cs/termproject/router/MSTTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/edu/brown/cs/termproject/router/MSTTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/edu/brown/cs/termproject/router/TSPTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/edu/brown/cs/termproject/router/TSPTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/brown/cs/termproject/database/AirportSQLManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/brown/cs/termproject/database/AirportSQLManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/brown/cs/termproject/router/TSP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/brown/cs/termproject/router/TSP.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -275,7 +272,7 @@
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="org.infernus.idea.checkstyle.CheckStyleConfigurable" />
   </component>
-  <component name="RunManager" selected="JUnit.TSPTest">
+  <component name="RunManager" selected="JUnit.PropertyBasedTest.pbt">
     <configuration selected="false" default="true" type="Applet" factoryName="Applet">
       <module name="" />
       <option name="MAIN_CLASS_NAME" />
@@ -303,11 +300,53 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="NaiveTSPTest.testTSP" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="college-visit-planner" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="edu.brown.cs.termproject.pbt.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="edu.brown.cs.termproject.router" />
+      <option name="MAIN_CLASS_NAME" value="edu.brown.cs.termproject.router.NaiveTSPTest" />
+      <option name="METHOD_NAME" value="testTSP" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="wholeProject" />
+      </option>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PropertyBasedTest.pbt" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="college-visit-planner" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="edu.brown.cs.termproject.pbt.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="edu.brown.cs.termproject.pbt" />
+      <option name="MAIN_CLASS_NAME" value="edu.brown.cs.termproject.pbt.PropertyBasedTest" />
+      <option name="METHOD_NAME" value="pbt" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="wholeProject" />
+      </option>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="TSPTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="college-visit-planner" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="edu.brown.cs.termproject.router.*" />
+          <option name="PATTERN" value="edu.brown.cs.termproject.pbt.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -323,32 +362,11 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TSPTest.testFindRouteReachesAll" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="college-visit-planner" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="edu.brown.cs.termproject.router.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="edu.brown.cs.termproject.router" />
-      <option name="MAIN_CLASS_NAME" value="edu.brown.cs.termproject.router.TSPTest" />
-      <option name="METHOD_NAME" value="testFindRouteReachesAll" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="VM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="wholeProject" />
-      </option>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="TSPTest.testGenerics" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="college-visit-planner" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="edu.brown.cs.termproject.router.*" />
+          <option name="PATTERN" value="edu.brown.cs.termproject.pbt.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -369,34 +387,13 @@
       <module name="college-visit-planner" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="edu.brown.cs.termproject.router.*" />
+          <option name="PATTERN" value="edu.brown.cs.termproject.pbt.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="edu.brown.cs.termproject.router" />
       <option name="MAIN_CLASS_NAME" value="edu.brown.cs.termproject.router.TSPTest" />
       <option name="METHOD_NAME" value="testGenerics2" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="VM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="wholeProject" />
-      </option>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="TSPTest.testOne" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="college-visit-planner" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="edu.brown.cs.termproject.router.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="edu.brown.cs.termproject.router" />
-      <option name="MAIN_CLASS_NAME" value="edu.brown.cs.termproject.router.TSPTest" />
-      <option name="METHOD_NAME" value="testOne" />
       <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
@@ -420,11 +417,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.PropertyBasedTest.pbt" />
+        <item itemvalue="JUnit.NaiveTSPTest.testTSP" />
         <item itemvalue="JUnit.TSPTest" />
         <item itemvalue="JUnit.TSPTest.testGenerics" />
         <item itemvalue="JUnit.TSPTest.testGenerics2" />
-        <item itemvalue="JUnit.TSPTest.testOne" />
-        <item itemvalue="JUnit.TSPTest.testFindRouteReachesAll" />
       </list>
     </recent_temporary>
   </component>
@@ -466,7 +463,7 @@
       <option name="presentableId" value="Default" />
       <updated>1617481164534</updated>
       <workItem from="1617481167318" duration="1503000" />
-      <workItem from="1618233253209" duration="3057000" />
+      <workItem from="1618233253209" duration="9101000" />
     </task>
     <servers />
   </component>

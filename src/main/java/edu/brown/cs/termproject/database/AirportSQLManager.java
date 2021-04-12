@@ -59,4 +59,40 @@ public class AirportSQLManager extends DatabaseManager {
     }
     return airports;
   }
+
+  /**
+   * Gets the airport with id from the connected database.
+   * @param id ID of the airport to get.
+   * @return Airport with id in the database.
+   */
+  public Airport getAirportById(int id) throws SQLException {
+    if (getConnection() == null) {
+      throw new IllegalStateException("Must open a database first.");
+    }
+    try (PreparedStatement getAirports = getConnection().prepareStatement(
+        "SELECT * FROM airports WHERE id = ?;")) {
+      getAirports.setInt(1, id);
+      try (ResultSet rs = getAirports.executeQuery()) {
+        List<Airport> airports = new ArrayList<>();
+        if (!rs.isClosed()) {
+          while (rs.next()) {
+            airports.add(
+                new Airport(
+                    rs.getInt(ID_COL),
+                    rs.getString(NAME_COL),
+                    rs.getDouble(LAT_COL),
+                    rs.getDouble(LON_COL),
+                    rs.getString(CITY_COL),
+                    rs.getString(STATE_COL),
+                    rs.getString(WEBSITE_COL)
+                ));
+          }
+        }
+        if (airports.size() > 0) {
+          return airports.get(0);
+        }
+      }
+    }
+    return null;
+  }
 }
