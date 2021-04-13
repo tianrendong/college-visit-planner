@@ -203,10 +203,10 @@ public class UserAPI {
     LocationGraph graph = new LocationGraph(locations);
 
     // Christofides TSP
-//    List<Location> tsp = OrderRoute.orderRoute(tspFinder.findRoute(graph));
+    List<Location> tsp = OrderRoute.orderRoute(tspFinder.findRoute(graph));
 
     // Naive TSP
-    List<Location> tsp = OrderRoute.orderRoute(NaiveTSP.findRoute(graph));
+//    List<Location> tsp = OrderRoute.orderRoute(NaiveTSP.findRoute(graph));
 
     return GSON.toJson(tsp);
   };

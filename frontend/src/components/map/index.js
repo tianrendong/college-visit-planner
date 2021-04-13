@@ -125,7 +125,19 @@ function Map(props) {
     };
 
     useEffect(() => {
-        if (props.viewport === 'zoomedIn') {
+        if (props.viewport !== 'zoomedIn' && props.mapRef !== null) {
+            props.mapRef.setCenter(MAP.defaultCenter)
+            props.mapRef.setZoom(MAP.defaultZoom)
+            clearDirections();
+            clearMarkers();
+        }
+    }, [props.viewport])
+
+    useEffect(() => {
+        // draw route when route reloads, or visibility option changed
+        if (props.showRoute && props.selectedCluster !== '' && props.route !== null) {
+            clearDirections();
+            clearMarkers();
             drawRoute();
             drawMarkers();
             dispatch({
@@ -133,25 +145,10 @@ function Map(props) {
                 type: 'NAVIGATE_SIDEBAR'
             })
         } else {
-            if (props.mapRef !== null) {
-                props.mapRef.setCenter(MAP.defaultCenter)
-                props.mapRef.setZoom(MAP.defaultZoom)
-                clearDirections();
-                clearMarkers();
-            }
-        }
-    }, [props.viewport])
-
-    // redraw route whenever route reloads
-    useEffect(() => {
-        if (props.selectedCluster !== '' && props.route !== null) {
+            // clear route when visibility option is changed
             clearDirections();
-            clearMarkers();
-            drawRoute();
-            drawMarkers();
-    }
-    }, [props.route])
-    
+        }
+    }, [props.route, props.showRoute])
 
     function getCurrentRouteCluster() {
         return Object.values(Object.values(props.route)[props.selectedCluster]);
@@ -159,17 +156,17 @@ function Map(props) {
 
     const drawRoute = () => {
         const currentCluster = getCurrentRouteCluster();
-            const waypts = [];
-            for (let i = 1; i < currentCluster.length - 1; i++) {
-                waypts.push({
-                    location: new window.google.maps.LatLng(currentCluster[i].lat, currentCluster[i].lon),
-                    stopover: true,
-                });
-            }
-            const start = new window.google.maps.LatLng(currentCluster[0].lat, currentCluster[0].lon);
-            const end = new window.google.maps.LatLng(
-                currentCluster[currentCluster.length - 1].lat, currentCluster[currentCluster.length - 1].lon);
-            renderDirections(props.mapRef, start, end, waypts);
+        const waypts = [];
+        for (let i = 1; i < currentCluster.length - 1; i++) {
+            waypts.push({
+                location: new window.google.maps.LatLng(currentCluster[i].lat, currentCluster[i].lon),
+                stopover: true,
+            });
+        }
+        const start = new window.google.maps.LatLng(currentCluster[0].lat, currentCluster[0].lon);
+        const end = new window.google.maps.LatLng(
+            currentCluster[currentCluster.length - 1].lat, currentCluster[currentCluster.length - 1].lon);
+        renderDirections(props.mapRef, start, end, waypts);
     }
 
     const [markers, setMarkers] = useState([]);
@@ -270,17 +267,17 @@ function Map(props) {
 
             {(props.viewport === 'zoomedIn') &&
                 <div className="reloadContainer">
-                    <RouteReloader/>
+                    <RouteReloader />
                 </div>
-            }       
-           
+            }
+
         </>
     );
 }
 
 
-const mapStateToProps = ({ rMap: { mapRef, mapsRef, defaultColleges, selectedCluster, viewport, }, 
+const mapStateToProps = ({ rMap: { mapRef, mapsRef, defaultColleges, selectedCluster, viewport, showRoute },
     rUser: { user, route, routesUpdated }, rRoute: { tooltip } }) =>
-    ({ mapRef, mapsRef, defaultColleges, selectedCluster, viewport, user, route, routesUpdated, tooltip });
+    ({ mapRef, mapsRef, defaultColleges, selectedCluster, viewport, showRoute, user, route, routesUpdated, tooltip });
 
 export default connect(mapStateToProps)(Map);

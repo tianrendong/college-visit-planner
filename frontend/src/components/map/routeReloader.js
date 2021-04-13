@@ -7,6 +7,8 @@ import BookmarkIcon from '@material-ui/icons/Bookmark';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
 import { routeActions } from '../../actions/routeActions'
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 
 
 const MyTooltip = withStyles(() => ({
@@ -18,17 +20,19 @@ const MyTooltip = withStyles(() => ({
     },
 }))(Tooltip);
 
-const tooltip = "Refresh if the route is not optimal, or bookmark to remember it"
+const reloadTooltipText = "Refresh if the route is not optimal, or bookmark to remember it"
 
 const RouteReloader = (props) => {
     const dispatch = useDispatch();
-    const [showTooltip, setShowToolTip] = useState(false);
+    const [reloadTooltip, setReloadTooltip] = useState(false);
+    const [routeTooltip, setRouteTooltip] = useState(false);
+
 
     const handleReloadRoute = () => {
         const currentCluster = props.route[props.selectedCluster];
-        // if (!props.tooltip.includes("slider")) {
-        //     dispatch(routeActions.addTooltipShowed("bookmark"))
-        //   }
+        if (!props.tooltip.includes("bookmark")) {
+            dispatch(routeActions.addTooltipShowed("bookmark"))
+          }
         dispatch({
             payload: {
                 clusterIndex: props.selectedCluster,
@@ -39,9 +43,9 @@ const RouteReloader = (props) => {
     }
 
     const toggleBookmark = () => {
-        // if (!props.tooltip.includes("slider")) {
-        //     dispatch(routeActions.addTooltipShowed("bookmark"))
-        //   }
+        if (!props.tooltip.includes("bookmark")) {
+            dispatch(routeActions.addTooltipShowed("bookmark"))
+          }
         dispatch({
             payload: {
                 clusterIndex: props.selectedCluster,
@@ -50,26 +54,53 @@ const RouteReloader = (props) => {
         })
     }
 
+    const toggleShowRoute = () => {
+        if (!props.tooltip.includes("bookmark")) {
+            dispatch(routeActions.addTooltipShowed("bookmark"))
+          }
+        dispatch({
+            type: 'TOGGLE_SHOW_ROUTE'
+        })
+    }
+
     useEffect(() => {
-        setShowToolTip(!props.tooltip.includes("bookmark") && !props.updatingRoute);
+        setReloadTooltip(!props.tooltip.includes("bookmark") && !props.updatingRoute);
     }, [props.updatingRoute, props.tooltip])
 
-    const handleCloseTooltip = () => {
-        setShowToolTip(false);
+    const handleCloseReloadTooltip = () => {
+        setReloadTooltip(false);
     };
 
-    const handleShowTooltip = () => {
-        setShowToolTip(true);
+    const handleShowReloadTooltip = () => {
+        setReloadTooltip(true);
+    };
+
+    const handleCloseRouteTooltip = () => {
+        setRouteTooltip(false);
+    };
+
+    const handleShowRouteTooltip = () => {
+        setRouteTooltip(true);
     };
 
     return (
         <div>
-            <IconButton size="large" onClick={handleReloadRoute} onMouseOver={handleShowTooltip} onMouseLeave={handleCloseTooltip}
-            disabled={props.routesUpdated.includes(props.selectedCluster)}>
+            <MyTooltip open={routeTooltip} onOpen={handleShowRouteTooltip} onClose={handleCloseRouteTooltip}
+                title={props.showRoute ? "hide route" : "show route"} placement="top">
+                <IconButton size="large" onClick={toggleShowRoute}>
+                    {props.showRoute ?
+                        <VisibilityOffIcon fontSize="large"/> : <VisibilityIcon fontSize="large"/>}
+                </IconButton>
+            </MyTooltip>
+
+            <IconButton size="large" onClick={handleReloadRoute} onMouseOver={handleShowReloadTooltip}
+                onMouseLeave={handleCloseReloadTooltip}
+                disabled={props.routesUpdated.includes(props.selectedCluster)}>
                 <CachedIcon fontSize="large" />
             </IconButton>
-            <MyTooltip open={showTooltip} onOpen={handleShowTooltip} onClose={handleCloseTooltip}
-                title={tooltip} placement="right-end">
+
+            <MyTooltip open={reloadTooltip} onOpen={handleShowReloadTooltip} onClose={handleCloseReloadTooltip}
+                title={reloadTooltipText} placement="right-end">
                 <IconButton size="large" onClick={toggleBookmark}>
                     {props.routesUpdated.includes(props.selectedCluster) ?
                         <BookmarkIcon fontSize="large" /> :
@@ -81,8 +112,8 @@ const RouteReloader = (props) => {
     )
 }
 
-const mapStateToProps = ({ rMap: { selectedCluster, viewport },
+const mapStateToProps = ({ rMap: { selectedCluster, viewport, showRoute },
     rUser: { route, routesUpdated, updatingRoute }, rRoute: { tooltip } }) =>
-    ({ selectedCluster, viewport, route, routesUpdated, updatingRoute, tooltip });
+    ({ selectedCluster, viewport, showRoute, route, routesUpdated, updatingRoute, tooltip });
 
 export default connect(mapStateToProps)(RouteReloader);

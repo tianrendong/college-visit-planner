@@ -4,6 +4,7 @@ const initialState = {
     defaultColleges: '',
     viewport: 'default',
     selectedCluster: '',
+    showRoute: false,
 }
 
 const mapReducer = (state = initialState, action) => {
@@ -24,6 +25,7 @@ const mapReducer = (state = initialState, action) => {
                 ...state,
                 selectedCluster: action.payload.clusterIndex,
                 viewport: 'zoomedIn',
+                showRoute: true,
             };
         case "UPDATE_CLUSTERS":
             return {
@@ -42,7 +44,13 @@ const mapReducer = (state = initialState, action) => {
                     ...state,
                     selectedCluster: '',
                     viewport: action.payload.viewport,
+                    showRoute: false,
                 };
+        case "TOGGLE_SHOW_ROUTE":
+            return {
+                ...state,
+                showRoute: !state.showRoute
+            }
         default:
             return state
     }
