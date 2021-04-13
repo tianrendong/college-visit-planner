@@ -14,6 +14,9 @@ const RouteClusterMarker = (props) => {
             dispatch(routeActions.addTooltipShowed("clusters"))
         }
         if (props.routesUpdated.includes(props.index)) {{
+            console.log("bbbb")
+            console.log(props.route)
+            console.log(props.index)
             dispatch({
                 payload: {
                     clusterIndex: props.index,

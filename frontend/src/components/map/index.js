@@ -13,6 +13,7 @@ import { renderDirections, clearDirections } from './directionsRenderer'
 import airportIcon from '../../assets/mapsSVG/airport.svg';
 import locationIcon from '../../assets/mapsSVG/location.svg';
 import { routeActions } from '../../actions/routeActions'
+import RouteReloader from './routeReloader'
 
 const MAP = {
     defaultZoom: 5,
@@ -28,6 +29,7 @@ function Map(props) {
     const [clustersDisplayed, setClustersDisplayed] = useState([]);
     const [defaultColleges, setDefaultColleges] = useState([]);
     const [mapOptions, setMapOptions] = useState({});
+
 
     const dispatch = useDispatch();
 
@@ -57,9 +59,9 @@ function Map(props) {
         return clusters(mapOptions);
     };
 
-    function getCurrentRouteCluster() {
-        return Object.values(Object.values(props.route)[props.selectedCluster]);
-    }
+    // function getCurrentRouteCluster() {
+    //     return Object.values(Object.values(props.route)[props.selectedCluster]);
+    // }
 
     const createClusters = () => {
         setClustersDisplayed(
@@ -139,6 +141,21 @@ function Map(props) {
             }
         }
     }, [props.viewport])
+
+    // redraw route whenever route reloads
+    useEffect(() => {
+        if (props.selectedCluster !== '' && props.route !== null) {
+            clearDirections();
+            clearMarkers();
+            drawRoute();
+            drawMarkers();
+    }
+    }, [props.route])
+    
+
+    function getCurrentRouteCluster() {
+        return Object.values(Object.values(props.route)[props.selectedCluster]);
+    }
 
     const drawRoute = () => {
         const currentCluster = getCurrentRouteCluster();
@@ -250,13 +267,20 @@ function Map(props) {
             {(props.viewport === 'clusters') &&
                 <ClusterSlider />
             }
+
+            {(props.viewport === 'zoomedIn') &&
+                <div className="reloadContainer">
+                    <RouteReloader/>
+                </div>
+            }       
+           
         </>
     );
 }
 
 
 const mapStateToProps = ({ rMap: { mapRef, mapsRef, defaultColleges, selectedCluster, viewport, }, 
-    rUser: { user, route }, rRoute: { tooltip } }) =>
-    ({ mapRef, mapsRef, defaultColleges, selectedCluster, viewport, user, route, tooltip });
+    rUser: { user, route, routesUpdated }, rRoute: { tooltip } }) =>
+    ({ mapRef, mapsRef, defaultColleges, selectedCluster, viewport, user, route, routesUpdated, tooltip });
 
 export default connect(mapStateToProps)(Map);

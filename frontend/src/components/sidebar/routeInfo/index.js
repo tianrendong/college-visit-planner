@@ -18,6 +18,13 @@ const RouteInfo = (props) => {
     const travelDist = useRef(0); // in meters
     const travelTime = useRef(0); // in seconds
     
+    useEffect(() => {
+        setDirectionBoxes([]);
+        setDisplay([]);
+        travelDist.current = 0;
+        travelTime.current = 0;
+    },
+    [props.route, props.selectedCluster])
 
     const renderRoutes = async (cluster) => {
         const start = new window.google.maps.LatLng(cluster[0].lat, cluster[0].lon);
@@ -32,7 +39,6 @@ const RouteInfo = (props) => {
         const routes = await calculateRoute(start, end, waypts).then(res => res)
         
         for (let i = 0; i < routes.length; i++) {
-            console.log(routes[i].duration.value)
             travelDist.current += routes[i].distance.value;
             travelTime.current += routes[i].duration.value;
         } 
@@ -40,7 +46,6 @@ const RouteInfo = (props) => {
         setDirectionBoxes(routesDisplay)
     }
 
-    console.log(travelTime)
 
     useEffect(() => {
         renderRoutes(currentCluster())

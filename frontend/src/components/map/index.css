@@ -51,6 +51,13 @@
     left: 70px;
 }
 
+.reloadContainer {
+    position: absolute;
+    z-index: 100;
+    bottom: 20px;
+    left: 24vw; 
+}
+
 .collegeLabel {
     text-align: center;
     font-size: medium;

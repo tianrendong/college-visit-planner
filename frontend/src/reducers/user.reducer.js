@@ -68,16 +68,24 @@ const userReducer = (state = initialState, action) => {
             };
         case "UPDATE_ROUTE":
             const updatedClusterIndex = action.payload.clusterIndex
-            const clusterAlreadyUpdated = state.routesUpdated.includes(updatedClusterIndex)
+            const clusterUpdated = state.routesUpdated.includes(updatedClusterIndex)
             return {
                 ...state,
                 error: '',
-                // if the cluster is not already updated, add it into the updated list
-                routesUpdated: clusterAlreadyUpdated ? state.routesUpdated : [...state.routesUpdated, updatedClusterIndex],
-                 // if the cluster is not already updated, update the specific cluster based on the index passed in
-                route: clusterAlreadyUpdated ? state.route : (state.route.map((cluster, i) => i === updatedClusterIndex ? action.payload.route : cluster)),
+                // if cluster is not bookmarked : update the specific cluster based on the index passed in
+                route: clusterUpdated ? state.route : ((state.route.map((cluster, i) => i === updatedClusterIndex ? action.payload.route : cluster))),
                 updatingRoute: false,
             };
+
+        case "TOGGLE_BOOKMARK_ROUTE":
+            const clusterIndex = action.payload.clusterIndex
+            const clusterBookmarked = state.routesUpdated.includes(clusterIndex)
+            const filteredCluster = state.routesUpdated.filter(r => r !== clusterIndex)
+            return {
+                ...state,
+                // add or delete cluster index to/from routesUpdated
+                routesUpdated: clusterBookmarked ? filteredCluster : [...state.routesUpdated, clusterIndex],
+            }
 
         case "REQUEST_ADD_COLLEGE":
             return {
