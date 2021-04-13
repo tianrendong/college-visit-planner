@@ -14,6 +14,9 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { useSnackbar } from 'notistack';
 import { connect, useDispatch } from 'react-redux';
+import {dataPolicy} from "../../infobar/settings/policies";
+import DialogActions from "@material-ui/core/DialogActions";
+import Dialog from "@material-ui/core/Dialog";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -49,6 +52,8 @@ function SignUp(props) {
     const [passwordIsValid, setPasswordIsValid] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [passwordConfirmation, setPasswordConfirmation] = useState(false)
+    const [readTerms, setReadTerms] = useState(false)
+    const [openTerms, setOpenTerms] = useState(false)
 
     const passwordFieldOnChange = (value) => {
         setPassword(value)
@@ -79,6 +84,15 @@ function SignUp(props) {
 
     const handleNavigateLogin = () => {
         dispatch(routeActions.navigateSidebar('login'));
+    }
+
+    const handleCloseTerms = () => {
+        setOpenTerms(false)
+    }
+
+    const handleOpenTerms = () => {
+        setOpenTerms(true)
+        setReadTerms(true)
     }
 
     return (
@@ -148,31 +162,41 @@ function SignUp(props) {
                                 onChange={(e) => handleConfirmPasswordFieldOnChange(e.target.value)}
                             />
                         </Grid>
-                    </Grid>
-                    <Accordion>
-                        <AccordionSummary
-                            expandIcon={<ExpandMoreIcon />}
-                            aria-label="Expand"
-                            aria-controls="additional-actions1-content"
-                            id="additional-actions1-header"
-                        >
+                        <Grid item xs={12}>
                             <FormControlLabel
                                 aria-label="Acknowledge"
                                 onClick={(event) => event.stopPropagation()}
                                 onFocus={(event) => event.stopPropagation()}
-                                control={<Checkbox required />}
-                                label="I confirm to the terms and conditions of this website."
+                                control={<Checkbox color="primary" required disabled={(!readTerms)}/>}
+                                label="Click to read the terms and conditions."
                             />
-                        </AccordionSummary>
-                        <AccordionDetails>data policy</AccordionDetails>
-                    </Accordion>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <FormControlLabel
+                                aria-label="Acknowledge"
+                                onClick={(event) => event.stopPropagation()}
+                                onFocus={(event) => event.stopPropagation()}
+                                control={<Button onClick={handleOpenTerms}/>}
+                                label="Click to read the terms and conditions."
+                            />
+                        </Grid>
+                    </Grid>
+                    <Dialog open={openTerms}
+                            onClose={handleCloseTerms}
+                            classes={{ paper: classes.paper }}>
+                        <div className="popDialogContainer">
+                            {dataPolicy.collectionAndUsage()}
+                            {dataPolicy.dataProtectionRights()}
+                        </div>
+                    </Dialog>
+
                     <Button
                         type="submit"
                         fullWidth
                         variant="contained"
                         color="primary"
                         className={classes.submit}
-                        disabled={(password === null) || (passwordConfirmation === false)}
+                        disabled={(password === '') || (passwordConfirmation === false)}
                     >
                         Sign Up
                     </Button>

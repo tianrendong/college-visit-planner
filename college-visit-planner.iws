@@ -6,11 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="fdb581c7-287d-4d72-b22a-5fe6bbfd9325" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/college-visit-planner.iws" beforeDir="false" afterPath="$PROJECT_DIR$/college-visit-planner.iws" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/sampleUsers.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/data/sampleUsers.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/brown/cs/termproject/api/UserAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/brown/cs/termproject/api/UserAPI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/brown/cs/termproject/router/NaiveTSP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/brown/cs/termproject/router/NaiveTSP.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/edu/brown/cs/termproject/pbt/PropertyBasedTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/edu/brown/cs/termproject/pbt/PropertyBasedTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/edu/brown/cs/termproject/pbt/RandomGraphGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/edu/brown/cs/termproject/pbt/RandomGraphGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/sidebar/signup/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/sidebar/signup/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -462,7 +458,7 @@
       <workItem from="1617481167318" duration="1503000" />
       <workItem from="1618233253209" duration="17561000" />
       <workItem from="1618280184376" duration="137000" />
-      <workItem from="1618291559279" duration="5107000" />
+      <workItem from="1618291559279" duration="10118000" />
     </task>
     <servers />
   </component>
