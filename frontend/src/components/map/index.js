@@ -76,7 +76,6 @@ function Map(props) {
     };
 
     const handleMapChange = ({ center, zoom, bounds }) => { setMapOptions({ center, zoom, bounds }); };
-
     useEffect(createClusters, [mapOptions])
 
     function getRouteClusters() {
@@ -86,6 +85,7 @@ function Map(props) {
     }
 
     const handleApiLoaded = (map, maps) => {
+        // store a reference to the GoogleMap map and maps object in redux store
         dispatch({
             payload: { map, maps },
             type: 'ON_LOADED',
@@ -124,21 +124,8 @@ function Map(props) {
 
     useEffect(() => {
         if (props.viewport === 'zoomedIn') {
-            const currentCluster = getCurrentRouteCluster();
-            const waypts = [];
-            for (let i = 1; i < currentCluster.length - 1; i++) {
-                waypts.push({
-                    location: new window.google.maps.LatLng(currentCluster[i].lat, currentCluster[i].lon),
-                    stopover: true,
-                });
-            }
-            const start = new window.google.maps.LatLng(currentCluster[0].lat, currentCluster[0].lon);
-            const end = new window.google.maps.LatLng(
-                currentCluster[currentCluster.length - 1].lat, currentCluster[currentCluster.length - 1].lon);
-            renderDirections(props.mapRef, start, end, waypts);
-
+            drawRoute();
             drawMarkers();
-
             dispatch({
                 payload: { sidebar: 'routeInfo' },
                 type: 'NAVIGATE_SIDEBAR'
@@ -153,6 +140,20 @@ function Map(props) {
         }
     }, [props.viewport])
 
+    const drawRoute = () => {
+        const currentCluster = getCurrentRouteCluster();
+            const waypts = [];
+            for (let i = 1; i < currentCluster.length - 1; i++) {
+                waypts.push({
+                    location: new window.google.maps.LatLng(currentCluster[i].lat, currentCluster[i].lon),
+                    stopover: true,
+                });
+            }
+            const start = new window.google.maps.LatLng(currentCluster[0].lat, currentCluster[0].lon);
+            const end = new window.google.maps.LatLng(
+                currentCluster[currentCluster.length - 1].lat, currentCluster[currentCluster.length - 1].lon);
+            renderDirections(props.mapRef, start, end, waypts);
+    }
 
     const [markers, setMarkers] = useState([]);
     const drawMarkers = () => {
@@ -243,12 +244,6 @@ function Map(props) {
                             <RouteClusterMarker index={index} lat={cluster[0]} lng={cluster[1]} />
                         ))
                     }
-
-                    {/* {(props.viewport === 'zoomedIn') &&
-                    getCurrentRouteCluster().map((college, index) => (
-                        <div lat={college.lat} lng={college.lon} className="collegeLabel"> {college.name}</div>
-                    ))
-                } */}
 
                 </GoogleMap>
             </div>
