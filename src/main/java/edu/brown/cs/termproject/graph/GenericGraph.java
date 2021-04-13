@@ -11,7 +11,7 @@ import java.util.Set;
 /**
  * Class for a generic graph.
  * @param <V> type that extends Vertex.
- * @param <E>type that extends Edge.>
+ * @param <E>type that extends Edge.
  */
 public class GenericGraph<V extends Vertex, E extends Edge<V>> implements Graph<V, E> {
   private Set<E> edges;

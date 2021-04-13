@@ -13,8 +13,11 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 import java.util.Base64;
 
-@SuppressWarnings("checkstyle:HideUtilityClassConstructor")
-public class Encryption {
+
+/**
+ * Utility class for encryption.
+ */
+public final class Encryption {
 
   private static final String SECRET_KEY = "my_super_secret_key_ho_ho_ho";
   private static final String SALT = "ssshhhhhhhhhhh!!!!";
@@ -24,6 +27,8 @@ public class Encryption {
   private static IvParameterSpec ivspec;
   private static KeySpec spec;
   private static SecretKeySpec secretKey;
+
+  private Encryption() { }
 
   static {
     try {
@@ -38,6 +43,11 @@ public class Encryption {
     }
   }
 
+  /**
+   * Encrypts the string.
+   * @param strToEncrypt string to be encrypted.
+   * @return encrypted version of the string.
+   */
   public static String encrypt(String strToEncrypt) {
     try {
       SecretKey tmp = factory.generateSecret(spec);
@@ -53,11 +63,25 @@ public class Encryption {
     return null;
   }
 
+  /**
+   * Verify whether a string is an encryption of another string.
+   * @param input Input string.
+   * @param encrypted Encrypted version string.
+   * @return whether encrypted is the correct encryption for input.
+   * @throws InvalidKeySpecException when no valid key.
+   * @throws NoSuchAlgorithmException when no encryption algorithm.
+   * @throws UnsupportedEncodingException when encoding is not supported.
+   */
   public static boolean verify(String input, String encrypted)
       throws InvalidKeySpecException, NoSuchAlgorithmException, UnsupportedEncodingException {
     return input.equals(decrypt(encrypted));
   }
 
+  /**
+   * Decrypts a string.
+   * @param strToDecrypt the string to decrypt.
+   * @return decrypted string of an encrypted.
+   */
   public static String decrypt(String strToDecrypt) {
     try {
       Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");

@@ -1,5 +1,8 @@
 package edu.brown.cs.termproject.router;
 
+/**
+ * Class representing point.
+ */
 public class Point implements Locatable {
   private final double lat;
   private final double lon;

@@ -20,6 +20,8 @@ import java.util.Stack;
 
 /**
  * The class for Traveling Salesman Problem algorithm.
+ * @param <V> type that extends Vertex.
+ * @param <E> type that extends Edge.
  */
 public class TSP<V extends Vertex, E extends Edge<V>> {
   /**
@@ -69,7 +71,12 @@ public class TSP<V extends Vertex, E extends Edge<V>> {
     return tspMatches.createEulerCircuit();
   }
 
-  private class TSPGraph<V extends Vertex, E extends Edge<V>> {
+  /**
+   * Class representing a grpah of TSP.
+   * @param <V> type that extends Vertex.
+   * @param <E> type that extends Edge.
+   */
+  private static final class TSPGraph<V extends Vertex, E extends Edge<V>> {
     private GenericGraph initGraph;
     private ArrayList<V> eulerianCircuit = new ArrayList<>();
     private HashMap<V, ArrayList<V>> adj;
@@ -78,7 +85,6 @@ public class TSP<V extends Vertex, E extends Edge<V>> {
     private TSPGraph(GenericGraph<V, E> g) {
       this.initGraph = g;
       Set<V> verts = g.getVertices();
-      int V = verts.size();
       this.adj = new HashMap<>();
       Set<E> edges = g.getEdges();
       for (V v : verts) {
@@ -139,7 +145,8 @@ public class TSP<V extends Vertex, E extends Edge<V>> {
       return numNeighbors;
     }
 
-    Set<GenericEdge<V>> perfectMatches(Set<V> allVerts) throws InterruptedException, ApiException, IOException {
+    Set<GenericEdge<V>> perfectMatches(Set<V> allVerts)
+        throws InterruptedException, ApiException, IOException {
       ArrayList<GenericEdge<V>> newEdges = new ArrayList<>();
       List<V> odd = this.getOddDegreeVertices();
       Set<E> mst = this.initGraph.getEdges();
@@ -173,10 +180,12 @@ public class TSP<V extends Vertex, E extends Edge<V>> {
     }
 
 
-    public ArrayList<GenericEdge<V>> findMatches(List<V> oddDegreeVertices, ArrayList<GenericEdge<V>> newEdges) throws InterruptedException, ApiException, IOException {
+    public ArrayList<GenericEdge<V>> findMatches(
+        List<V> oddDegreeVertices, ArrayList<GenericEdge<V>> newEdges)
+        throws InterruptedException, ApiException, IOException {
       double distance = 0.0, min = Double.MAX_VALUE;
       int nextIndex = 0, indexForRemove = 0;
-      GenericEdge currEdge;
+      GenericEdge<V> currEdge;
       V curr, curr2;
       for (int i = 0; i < oddDegreeVertices.size(); i = nextIndex) {
         curr = oddDegreeVertices.get(i);
@@ -236,14 +245,14 @@ public class TSP<V extends Vertex, E extends Edge<V>> {
 
     public ArrayList<V> createEulerCircuit() {
       HashMap<V, Integer> neighbors = this.numNeighbors();
-      V first_odd = null;
+      V firstOdd = null;
       for (V key : neighbors.keySet()) {
         if (adj.get(key).size() % 2 == 1) {
-          first_odd = key;
+          firstOdd = key;
           break;
         }
       }
-      this.eulerUtil(first_odd);
+      this.eulerUtil(firstOdd);
       ArrayList<V> result = this.clearRepeats();
       return result;
     }
@@ -280,11 +289,11 @@ public class TSP<V extends Vertex, E extends Edge<V>> {
 
       stack.push(s);
 
-      while (stack.empty() == false) {
+      while (!stack.empty()) {
         s = stack.pop();
 
 
-        if (this.isVisited.containsKey(s) == false) {
+        if (!this.isVisited.containsKey(s)) {
           this.isVisited.put(s, true);
           count++;
         }

@@ -18,6 +18,10 @@ public class Clustering<L extends Locatable> {
   private final double maxDistance; // in kilometers
   private static final int RADIAN = 180;
 
+  /**
+   * Constructs a clustering obejct.
+   * @param maxDistance maximum distance from each point to the centroid.
+   */
   public Clustering(double maxDistance) {
     this.maxDistance = maxDistance;
   }

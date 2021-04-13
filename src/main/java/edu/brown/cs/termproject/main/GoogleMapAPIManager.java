@@ -19,7 +19,7 @@ public final class GoogleMapAPIManager {
 
   }
 
-  private static final GeoApiContext geoAPIContext = new GeoApiContext.Builder()
+  private static final GeoApiContext GEO_API_CONTEXT = new GeoApiContext.Builder()
       .apiKey("AIzaSyBIJk5AqilYH8PHt2TP4f5d7QY-UxtJf58")
       .build();
 
@@ -27,7 +27,7 @@ public final class GoogleMapAPIManager {
       double startLat, double startLng, double destLat, double destLng)
       throws InterruptedException, ApiException, IOException {
     DirectionsResult result =
-        DirectionsApi.newRequest(geoAPIContext)
+        DirectionsApi.newRequest(GEO_API_CONTEXT)
             .mode(TravelMode.DRIVING)
 //              .avoid(
 //                  DirectionsApi.RouteRestriction.TOLLS)

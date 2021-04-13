@@ -6,6 +6,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Class for getting nearest point.
+ * @param <A> type that extends Locatable.
+ * @param <B> type that extends Locatable.
+ */
 public class Nearest<A extends Locatable, B extends Locatable> {
 
   /**

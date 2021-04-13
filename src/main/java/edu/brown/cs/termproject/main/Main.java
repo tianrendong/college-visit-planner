@@ -44,9 +44,18 @@ public final class Main {
     this.args = args;
   }
 
+  /**
+   * Gets the college database.
+   * @return college database.
+   */
   public static CollegeSQLManager getCollegeDatabase() {
     return COLLEGE_DATABASE;
   }
+
+  /**
+   * Gets the airport database.
+   * @return airport database.
+   */
   public static AirportSQLManager getAirportDatabase() {
     return AIRPORT_DATABASE;
   }

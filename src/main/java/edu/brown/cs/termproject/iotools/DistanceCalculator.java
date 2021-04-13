@@ -2,10 +2,15 @@ package edu.brown.cs.termproject.iotools;
 
 import edu.brown.cs.termproject.router.Locatable;
 
-@SuppressWarnings("checkstyle:HideUtilityClassConstructor")
-public class DistanceCalculator {
+/**
+ * Utility class for calculating distance.
+ */
+public final class DistanceCalculator {
 
   private static final int R = 6371;
+
+  private DistanceCalculator() { }
+
   /**
    * Returns the haversine distance in kilometers between two locatable nodes.
    * formula from:
