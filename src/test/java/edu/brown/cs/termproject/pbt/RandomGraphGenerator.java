@@ -55,7 +55,7 @@ public class RandomGraphGenerator {
    */
   public Graph<Location, LocationPath> generateRandomGraph()
       throws SQLException, InterruptedException, ApiException, IOException {
-    int numColleges = random.nextInt(10) + 1;
+    int numColleges = random.nextInt(5) + 1;
     List<Location> locations = new ArrayList<>();
     for (int i = 0; i < numColleges; i++) {
       locations.add(getRandomCollege());

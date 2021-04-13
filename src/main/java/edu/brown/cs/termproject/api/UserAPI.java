@@ -10,11 +10,7 @@ import edu.brown.cs.termproject.collegegraph.LocationPath;
 import edu.brown.cs.termproject.database.UserDataManager;
 import edu.brown.cs.termproject.iotools.CenterCalculator;
 import edu.brown.cs.termproject.main.Main;
-import edu.brown.cs.termproject.router.Clustering;
-import edu.brown.cs.termproject.router.Nearest;
-import edu.brown.cs.termproject.router.OrderRoute;
-import edu.brown.cs.termproject.router.Point;
-import edu.brown.cs.termproject.router.TSP;
+import edu.brown.cs.termproject.router.*;
 import spark.Route;
 
 import com.google.gson.Gson;
@@ -31,7 +27,7 @@ public class UserAPI {
 
   private static final Gson GSON = new Gson();
   private UserDataManager userDB;
-  private final TSP<Location, LocationPath> tspFinder = new TSP<>();;
+  private final TSP<Location, LocationPath> tspFinder = new TSP<>();
   private final Nearest nearest = new Nearest();
 
   /**
@@ -205,7 +201,12 @@ public class UserAPI {
 
     //perform TSP and reorder the found route
     LocationGraph graph = new LocationGraph(locations);
-    List<Location> tsp = OrderRoute.orderRoute(tspFinder.findRoute(graph));
+
+    // Christofides TSP
+//    List<Location> tsp = OrderRoute.orderRoute(tspFinder.findRoute(graph));
+
+    // Naive TSP
+    List<Location> tsp = OrderRoute.orderRoute(NaiveTSP.findRoute(graph));
 
     return GSON.toJson(tsp);
   };
