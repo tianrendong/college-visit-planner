@@ -12,6 +12,7 @@ import { findCenter } from './geocoordinateCalculations';
 import { renderDirections, clearDirections } from './directionsRenderer'
 import airportIcon from '../../assets/mapsSVG/airport.svg';
 import locationIcon from '../../assets/mapsSVG/location.svg';
+import { routeActions } from '../../actions/routeActions'
 
 const MAP = {
     defaultZoom: 5,
@@ -153,8 +154,6 @@ function Map(props) {
     }, [props.viewport])
 
 
-    // console.log(getCurrentRouteCluster());
-
     const [markers, setMarkers] = useState([]);
     const drawMarkers = () => {
         const locations = getCurrentRouteCluster();
@@ -182,6 +181,9 @@ function Map(props) {
             });
 
             marker.addListener("mouseover", () => {
+                if (!props.tooltip.includes("zoomedIn")) {
+                    dispatch(routeActions.addTooltipShowed("zoomedIn"))
+                }
                 infowindow.open(props.mapRef, marker);
             });
 
@@ -199,11 +201,6 @@ function Map(props) {
             markers[i].setMap(null);
         }
     }
-    // let marker = new window.google.maps.Marker({
-    //       position: new window.google.maps.LatLng(34.0689, -118.4452),
-    //       map: props.mapRef
-    //     });
-    //     marker.setMap(props.mapRef)
 
     return (
         <>
@@ -263,7 +260,8 @@ function Map(props) {
 }
 
 
-const mapStateToProps = ({ rMap: { mapRef, mapsRef, defaultColleges, selectedCluster, viewport, }, rUser: { user, route } }) =>
-    ({ mapRef, mapsRef, defaultColleges, selectedCluster, viewport, user, route });
+const mapStateToProps = ({ rMap: { mapRef, mapsRef, defaultColleges, selectedCluster, viewport, }, 
+    rUser: { user, route }, rRoute: { tooltip } }) =>
+    ({ mapRef, mapsRef, defaultColleges, selectedCluster, viewport, user, route, tooltip });
 
 export default connect(mapStateToProps)(Map);

@@ -52,8 +52,8 @@ const ClusterSlider = (props) => {
   const [showTooltip, setShowToolTip] = useState(false);
 
   useEffect(() => {
-    setShowToolTip(!props.tooltip.includes("slider"));
-  }, [props.tooltip])
+    setShowToolTip(!props.tooltip.includes("slider") && !props.updatingRoute);
+  }, [props.updatingRoute, props.tooltip])
 
   const handleCloseTooltip = () => {
     setShowToolTip(false);
@@ -93,7 +93,7 @@ const ClusterSlider = (props) => {
   )
 }
 
-const mapStateToProps = ({ rUser: { user }, rRoute: { tooltip } }) =>
-  ({ user, tooltip });
+const mapStateToProps = ({ rUser: { user, updatingRoute }, rRoute: { tooltip } }) =>
+  ({ user, updatingRoute, tooltip });
 
 export default connect(mapStateToProps)(ClusterSlider);

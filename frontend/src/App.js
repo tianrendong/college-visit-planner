@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     },
     tooltipButton: {
         position: 'absolute',
-        zIndex: 99,
+        zIndex: 90,
         padding: '3px',
         margin: '14px'
     }
@@ -47,8 +47,8 @@ function App(props) {
     const [showTooltip, setShowToolTip] = useState(false);
 
     useEffect(() => {
-        setShowToolTip(!props.tooltip.includes(props.viewport));
-    }, [props.viewport, props.tooltip])
+        setShowToolTip(!props.tooltip.includes(props.viewport) && !props.updatingRoute);
+    }, [props.updatingRoute, props.viewport, props.tooltip])
 
     const handleCloseTooltip = () => {
         setShowToolTip(false);
@@ -97,7 +97,7 @@ function App(props) {
 }
 
 const mapStateToProps = ({ rMap: { viewport }, 
-    rUser: { loggedIn, user, error, updatingRoute }, rRoute: { tooltip } }) => 
-({ viewport, loggedIn, user, error, updatingRoute, tooltip });
+    rUser: { updatingRoute }, rRoute: { tooltip } }) => 
+({ viewport, updatingRoute, tooltip });
 
 export default connect(mapStateToProps)(App);
