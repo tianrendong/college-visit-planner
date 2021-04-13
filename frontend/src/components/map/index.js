@@ -10,6 +10,8 @@ import supercluster from 'points-cluster';
 import ClusterSlider from './clusterSlider'
 import { findCenter } from './geocoordinateCalculations';
 import { renderDirections, clearDirections } from './directionsRenderer'
+import airportIcon from '../../assets/mapsSVG/airport.svg';
+import locationIcon from '../../assets/mapsSVG/location.svg';
 
 const MAP = {
     defaultZoom: 5,
@@ -72,7 +74,7 @@ function Map(props) {
         );
     };
 
-    const handleMapChange = ({ center, zoom, bounds }) => { setMapOptions({ center, zoom, bounds });};
+    const handleMapChange = ({ center, zoom, bounds }) => { setMapOptions({ center, zoom, bounds }); };
 
     useEffect(createClusters, [mapOptions])
 
@@ -129,11 +131,12 @@ function Map(props) {
                     stopover: true,
                 });
             }
-
             const start = new window.google.maps.LatLng(currentCluster[0].lat, currentCluster[0].lon);
             const end = new window.google.maps.LatLng(
                 currentCluster[currentCluster.length - 1].lat, currentCluster[currentCluster.length - 1].lon);
             renderDirections(props.mapRef, start, end, waypts);
+
+            drawMarkers();
 
             dispatch({
                 payload: { sidebar: 'routeInfo' },
@@ -144,63 +147,117 @@ function Map(props) {
                 props.mapRef.setCenter(MAP.defaultCenter)
                 props.mapRef.setZoom(MAP.defaultZoom)
                 clearDirections();
+                clearMarkers();
             }
         }
     }, [props.viewport])
 
+
+    // console.log(getCurrentRouteCluster());
+
+    const [markers, setMarkers] = useState([]);
+    const drawMarkers = () => {
+        const locations = getCurrentRouteCluster();
+        for (let i = 0; i < locations.length; i++) {
+            let marker = new window.google.maps.Marker({
+                position: new window.google.maps.LatLng(locations[i].lat, locations[i].lon),
+                map: props.mapRef,
+                icon: {
+                    url: locations[i].type === "airport" ? airportIcon : locationIcon,
+                    scaledSize: new window.google.maps.Size(50, 50),
+                    labelOrigin: new window.google.maps.Point(25, 16.5),
+                },
+                label: locations[i].type === "airport" ? {} : {
+                    text: "" + i,
+                    fontWeight: 'bold',
+                    fontSize: '20px',
+                    fontFamily: '"Inter", sans-serif',
+                    color: 'white'
+                },
+            });
+            marker.setMap(props.mapRef)
+
+            const infowindow = new window.google.maps.InfoWindow({
+                content: locations[i].name,
+            });
+
+            marker.addListener("mouseover", () => {
+                infowindow.open(props.mapRef, marker);
+            });
+
+            marker.addListener("mouseout", () => {
+                infowindow.close(props.mapRef, marker);
+            });
+
+            setMarkers(markers => [...markers, marker]);
+
+        }
+    }
+
+    const clearMarkers = () => {
+        for (let i = 0; i < markers.length; i++) {
+            markers[i].setMap(null);
+        }
+    }
+    // let marker = new window.google.maps.Marker({
+    //       position: new window.google.maps.LatLng(34.0689, -118.4452),
+    //       map: props.mapRef
+    //     });
+    //     marker.setMap(props.mapRef)
+
     return (
         <>
-        <div className="mapContainer">
-            <GoogleMap
-                bootstrapURLKeys={{ key: 'AIzaSyBIJk5AqilYH8PHt2TP4f5d7QY-UxtJf58' }} //process.env.REACT_APP_GOOGLE_KEY
-                defaultCenter={MAP.defaultCenter}
-                defaultZoom={MAP.defaultZoom}
-                options={MAP.options}
-                onChange={handleMapChange}
-                distanceToMouse={distanceToMouse}
-                yesIWantToUseGoogleMapApiInternals
-                onGoogleApiLoaded={({ map, maps }) => { handleApiLoaded(map, maps) }}
-            >
+            <div className="mapContainer">
+                <GoogleMap
+                    bootstrapURLKeys={{ key: 'AIzaSyBIJk5AqilYH8PHt2TP4f5d7QY-UxtJf58' }} //process.env.REACT_APP_GOOGLE_KEY
+                    defaultCenter={MAP.defaultCenter}
+                    defaultZoom={MAP.defaultZoom}
+                    options={MAP.options}
+                    onChange={handleMapChange}
+                    distanceToMouse={distanceToMouse}
+                    yesIWantToUseGoogleMapApiInternals
+                    onGoogleApiLoaded={({ map, maps }) => { handleApiLoaded(map, maps) }}
+                >
 
-                {(props.viewport === 'default') && clustersDisplayed.map(item => {
-                    if (item.numPoints === 1) {
-                        return (
-                            <CollegeMarker
-                                collegeID={item.points[0].id}
-                                lat={item.points[0].lat}
-                                lng={item.points[0].lng}
-                            />
-                        );
+                    {(props.viewport === 'default') && clustersDisplayed.map(item => {
+                        if (item.numPoints === 1) {
+                            return (
+                                <CollegeMarker
+                                    collegeID={item.points[0].id}
+                                    lat={item.points[0].lat}
+                                    lng={item.points[0].lng}
+                                />
+                            );
+                        }
+
+                        // return (
+                        //     <ClusterMarker
+                        //         index={item.id}
+                        //         lat={item.lat}
+                        //         lng={item.lng}
+                        //         points={item.points}
+                        //     />
+                        // );
+
+                    })}
+
+                    {(props.viewport === 'clusters') &&
+                        getRouteClusters().map((cluster, index) => (
+                            <RouteClusterMarker index={index} lat={cluster[0]} lng={cluster[1]} />
+                        ))
                     }
 
-                    // return (
-                    //     <ClusterMarker
-                    //         index={item.id}
-                    //         lat={item.lat}
-                    //         lng={item.lng}
-                    //         points={item.points}
-                    //     />
-                    // );
-
-                })}
-
-                {(props.viewport === 'clusters') &&
-                    getRouteClusters().map((cluster, index) => (
-                        <RouteClusterMarker index={index} lat={cluster[0]} lng={cluster[1]} />
-                    ))
-                }
-
-                {(props.viewport === 'zoomedIn') &&
+                    {/* {(props.viewport === 'zoomedIn') &&
                     getCurrentRouteCluster().map((college, index) => (
                         <div lat={college.lat} lng={college.lon} className="collegeLabel"> {college.name}</div>
                     ))
-                }
+                } */}
 
-            </GoogleMap>
-        </div>
-        {(props.viewport === 'clusters') &&
-            <ClusterSlider/>
-         }
+                </GoogleMap>
+            </div>
+            {(props.viewport === 'clusters') &&
+                <ClusterSlider />
+            }
         </>
     );
 }

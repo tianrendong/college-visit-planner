@@ -35,7 +35,6 @@ function checkUsername(username) {
 }
 
 function requestSignup(payload) {
-    console.log(payload);
 ;    const request = new Request('/api/user/signup', {
         method: 'POST',
         body: JSON.stringify({ 
@@ -66,13 +65,11 @@ function requestUpdateRoute(payload) {
     return fetch(request)
         .then(response => response.json())
         .then(data => {
-            console.log(data)
             return data}
             );
 }
 
 function requestUpdateClusters(payload) {
-    console.log(payload)
     const request = new Request("/api/user/getClusters", {
         method: 'POST',
         body: JSON.stringify(payload)
@@ -84,7 +81,6 @@ function requestUpdateClusters(payload) {
 
 
 function requestAddCollege(payload) {
-    console.log(payload)
     const request = new Request("/api/user/addCollege", {
         method: 'POST',
         body: JSON.stringify({ 
@@ -92,14 +88,12 @@ function requestAddCollege(payload) {
             collegeID: payload.collegeID 
         })
     })
-    console.log(request);
     return fetch(request)
         .then(response => response.json())
         .then(data => data);
 }
 
 function requestDeleteCollege(payload) {
-    console.log(payload)
     const request = new Request("/api/user/deleteCollege", {
         method: 'POST',
         body: JSON.stringify({ 
@@ -107,21 +101,18 @@ function requestDeleteCollege(payload) {
             collegeID: payload.collegeID 
         })
     })
-    console.log(request);
     return fetch(request)
         .then(response => response.json())
         .then(data => data);
 }
 
 function requestDeleteData(payload) {
-    console.log(payload)
     const request = new Request('/api/user/deleteData', {
         method: 'POST',
         body: JSON.stringify({ 
             username: payload}),
     })
 
-    console.log(request)
 
     return fetch(request)
         .then(response => response.json())
@@ -129,14 +120,12 @@ function requestDeleteData(payload) {
 }
 
 function requestDeleteAccount(payload) {
-    console.log(payload)
     const request = new Request('/api/user/deleteAccount', {
         method: 'POST',
         body: JSON.stringify({ 
             username: payload}),
     })
 
-    console.log(request)
 
     return fetch(request)
         .then(response => response.json())

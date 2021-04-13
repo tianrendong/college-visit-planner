@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   const tooltip = {
       "default": "Click on a building to view college information, or zoom in to see more",
       "clusters": "Click on a flag to see colleges inside the cluster",
-      "zoomedIn": "aaa"
+      "zoomedIn": "Hover over the markers to see each location"
 }
 
 const MyTooltip = withStyles(() => ({

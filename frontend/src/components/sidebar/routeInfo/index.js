@@ -28,7 +28,6 @@ const RouteInfo = (props) => {
             });
         }
         const routes = await calculateRoute(start, end, waypts).then(res => res)
-        console.log(routes);
         const routesDisplay = await routes.map(r => <DirectionBox info={r} />)
         setDirectionBoxes(routesDisplay)
     }
@@ -40,7 +39,6 @@ const RouteInfo = (props) => {
     useEffect(() => {
         if (directionBoxes.length !== 0) {
             for (let i = 0; i < currentCluster().length; i++) {
-                console.log("c")
                 const college = <LocationBox location={currentCluster()[i]} />
                 setDisplay(display => [...display, college])
                 if (i < currentCluster().length - 1) {
@@ -87,7 +85,6 @@ function calculateRoute(start, end, waypts) {
 
 const LocationBox = (props) => {
     const { location } = props;
-    console.log(location)
     const classes = useStyles();
     return (
         <div className="collegeCardContainer">

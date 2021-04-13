@@ -10,7 +10,6 @@ const RouteClusterMarker = (props) => {
     } = props;
     
     const handleClickCluster = () => {
-        console.log(props.tooltip)
         if (!props.tooltip.includes("clusters")) {
             dispatch(routeActions.addTooltipShowed("clusters"))
         }
@@ -22,7 +21,6 @@ const RouteClusterMarker = (props) => {
                 type: 'UPDATE_ROUTE'
             })
         }} else {
-            console.log("bbbb")
             dispatch({
                 payload: {
                     clusterIndex: props.index,
