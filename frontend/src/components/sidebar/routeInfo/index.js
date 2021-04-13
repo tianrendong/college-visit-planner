@@ -71,7 +71,7 @@ const RouteInfo = (props) => {
 
             {props.selectedCluster !== '' && <div>{display}</div>}
 
-            <div style={{height: '50px'}}></div>
+            <div style={{height: '50px'}}/>
         </div>
     );
 }

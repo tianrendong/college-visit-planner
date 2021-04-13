@@ -60,13 +60,19 @@ const CollegeInfo = (props) => {
                 </>
             }
 
-            {/* <div className="sidebarHeader">
+            {hasNearbyColleges() && 
+            <>
+            <div className="sidebarHeader">
                 <Typography className={classes.title} color="textSecondary" gutterBottom>
                     Nearby Colleges
                 </Typography>
-            </div> */}
+            </div>
+            {nearbyColleges().map((c, index) => (index < 3) && <AirportInfo airport={c}/>)}
+            </>}
 
-            {hasNearbyColleges() && nearbyColleges().map(c => <AirportInfo airport={c}/>)}
+            <div style={{height: '30px'}}/>
+
+            
         </div>
     );
 
