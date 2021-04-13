@@ -2,6 +2,7 @@ export const routeActions = {
     navigateSidebar,
     navigateInfobar,
     navigatePopDialog,
+    addTooltipShowed,
 };
 
 function navigateSidebar(sidebar) {
@@ -20,7 +21,15 @@ function navigateInfobar(infobar) {
 
 function navigatePopDialog(popDialog) {
     return {
-        payload: {popDialog: popDialog},
+        payload: {popDialog},
         type: 'NAVIGATE_POPDIALOG',
     };
 }
+
+function addTooltipShowed(tooltip) {
+    return {
+        payload: {tooltip},
+        type: 'ADD_TOOLTIP',
+    };
+}
+

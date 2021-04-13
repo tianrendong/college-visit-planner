@@ -1,7 +1,8 @@
 import React from 'react'
-import './index.css'
+import '../index.css'
 import { connect, useDispatch } from 'react-redux';
-import { ReactComponent as ClusterIcon } from '../../assets/mapsSVG/flag.svg'
+import { ReactComponent as ClusterIcon } from '../../../assets/mapsSVG/flag.svg'
+import { routeActions } from '../../../actions/routeActions'
 
 const RouteClusterMarker = (props) => {
     const dispatch = useDispatch();
@@ -9,8 +10,10 @@ const RouteClusterMarker = (props) => {
     } = props;
     
     const handleClickCluster = () => {
+        if (!props.tooltip.includes("clusters")) {
+            dispatch(routeActions.addTooltipShowed("clusters"))
+        }
         if (props.routesUpdated.includes(props.index)) {{
-            console.log("heyy")
             dispatch({
                 payload: {
                     clusterIndex: props.index,
@@ -18,7 +21,6 @@ const RouteClusterMarker = (props) => {
                 type: 'UPDATE_ROUTE'
             })
         }} else {
-            console.log("bbbb")
             dispatch({
                 payload: {
                     clusterIndex: props.index,
@@ -35,7 +37,7 @@ const RouteClusterMarker = (props) => {
 }
 
 const mapStateToProps =
-    ({ rUser: { user, route, clusterUpdated, routesUpdated } }) => 
-    ({ user, route, clusterUpdated, routesUpdated });
+    ({ rUser: { user, route, clusterUpdated, routesUpdated }, rRoute: { tooltip } }) => 
+    ({ user, route, clusterUpdated, routesUpdated, tooltip });
 
 export default connect(mapStateToProps)(RouteClusterMarker);

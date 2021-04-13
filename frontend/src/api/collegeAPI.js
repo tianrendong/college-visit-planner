@@ -21,10 +21,7 @@ function getAutocorrectColleges(input) {
 
     return fetch(request)
         .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            return data
-        });
+        .then(data => data);
 }
 
 function getCollegeInfo(payload) {

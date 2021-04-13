@@ -45,10 +45,10 @@
 
 .sliderContainer {
     width: 200px;  
-    position: fixed;
+    position: relative;
     z-index: 100;
-    bottom: 40px;
-    right: 70px;
+    bottom: 70px;
+    left: 70px;
 }
 
 .collegeLabel {

@@ -3,6 +3,7 @@ const initialState = {
     infobar: '',
     popDialog: '',
     currentCollege: null,
+    tooltip: [],
 }
 
 const routeReducer = (state = initialState, action) => {
@@ -50,11 +51,11 @@ const routeReducer = (state = initialState, action) => {
                 infobar: '',
             };
         case "NAVIGATE_BACK":
-            console.log(action)
             return {
                 ...state,
                 sidebar: (action.payload.loggedIn === true) ? 'userhome' : 'login',
                 infobar: '',
+                currentCollege: null,
             };
         case "UPDATE_CURRENT_COLLEGE":
             return {
@@ -62,6 +63,11 @@ const routeReducer = (state = initialState, action) => {
                 sidebar: 'collegeInfo',
                 infobar: '',
                 currentCollege: action.payload.collegeInfo,
+            }
+        case "ADD_TOOLTIP":
+            return {
+                ...state,
+                tooltip: [...state.tooltip, action.payload.tooltip]
             }
         default:
             return state

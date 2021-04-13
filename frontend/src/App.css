@@ -7,6 +7,5 @@
 }
 
 .mapPageContainer {
-    display: flex;
-    flex-direction: row-reverse;
+    padding-left: 23vw;
  }

@@ -14,7 +14,6 @@ export const UserSaga = {
 
 export function* loginAsync(payload) {
     const response = yield call(userAPI.requestLogin, payload.payload)
-    console.log(response);
     if (response.success === true ) {
         yield put({
             payload: { user: JSON.parse(response.user) },
@@ -30,7 +29,6 @@ export function* loginAsync(payload) {
 
 export function* signupAsync(payload) {
     const response = yield call(userAPI.requestSignup, payload.payload)
-    console.log(response);
     if (response.success === true ) {
         yield put({
             type: 'SIGNUP_SUCCESS',
@@ -45,7 +43,6 @@ export function* signupAsync(payload) {
 
 export function* updateRouteAsync(payload) {
     const response = yield call(userAPI.requestUpdateRoute, payload.payload.colleges)
-    console.log(response);
     yield put({
         payload: { 
             clusterIndex: payload.payload.clusterIndex,
@@ -56,9 +53,7 @@ export function* updateRouteAsync(payload) {
 }
 
 export function* updateClustersAsync(payload) {
-    console.log(payload)
     const response = yield call(userAPI.requestUpdateClusters, payload.payload)
-    console.log(response);
     yield put({
         payload: { clusters: response },
         type: 'UPDATE_CLUSTERS',
@@ -68,7 +63,6 @@ export function* updateClustersAsync(payload) {
 
 export function* addCollegeAsync(payload) {
     const response = yield call(userAPI.requestAddCollege, payload.payload)
-    console.log(response);
     if (response.hasOwnProperty("newCollege")) {
         yield put({
             payload: { 
@@ -87,9 +81,7 @@ export function* addCollegeAsync(payload) {
 }
 
 export function* deleteCollegeAsync(payload) {
-    console.log(payload);
     const response = yield call(userAPI.requestDeleteCollege, payload.payload)
-    console.log(response);
     if (response.hasOwnProperty("deletedCollegeID")) {
         yield put({
             payload: { 
@@ -109,9 +101,7 @@ export function* deleteCollegeAsync(payload) {
 
 
 export function* deleteDataAsync(payload) {
-    console.log(payload);
     const response = yield call(userAPI.requestDeleteData, payload.payload)
-    console.log(response);
     if (response === true) {
         yield put({
             type: 'DELETE_DATA',
@@ -120,9 +110,7 @@ export function* deleteDataAsync(payload) {
 }
 
 export function* deleteAccountAsync(payload) {
-    console.log(payload);
     const response = yield call(userAPI.requestDeleteAccount, payload.payload)
-    console.log(response);
     if (response === true) {
         yield put({
             type: 'LOGOUT',

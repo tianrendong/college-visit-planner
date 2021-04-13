@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import './index.css'
 import { connect } from 'react-redux'
 import Typography from '@material-ui/core/Typography';
@@ -8,14 +8,16 @@ import Tooltip from '@material-ui/core/Tooltip';
 import DriveEtaIcon from '@material-ui/icons/DriveEta';
 import LocalAirportIcon from '@material-ui/icons/LocalAirport';
 import { useStyles } from './styles'
+import { timeForHumans, distanceForHumans } from './timeDistanceConverter'
 
 const RouteInfo = (props) => {
 
     const currentCluster = () => Object.values(Object.values(props.route)[props.selectedCluster])
     const [directionBoxes, setDirectionBoxes] = useState([]);
     const [display, setDisplay] = useState([])
-    // const [travelDist, setTravelDist] = useState(0);
-    // const [travelTime, setTravelTime] = useState(0);
+    const travelDist = useRef(0); // in meters
+    const travelTime = useRef(0); // in seconds
+    
 
     const renderRoutes = async (cluster) => {
         const start = new window.google.maps.LatLng(cluster[0].lat, cluster[0].lon);
@@ -28,10 +30,17 @@ const RouteInfo = (props) => {
             });
         }
         const routes = await calculateRoute(start, end, waypts).then(res => res)
-        console.log(routes);
+        
+        for (let i = 0; i < routes.length; i++) {
+            console.log(routes[i].duration.value)
+            travelDist.current += routes[i].distance.value;
+            travelTime.current += routes[i].duration.value;
+        } 
         const routesDisplay = await routes.map(r => <DirectionBox info={r} />)
         setDirectionBoxes(routesDisplay)
     }
+
+    console.log(travelTime)
 
     useEffect(() => {
         renderRoutes(currentCluster())
@@ -40,7 +49,6 @@ const RouteInfo = (props) => {
     useEffect(() => {
         if (directionBoxes.length !== 0) {
             for (let i = 0; i < currentCluster().length; i++) {
-                console.log("c")
                 const college = <LocationBox location={currentCluster()[i]} />
                 setDisplay(display => [...display, college])
                 if (i < currentCluster().length - 1) {
@@ -55,13 +63,15 @@ const RouteInfo = (props) => {
             <div className="sidebarHeader">
                 <h1 className="sidebarTitle">Route Information</h1>
             </div>
+
+            <div className="sidebarHeader">
+                <Typography>Total travel distance: {distanceForHumans(travelDist.current)}</Typography>
+                <Typography>Total travel distance: {timeForHumans(travelTime.current)}</Typography>
+            </div>
+
             {props.selectedCluster !== '' && <div>{display}</div>}
 
-            {/* <div className="sidebarHeader">
-                <Typography>Total travel distance: {"300miles"}</Typography>
-                <Typography>Total travel distance: {"300miles"}</Typography>
-            </div> */}
-
+            <div style={{height: '50px'}}></div>
         </div>
     );
 }
@@ -87,7 +97,6 @@ function calculateRoute(start, end, waypts) {
 
 const LocationBox = (props) => {
     const { location } = props;
-    console.log(location)
     const classes = useStyles();
     return (
         <div className="collegeCardContainer">

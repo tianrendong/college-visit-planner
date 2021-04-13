@@ -15,7 +15,6 @@ const Userhome = (props) => {
     const { enqueueSnackbar } = useSnackbar();
 
     useEffect(() => {
-        console.log(props.error);
         if (props.error !== '') {
             enqueueSnackbar(props.error, { variant: 'error' });
         }

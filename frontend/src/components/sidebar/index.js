@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import './index.css'
-
 import { makeStyles } from '@material-ui/core/styles';
 import Login from "./login/index";
 import SignUp from "./signup/index";
@@ -9,7 +8,6 @@ import Userhome from './userhome/index';
 import CollegeInfo from './collegeInfo/index'
 import RouteInfo from './routeInfo/index';
 import { routeActions } from "../../actions/routeActions";
-
 import Drawer from '@material-ui/core/Drawer';
 import IconButton from '@material-ui/core/IconButton';
 import PersonIcon from '@material-ui/icons/Person';
@@ -69,6 +67,7 @@ const Sidebar = (props) => {
                 <div className="sidebarInnerContainer">
                     {routes[props.sidebar]}
                 </div>
+               <div style={{height: '20px'}}></div>
             </Drawer>
         </div>
     )
