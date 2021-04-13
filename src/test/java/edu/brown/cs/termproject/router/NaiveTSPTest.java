@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.util.*;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Unit tests for Naive implementation of TSP.
@@ -30,14 +29,7 @@ public class NaiveTSPTest {
       locations.add(new Location(c.getId(), c.getName(), c.getLat(), c.getLon(), "college", c));
     }
     Graph<Location, LocationPath> graph = new LocationGraph(locations);
-    Comparator<LocationPath> comparator = new Comparator<>() {
-      @Override
-      public int compare(LocationPath o1, LocationPath o2) {
-        return Double.compare(o1.getWeight(), o2.getWeight());
-      }
-    };
-    Set<LocationPath> mstEdges = MST.mst(graph, comparator);
-    List<Location> tsp = NaiveTSP.findRoute(mstEdges);
+    List<Location> tsp = NaiveTSP.findRoute(graph);
     assertEquals(4, tsp.size());
     System.out.println(tsp);
   }

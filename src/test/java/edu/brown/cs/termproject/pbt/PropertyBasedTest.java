@@ -4,7 +4,6 @@ import com.google.maps.errors.ApiException;
 import edu.brown.cs.termproject.collegegraph.Location;
 import edu.brown.cs.termproject.collegegraph.LocationPath;
 import edu.brown.cs.termproject.graph.Graph;
-import edu.brown.cs.termproject.main.GoogleMapAPIManager;
 import edu.brown.cs.termproject.router.MST;
 import edu.brown.cs.termproject.router.NaiveTSP;
 import edu.brown.cs.termproject.router.TSP;
@@ -21,7 +20,7 @@ import java.util.Set;
  */
 public class PropertyBasedTest {
   @Test
-  public void pbt() throws SQLException, InterruptedException, ApiException, IOException {
+  public void pbt() {
     int i = 0;
     while (i < 1) {
       try {
@@ -30,14 +29,7 @@ public class PropertyBasedTest {
         System.out.println("GRAPH GENERATED");
 
         // Naive implementation approximation
-        Comparator<LocationPath> comparator = new Comparator<>() {
-          @Override
-          public int compare(LocationPath o1, LocationPath o2) {
-            return Double.compare(o1.getWeight(), o2.getWeight());
-          }
-        };
-        Set<LocationPath> mstEdges = MST.mst(graph, comparator);
-        List<Location> naiveTSP = NaiveTSP.findRoute(mstEdges);
+        List<Location> naiveTSP = NaiveTSP.findRoute(graph);
         System.out.println("NAIVE FOUND");
 
         // Christofides Approximation
@@ -47,8 +39,8 @@ public class PropertyBasedTest {
 
         // Compare distance
         // Christofides should be shorter than naive
-        double naiveTotal = totalCost(naiveTSP);
-        double christofidesTotal = totalCost(christofidesTSP);
+        double naiveTotal = NaiveTSP.totalCost(naiveTSP);
+        double christofidesTotal = NaiveTSP.totalCost(christofidesTSP);
         System.out.println("TOTAL COSTS FOUND");
         if (naiveTotal >= christofidesTotal) {
           System.out.println("CORRECT\n");
@@ -63,18 +55,21 @@ public class PropertyBasedTest {
     }
   }
 
-  private double totalCost(List<Location> route)
-      throws InterruptedException, ApiException, IOException {
-    double total = 0;
-    for (int i = 0; i < route.size() - 1; i++) {
-      Location start = route.get(i);
-      Location end = route.get(i + 1);
-      total += GoogleMapAPIManager.getTravelDistance(
-          start.getLat(), start.getLon(), end.getLat(), end.getLon());
-    }
-    total += GoogleMapAPIManager.getTravelDistance(
-        route.get(route.size() - 1).getLat(), route.get(route.size() - 1).getLon(),
-        route.get(0).getLat(), route.get(0).getLon());
-    return total;
-  }
+//  @Test
+//  public void testPermutation() {
+//    try {
+//      RandomGraphGenerator generator = new RandomGraphGenerator();
+//      Graph<Location, LocationPath> graph = generator.generateRandomGraph();
+//      Comparator<LocationPath> comparator = new Comparator<>() {
+//        @Override
+//        public int compare(LocationPath o1, LocationPath o2) {
+//          return Double.compare(o1.getWeight(), o2.getWeight());
+//        }
+//      };
+//      Set<LocationPath> mstEdges = MST.mst(graph, comparator);
+//      NaiveTSP.bruteForce(mstEdges);
+//    } catch (Exception e) {
+//      System.out.println("ERRORED");
+//    }
+//  }
 }
