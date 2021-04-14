@@ -118,9 +118,6 @@ public final class NaiveTSP {
    * @param route to compute total cost.
    * @param <T> type that extends Vertex.
    * @return total cost of the route.
-   * @throws InterruptedException when interrupted.
-   * @throws ApiException Google Maps api errors.
-   * @throws IOException io errored.
    */
   public static <T extends Vertex> double totalCost(List<T> route) {
     double total = 0;

@@ -19,9 +19,6 @@ public class CollegeSQLManager extends DatabaseManager {
   private static final int URL_COL = 7;
   private static final int DESCRIPTION_COL = 8;
   private static final int NEARBY_COL = 9;
-  private static final double MAX_DISTANCE = 100;
-  private static final double DISTANCE_LAT_RATIO = 69;
-  private static final double DISTANCE_LON_RATIO = 54.6;
 
   private Autocorrector autocorrector;
 
@@ -126,20 +123,33 @@ public class CollegeSQLManager extends DatabaseManager {
    * @throws SQLException when query errors.
    */
   public List<College> getNearbyColleges(College college) throws SQLException {
-    double latRatio = MAX_DISTANCE / DISTANCE_LAT_RATIO;
-    double lonRatio = MAX_DISTANCE / DISTANCE_LON_RATIO;
+    int id = college.getId();
+    List<Integer> nearbyColleges = getNearbyIDs(id);
+    return getCollegeByID(nearbyColleges);
+  }
 
-    double lat = college.getLat();
-    double lon = college.getLon();
-
-    double nwLat, nwLon, seLat, seLon;
-    nwLat = lat + latRatio;
-    nwLon = lon - lonRatio;
-    seLat = lat - latRatio;
-    seLon = lon + lonRatio;
-
-    return getColleges("(latitude BETWEEN " + seLat + " AND " + nwLat
-        + ") AND (longitude BETWEEN " + nwLon + " AND " + seLon + ")");
+  private List<Integer> getNearbyIDs(int id) throws SQLException {
+    if (getConnection() == null) {
+      throw new IllegalStateException("Must open a database first.");
+    }
+    List<Integer> ids = new ArrayList<>();
+    try (PreparedStatement getNearby = getConnection().prepareStatement(
+        "SELECT nearby_colleges FROM colleges WHERE id = ?;")) {
+      getNearby.setInt(1, id);
+      try (ResultSet rs = getNearby.executeQuery()) {
+        if (!rs.isClosed()) {
+          while (rs.next()) {
+            String nearbyList = rs.getString(1);
+            for (String idString : nearbyList.split(",")) {
+              ids.add(Integer.parseInt(idString));
+            }
+          }
+        }
+      } catch (SQLException e) {
+        System.out.println(e.getMessage());
+      }
+      return ids;
+    }
   }
 
   private List<College> getColleges(String condition) throws SQLException {
