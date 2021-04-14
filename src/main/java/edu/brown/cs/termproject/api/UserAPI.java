@@ -10,7 +10,11 @@ import edu.brown.cs.termproject.collegegraph.LocationPath;
 import edu.brown.cs.termproject.database.UserDataManager;
 import edu.brown.cs.termproject.iotools.CenterCalculator;
 import edu.brown.cs.termproject.main.Main;
-import edu.brown.cs.termproject.router.*;
+import edu.brown.cs.termproject.router.Clustering;
+import edu.brown.cs.termproject.router.Nearest;
+import edu.brown.cs.termproject.router.OrderRoute;
+import edu.brown.cs.termproject.router.Point;
+import edu.brown.cs.termproject.router.TSP;
 import spark.Route;
 
 import com.google.gson.Gson;

@@ -34,8 +34,6 @@ public class ClusteringTest {
       int numClusters = 0;
       for (Map.Entry<Locatable, List<Locatable>> entry : clusters.entrySet()) {
         numClusters += 1;
-//        System.out.println("Key = " + entry.getKey() +
-//            ", Value = " + entry.getValue());
       }
       assertEquals(3, numClusters);
     }
@@ -64,8 +62,6 @@ public class ClusteringTest {
       int numClusters = 0;
       for (Map.Entry<Locatable, List<Locatable>> entry : clusters.entrySet()) {
         numClusters += 1;
-//        System.out.println("Key = " + entry.getKey() +
-//            ", Value = " + entry.getValue());
       }
       assertEquals(1, numClusters);
     }
