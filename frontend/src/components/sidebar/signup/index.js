@@ -162,18 +162,14 @@ function SignUp(props) {
                                 onChange={(e) => handleConfirmPasswordFieldOnChange(e.target.value)}
                             />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item xs={12} style={{paddingBottom: 0}}>
                             <FormControlLabel
-                                aria-label="Acknowledge"
                                 onClick={(event) => event.stopPropagation()}
                                 onFocus={(event) => event.stopPropagation()}
                                 control={<Checkbox color="primary" required disabled={(!readTerms)}/>}
-                                label="Click to read the terms and conditions."
+                                label="I agree to the terms and conditions."
                             />
-                        </Grid>
-                        <Grid item xs={12}>
                             <FormControlLabel
-                                aria-label="Acknowledge"
                                 onClick={(event) => event.stopPropagation()}
                                 onFocus={(event) => event.stopPropagation()}
                                 control={<Button onClick={handleOpenTerms}/>}

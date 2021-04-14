@@ -2,6 +2,7 @@ package edu.brown.cs.termproject.api;
 
 import com.google.gson.JsonArray;
 import com.google.gson.reflect.TypeToken;
+import com.google.maps.errors.ApiException;
 import edu.brown.cs.termproject.airport.Airport;
 import edu.brown.cs.termproject.collegegraph.College;
 import edu.brown.cs.termproject.collegegraph.Location;
@@ -10,19 +11,14 @@ import edu.brown.cs.termproject.collegegraph.LocationPath;
 import edu.brown.cs.termproject.database.UserDataManager;
 import edu.brown.cs.termproject.iotools.CenterCalculator;
 import edu.brown.cs.termproject.main.Main;
-import edu.brown.cs.termproject.router.Clustering;
-import edu.brown.cs.termproject.router.Nearest;
-import edu.brown.cs.termproject.router.OrderRoute;
-import edu.brown.cs.termproject.router.Point;
-import edu.brown.cs.termproject.router.TSP;
+import edu.brown.cs.termproject.router.*;
 import spark.Route;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * API for user related requests.
@@ -207,11 +203,27 @@ public class UserAPI {
     LocationGraph graph = new LocationGraph(locations);
 
     // Christofides TSP
-    List<Location> tsp = OrderRoute.orderRoute(tspFinder.findRoute(graph));
+//    List<Location> tsp = OrderRoute.orderRoute(tspFinder.findRoute(graph));
+    List<Location> tsp1 = OrderRoute.orderRoute(tspFinder.findRoute(graph));
+    System.out.println("attempt1");
+    List<Location> tsp2 = OrderRoute.orderRoute(tspFinder.findRoute(graph));
+    System.out.println("attempt2");
+    List<Location> tsp3 = OrderRoute.orderRoute(tspFinder.findRoute(graph));
+    System.out.println("attempt3");
+    List<Location> tsp4 = OrderRoute.orderRoute(tspFinder.findRoute(graph));
+    System.out.println("attempt4");
+
+    double cost1 = NaiveTSP.totalCost(tsp1);
+    double cost2 = NaiveTSP.totalCost(tsp2);
+    double cost3 = NaiveTSP.totalCost(tsp3);
+    double cost4 = NaiveTSP.totalCost(tsp4);
+
+    List<List<Location>> tspResults = new ArrayList<>(Arrays.asList(tsp1, tsp2, tsp3, tsp4));
+    Collections.sort(tspResults, (r1, r2) -> Double.compare(NaiveTSP.totalCost(r1), NaiveTSP.totalCost(r2)));
 
     // Naive TSP
 //    List<Location> tsp = OrderRoute.orderRoute(NaiveTSP.findRoute(graph));
 
-    return GSON.toJson(tsp);
+    return GSON.toJson(tspResults.get(0));
   };
 }

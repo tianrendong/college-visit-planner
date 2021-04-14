@@ -122,18 +122,21 @@ public final class NaiveTSP {
    * @throws ApiException Google Maps api errors.
    * @throws IOException io errored.
    */
-  public static <T extends Vertex> double totalCost(List<T> route)
-      throws InterruptedException, ApiException, IOException {
+  public static <T extends Vertex> double totalCost(List<T> route) {
     double total = 0;
-    for (int i = 0; i < route.size() - 1; i++) {
-      T start = route.get(i);
-      T end = route.get(i + 1);
+    try {
+      for (int i = 0; i < route.size() - 1; i++) {
+        T start = route.get(i);
+        T end = route.get(i + 1);
+        total += GoogleMapAPIManager.getTravelDistance(
+            start.getLat(), start.getLon(), end.getLat(), end.getLon());
+      }
       total += GoogleMapAPIManager.getTravelDistance(
-          start.getLat(), start.getLon(), end.getLat(), end.getLon());
+          route.get(route.size() - 1).getLat(), route.get(route.size() - 1).getLon(),
+          route.get(0).getLat(), route.get(0).getLon());
+    } catch (Exception e) {
+      System.out.println("error");
     }
-    total += GoogleMapAPIManager.getTravelDistance(
-        route.get(route.size() - 1).getLat(), route.get(route.size() - 1).getLon(),
-        route.get(0).getLat(), route.get(0).getLon());
     return total;
   }
 }
