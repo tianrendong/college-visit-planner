@@ -1,9 +1,9 @@
 package edu.brown.cs.termproject.router;
 
 import com.google.maps.errors.ApiException;
-import edu.brown.cs.termproject.collegegraph.Location;
-import edu.brown.cs.termproject.collegegraph.LocationGraph;
-import edu.brown.cs.termproject.collegegraph.LocationPath;
+import edu.brown.cs.termproject.locationgraph.Location;
+import edu.brown.cs.termproject.locationgraph.LocationGraph;
+import edu.brown.cs.termproject.locationgraph.Path;
 import edu.brown.cs.termproject.graph.Edge;
 import edu.brown.cs.termproject.graph.Graph;
 import edu.brown.cs.termproject.graph.Vertex;
@@ -118,18 +118,18 @@ public final class NaiveTSP {
    */
   public static double totalCost(List<Location> route, LocationGraph completeGraph) {
     double cost = 0;
-    Map<Location, List<LocationPath>> graph = completeGraph.getGraph();
+    Map<Location, List<Path>> graph = completeGraph.getGraph();
     for (int i = 0; i < route.size() - 1; i++) {
-      List<LocationPath> outgoing = graph.get(route.get(i));
-      for (LocationPath p : outgoing) {
+      List<Path> outgoing = graph.get(route.get(i));
+      for (Path p : outgoing) {
         if (p.getEnd().equals(route.get(i + 1))) {
           cost += p.getWeight();
         }
       }
     }
     Location first = route.get(route.size() - 1);
-    List<LocationPath> lastOutgoing = graph.get(first);
-    for (LocationPath p : lastOutgoing) {
+    List<Path> lastOutgoing = graph.get(first);
+    for (Path p : lastOutgoing) {
       if (p.getEnd().equals(first)) {
         cost += p.getWeight();
       }

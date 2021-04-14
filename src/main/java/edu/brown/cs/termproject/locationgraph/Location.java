@@ -1,4 +1,4 @@
-package edu.brown.cs.termproject.collegegraph;
+package edu.brown.cs.termproject.locationgraph;
 
 import edu.brown.cs.termproject.graph.Vertex;
 import edu.brown.cs.termproject.router.Locatable;
@@ -104,4 +104,10 @@ public class Location implements Locatable, Vertex {
   public String getType() {
     return type;
   }
+
+  /**
+   * Gets the content of location.
+   * @return location content
+   */
+  public Object getContent() { return content;}
 }

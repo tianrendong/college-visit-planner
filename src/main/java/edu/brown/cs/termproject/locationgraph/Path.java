@@ -1,11 +1,11 @@
-package edu.brown.cs.termproject.collegegraph;
+package edu.brown.cs.termproject.locationgraph;
 
 import edu.brown.cs.termproject.graph.Edge;
 
 /**
  * The class for Path.
  */
-public class LocationPath implements Edge<Location> {
+public class Path implements Edge<Location> {
   private Location start;
   private Location end;
   private double weight;
@@ -16,7 +16,7 @@ public class LocationPath implements Edge<Location> {
    * @param end end College.
    * @param weight weight of the Path.
    */
-  public LocationPath(Location start, Location end, double weight) {
+  public Path(Location start, Location end, double weight) {
     this.start = start;
     this.end = end;
     this.weight = weight;

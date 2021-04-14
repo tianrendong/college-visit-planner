@@ -1,8 +1,8 @@
-package edu.brown.cs.termproject.airport;
+package edu.brown.cs.termproject.locationgraph;
 
-import edu.brown.cs.termproject.collegegraph.College;
+import edu.brown.cs.termproject.locationgraph.Airport;
+import edu.brown.cs.termproject.locationgraph.College;
 import edu.brown.cs.termproject.database.AirportSQLManager;
-import edu.brown.cs.termproject.main.Main;
 import edu.brown.cs.termproject.router.Clustering;
 import edu.brown.cs.termproject.router.Locatable;
 import edu.brown.cs.termproject.router.Nearest;

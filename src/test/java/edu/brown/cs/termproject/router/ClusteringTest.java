@@ -1,6 +1,6 @@
 package edu.brown.cs.termproject.router;
 
-import edu.brown.cs.termproject.collegegraph.College;
+import edu.brown.cs.termproject.locationgraph.College;
 import org.junit.Test;
 
 import java.util.*;

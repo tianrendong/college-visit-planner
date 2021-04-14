@@ -1,7 +1,7 @@
-package edu.brown.cs.termproject.collegegraph;
+package edu.brown.cs.termproject.main;
 
 import com.google.maps.errors.ApiException;
-import edu.brown.cs.termproject.main.GoogleMapAPIManager;
+import edu.brown.cs.termproject.iotools.GoogleMapAPIManager;
 import org.junit.Test;
 
 import java.io.IOException;

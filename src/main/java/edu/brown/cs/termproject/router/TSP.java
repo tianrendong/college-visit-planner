@@ -6,7 +6,7 @@ import edu.brown.cs.termproject.graph.GenericEdge;
 import edu.brown.cs.termproject.graph.GenericGraph;
 import edu.brown.cs.termproject.graph.Graph;
 import edu.brown.cs.termproject.graph.Vertex;
-import edu.brown.cs.termproject.main.GoogleMapAPIManager;
+import edu.brown.cs.termproject.iotools.GoogleMapAPIManager;
 
 import java.io.IOException;
 import java.util.ArrayList;

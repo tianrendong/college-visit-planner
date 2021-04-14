@@ -1,6 +1,6 @@
 package edu.brown.cs.termproject.router;
 
-import edu.brown.cs.termproject.collegegraph.Location;
+import edu.brown.cs.termproject.locationgraph.Location;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -14,7 +14,7 @@ public final class OrderRoute {
   private OrderRoute() { }
 
   /**
-   * Orders route into tsp order.
+   * Given a route returned from TSP, orders it such that the airport is the first item in the list.
    * @param locations the locations to order.
    * @return ordered route.
    */

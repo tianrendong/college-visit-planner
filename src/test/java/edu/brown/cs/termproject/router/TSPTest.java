@@ -1,8 +1,8 @@
 package edu.brown.cs.termproject.router;
 
 import com.google.maps.errors.ApiException;
-import edu.brown.cs.termproject.airport.Airport;
-import edu.brown.cs.termproject.collegegraph.*;
+import edu.brown.cs.termproject.locationgraph.Airport;
+import edu.brown.cs.termproject.locationgraph.*;
 import edu.brown.cs.termproject.graph.Graph;
 import org.junit.Test;
 
@@ -21,7 +21,7 @@ public class TSPTest {
 
   private final List<College> _colleges = new ArrayList<>();
   private final List<Location> _locations = new ArrayList<>();
-  private final TSP<Location, LocationPath> _tsp = new TSP<>();;
+  private final TSP<Location, Path> _tsp = new TSP<>();;
 
   public void setUp() {
     College c1 = new College(2, "UCLA", 34.068921, -118.4451811, "placeholder", "placeholder");
@@ -60,7 +60,7 @@ public class TSPTest {
 @Test
 public void testFindRouteReachesAll() throws InterruptedException, ApiException, IOException {
   setUp();
-  Graph<Location, LocationPath> graph = new LocationGraph(_locations);
+  Graph<Location, Path> graph = new LocationGraph(_locations);
   List<Location> tsp = _tsp.findRoute(graph);
   System.out.println(tsp);
 
@@ -74,7 +74,7 @@ public void testFindRouteReachesAll() throws InterruptedException, ApiException,
   @Test
   public void testFindRouteVisitsOnce() throws InterruptedException, ApiException, IOException {
     setUp();
-    Graph<Location, LocationPath> graph = new LocationGraph(_locations);
+    Graph<Location, Path> graph = new LocationGraph(_locations);
     List<Location> tsp = _tsp.findRoute(graph);
     System.out.println(tsp);
 
@@ -107,28 +107,12 @@ public void testFindRouteReachesAll() throws InterruptedException, ApiException,
     _colleges.add(c);
     _locations.add(new Location(c.getId(), c.getName(), c.getLat(), c.getLon(), "college", c));
 
-    Graph<Location, LocationPath> graph = new LocationGraph(_locations);
+    Graph<Location, Path> graph = new LocationGraph(_locations);
     List<Location> tsp = _tsp.findRoute(graph);
     System.out.println(tsp);
     assertEquals(1, tsp.size());
     tearDown();
   }
-
-//  @Test
-//  public void testGenerics() throws InterruptedException, ApiException, IOException {
-//    College c1 = new College(2, "UCLA", 34.068921, 118.4451811, "placeholder", "placeholder");
-//    College c2 = new College(2, "Stanford University", 37.428230, 122.168861, "placeholder", "placeholder");
-////    College c3 = new College(2, "UCB", 37.8718992, 122.2585399, "placeholder", "placeholder");
-//    College c4 = new College(4, "California Institute of Technology", 34.138000, 118.125000, "placeholder", "placeholder");
-//    Airport a = new Airport("LAX", 33.9416, 118.4085, "city", "state", "url");
-//    List<College> _colleges = new ArrayList<>(Arrays.asList(c1, c2, c4));
-//
-//    LocationGraph graph = new LocationGraph(_colleges);
-//    graph.addNode(a);
-//    TSP<LocationWrapper, LocationPath> _tsp2 = new TSP<>();;
-//    List<LocationWrapper> tsp = _tsp2.findRoute(graph);
-//    System.out.println(tsp);
-//  }
 
   @Test
   public void testGenerics() throws InterruptedException, ApiException, IOException {
@@ -145,7 +129,7 @@ public void testFindRouteReachesAll() throws InterruptedException, ApiException,
     }
     LocationGraph graph = new LocationGraph(_locations);
     graph.addNode(new Location(a.getId(), a.getName(), a.getLat(), a.getLon(), "airport", a));
-    TSP<Location, LocationPath> _tsp2 = new TSP<>();;
+    TSP<Location, Path> _tsp2 = new TSP<>();;
     List<Location> tsp = _tsp2.findRoute(graph);
     System.out.println(tsp);
   }

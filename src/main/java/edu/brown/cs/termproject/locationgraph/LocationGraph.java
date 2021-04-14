@@ -1,8 +1,8 @@
-package edu.brown.cs.termproject.collegegraph;
+package edu.brown.cs.termproject.locationgraph;
 
 import com.google.maps.errors.ApiException;
 import edu.brown.cs.termproject.graph.Graph;
-import edu.brown.cs.termproject.main.GoogleMapAPIManager;
+import edu.brown.cs.termproject.iotools.GoogleMapAPIManager;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,9 +16,9 @@ import java.util.Set;
 /**
  * Class for an undirected college graph.
  */
-public class LocationGraph implements Graph<Location, LocationPath> {
+public class LocationGraph implements Graph<Location, Path> {
 
-  private final Map<Location, List<LocationPath>> graph = new HashMap<>();
+  private final Map<Location, List<Path>> graph = new HashMap<>();
   private Set<Location> locations;
 
   /**
@@ -57,19 +57,19 @@ public class LocationGraph implements Graph<Location, LocationPath> {
             start.getLat(), start.getLon(), end.getLat(), end.getLon());
 
         // add path and reversed path to current graph
-        addEdge(new LocationPath(start, end, distance));
-        addEdge(new LocationPath(end, start, distance));
+        addEdge(new Path(start, end, distance));
+        addEdge(new Path(end, start, distance));
       }
 
     }
   }
 
-  public Map<Location, List<LocationPath>> getGraph() {
+  public Map<Location, List<Path>> getGraph() {
     return graph;
   }
 
   @Override
-  public void addEdge(LocationPath p) {
+  public void addEdge(Path p) {
     Location start = p.getStart();
     Location end = p.getEnd();
     locations.add(start);
@@ -87,9 +87,9 @@ public class LocationGraph implements Graph<Location, LocationPath> {
   }
 
   @Override
-  public Set<LocationPath> getEdges() {
-    Set<LocationPath> edges = new HashSet<>();
-    for (Map.Entry<Location, List<LocationPath>> entry : graph.entrySet()) {
+  public Set<Path> getEdges() {
+    Set<Path> edges = new HashSet<>();
+    for (Map.Entry<Location, List<Path>> entry : graph.entrySet()) {
       edges.addAll(entry.getValue());
     }
     return edges;
@@ -109,8 +109,8 @@ public class LocationGraph implements Graph<Location, LocationPath> {
     for (Location c : allLocations) {
       double distance = GoogleMapAPIManager.getTravelDistance(
           newLocation.getLat(), newLocation.getLon(), c.getLat(), c.getLon());
-      addEdge(new LocationPath(newLocation, c, distance));
-      addEdge(new LocationPath(c, newLocation, distance));
+      addEdge(new Path(newLocation, c, distance));
+      addEdge(new Path(c, newLocation, distance));
     }
   }
 
@@ -134,9 +134,9 @@ public class LocationGraph implements Graph<Location, LocationPath> {
     String output = "";
     List<Location> allLocations = new ArrayList<>(graph.keySet());
     for (int i = 0; i < allLocations.size(); i++) {
-      List<LocationPath> paths = graph.get(allLocations.get(i));
+      List<Path> paths = graph.get(allLocations.get(i));
       for (int j = 0; j < paths.size(); j++) {
-        LocationPath p = paths.get(j);
+        Path p = paths.get(j);
         output += p.getStart().getName() + " -> "
             + p.getEnd().getName() + " : " + p.getWeight();
         output += (j < paths.size()) ? "\n" : "";

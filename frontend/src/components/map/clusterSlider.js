@@ -63,7 +63,6 @@ const ClusterSlider = (props) => {
   };
 
   const handleSliderChange = (event, value) => {
-    console.log(value);
     if (!props.tooltip.includes("slider")) {
       dispatch(routeActions.addTooltipShowed("slider"))
     }

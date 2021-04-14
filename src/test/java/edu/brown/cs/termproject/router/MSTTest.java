@@ -1,7 +1,7 @@
 package edu.brown.cs.termproject.router;
 
 import com.google.maps.errors.ApiException;
-import edu.brown.cs.termproject.collegegraph.*;
+import edu.brown.cs.termproject.locationgraph.*;
 import edu.brown.cs.termproject.graph.Graph;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,16 +36,16 @@ public class MSTTest {
   @Test
   public void testMST() throws InterruptedException, ApiException, IOException {
     setUp();
-    Graph<Location, LocationPath> graph = new LocationGraph(_locations);
-    Comparator<LocationPath> comparator = new Comparator<>() {
+    Graph<Location, Path> graph = new LocationGraph(_locations);
+    Comparator<Path> comparator = new Comparator<>() {
       @Override
-      public int compare(LocationPath o1, LocationPath o2) {
+      public int compare(Path o1, Path o2) {
         return Double.compare(o1.getWeight(), o2.getWeight());
       }
     };
-    Set<LocationPath> mstEdges = MST.mst(graph, comparator);
-    Graph<Location, LocationPath> mst = new LocationGraph(new ArrayList<>());
-    for (LocationPath p : mstEdges) {
+    Set<Path> mstEdges = MST.mst(graph, comparator);
+    Graph<Location, Path> mst = new LocationGraph(new ArrayList<>());
+    for (Path p : mstEdges) {
       mst.addEdge(p);
       System.out.println(p);
     }

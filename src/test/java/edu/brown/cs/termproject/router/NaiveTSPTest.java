@@ -1,10 +1,10 @@
 package edu.brown.cs.termproject.router;
 
 import com.google.maps.errors.ApiException;
-import edu.brown.cs.termproject.collegegraph.College;
-import edu.brown.cs.termproject.collegegraph.Location;
-import edu.brown.cs.termproject.collegegraph.LocationGraph;
-import edu.brown.cs.termproject.collegegraph.LocationPath;
+import edu.brown.cs.termproject.locationgraph.College;
+import edu.brown.cs.termproject.locationgraph.Location;
+import edu.brown.cs.termproject.locationgraph.LocationGraph;
+import edu.brown.cs.termproject.locationgraph.Path;
 import edu.brown.cs.termproject.graph.Graph;
 import org.junit.Test;
 
@@ -28,7 +28,7 @@ public class NaiveTSPTest {
     for (College c : colleges) {
       locations.add(new Location(c.getId(), c.getName(), c.getLat(), c.getLon(), "college", c));
     }
-    Graph<Location, LocationPath> graph = new LocationGraph(locations);
+    Graph<Location, Path> graph = new LocationGraph(locations);
     List<Location> tsp = NaiveTSP.findRoute(graph);
     assertEquals(4, tsp.size());
     System.out.println(tsp);

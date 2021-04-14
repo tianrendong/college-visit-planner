@@ -2,7 +2,7 @@ package edu.brown.cs.termproject.main;
 
 import java.util.List;
 
-import edu.brown.cs.termproject.collegegraph.College;
+import edu.brown.cs.termproject.locationgraph.College;
 
 
 /**

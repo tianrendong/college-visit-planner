@@ -1,9 +1,7 @@
 package edu.brown.cs.termproject.database;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import edu.brown.cs.termproject.autocorrect.Autocorrector;
-import edu.brown.cs.termproject.collegegraph.College;
+import edu.brown.cs.termproject.locationgraph.College;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

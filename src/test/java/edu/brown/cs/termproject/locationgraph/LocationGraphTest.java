@@ -1,7 +1,6 @@
-package edu.brown.cs.termproject.collegegraph;
+package edu.brown.cs.termproject.locationgraph;
 
 import com.google.maps.errors.ApiException;
-import edu.brown.cs.termproject.airport.Airport;
 import org.junit.Test;
 
 import java.io.IOException;

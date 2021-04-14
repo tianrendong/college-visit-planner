@@ -2,8 +2,8 @@ package edu.brown.cs.termproject.api;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import edu.brown.cs.termproject.airport.Airport;
-import edu.brown.cs.termproject.collegegraph.College;
+import edu.brown.cs.termproject.locationgraph.Airport;
+import edu.brown.cs.termproject.locationgraph.College;
 import edu.brown.cs.termproject.database.CollegeSQLManager;
 import edu.brown.cs.termproject.main.Main;
 import edu.brown.cs.termproject.router.Nearest;

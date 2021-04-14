@@ -1,7 +1,7 @@
 package edu.brown.cs.termproject.database;
 
 import com.google.gson.reflect.TypeToken;
-import edu.brown.cs.termproject.main.Encryption;
+import edu.brown.cs.termproject.iotools.Encryption;
 import edu.brown.cs.termproject.main.Main;
 import edu.brown.cs.termproject.main.User;
 

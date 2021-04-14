@@ -58,7 +58,6 @@ function requestLogout() {
 }
 
 function requestUpdateRoute(payload) {
-    console.log(payload)
     const request = new Request("/api/user/getRoute", {
         method: 'POST',
         body: JSON.stringify({colleges: payload})

@@ -1,6 +1,6 @@
 package edu.brown.cs.termproject.database;
 
-import edu.brown.cs.termproject.airport.Airport;
+import edu.brown.cs.termproject.locationgraph.Airport;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

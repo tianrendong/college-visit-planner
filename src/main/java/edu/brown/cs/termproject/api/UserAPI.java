@@ -2,11 +2,11 @@ package edu.brown.cs.termproject.api;
 
 import com.google.gson.JsonArray;
 import com.google.gson.reflect.TypeToken;
-import edu.brown.cs.termproject.airport.Airport;
-import edu.brown.cs.termproject.collegegraph.College;
-import edu.brown.cs.termproject.collegegraph.Location;
-import edu.brown.cs.termproject.collegegraph.LocationGraph;
-import edu.brown.cs.termproject.collegegraph.LocationPath;
+import edu.brown.cs.termproject.locationgraph.Airport;
+import edu.brown.cs.termproject.locationgraph.College;
+import edu.brown.cs.termproject.locationgraph.Location;
+import edu.brown.cs.termproject.locationgraph.LocationGraph;
+import edu.brown.cs.termproject.locationgraph.Path;
 import edu.brown.cs.termproject.database.UserDataManager;
 import edu.brown.cs.termproject.iotools.CenterCalculator;
 import edu.brown.cs.termproject.main.Main;
@@ -27,7 +27,7 @@ public class UserAPI {
 
   private static final Gson GSON = new Gson();
   private UserDataManager userDB;
-  private final TSP<Location, LocationPath> tspFinder = new TSP<>();
+  private final TSP<Location, Path> tspFinder = new TSP<>();
   private final Nearest nearest = new Nearest();
   private static final int TSP_ITERATIONS = 5;
 
@@ -167,7 +167,6 @@ public class UserAPI {
     List<College> colleges = new Gson().fromJson(collegesInJson,
         new TypeToken<List<College>>() {
         }.getType());
-    System.out.println(colleges);
 
     Clustering<College> clustering = new Clustering<>(radius);
     Map<Point, List<College>> clusterMap = clustering.makeClusters(colleges);
@@ -175,6 +174,7 @@ public class UserAPI {
     for (Map.Entry<Point, List<College>> entry : clusterMap.entrySet()) {
       clusterList.add(entry.getValue());
     }
+
     return GSON.toJson(clusterList);
   };
 
@@ -184,7 +184,6 @@ public class UserAPI {
     List<College> colleges = new Gson().fromJson(collegesInJson,
         new TypeToken<List<College>>() {
         }.getType());
-    System.out.println(colleges);
 
     // find center of the colleges and use it to find nearest airport
     Point center = CenterCalculator.getCentroid(colleges);

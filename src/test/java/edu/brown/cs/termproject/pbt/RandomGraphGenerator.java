@@ -1,14 +1,12 @@
 package edu.brown.cs.termproject.pbt;
 
 import com.google.maps.errors.ApiException;
-import edu.brown.cs.termproject.airport.Airport;
-import edu.brown.cs.termproject.collegegraph.College;
-import edu.brown.cs.termproject.collegegraph.Location;
-import edu.brown.cs.termproject.collegegraph.LocationGraph;
-import edu.brown.cs.termproject.collegegraph.LocationPath;
+import edu.brown.cs.termproject.locationgraph.Airport;
+import edu.brown.cs.termproject.locationgraph.College;
+import edu.brown.cs.termproject.locationgraph.Location;
+import edu.brown.cs.termproject.locationgraph.LocationGraph;
 import edu.brown.cs.termproject.database.AirportSQLManager;
 import edu.brown.cs.termproject.database.CollegeSQLManager;
-import edu.brown.cs.termproject.graph.Graph;
 
 import java.io.IOException;
 import java.sql.SQLException;

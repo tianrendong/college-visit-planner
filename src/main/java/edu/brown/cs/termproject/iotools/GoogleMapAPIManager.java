@@ -1,4 +1,4 @@
-package edu.brown.cs.termproject.main;
+package edu.brown.cs.termproject.iotools;
 
 import com.google.maps.DirectionsApi;
 import com.google.maps.GeoApiContext;

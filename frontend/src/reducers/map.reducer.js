@@ -53,7 +53,6 @@ const mapReducer = (state = initialState, action) => {
                 showRoute: !state.showRoute
             }
         case "CHANGE_SLIDER_VALUE":
-            console.log(action);
             return {
                 ...state,
                 sliderValue: action.payload,

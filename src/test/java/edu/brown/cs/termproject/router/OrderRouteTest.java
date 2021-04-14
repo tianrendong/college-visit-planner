@@ -1,11 +1,13 @@
 package edu.brown.cs.termproject.router;
 
-import edu.brown.cs.termproject.airport.Airport;
-import edu.brown.cs.termproject.collegegraph.College;
-import edu.brown.cs.termproject.collegegraph.Location;
+import edu.brown.cs.termproject.locationgraph.Airport;
+import edu.brown.cs.termproject.locationgraph.College;
+import edu.brown.cs.termproject.locationgraph.Location;
 import org.junit.Test;
 
 import java.util.*;
+
+import static org.junit.Assert.assertEquals;
 
 
 public class OrderRouteTest {
@@ -24,7 +26,13 @@ public class OrderRouteTest {
       _locations.add(new Location(c.getId(), c.getName(), c.getLat(), c.getLon(), "college", c));
     }
     _locations.add(new Location(a.getId(), a.getName(), a.getLat(), a.getLon(), "airport", a));
-    System.out.println(OrderRoute.orderRoute(_locations));
+    List<Location> ordered = OrderRoute.orderRoute(_locations);
+
+    assertEquals(ordered.get(0).getContent(), a);
+    assertEquals(ordered.get(1).getContent(), c1);
+    assertEquals(ordered.get(2).getContent(), c2);
+    assertEquals(ordered.get(3).getContent(), c3);
+    assertEquals(ordered.get(4).getContent(), c4);
   }
 
 

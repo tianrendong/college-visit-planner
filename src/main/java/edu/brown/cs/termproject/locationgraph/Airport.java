@@ -1,4 +1,4 @@
-package edu.brown.cs.termproject.airport;
+package edu.brown.cs.termproject.locationgraph;
 
 import edu.brown.cs.termproject.graph.Vertex;
 import edu.brown.cs.termproject.router.Locatable;
