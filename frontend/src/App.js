@@ -4,7 +4,7 @@ import Sidebar from "./components/sidebar/index"
 import Entrance from "./components/entrance"
 import Infobar from "./components/infobar/index"
 import Map from "./components/map/index"
-import { connect, useDispatch } from 'react-redux';
+import { connect } from 'react-redux';
 import { SnackbarProvider } from 'notistack';
 import Lottie from 'react-lottie';
 import Backdrop from '@material-ui/core/Backdrop';
@@ -74,7 +74,7 @@ function App(props) {
     return (
         <>
             <SnackbarProvider maxSnack={1}>
-                <Entrance/>
+                {/* <Entrance/> */}
                 <Backdrop className={classes.backdrop} open={props.updatingRoute}>
                     <Lottie 
                         options={animationOptions}

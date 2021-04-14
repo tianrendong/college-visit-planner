@@ -48,7 +48,6 @@ const tooltip = "Click around to see clusters of different radius (in km)"
 
 const ClusterSlider = (props) => {
   const dispatch = useDispatch();
-  const [sliderValue, setSliderValue] = useState(20);
   const [showTooltip, setShowToolTip] = useState(false);
 
   useEffect(() => {
@@ -64,18 +63,25 @@ const ClusterSlider = (props) => {
   };
 
   const handleSliderChange = (event, value) => {
+    console.log(value);
     if (!props.tooltip.includes("slider")) {
       dispatch(routeActions.addTooltipShowed("slider"))
     }
-    setSliderValue(value);
+    dispatch({
+      payload: value,
+      type: 'CHANGE_SLIDER_VALUE'
+    });
+  }
+
+  useEffect(() => {
     dispatch({
       payload: {
         colleges: props.user.colleges,
-        radius: value,
+        radius: props.sliderValue,
       },
       type: 'REQUEST_UPDATE_CLUSTERS',
-    })
-  }
+    });
+  }, [props.sliderValue])
 
   return (
     <MyTooltip open={showTooltip} onOpen={handleShowTooltip} onClose={handleCloseTooltip}
@@ -83,9 +89,8 @@ const ClusterSlider = (props) => {
       <div className="sliderContainer">
         <MySlider
           valueLabelDisplay="auto"
-          defaultValue={350}
-          step={100} min={350} max={550}
-          value={sliderValue} 
+          step={100} default={props.sliderValue} min={350} max={550}
+          value={props.sliderValue} 
           onChangeCommitted={handleSliderChange} />
       </div>
     </MyTooltip>
@@ -93,7 +98,7 @@ const ClusterSlider = (props) => {
   )
 }
 
-const mapStateToProps = ({ rUser: { user, updatingRoute }, rRoute: { tooltip } }) =>
-  ({ user, updatingRoute, tooltip });
+const mapStateToProps = ({ rUser: { user, updatingRoute }, rRoute: { tooltip }, rMap: { sliderValue } }) =>
+  ({ user, updatingRoute, tooltip, sliderValue });
 
 export default connect(mapStateToProps)(ClusterSlider);

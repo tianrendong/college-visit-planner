@@ -5,6 +5,7 @@ const initialState = {
     viewport: 'default',
     selectedCluster: '',
     showRoute: false,
+    sliderValue: 350,
 }
 
 const mapReducer = (state = initialState, action) => {
@@ -50,6 +51,12 @@ const mapReducer = (state = initialState, action) => {
             return {
                 ...state,
                 showRoute: !state.showRoute
+            }
+        case "CHANGE_SLIDER_VALUE":
+            console.log(action);
+            return {
+                ...state,
+                sliderValue: action.payload,
             }
         default:
             return state
