@@ -210,7 +210,7 @@ public class UserAPI {
       System.out.println("ATTEMPT " + i);
     }
 
-    tspResults.sort((r1, r2) -> Double.compare(NaiveTSP.totalCost(r1), NaiveTSP.totalCost(r2)));
+    tspResults.sort((r1, r2) -> Double.compare(NaiveTSP.totalCost(r1, graph), NaiveTSP.totalCost(r2, graph)));
     return GSON.toJson(tspResults.get(0));
   };
 }

@@ -2,11 +2,11 @@ package edu.brown.cs.termproject.router;
 
 import com.google.maps.errors.ApiException;
 import edu.brown.cs.termproject.collegegraph.Location;
+import edu.brown.cs.termproject.collegegraph.LocationGraph;
 import edu.brown.cs.termproject.collegegraph.LocationPath;
 import edu.brown.cs.termproject.graph.Edge;
 import edu.brown.cs.termproject.graph.Graph;
 import edu.brown.cs.termproject.graph.Vertex;
-import edu.brown.cs.termproject.main.GoogleMapAPIManager;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -116,24 +116,37 @@ public final class NaiveTSP {
   /**
    * Computes the total cost of a tsp route.
    * @param route to compute total cost.
-   * @param <T> type that extends Vertex.
+   * @param completeGraph complete graph with all nodes in route.
    * @return total cost of the route.
    */
-  public static <T extends Vertex> double totalCost(List<T> route) {
-    double total = 0;
-    try {
-      for (int i = 0; i < route.size() - 1; i++) {
-        T start = route.get(i);
-        T end = route.get(i + 1);
-        total += GoogleMapAPIManager.getTravelDistance(
-            start.getLat(), start.getLon(), end.getLat(), end.getLon());
-      }
-      total += GoogleMapAPIManager.getTravelDistance(
-          route.get(route.size() - 1).getLat(), route.get(route.size() - 1).getLon(),
-          route.get(0).getLat(), route.get(0).getLon());
-    } catch (Exception e) {
-      System.out.println("error");
-    }
-    return total;
+  public static double totalCost(List<Location> route, LocationGraph completeGraph) {
+    return 0;
   }
+
+//  /**
+//   * Computes the total cost of a tsp route.
+//   * @param route to compute total cost.
+//   * @param completeGraph complete graph with all nodes in route.
+//   * @param <V> type that extends Vertex.
+//   * @param <E> type that extends Edge of V.
+//   * @return total cost of the route.
+//   */
+//  public static <V extends Vertex, E extends Edge<V>> double totalCost(
+//      List<V> route, Graph<V, E> completeGraph) {
+//    double total = 0;
+//    try {
+//      for (int i = 0; i < route.size() - 1; i++) {
+//        V start = route.get(i);
+//        V end = route.get(i + 1);
+//        total += GoogleMapAPIManager.getTravelDistance(
+//            start.getLat(), start.getLon(), end.getLat(), end.getLon());
+//      }
+//      total += GoogleMapAPIManager.getTravelDistance(
+//          route.get(route.size() - 1).getLat(), route.get(route.size() - 1).getLon(),
+//          route.get(0).getLat(), route.get(0).getLon());
+//    } catch (Exception e) {
+//      System.out.println("error");
+//    }
+//    return total;
+//  }
 }

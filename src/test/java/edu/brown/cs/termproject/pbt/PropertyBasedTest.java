@@ -2,6 +2,7 @@ package edu.brown.cs.termproject.pbt;
 
 import com.google.maps.errors.ApiException;
 import edu.brown.cs.termproject.collegegraph.Location;
+import edu.brown.cs.termproject.collegegraph.LocationGraph;
 import edu.brown.cs.termproject.collegegraph.LocationPath;
 import edu.brown.cs.termproject.graph.Graph;
 import edu.brown.cs.termproject.router.MST;
@@ -25,7 +26,7 @@ public class PropertyBasedTest {
     while (i < 1) {
       try {
         RandomGraphGenerator generator = new RandomGraphGenerator();
-        Graph<Location, LocationPath> graph = generator.generateRandomGraph();
+        LocationGraph graph = generator.generateRandomGraph();
         System.out.println("GRAPH GENERATED");
 
         // Naive implementation approximation
@@ -39,8 +40,8 @@ public class PropertyBasedTest {
 
         // Compare distance
         // Christofides should be shorter than naive
-        double naiveTotal = NaiveTSP.totalCost(naiveTSP);
-        double christofidesTotal = NaiveTSP.totalCost(christofidesTSP);
+        double naiveTotal = NaiveTSP.totalCost(naiveTSP, graph);
+        double christofidesTotal = NaiveTSP.totalCost(christofidesTSP, graph);
         System.out.println("TOTAL COSTS FOUND");
         if (naiveTotal >= christofidesTotal) {
           System.out.println("CORRECT\n");

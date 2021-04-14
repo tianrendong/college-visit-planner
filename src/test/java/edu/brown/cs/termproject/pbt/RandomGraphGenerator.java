@@ -53,7 +53,7 @@ public class RandomGraphGenerator {
    *
    * @return A Graph with one Airport and multiple colleges wrapped in Location.
    */
-  public Graph<Location, LocationPath> generateRandomGraph()
+  public LocationGraph generateRandomGraph()
       throws SQLException, InterruptedException, ApiException, IOException {
     int numColleges = random.nextInt(5) + 1;
     List<Location> locations = new ArrayList<>();

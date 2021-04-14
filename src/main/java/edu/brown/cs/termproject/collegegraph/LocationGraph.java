@@ -64,6 +64,10 @@ public class LocationGraph implements Graph<Location, LocationPath> {
     }
   }
 
+  public Map<Location, List<LocationPath>> getGraph() {
+    return graph;
+  }
+
   @Override
   public void addEdge(LocationPath p) {
     Location start = p.getStart();
