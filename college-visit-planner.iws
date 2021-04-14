@@ -6,14 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="fdb581c7-287d-4d72-b22a-5fe6bbfd9325" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/college-visit-planner.iws" beforeDir="false" afterPath="$PROJECT_DIR$/college-visit-planner.iws" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/universities.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/data/universities.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/universities.sqlite3-journal" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/edu/brown/cs/termproject/api/UserAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/brown/cs/termproject/api/UserAPI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/brown/cs/termproject/collegegraph/Location.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/brown/cs/termproject/collegegraph/Location.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/brown/cs/termproject/collegegraph/LocationGraph.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/brown/cs/termproject/collegegraph/LocationGraph.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/edu/brown/cs/termproject/router/NaiveTSP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/brown/cs/termproject/router/NaiveTSP.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/edu/brown/cs/termproject/pbt/PropertyBasedTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/edu/brown/cs/termproject/pbt/PropertyBasedTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/edu/brown/cs/termproject/pbt/RandomGraphGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/edu/brown/cs/termproject/pbt/RandomGraphGenerator.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -467,7 +461,7 @@
       <workItem from="1618280184376" duration="137000" />
       <workItem from="1618291559279" duration="10848000" />
       <workItem from="1618363339738" duration="630000" />
-      <workItem from="1618365522447" duration="7816000" />
+      <workItem from="1618365522447" duration="10826000" />
     </task>
     <servers />
   </component>

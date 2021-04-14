@@ -29,7 +29,7 @@ public class UserAPI {
   private UserDataManager userDB;
   private final TSP<Location, LocationPath> tspFinder = new TSP<>();
   private final Nearest nearest = new Nearest();
-  private static final int TSP_ITERATIONS = 3;
+  private static final int TSP_ITERATIONS = 5;
 
   /**
    * Creates a TripPlannerAPI object to provide API handlers.
@@ -206,11 +206,12 @@ public class UserAPI {
     // Christofides TSP
     List<List<Location>> tspResults = new ArrayList<>();
     for (int i = 0; i < TSP_ITERATIONS; i++) {
-      tspResults.add(OrderRoute.orderRoute(tspFinder.findRoute(graph)));
+      List<Location> tsp = tspFinder.findRoute(graph);
+      tspResults.add(tsp);
       System.out.println("ATTEMPT " + i);
     }
 
     tspResults.sort((r1, r2) -> Double.compare(NaiveTSP.totalCost(r1, graph), NaiveTSP.totalCost(r2, graph)));
-    return GSON.toJson(tspResults.get(0));
+    return GSON.toJson(OrderRoute.orderRoute(tspResults.get(0)));
   };
 }

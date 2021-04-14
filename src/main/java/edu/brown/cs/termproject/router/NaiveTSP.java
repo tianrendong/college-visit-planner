@@ -9,10 +9,7 @@ import edu.brown.cs.termproject.graph.Graph;
 import edu.brown.cs.termproject.graph.Vertex;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Approximation of TSP through MST.
@@ -120,7 +117,24 @@ public final class NaiveTSP {
    * @return total cost of the route.
    */
   public static double totalCost(List<Location> route, LocationGraph completeGraph) {
-    return 0;
+    double cost = 0;
+    Map<Location, List<LocationPath>> graph = completeGraph.getGraph();
+    for (int i = 0; i < route.size() - 1; i++) {
+      List<LocationPath> outgoing = graph.get(route.get(i));
+      for (LocationPath p : outgoing) {
+        if (p.getEnd().equals(route.get(i + 1))) {
+          cost += p.getWeight();
+        }
+      }
+    }
+    Location first = route.get(route.size() - 1);
+    List<LocationPath> lastOutgoing = graph.get(first);
+    for (LocationPath p : lastOutgoing) {
+      if (p.getEnd().equals(first)) {
+        cost += p.getWeight();
+      }
+    }
+    return cost;
   }
 
 //  /**
