@@ -24,7 +24,10 @@ const useStyles = makeStyles((theme) => ({
         zIndex: 90,
         padding: '3px',
         margin: '14px'
-    }
+    },
+    tooltip: {
+        zIndex:1200,
+      },
   }));
 
   const tooltip = {
@@ -38,7 +41,8 @@ const MyTooltip = withStyles(() => ({
       maxWidth: 220,
       fontSize: '15px',
       padding: '10px 5px 10px 18px',
-      marginTop: '10px'
+      marginTop: '10px',
+      zIndex: 1299
     },
   }))(Tooltip);
 
@@ -70,7 +74,7 @@ function App(props) {
     return (
         <>
             <SnackbarProvider maxSnack={1}>
-                {/* <Entrance/> */}
+                <Entrance/>
                 <Backdrop className={classes.backdrop} open={props.updatingRoute}>
                     <Lottie 
                         options={animationOptions}
@@ -81,7 +85,7 @@ function App(props) {
 
                 <div className="mapPageContainer">
                 <MyTooltip open={showTooltip} onOpen={handleShowTooltip} onClose={handleCloseTooltip} 
-                title={tooltip[props.viewport]} placement="right">
+                title={tooltip[props.viewport]} placement="right" classes={{popper: classes.tooltip}}>
                     <IconButton size="large" className={classes.tooltipButton}>
                         <HelpIcon fontSize="large"/>
                     </IconButton>

@@ -123,33 +123,8 @@ public class CollegeSQLManager extends DatabaseManager {
    * @throws SQLException when query errors.
    */
   public List<College> getNearbyColleges(College college) throws SQLException {
-    int id = college.getId();
-    List<Integer> nearbyColleges = getNearbyIDs(id);
+    List<Integer> nearbyColleges = college.getNearby();
     return getCollegeByID(nearbyColleges);
-  }
-
-  private List<Integer> getNearbyIDs(int id) throws SQLException {
-    if (getConnection() == null) {
-      throw new IllegalStateException("Must open a database first.");
-    }
-    List<Integer> ids = new ArrayList<>();
-    try (PreparedStatement getNearby = getConnection().prepareStatement(
-        "SELECT nearby_colleges FROM colleges WHERE id = ?;")) {
-      getNearby.setInt(1, id);
-      try (ResultSet rs = getNearby.executeQuery()) {
-        if (!rs.isClosed()) {
-          while (rs.next()) {
-            String nearbyList = rs.getString(1);
-            for (String idString : nearbyList.split(",")) {
-              ids.add(Integer.parseInt(idString));
-            }
-          }
-        }
-      } catch (SQLException e) {
-        System.out.println(e.getMessage());
-      }
-      return ids;
-    }
   }
 
   private List<College> getColleges(String condition) throws SQLException {
@@ -159,7 +134,7 @@ public class CollegeSQLManager extends DatabaseManager {
     List<College> colleges = new ArrayList<College>();
     try (PreparedStatement getColleges = getConnection().prepareStatement(
         "SELECT id, name, latitude, longitude, city, state, url, description,"
-            + "nearbyColleges FROM colleges WHERE " + condition + ";")) {
+            + "nearby FROM colleges WHERE " + condition + ";")) {
       try (ResultSet rs = getColleges.executeQuery()) {
         if (!rs.isClosed()) {
           while (rs.next()) {
@@ -182,12 +157,13 @@ public class CollegeSQLManager extends DatabaseManager {
               newCollege.setDescription(description);
             }
 
-            String nearbyCollegeIDs = rs.getString(NEARBY_COL);
-            if (nearbyCollegeIDs != null) {
-              List<Integer> nearbyColleges = (nearbyCollegeIDs == null) ? null
-                  : new Gson().fromJson(nearbyCollegeIDs, new TypeToken<List<Integer>>() {
-                  }.getType());
-              newCollege.setNearbyColleges(nearbyColleges);
+            String nearbyIDs = rs.getString(NEARBY_COL);
+            if (nearbyIDs != null) {
+              List<Integer> nearbyColleges = new ArrayList<>();
+              for (String idString : nearbyIDs.split(",")) {
+                nearbyColleges.add(Integer.parseInt(idString));
+              }
+              newCollege.setNearby(nearbyColleges);
             }
 
             colleges.add(newCollege);

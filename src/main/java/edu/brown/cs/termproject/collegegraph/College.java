@@ -18,7 +18,7 @@ public class College implements Locatable, Vertex {
   private String state;
   private String city;
   private String description;
-  private List<Integer> nearbyColleges;
+  private List<Integer> nearby;
 
   /**
    * Constructs a college.
@@ -37,34 +37,6 @@ public class College implements Locatable, Vertex {
     this.city = city;
     this.state = state;
   }
-
-//  /**
-//   * Constructs a college.
-//   * @param id college id
-//   * @param name college name
-//   * @param lat latitude
-//   * @param lon longitude
-//   * @param city city of college
-//   * @param state state of college
-//   * @param url url
-//   * @param description description
-//   * @param nearbyColleges nearby colleges
-//   */
-//  @SuppressWarnings("checkstyle:ParameterNumber")
-//  public College(int id, String name, double lat, double lon,
-//                 String city, String state, String url,
-//                 String description, List<Integer> nearbyColleges) {
-//    this.id = id;
-//    this.name = name;
-//    this.lat = lat;
-//    this.lon = lon;
-//    this.city = city;
-//    this.state = state;
-//    this.url = url;
-//    this.description = description;
-//    this.nearbyColleges = nearbyColleges;
-//  }
-
   /**
    * returns college iD.
    * @return id
@@ -100,18 +72,18 @@ public class College implements Locatable, Vertex {
 
   /**
    * Sets nearby colleges.
-   * @param nearbyColleges nearby Colleges
+   * @param nearby nearby Colleges
    */
-  public void setNearbyColleges(List<Integer> nearbyColleges) {
-    this.nearbyColleges = nearbyColleges;
+  public void setNearby(List<Integer> nearby) {
+    this.nearby = nearby;
   }
 
   /**
    * returns nearby colleges.
    * @return list of nearby colleges
    */
-  public List<Integer> getNearbyColleges() {
-    return nearbyColleges;
+  public List<Integer> getNearby() {
+    return nearby;
   }
 
   /**
