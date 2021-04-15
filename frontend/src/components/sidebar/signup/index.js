@@ -170,12 +170,7 @@ function SignUp(props) {
                                 label="I agree to the terms and conditions."
                             />
                             <Button onClick={handleOpenTerms}>Click to read the terms and conditions.</Button>
-                            {/* <FormControlLabel
-                                onClick={(event) => event.stopPropagation()}
-                                onFocus={(event) => event.stopPropagation()}
-                                control={<Button onClick={handleOpenTerms}/>}
-                                label="Click to read the terms and conditions."
-                            /> */}
+    
                         </Grid>
                     </Grid>
                     <Dialog open={openTerms}

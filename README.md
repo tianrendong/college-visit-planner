@@ -1,5 +1,44 @@
 # cs0320 Term Project 2021
 
+## College Visit Planner
+
+A web app to help students plan college tours.
+It suggests an optimal route to visit a list of user selected colleges by
+* dividing the schools into clusters based on their geolocations
+* recommending nearby airports 
+* Solving the Travelling Salesman Problem to create road trip routes within each cluster
+
+
+## How to Build and Run
+
+1. Run in production mode using Docker
+
+Execute the following commands in the project root directory:
+
+* *chmod a+x init.sh*
+
+* *./init.sh*
+
+The above command will create two docker images and run in docker-compose. The frontend image will be hosted by nginx.
+
+Open [http://localhost:80](http://localhost:80) to view it in the browser.
+
+_______
+
+2. Run in development mode
+
+* *cd frontend* to enter frontend directory
+* *npm install* to install dependencies
+* *npm start* to start the frontend 
+
+* *cd ..* to go back to root directory
+* *mvn clean package* to install dependencies
+* *./run --gui* to run backend
+
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+
+____________
+
 ## Team
 
 **Team Members:**
@@ -40,11 +79,12 @@ Strength:
 * Have experience in design, attentive to details and user needs, can contribute to improving user interface and usability of the system
 * Pay attention to overall system design and code clarity
 * Willing to openly communicate about problems
+* Willing to devote time
 * Actively searching for better solutions
 
 Weakness:
 
-* Do not have a lot of prior software engineering experience and sometimes get frustrated by weird bugs  
+* Do not have a lot of prior software engineering experience 
 * Sleeping and working schedule may not be the most organized 
 
 ### Tianren Dong
@@ -63,56 +103,5 @@ Weakness:
 * Can get too focused on writing code instead of thinking conceptually.
 
 
-## Project Ideas
-
-## College Visit Planner
-
-### Description
-
-A web app to help plan college tours.
-It suggests an optimal route to visit a list of user selected colleges--It will divide the list into clusters, recommend flights for long distance travels between clusters, and recommend road trip routes for travelling between schools within an area. Users will be able to drag the stops around, make their modifications, and share their trip plan.
-
-
-### Features
-
-* Add colleges
-  - When adding college (e.g. UCLA), system recommends nearby colleges (e.g. USC, UCSD)
-* Pathfinding
-  - Map View
-  - List View: a list of trip stops in order, with distance and travel time between each consecutive stops
-
-* Interactive Map
-  - Zoom in/zoom out
-  - Show colleges on Map
-    
-* Get shareable link/print
-
-
-
-### Algorithm
-
-* Break the schools into clusters
-     - KD Tree Radius Search/ Other clustering algorithm
-* Construct a MST for each cluster
-     - Construct a complete graph with the schools in the cluster, path weights = distance given by external Map API
-     - Since users’ goal is to visit all the schools, there can be repeated paths when driving.
-* Solve the TSP with the large clusters (e.g. home to east coast to west coast)
-     - The Algorithm of Christofides and Serdyukov
-     - TSP is reasonable, because there won’t be that many clusters
-     
-
-
 **Mentor TA:** Livia Zhu
 
-
-## Meetings
-_On your first meeting with your mentor TA, you should plan dates for at least the following meetings:_
-
-**Specs, Mockup, and Design Meeting:** _(Schedule for on or before March 15)_
-
-**4-Way Checkpoint:** _(Schedule for on or before April 5)_
-
-**Adversary Checkpoint:** _(Schedule for on or before April 12 once you are assigned an adversary TA)_
-
-## How to Build and Run
-_A necessary part of any README!_
