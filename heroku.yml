@@ -2,6 +2,3 @@ build:
   docker:
     backend: Dockerfile
     frontend: frontend/Dockerfile
-run:
-  frontend: nginx-g daemon off;
-  backend: /usr/src/app/run --gui

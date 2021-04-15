@@ -8,3 +8,6 @@ COPY . .
 
 # TODO: "RUN" any commands you need to set up the project.
 RUN mvn clean package
+
+# TODO: Choose a "CMD" to run on startup.
+CMD [ "/usr/src/app/run", "--gui"]
