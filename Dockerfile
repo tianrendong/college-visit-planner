@@ -7,7 +7,7 @@ WORKDIR /usr/src/app
 COPY . .
 
 # TODO: "RUN" any commands you need to set up the project.
-RUN mvn clean package
+RUN mvn clean package -Dmaven.test.skip=true
 
 # TODO: Choose a "CMD" to run on startup.
 CMD [ "/usr/src/app/run", "--gui"]

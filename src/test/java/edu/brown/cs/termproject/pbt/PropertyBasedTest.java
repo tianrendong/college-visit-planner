@@ -16,7 +16,7 @@ public class PropertyBasedTest {
   @Test
   public void pbt() {
     int i = 0;
-    while (i < 20) {
+    while (i < 1) {
       try {
         RandomGraphGenerator generator = new RandomGraphGenerator();
         LocationGraph graph = generator.generateRandomGraph();
