@@ -3,9 +3,9 @@ import GoogleMap from 'google-map-react';
 import './index.css'
 import mapStyles from './mapStyles'
 import { connect, useDispatch } from 'react-redux';
-import CollegeMarker from './Marker/collegeMarker.js'
-import RouteClusterMarker from './Marker/routeClusterMarker.js'
-import ClusterMarker from './Marker/clusterMarker.js';
+import CollegeMarker from './markers/collegeMarker.js'
+import RouteClusterMarker from './markers/routeClusterMarker.js'
+import ClusterMarker from './markers/clusterMarker.js';
 import supercluster from 'points-cluster';
 import ClusterSlider from './clusterSlider'
 import { findCenter } from './geocoordinateCalculations';
@@ -40,9 +40,9 @@ function Map(props) {
         })
     }, [])
 
-    // parse default colleges and store in local state right after we get them from backend
+    // parse default colleges and store in redux store right after we get them from backend
     useEffect(() => {
-        setDefaultColleges(Object.values(props.defaultColleges).map((c, index) => ({
+        setDefaultColleges(Object.values(props.defaultColleges).map((c) => ({
             id: c.id,
             lat: c.lat,
             lng: c.lon
@@ -63,6 +63,11 @@ function Map(props) {
     //     return Object.values(Object.values(props.route)[props.selectedCluster]);
     // }
 
+    // reset map center, zoom, bounds whenever map changes
+    const handleMapChange = ({ center, zoom, bounds }) => {
+        setMapOptions({ center, zoom, bounds });
+    };
+
     const createClusters = () => {
         setClustersDisplayed(
             mapOptions.hasOwnProperty("bounds") ?
@@ -77,7 +82,7 @@ function Map(props) {
         );
     };
 
-    const handleMapChange = ({ center, zoom, bounds }) => { setMapOptions({ center, zoom, bounds }); };
+    // create clusters whenever map changes
     useEffect(createClusters, [mapOptions])
 
     function getRouteClusters() {
@@ -207,7 +212,6 @@ function Map(props) {
             });
 
             setMarkers(markers => [...markers, marker]);
-
         }
     }
 

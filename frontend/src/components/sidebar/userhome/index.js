@@ -6,7 +6,6 @@ import { useSnackbar } from 'notistack';
 import { ReactComponent as RouteIcon } from '../../../assets/mapsSVG/route.svg'
 import { ReactComponent as MyCollegeIcon } from '../../../assets/mapsSVG/school.svg'
 import { ReactComponent as SettingsIcon } from '../../../assets/mapsSVG/settings.svg'
-import CircularProgress from '@material-ui/core/CircularProgress';
 
 
 const Userhome = (props) => {

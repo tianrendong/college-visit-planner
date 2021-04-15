@@ -1,6 +1,7 @@
 
-import React, { useState } from 'react'; 
+import React from 'react';
 import { connect, useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
 import { routeActions } from '../../../actions/routeActions'
 import './index.css'
 import { ReactComponent as College1 } from '../../../assets/collegeSVG/college1.svg'
@@ -46,6 +47,10 @@ const CollegeMarker = (props) => {
             {/* <div className={ clicked() ? "collegeMarkerLabelClicked" : "collegeMarkerLabel"}>{props.currentCollege.name}</div> */}
         </div>
     )
+}
+
+CollegeMarker.propTypes = {
+    collegeID: PropTypes.number,
 }
 
 const mapStateToProps = ({ rRoute: { currentCollege, tooltip } }) => ({ currentCollege, tooltip });
