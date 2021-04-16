@@ -15,11 +15,11 @@ It suggests an optimal route to visit a list of user selected colleges by
 
 Execute the following commands in the project root directory:
 
-* *chmod a+x init.sh*
+* *chmod a+x init.sh* to make the file executable
 
-* *./init.sh*
+* *./run.sh* to build the docker images (the frontend image will be hosted by nginx)
 
-The above command will create two docker images and run in docker-compose. The frontend image will be hosted by nginx.
+* *docker-compose up* to start the containers
 
 Open [http://localhost:80](http://localhost:80) to view it in the browser.
 

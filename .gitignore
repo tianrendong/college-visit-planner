@@ -1,6 +1,6 @@
-target/
-.mvn-classpath
-.classpath
+./backend/target/
+./backend/mvn-classpath
+./backend/classpath
 *.log
 .idea/
 **.DS_Store**
