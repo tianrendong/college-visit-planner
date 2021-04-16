@@ -40,7 +40,6 @@ public class TSP<V extends Vertex, E extends Edge<V>> {
    * @throws IOException when errored.
    */
   public List<V> findRoute(Graph<V, E> g) throws InterruptedException, ApiException, IOException {
-    //List<Locatable> route = new ArrayList<>();
     Comparator<E> comp = new Comparator<E>() {
       @Override
       public int compare(E o1, E o2) {
@@ -56,9 +55,14 @@ public class TSP<V extends Vertex, E extends Edge<V>> {
       return list;
     }
     Set<E> mst = MST.mst(g, comp);
+    // Generate MST
     GenericGraph<V, E> mstGraph = new GenericGraph<>(mst);
     TSPGraph<V, E> tsp = new TSPGraph<>(mstGraph);
-    Set<GenericEdge<V>> matches = tsp.perfectMatches(g.getVertices());
+    // Get the set of odd degree vertices from MST
+    // & form a minimum-weight perfect matching graph
+    // Combine the edges of the MST with the minimum-weight
+    // perfect matching graph
+    Set<GenericEdge<V>> matches = tsp.perfectMatches();
     GenericGraph<V, GenericEdge<V>> graph = new GenericGraph<V, GenericEdge<V>>(matches);
     TSPGraph<V, GenericEdge<V>> tspMatches = new TSPGraph<V, GenericEdge<V>>(graph);
     ArrayList<GenericEdge<V>> list = new ArrayList<>();
@@ -68,11 +72,13 @@ public class TSP<V extends Vertex, E extends Edge<V>> {
     for (int i = 1; i < matches.size(); i++) {
       tspMatches.addEdge(list.get(i).getStart(), list.get(i).getEnd());
     }
+    // Form a Eulerian circuit
+    // Skip repeated vertices to form a Hamiltonian circuit
     return tspMatches.createEulerCircuit();
   }
 
   /**
-   * Class representing a grpah of TSP.
+   * Class representing a graph of TSP.
    * @param <V> type that extends Vertex.
    * @param <E> type that extends Edge.
    */
@@ -102,15 +108,12 @@ public class TSP<V extends Vertex, E extends Edge<V>> {
       }
     }
 
-    public int numVertices() {
+    private int numVertices() {
       return this.initGraph.getVertices().size();
     }
 
-    public int numEdges() {
-      return this.initGraph.getEdges().size();
-    }
 
-    public List<V> getOddDegreeVertices() {
+    private List<V> getOddDegreeVertices() {
       Set<V> verts = this.initGraph.getVertices();
       HashMap<V, Integer> numNeighbors = this.numNeighbors();
       List<V> oddDegreeVertices = new ArrayList<>();
@@ -122,7 +125,7 @@ public class TSP<V extends Vertex, E extends Edge<V>> {
       return oddDegreeVertices;
     }
 
-    public HashMap<V, Integer> numNeighbors() {
+    private HashMap<V, Integer> numNeighbors() {
       Set<E> edges = this.initGraph.getEdges();
       int numVertices = this.numVertices();
       HashMap<V, Integer> numNeighbors = new HashMap<>(numVertices);
@@ -145,13 +148,24 @@ public class TSP<V extends Vertex, E extends Edge<V>> {
       return numNeighbors;
     }
 
-    Set<GenericEdge<V>> perfectMatches(Set<V> allVerts)
+    /**
+     * Generates a graph where every vertex has an even degree.
+     * First gets the set of odd degree vertices from MST
+     * & fors a minimum-weight perfect matching graph.
+     * Then combines the edges of the MST with the minimum-weight
+     * perfect matching graph
+     * @return Set of edges representing perfect matching graph
+     * @throws InterruptedException
+     * @throws ApiException
+     * @throws IOException
+     */
+    public Set<GenericEdge<V>> perfectMatches()
         throws InterruptedException, ApiException, IOException {
       ArrayList<GenericEdge<V>> newEdges = new ArrayList<>();
       List<V> odd = this.getOddDegreeVertices();
       Set<E> mst = this.initGraph.getEdges();
       ArrayList<GenericEdge<V>> newedges = findMatches(odd, newEdges);
-      ArrayList<GenericEdge<V>> result = new ArrayList<>();
+      Set<GenericEdge<V>> result = new HashSet<>();
       for (GenericEdge<V> edge : newedges) {
         result.add(edge);
       }
@@ -159,28 +173,10 @@ public class TSP<V extends Vertex, E extends Edge<V>> {
         GenericEdge<V> e = new GenericEdge(edge.getStart(), edge.getEnd(), edge.getWeight());
         result.add(e);
       }
-
-      HashMap<V, Integer> numNeighbors = new HashMap<>();
-      Set<GenericEdge<V>> r = new HashSet<>();
-      Iterator<GenericEdge<V>> it = result.iterator();
-      while (it.hasNext()) {
-        GenericEdge<V> next = it.next();
-        r.add(next);
-        V src = next.getStart();
-        if (numNeighbors.containsKey(src)) {
-          numNeighbors.replace(src, 1 + numNeighbors.get(src));
-        } else {
-          numNeighbors.put(src, 1);
-        }
-      }
-      for (GenericEdge<V> e : result) {
-        r.add(e);
-      }
-      return r;
+      return result;
     }
 
-
-    public ArrayList<GenericEdge<V>> findMatches(
+    private ArrayList<GenericEdge<V>> findMatches(
         List<V> oddDegreeVertices, ArrayList<GenericEdge<V>> newEdges)
         throws InterruptedException, ApiException, IOException {
       double distance = 0.0, min = Double.MAX_VALUE;
@@ -224,7 +220,7 @@ public class TSP<V extends Vertex, E extends Edge<V>> {
       return newEdges;
     }
 
-    void removeEdge(V u, V v) {
+    private void removeEdge(V u, V v) {
       ArrayList<V> arr = adj.get(u);
       arr.remove(v);
       adj.replace(u, arr);
@@ -233,7 +229,7 @@ public class TSP<V extends Vertex, E extends Edge<V>> {
       adj.replace(v, arr2);
     }
 
-    void addEdge(V u, V v) {
+    private void addEdge(V u, V v) {
       ArrayList<V> arr = adj.get(u);
       arr.add(v);
       adj.replace(u, arr);
@@ -242,7 +238,12 @@ public class TSP<V extends Vertex, E extends Edge<V>> {
       adj.replace(v, arr2);
     }
 
-
+    /**
+     * Creates a Eulerian circuit from
+     * the existing graph. This visits every
+     * edge once, but has repeat vertices
+     * @return list of vertices
+     */
     public ArrayList<V> createEulerCircuit() {
       HashMap<V, Integer> neighbors = this.numNeighbors();
       V firstOdd = null;
@@ -257,7 +258,7 @@ public class TSP<V extends Vertex, E extends Edge<V>> {
       return result;
     }
 
-    void eulerUtil(V vert) {
+    private void eulerUtil(V vert) {
       for (int i = 0; i < this.adj.get(vert).size(); i++) {
         V v = this.adj.get(vert).get(i);
         if (isValidNextEdge(vert, v)) {
@@ -283,7 +284,7 @@ public class TSP<V extends Vertex, E extends Edge<V>> {
       return (count1 > count2) ? false : true;
     }
 
-    int dfsCount(V s) {
+    private int dfsCount(V s) {
       int count = 0;
       Stack<V> stack = new Stack<>();
 
@@ -310,7 +311,7 @@ public class TSP<V extends Vertex, E extends Edge<V>> {
       return count;
     }
 
-    ArrayList<V> clearRepeats() {
+    private ArrayList<V> clearRepeats() {
       ArrayList<V> verts = this.eulerianCircuit;
       HashMap<V, Integer> vertsArray = new HashMap<>();
       ArrayList<V> resultCircuit = new ArrayList<V>();
