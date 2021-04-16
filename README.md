@@ -31,7 +31,7 @@ _______
 * *npm install* to install dependencies
 * *npm start* to start the frontend 
 
-* *cd ..* to go back to root directory
+* *cd ../backend* to enter backend directory
 * *mvn clean package* to install dependencies
 * *./run --gui* to run backend
 
