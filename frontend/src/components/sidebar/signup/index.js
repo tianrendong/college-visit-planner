@@ -206,6 +206,6 @@ function SignUp(props) {
     );
 }
 
-const mapStateToProps = ({ rUser: { error } }) => ({ error });
+const mapStateToProps = ({ rRoute: { error } }) => ({ error });
 
 export default connect(mapStateToProps)(SignUp);

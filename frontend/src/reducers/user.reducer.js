@@ -3,7 +3,6 @@ const initialState = {
     updatingRoute: false,
     signingUp: false,
     signedUp: false,
-    error: '',
     user: null,
     clusterUpdated: false,
     routesUpdated: [],
@@ -12,25 +11,16 @@ const initialState = {
 
 const userReducer = (state = initialState, action) => {
     switch (action.type) {
-        case "LOGIN_FORM_CHANGE":
-            console.log(action.payload.item);
-            return {
-                ...state,
-                loginForm: { [action.payload.item]: action.payload.value },
-                error: ''
-            };
         case "LOGIN_SUCCESS":
             return {
                 loggingIn: false,
                 loggedIn: true,
                 user: action.payload.user,
-                error: '',
             };
         case "LOGIN_FAILURE":
             return {
                 loggingIn: false,
                 loggedIn: false,
-                error: action.payload.error,
                 user: null
             };
         case "LOGOUT":
@@ -38,40 +28,25 @@ const userReducer = (state = initialState, action) => {
                 loggedIn: false,
                 signedUp: false,
                 user: null,
-                error: '',
             };
         case "SIGNUP_REQUEST":
             return {
                 signingUp: true,
-                error: ''
             };
         case "SIGNUP_SUCCESS":
             return {
                 signingUp: false,
                 signedUp: true,
-                error: ''
             };
         case "SIGNUP_FAILURE":
             return {
                 signingUp: false,
-                error: action.payload.error,
-            };
-        case "NAVIGATE_SIDEBAR":
-            return {
-                ...state,
-                error: ''
-            };
-        case "NAVIGATE_INFOBAR":
-            return {
-                ...state,
-                error: ''
             };
         case "UPDATE_ROUTE":
             const updatedClusterIndex = action.payload.clusterIndex
             const clusterUpdated = state.routesUpdated.includes(updatedClusterIndex)
             return {
                 ...state,
-                error: '',
                 // if cluster is not bookmarked : update the specific cluster based on the index passed in
                 route: clusterUpdated ? state.route : ((state.route.map((cluster, i) => i === updatedClusterIndex ? action.payload.route : cluster))),
                 updatingRoute: false,
@@ -86,16 +61,8 @@ const userReducer = (state = initialState, action) => {
                 // add or delete cluster index to/from routesUpdated
                 routesUpdated: clusterBookmarked ? filteredCluster : [...state.routesUpdated, clusterIndex],
             }
-
-        case "REQUEST_ADD_COLLEGE":
-            return {
-                ...state,
-                error: '',
-            }
         case "ADD_COLLEGE":
-            console.log(action);
             if (state.user.hasOwnProperty("colleges")) {
-                console.log("b")
                 return {
                     ...state,
                     clusterUpdated: false,
@@ -125,11 +92,6 @@ const userReducer = (state = initialState, action) => {
                     ...state.user,
                     colleges: [...state.user.colleges.filter(c => c.id !== action.payload.deletedCollegeID)],
                 }
-            };
-        case "ERROR":
-            return {
-                ...state,
-                error: action.payload.error,
             };
         case "REQUEST_UPDATE_ROUTE": {
             return {

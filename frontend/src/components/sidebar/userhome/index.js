@@ -77,7 +77,7 @@ const Userhome = (props) => {
 }
 
 const mapStateToProps =
-    ({ rRoute: { infobar }, rUser: { user, error, updatingRoute, clusterUpdated } }) => 
-    ({ infobar, user, error, updatingRoute, clusterUpdated });
+    ({ rRoute: { infobar, error }, rUser: { user, updatingRoute, clusterUpdated } }) => 
+    ({ error, infobar, user, updatingRoute, clusterUpdated });
 
 export default connect(mapStateToProps)(Userhome);

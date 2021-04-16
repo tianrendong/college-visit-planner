@@ -32,4 +32,3 @@ function addTooltipShowed(tooltip) {
         type: 'ADD_TOOLTIP',
     };
 }
-

@@ -60,7 +60,6 @@ function Login(props) {
 
     useEffect(() => {
         // variant could be success, error, warning, info, or default
-        console.log(props.error);
         if (props.error !== '') {
             enqueueSnackbar(props.error, {variant: 'error'});
         }
@@ -126,7 +125,7 @@ function Login(props) {
 }
 
 
-const mapStateToProps = ({ rUser: { loggedIn, user, error, loginForm, signedUp } }) => 
-({ loggedIn, user, error, loginForm, signedUp });
+const mapStateToProps = ({ rUser: { loggedIn, user, loginForm, signedUp }, rRoute: { error } }) => 
+({ loggedIn, user, loginForm, signedUp, error });
 
 export default connect(mapStateToProps)(Login);

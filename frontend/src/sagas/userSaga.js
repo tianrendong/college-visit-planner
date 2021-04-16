@@ -1,4 +1,4 @@
-import { actionChannel, call, put } from 'redux-saga/effects';
+import { actionChannel, call, put, all } from 'redux-saga/effects';
 import { userAPI } from '../api/userAPI'
 
 export const UserSaga = {
@@ -28,6 +28,9 @@ export function* loginAsync(payload) {
 }
 
 export function* signupAsync(payload) {
+    yield put({
+        type: 'CLEAR_ERROR',
+    });
     const response = yield call(userAPI.requestSignup, payload.payload)
     if (response.success === true ) {
         yield put({
@@ -62,14 +65,24 @@ export function* updateClustersAsync(payload) {
 
 
 export function* addCollegeAsync(payload) {
+    yield put({
+        type: 'CLEAR_ERROR',
+    });
     const response = yield call(userAPI.requestAddCollege, payload.payload)
+    console.log(response);
     if (response.hasOwnProperty("newCollege")) {
-        yield put({
+        yield all([put({
             payload: { 
                 newCollege: JSON.parse(response.newCollege)
             },
             type: 'ADD_COLLEGE',
-        });
+        }),
+        yield put({
+            payload: { 
+                msg: "Added college"
+            },
+            type: 'SUCCESS_MESSAGE',
+        })]);
     } else {
         yield put({
             payload: { 
@@ -83,12 +96,18 @@ export function* addCollegeAsync(payload) {
 export function* deleteCollegeAsync(payload) {
     const response = yield call(userAPI.requestDeleteCollege, payload.payload)
     if (response.hasOwnProperty("deletedCollegeID")) {
-        yield put({
+        yield all([put({
             payload: { 
                 deletedCollegeID: JSON.parse(response.deletedCollegeID)
             },
             type: 'DELETE_COLLEGE',
-        });
+        }),
+        yield put({
+            payload: { 
+                msg: "Deleted college"
+            },
+            type: 'SUCCESS_MESSAGE',
+        })]);
     } else {
         yield put({
             payload: { 

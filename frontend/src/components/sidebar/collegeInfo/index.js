@@ -5,6 +5,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import { connect, useDispatch } from 'react-redux';
 import AirportInfo from './airportInfo'
+import { routeActions } from '../../../actions/routeActions' 
+import { useSnackbar } from 'notistack';
 
 const useStyles = makeStyles({
     title: {
@@ -13,18 +15,55 @@ const useStyles = makeStyles({
     state: {
         fontSize: 20,
         marginTop: '10px',
+    },
+    button: {
+        margin: '0 8px'
     }
 });
 
 const CollegeInfo = (props) => {
     const classes = useStyles();
+    const dispatch = useDispatch();
+    const { enqueueSnackbar } = useSnackbar();
 
     const college = () => { return props.currentCollege.college }
+    const inVisitList = () => { 
+        return props.user.colleges.some(c => c.id === college().id);
+    }
+
     const hasNearbyAirport = () => { return (props.currentCollege.nearbyAirport !== null) }
     const nearbyAirport = () => { return props.currentCollege.nearbyAirport }
 
     const hasNearbyColleges = () => { return (props.currentCollege.nearbyColleges !== null) }
     const nearbyColleges = () => { return props.currentCollege.nearbyColleges }
+
+    const handleAddDeleteCollege = () => {
+        if (props.loggedIn === true) {
+            if (inVisitList()) {
+                dispatch({
+                    payload: {
+                        username: props.user.username,
+                        collegeID: college().id
+                    },
+                    type: "REQUEST_DELETE_COLLEGE"
+                })
+            } else {
+                dispatch({
+                    payload: {
+                        username: props.user.username,
+                        collegeID: college().id
+                    },
+                    type: "REQUEST_ADD_COLLEGE"
+                })
+            }
+        } else {
+            enqueueSnackbar('Please log in first', {variant: 'error'});
+        }
+    }
+
+    useEffect(() => {
+        (props.successMessage !== '') && enqueueSnackbar(props.successMessage, {variant: 'success'});   
+    }, [props.successMessage])
 
     return (
         <div className="collegeInfoContainer">
@@ -38,8 +77,12 @@ const CollegeInfo = (props) => {
                 </Typography>
             </div>
 
-            <div className="collegeInfoFooter">
-                <Button size="small" href={college().url} target="_blank">Visit Website</Button>
+            <div className="collegeInfoButtonContainer"> 
+                <Button size="small" href={college().url} target="_blank" className={classes.button}>Visit Website</Button>
+                
+                <Button size="small" onClick={handleAddDeleteCollege} className={classes.button}>
+                    { (props.loggedIn && inVisitList()) ?  "Remove from visit list" : "Add to visit list"}
+                    </Button>
             </div>
 
             <div className="collegeInfoContent"> 
@@ -78,6 +121,7 @@ const CollegeInfo = (props) => {
 
 }
 
-const mapStateToProps = ({ rUser: { user, error }, rRoute: { currentCollege } }) => ({ user, error, currentCollege });
+const mapStateToProps = ({ rUser: { user, loggedIn }, rRoute: { error, currentCollege, successMessage } }) => 
+({ user, loggedIn, error, currentCollege, successMessage });
 
 export default connect(mapStateToProps)(CollegeInfo);
