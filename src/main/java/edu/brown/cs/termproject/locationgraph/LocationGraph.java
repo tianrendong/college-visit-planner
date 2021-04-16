@@ -64,6 +64,10 @@ public class LocationGraph implements Graph<Location, Path> {
     }
   }
 
+  /**
+   * Gets the graph.
+   * @return graph.
+   */
   public Map<Location, List<Path>> getGraph() {
     return graph;
   }

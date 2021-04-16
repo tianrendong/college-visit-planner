@@ -25,6 +25,9 @@ public final class NaiveTSP {
    * @param <V> type of the nodes that extends Vertex.
    * @param <E> type of the edge that extends Edge of V.
    * @return list in visiting order of the nodes.
+   * @throws InterruptedException when interrupted.
+   * @throws ApiException when google maps api errors.
+   * @throws IOException when I/O errors.
    */
   public static <V extends Vertex, E extends Edge<V>> List<V> findRoute(Graph<V, E> graph)
       throws InterruptedException, ApiException, IOException {

@@ -109,5 +109,7 @@ public class Location implements Locatable, Vertex {
    * Gets the content of location.
    * @return location content
    */
-  public Object getContent() { return content;}
+  public Object getContent() {
+    return content;
+  }
 }
