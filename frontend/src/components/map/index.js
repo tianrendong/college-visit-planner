@@ -246,14 +246,14 @@ function Map(props) {
                             );
                         }
 
-                        // return (
-                        //     <ClusterMarker
-                        //         index={item.id}
-                        //         lat={item.lat}
-                        //         lng={item.lng}
-                        //         points={item.points}
-                        //     />
-                        // );
+                        return (
+                            <ClusterMarker
+                                index={item.points[0].id}
+                                lat={item.lat}
+                                lng={item.lng}
+                                points={item.points}
+                            />
+                        );
 
                     })}
 

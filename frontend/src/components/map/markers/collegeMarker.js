@@ -17,17 +17,16 @@ const CollegeMarker = (props) => {
     const { collegeID } = props;
 
     const clicked = () => {
-        return ( props.currentCollege !== {} ) && (props.currentCollege.id === collegeID)
+        return ( props.currentCollege !== null ) && (props.currentCollege.college.id === collegeID)
     };
 
     const icons = [
-        <College1 className="collegeMarkerDefault"/>, 
-        // <College1 className={clicked() ? "collegeMarkerOnClick" : "collegeMarkerDefault"}/>, 
-        <College2 className="collegeMarkerDefault"/>, 
-        <College3 className="collegeMarkerDefault"/>, 
-        <College4 className="collegeMarkerDefault"/>, 
-        <College5 className="collegeMarkerDefault"/>, 
-        <College6 className="collegeMarkerDefault"/>]
+        <College1 className={ clicked() ? "collegeMarkerClicked" : "collegeMarkerDefault"}/>, 
+        <College2 className={ clicked() ? "collegeMarkerClicked" : "collegeMarkerDefault"}/>, 
+        <College3 className={ clicked() ? "collegeMarkerClicked" : "collegeMarkerDefault"}/>, 
+        <College4 className={ clicked() ? "collegeMarkerClicked" : "collegeMarkerDefault"}/>, 
+        <College5 className={ clicked() ? "collegeMarkerClicked" : "collegeMarkerDefault"}/>, 
+        <College6 className={ clicked() ? "collegeMarkerClicked" : "collegeMarkerDefault"}/>]
 
     const getIcon = (i) => { return icons[i % icons.length]}
 
@@ -43,8 +42,8 @@ const CollegeMarker = (props) => {
 
     return (
         <div className="collegeMarkerContainer" onClick={handleClick}>
-            <div>{getIcon(collegeID)}</div>
-            {/* <div className={ clicked() ? "collegeMarkerLabelClicked" : "collegeMarkerLabel"}>{props.currentCollege.name}</div> */}
+            {getIcon(collegeID)}
+            {clicked() && <div className="collegeMarkerLabel">{props.currentCollege.college.name}</div>}
         </div>
     )
 }

@@ -1,27 +1,17 @@
 import React from 'react';
-import clusterIcon from '../../../assets/mapsSVG/cluster.png'
+import './index.css'
 
-class ClusterMarker extends React.PureComponent {
-  state = {
-    clusterFaceMarkers: this.props.points.slice(0, 1),
-  };
+/**
+ * Component for cluster marker on initial map view.
+ */
+const ClusterMarker = (props) => {
+  const { index, points } = props;
 
-  render() {
-    return (
-      <div className="clusterMarkerContainer">
-
-        {this.state.clusterFaceMarkers.map(marker =>
-          <clusterIcon className="collegeMarkerDefault"
-            key={marker.id}
-            lat={marker.lat}
-            lng={marker.lng}
-          />
-          // "bbb"
-        )}
-        {/* <div className="collegeClusterLabel">{this.props.points.length}</div> */}
+  return (
+      <div class="outerCircle">
+        <div class="innerCircle">{points.length}</div>
       </div>
-    );
-  }
+  )
 }
 
 export default ClusterMarker;
