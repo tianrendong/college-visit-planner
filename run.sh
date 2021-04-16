@@ -1,4 +1,5 @@
+cd backend
 docker build -t tp-backend:latest .
-cd frontend
+cd ../frontend
 docker build -t tp-frontend:latest .
-cd ../backend
+

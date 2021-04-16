@@ -265,11 +265,11 @@ function Map(props) {
 
                 </GoogleMap>
             </div>
-            {(props.viewport === 'clusters') &&
+            {(props.viewport === 'clusters') && (props.infobar === '') &&
                 <ClusterSlider />
             }
 
-            {(props.viewport === 'zoomedIn') &&
+            {(props.viewport === 'zoomedIn') && (props.infobar === '') && 
                 <div className="reloadContainer">
                     <RouteReloader />
                 </div>
@@ -281,7 +281,7 @@ function Map(props) {
 
 
 const mapStateToProps = ({ rMap: { mapRef, mapsRef, defaultColleges, selectedCluster, viewport, showRoute },
-    rUser: { user, route, routesUpdated }, rRoute: { tooltip } }) =>
-    ({ mapRef, mapsRef, defaultColleges, selectedCluster, viewport, showRoute, user, route, routesUpdated, tooltip });
+    rUser: { user, route, routesUpdated }, rRoute: { tooltip, infobar } }) =>
+    ({ mapRef, mapsRef, defaultColleges, selectedCluster, viewport, showRoute, user, route, routesUpdated, tooltip, infobar });
 
 export default connect(mapStateToProps)(Map);

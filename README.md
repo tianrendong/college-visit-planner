@@ -15,7 +15,7 @@ It suggests an optimal route to visit a list of user selected colleges by
 
 Execute the following commands in the project root directory:
 
-* *chmod a+x init.sh* to make the file executable
+* *chmod a+x run.sh* to make the file executable
 
 * *./run.sh* to build the docker images (the frontend image will be hosted by nginx)
 
