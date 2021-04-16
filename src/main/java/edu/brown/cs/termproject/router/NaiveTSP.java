@@ -9,7 +9,11 @@ import edu.brown.cs.termproject.graph.Graph;
 import edu.brown.cs.termproject.graph.Vertex;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Approximation of TSP through MST.
@@ -25,6 +29,9 @@ public final class NaiveTSP {
    * @param <V> type of the nodes that extends Vertex.
    * @param <E> type of the edge that extends Edge of V.
    * @return list in visiting order of the nodes.
+   * @throws InterruptedException when interrupted.
+   * @throws ApiException when google maps api errors.
+   * @throws IOException when I/O errors.
    */
   public static <V extends Vertex, E extends Edge<V>> List<V> findRoute(Graph<V, E> graph)
       throws InterruptedException, ApiException, IOException {
