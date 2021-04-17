@@ -53,6 +53,7 @@ const mapReducer = (state = initialState, action) => {
                 showRoute: !state.showRoute
             }
         case "REQUEST_UPDATE_CLUSTERS":
+            console.log(action)
             return {
                 ...state,
                 sliderValue: action.payload.radius,

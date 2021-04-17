@@ -67,8 +67,10 @@ const ClusterSlider = (props) => {
       dispatch(routeActions.addTooltipShowed("slider"))
     }
     dispatch({
-      colleges: props.user.colleges,
-      radius: value,
+      payload: {
+        colleges: props.user.colleges,
+        radius: value,
+      },
       type: 'REQUEST_UPDATE_CLUSTERS'
     });
   }
