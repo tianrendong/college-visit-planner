@@ -59,10 +59,6 @@ function Map(props) {
         return clusters(mapOptions);
     };
 
-    // function getCurrentRouteCluster() {
-    //     return Object.values(Object.values(props.route)[props.selectedCluster]);
-    // }
-
     // reset map center, zoom, bounds whenever map changes
     const handleMapChange = ({ center, zoom, bounds }) => {
         setMapOptions({ center, zoom, bounds });

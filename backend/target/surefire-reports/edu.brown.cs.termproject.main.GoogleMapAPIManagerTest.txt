@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: edu.brown.cs.termproject.main.GoogleMapAPIManagerTest
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.26 s - in edu.brown.cs.termproject.main.GoogleMapAPIManagerTest
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.133 s - in edu.brown.cs.termproject.main.GoogleMapAPIManagerTest

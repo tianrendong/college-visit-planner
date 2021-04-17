@@ -67,20 +67,11 @@ const ClusterSlider = (props) => {
       dispatch(routeActions.addTooltipShowed("slider"))
     }
     dispatch({
-      payload: value,
-      type: 'CHANGE_SLIDER_VALUE'
+      colleges: props.user.colleges,
+      radius: value,
+      type: 'REQUEST_UPDATE_CLUSTERS'
     });
   }
-
-  useEffect(() => {
-    dispatch({
-      payload: {
-        colleges: props.user.colleges,
-        radius: props.sliderValue,
-      },
-      type: 'REQUEST_UPDATE_CLUSTERS',
-    });
-  }, [props.sliderValue])
 
   return (
     <MyTooltip open={showTooltip} onOpen={handleShowTooltip} onClose={handleCloseTooltip}

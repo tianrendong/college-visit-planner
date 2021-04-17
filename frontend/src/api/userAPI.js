@@ -35,6 +35,7 @@ function checkUsername(username) {
 }
 
 function requestSignup(payload) {
+    console.log(payload)
 ;    const request = new Request('/api/user/signup', {
         method: 'POST',
         body: JSON.stringify({ 

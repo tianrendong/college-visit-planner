@@ -130,6 +130,7 @@ public class UserAPI {
     String lastname = data.get("lastname").getAsString();
     String username = data.get("username").getAsString();
     String password = data.get("password").getAsString();
+    System.out.println(firstname);
     return GSON.toJson(userDB.signup(username, password, firstname, lastname));
   };
 

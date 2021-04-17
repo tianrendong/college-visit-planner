@@ -52,10 +52,10 @@ const mapReducer = (state = initialState, action) => {
                 ...state,
                 showRoute: !state.showRoute
             }
-        case "CHANGE_SLIDER_VALUE":
+        case "REQUEST_UPDATE_CLUSTERS":
             return {
                 ...state,
-                sliderValue: action.payload,
+                sliderValue: action.payload.radius,
             }
         default:
             return state

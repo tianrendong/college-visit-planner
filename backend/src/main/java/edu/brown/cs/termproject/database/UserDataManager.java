@@ -49,13 +49,13 @@ public class UserDataManager extends DatabaseManager {
     } else {
       try (PreparedStatement registerUser = getConnection().prepareStatement(
           "INSERT INTO users (id, password, firstname, lastname, colleges)"
-              + "VALUES (?, ?, ?, ?);"
+              + "VALUES (?, ?, ?, ?, ?);"
       )) {
         registerUser.setString(1, username);
         registerUser.setString(2, Encryption.encrypt(password));
         registerUser.setString(3, firstname);
         registerUser.setString(4, lastname);
-        registerUser.setString(5, "[]");
+        registerUser.setString(5, GSON.toJson(new ArrayList<>()));
         registerUser.executeUpdate();
         payload.addProperty("success", true);
       }
