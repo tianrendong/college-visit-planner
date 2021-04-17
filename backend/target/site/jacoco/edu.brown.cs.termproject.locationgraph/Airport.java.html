@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Airport.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">college-visit-planner</a> &gt; <a href="index.source.html" class="el_package">edu.brown.cs.termproject.locationgraph</a> &gt; <span class="el_source">Airport.java</span></div><h1>Airport.java</h1><pre class="source lang-java linenums">package edu.brown.cs.termproject.locationgraph;
+
+import edu.brown.cs.termproject.graph.Vertex;
+import edu.brown.cs.termproject.router.Locatable;
+
+/**
+ * Class representing airports.
+ */
+public class Airport implements Locatable, Vertex {
+  private final int id;
+  private final String name;
+  private final double lat;
+  private final double lon;
+  private final String website;
+  private final String city;
+  private final String state;
+
+  /**
+   * Constructs an airport object.
+   * @param id id
+   * @param name name
+   * @param lat latitude
+   * @param lon longitude
+   * @param city city
+   * @param state state
+   * @param website website url
+   */
+  public Airport(int id, String name, double lat, double lon,
+<span class="fc" id="L29">                 String city, String state, String website) {</span>
+<span class="fc" id="L30">    this.id = id;</span>
+<span class="fc" id="L31">    this.name = name;</span>
+<span class="fc" id="L32">    this.lat = lat;</span>
+<span class="fc" id="L33">    this.lon = lon;</span>
+<span class="fc" id="L34">    this.city = city;</span>
+<span class="fc" id="L35">    this.state = state;</span>
+<span class="fc" id="L36">    this.website = website;</span>
+<span class="fc" id="L37">  }</span>
+
+  /**
+   * Gets the id.
+   * @return id.
+   */
+  public int getId() {
+<span class="fc" id="L44">    return id;</span>
+  }
+
+  /**
+   * Gets the name.
+   * @return name.
+   */
+  public String getName() {
+<span class="fc" id="L52">    return this.name;</span>
+  }
+
+  @Override
+  public double getLat() {
+<span class="fc" id="L57">    return this.lat;</span>
+  }
+
+  @Override
+  public double getLon() {
+<span class="fc" id="L62">    return this.lon;</span>
+  }
+
+  @Override
+  public String toString() {
+<span class="nc" id="L67">    return name + &quot;: (&quot; + lat + &quot;, &quot; + lon + &quot;)&quot;;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

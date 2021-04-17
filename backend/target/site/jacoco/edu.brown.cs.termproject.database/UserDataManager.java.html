@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserDataManager.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">college-visit-planner</a> &gt; <a href="index.source.html" class="el_package">edu.brown.cs.termproject.database</a> &gt; <span class="el_source">UserDataManager.java</span></div><h1>UserDataManager.java</h1><pre class="source lang-java linenums">package edu.brown.cs.termproject.database;
+
+import com.google.gson.reflect.TypeToken;
+import edu.brown.cs.termproject.iotools.Encryption;
+import edu.brown.cs.termproject.main.Main;
+import edu.brown.cs.termproject.main.User;
+
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
+
+/**
+ * Manages SQL queries to the user database.
+ */
+<span class="fc" id="L25">public class UserDataManager extends DatabaseManager {</span>
+
+<span class="fc" id="L27">  private static final Gson GSON = new Gson();</span>
+<span class="fc" id="L28">  private static final CollegeSQLManager COLLEGE_DB = Main.getCollegeDatabase();</span>
+
+  /**
+   * Logs in the user.
+   * @param username the user
+   * @param password password
+   * @param firstname the first name
+   * @param lastname lastname
+   * @return JsonObject with payload
+   * @throws SQLException when no database connection is found.
+   */
+  public JsonObject signup(String username, String password, String firstname, String lastname)
+      throws SQLException {
+<span class="pc bpc" id="L41" title="1 of 2 branches missed.">    if (getConnection() == null) {</span>
+<span class="nc" id="L42">      throw new IllegalStateException(&quot;Must open a database first.&quot;);</span>
+    }
+<span class="fc" id="L44">    JsonObject payload = new JsonObject();</span>
+
+<span class="pc bpc" id="L46" title="1 of 2 branches missed.">    if (checkUserExists(username)) {</span>
+<span class="fc" id="L47">      payload.addProperty(&quot;success&quot;, false);</span>
+<span class="fc" id="L48">      payload.addProperty(&quot;error&quot;, &quot;Username already exists.&quot;);</span>
+    } else {
+<span class="nc" id="L50">      try (PreparedStatement registerUser = getConnection().prepareStatement(</span>
+          &quot;INSERT INTO users (id, password, firstname, lastname, colleges)&quot;
+              + &quot;VALUES (?, ?, ?, ?, ?);&quot;
+      )) {
+<span class="nc" id="L54">        registerUser.setString(1, username);</span>
+<span class="nc" id="L55">        registerUser.setString(2, Encryption.encrypt(password));</span>
+<span class="nc" id="L56">        registerUser.setString(3, firstname);</span>
+<span class="nc" id="L57">        registerUser.setString(4, lastname);</span>
+<span class="nc" id="L58">        registerUser.setString(5, GSON.toJson(new ArrayList&lt;&gt;()));</span>
+<span class="nc" id="L59">        registerUser.executeUpdate();</span>
+<span class="nc" id="L60">        payload.addProperty(&quot;success&quot;, true);</span>
+      }
+    }
+<span class="fc" id="L63">    return payload;</span>
+  }
+
+  /**
+   * Logs in the user.
+   * @param username the user
+   * @param password password
+   * @return JsonObject with payload
+   * @throws SQLException when no database connection is found.
+   * @throws InvalidKeySpecException when key is invalid
+   * @throws NoSuchAlgorithmException when algorithm not found
+   * @throws UnsupportedEncodingException when encoding not supported
+   */
+  public JsonObject login(String username, String password)
+      throws SQLException, InvalidKeySpecException, NoSuchAlgorithmException,
+      UnsupportedEncodingException {
+<span class="fc" id="L79">    JsonObject payload = new JsonObject();</span>
+<span class="fc" id="L80">    User user = getUserInfo(username);</span>
+<span class="pc bpc" id="L81" title="1 of 2 branches missed.">    if (user == null) {</span>
+<span class="nc" id="L82">      payload.addProperty(&quot;success&quot;, false);</span>
+<span class="nc" id="L83">      payload.addProperty(&quot;error&quot;, &quot;User does not exist.&quot;);</span>
+<span class="nc" id="L84">      System.err.println(&quot;user does not exist&quot;);</span>
+
+    } else {
+<span class="fc bfc" id="L87" title="All 2 branches covered.">      if (Encryption.verify(password, user.getPassword())) {</span>
+<span class="fc" id="L88">        payload.addProperty(&quot;success&quot;, true);</span>
+<span class="fc" id="L89">        payload.addProperty(&quot;user&quot;, GSON.toJson(user));</span>
+      } else {
+<span class="fc" id="L91">        payload.addProperty(&quot;success&quot;, false);</span>
+<span class="fc" id="L92">        payload.addProperty(&quot;error&quot;, &quot;Password is incorrect.&quot;);</span>
+      }
+<span class="fc" id="L94">      System.out.println(Encryption.verify(password, user.getPassword()));</span>
+    }
+<span class="fc" id="L96">    return payload;</span>
+  }
+
+  /**
+   * Checks whether the user exists.
+   * @param username the user account to add college to
+   * @return boolean whether the user exists
+   * @throws SQLException when no database connection is found.
+   */
+  public boolean checkUserExists(String username) throws SQLException {
+<span class="pc bpc" id="L106" title="1 of 2 branches missed.">    if (getConnection() == null) {</span>
+<span class="nc" id="L107">      throw new IllegalStateException(&quot;Must open a database first.&quot;);</span>
+    }
+
+<span class="fc" id="L110">    try (PreparedStatement getUserInfo = getConnection().prepareStatement(</span>
+        &quot;SELECT * FROM users WHERE id = ?&quot;)) {
+<span class="fc" id="L112">      getUserInfo.setString(1, username);</span>
+
+<span class="fc" id="L114">      try (ResultSet rs = getUserInfo.executeQuery()) {</span>
+<span class="pc bpc" id="L115" title="1 of 2 branches missed.">        return !rs.isClosed();</span>
+      }
+    }
+  }
+
+  /**
+   * Get the information of the user.
+   * @param username the user account to add college to
+   * @return User the user objectto return.
+   * @throws SQLException when no database connection is found.
+   */
+  public User getUserInfo(String username) throws SQLException {
+<span class="pc bpc" id="L127" title="1 of 2 branches missed.">    if (getConnection() == null) {</span>
+<span class="nc" id="L128">      throw new IllegalStateException(&quot;Must open a database first.&quot;);</span>
+    }
+<span class="fc" id="L130">    User user = null;</span>
+<span class="fc" id="L131">    try (PreparedStatement getUserInfo = getConnection().prepareStatement(</span>
+        &quot;SELECT password, firstname, lastname, colleges FROM users WHERE id = ?&quot;)) {
+<span class="fc" id="L133">      getUserInfo.setString(1, username);</span>
+
+<span class="fc" id="L135">      try (ResultSet rs = getUserInfo.executeQuery()) {</span>
+<span class="pc bpc" id="L136" title="1 of 2 branches missed.">        if (!rs.isClosed()) {</span>
+<span class="fc bfc" id="L137" title="All 2 branches covered.">          while (rs.next()) {</span>
+<span class="fc" id="L138">            String password = rs.getString(1);</span>
+<span class="fc" id="L139">            String firstname = rs.getString(2);</span>
+<span class="fc" id="L140">            String lastname = rs.getString(3);</span>
+<span class="fc" id="L141">            String colleges = rs.getString(4);</span>
+
+<span class="fc" id="L143">            user = new User(username, password, firstname, lastname);</span>
+
+<span class="pc bpc" id="L145" title="2 of 4 branches missed.">            if ((colleges != null) &amp;&amp; (COLLEGE_DB.getConnection() != null)) {</span>
+<span class="nc" id="L146">              List&lt;Integer&gt; collegeIDs = new Gson().fromJson(colleges,</span>
+<span class="nc" id="L147">                  new TypeToken&lt;List&lt;Integer&gt;&gt;() { }.getType());</span>
+<span class="nc" id="L148">              user.setColleges(COLLEGE_DB.getCollegeByID(collegeIDs));</span>
+            }
+
+<span class="fc" id="L151">          }</span>
+        }
+      }
+<span class="pc bpc" id="L154" title="1 of 2 branches missed.">      return (user == null) ? null : user;</span>
+    }
+  }
+
+  /**
+   * Adds college to user account.
+   * @param username the user account to add college to
+   * @param collegeID the ID of the college to add
+   * @return JsonObject indicating college info
+   * @throws SQLException when no database connection is found.
+   */
+  public JsonObject addCollege(String username, int collegeID) throws SQLException {
+<span class="nc" id="L166">    JsonObject payload = new JsonObject();</span>
+<span class="nc" id="L167">    List&lt;Integer&gt; currentColleges = getUserColleges(username);</span>
+<span class="nc bnc" id="L168" title="All 2 branches missed.">    if (currentColleges.contains(collegeID)) {</span>
+<span class="nc" id="L169">      payload.addProperty(&quot;error&quot;, &quot;College already added.&quot;);</span>
+    } else {
+<span class="nc" id="L171">      payload.addProperty(&quot;newCollege&quot;, GSON.toJson(COLLEGE_DB.getCollegeByID(collegeID)));</span>
+<span class="nc" id="L172">      currentColleges.add(collegeID);</span>
+    }
+
+<span class="nc" id="L175">    updateUserInfo(username, &quot;colleges = '&quot; + GSON.toJson(currentColleges) + &quot;'&quot;);</span>
+
+<span class="nc" id="L177">    return payload;</span>
+  }
+
+  /**
+   * Gets the colleges stored in user.
+   * @param username the user account.
+   * @return List of College IDs associated with the user.
+   * @throws SQLException when no database connection is found.
+   */
+  public List&lt;Integer&gt; getUserColleges(String username) throws SQLException {
+<span class="nc bnc" id="L187" title="All 2 branches missed.">    if (getConnection() == null) {</span>
+<span class="nc" id="L188">      throw new IllegalStateException(&quot;Must open a database first.&quot;);</span>
+    }
+<span class="nc" id="L190">    List&lt;Integer&gt; collegeIDs = new ArrayList&lt;&gt;();</span>
+
+<span class="nc" id="L192">    try (PreparedStatement getUser = getConnection().prepareStatement(</span>
+        &quot;SELECT colleges FROM users WHERE id = ?&quot;)) {
+<span class="nc" id="L194">      getUser.setString(1, username);</span>
+
+<span class="nc" id="L196">      try (ResultSet rs = getUser.executeQuery()) {</span>
+<span class="nc bnc" id="L197" title="All 2 branches missed.">        if (!rs.isClosed()) {</span>
+<span class="nc bnc" id="L198" title="All 2 branches missed.">          while (rs.next()) {</span>
+<span class="nc" id="L199">            String colleges = rs.getString(1);</span>
+<span class="nc bnc" id="L200" title="All 2 branches missed.">            if (colleges != null) {</span>
+<span class="nc" id="L201">              collegeIDs = new Gson().fromJson(colleges, new TypeToken&lt;List&lt;Integer&gt;&gt;() {</span>
+<span class="nc" id="L202">              }.getType());</span>
+            }
+<span class="nc" id="L204">          }</span>
+        }
+      }
+
+<span class="nc" id="L208">      return collegeIDs;</span>
+    }
+  }
+
+  /**
+   * Deletes a college.
+   * @param username the user account to delete.
+   * @param collegeID the college to delete
+   * @return JsonObject indicating whether deletion was successful
+   * @throws SQLException when no database connection is found.
+   */
+  public JsonObject deleteCollege(String username, int collegeID) throws SQLException {
+<span class="nc" id="L220">    JsonObject payload = new JsonObject();</span>
+<span class="nc" id="L221">    List&lt;Integer&gt; currentColleges = getUserColleges(username);</span>
+<span class="nc bnc" id="L222" title="All 2 branches missed.">    if (!currentColleges.contains(collegeID)) {</span>
+<span class="nc" id="L223">      payload.addProperty(&quot;error&quot;, &quot;College not stored&quot;);</span>
+    } else {
+<span class="nc" id="L225">      currentColleges =</span>
+<span class="nc bnc" id="L226" title="All 2 branches missed.">          currentColleges.stream().filter(id -&gt; id != collegeID).collect(</span>
+<span class="nc" id="L227">              Collectors.toCollection(ArrayList::new));</span>
+<span class="nc" id="L228">      payload.addProperty(&quot;deletedCollegeID&quot;, collegeID);</span>
+    }
+<span class="nc" id="L230">    updateUserInfo(username, &quot;colleges = '&quot; + GSON.toJson(currentColleges) + &quot;'&quot;);</span>
+<span class="nc" id="L231">    return payload;</span>
+  }
+  /**
+   * Updates user information.
+   * @param username the user account to update
+   * @param condition the conditions
+   * @throws SQLException when no database connection is found.
+   */
+  private void updateUserInfo(String username, String condition) throws SQLException {
+<span class="nc" id="L240">    try (PreparedStatement addCollege = getConnection().prepareStatement(</span>
+        &quot;UPDATE users SET &quot; + condition + &quot; WHERE id= ? ;&quot;
+    )) {
+<span class="nc" id="L243">      addCollege.setString(1, username);</span>
+<span class="nc" id="L244">      addCollege.executeUpdate();</span>
+    }
+<span class="nc" id="L246">  }</span>
+
+  /**
+   * Deletes all college data for a specific user.
+   * @param username the user whose data needs to be deleted.
+   * @return JsonObject indicating whether deletion was successful.
+   * @throws SQLException when no database connection is found.
+   */
+  public boolean deleteUserData(String username) throws SQLException {
+<span class="nc bnc" id="L255" title="All 2 branches missed.">    if (checkUserExists(username)) {</span>
+<span class="nc" id="L256">      try (PreparedStatement delete = getConnection().prepareStatement(</span>
+          &quot;UPDATE users SET colleges = NULL WHERE id= ? ;&quot;
+      )) {
+<span class="nc" id="L259">        delete.setString(1, username);</span>
+<span class="nc" id="L260">        delete.executeUpdate();</span>
+<span class="nc" id="L261">        return true;</span>
+      }
+    }
+<span class="nc" id="L264">    return false;</span>
+  }
+
+  /**
+   * Deletes an user account.
+   * @param username the user account to delete.
+   * @return JsonObject indicating whether deletion was successful
+   * @throws SQLException when no database connection is found.
+   */
+  public boolean deleteUserAccount(String username) throws SQLException {
+<span class="nc bnc" id="L274" title="All 2 branches missed.">    if (checkUserExists(username)) {</span>
+<span class="nc" id="L275">      try (PreparedStatement delete = getConnection().prepareStatement(</span>
+          &quot;DELETE FROM users WHERE id = ?;&quot;
+      )) {
+<span class="nc" id="L278">        delete.setString(1, username);</span>
+<span class="nc" id="L279">        delete.executeUpdate();</span>
+<span class="nc" id="L280">        return true;</span>
+
+      }
+    }
+<span class="nc" id="L284">    return false;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

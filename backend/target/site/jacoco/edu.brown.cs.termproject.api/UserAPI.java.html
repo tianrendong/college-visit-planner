@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserAPI.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">college-visit-planner</a> &gt; <a href="index.source.html" class="el_package">edu.brown.cs.termproject.api</a> &gt; <span class="el_source">UserAPI.java</span></div><h1>UserAPI.java</h1><pre class="source lang-java linenums">package edu.brown.cs.termproject.api;
+
+import com.google.gson.JsonArray;
+import com.google.gson.reflect.TypeToken;
+import edu.brown.cs.termproject.locationgraph.Airport;
+import edu.brown.cs.termproject.locationgraph.College;
+import edu.brown.cs.termproject.locationgraph.Location;
+import edu.brown.cs.termproject.locationgraph.LocationGraph;
+import edu.brown.cs.termproject.locationgraph.Path;
+import edu.brown.cs.termproject.database.UserDataManager;
+import edu.brown.cs.termproject.iotools.CenterCalculator;
+import edu.brown.cs.termproject.main.Main;
+import edu.brown.cs.termproject.router.Clustering;
+import edu.brown.cs.termproject.router.NaiveTSP;
+import edu.brown.cs.termproject.router.Nearest;
+import edu.brown.cs.termproject.router.OrderRoute;
+import edu.brown.cs.termproject.router.Point;
+import edu.brown.cs.termproject.router.TSP;
+import spark.Route;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * API for user related requests.
+ */
+public class UserAPI {
+
+<span class="nc" id="L33">  private static final Gson GSON = new Gson();</span>
+  private UserDataManager userDB;
+<span class="nc" id="L35">  private final TSP&lt;Location, Path&gt; tspFinder = new TSP&lt;&gt;();</span>
+<span class="nc" id="L36">  private final Nearest nearest = new Nearest();</span>
+  private static final int TSP_ITERATIONS = 5;
+
+  /**
+   * Creates a TripPlannerAPI object to provide API handlers.
+   *
+   * @param userDB Database for colleges.
+   */
+<span class="nc" id="L44">  public UserAPI(UserDataManager userDB) {</span>
+<span class="nc" id="L45">    this.userDB = userDB;</span>
+<span class="nc" id="L46">  }</span>
+
+  /**
+   * Gets login information.
+   * @return Route containing login status.
+   */
+  public Route getLogin() {
+<span class="nc" id="L53">    return login;</span>
+  }
+
+  /**
+   * Gets signup information.
+   * @return Route containing signup status.
+   */
+  public Route getSignUp() {
+<span class="nc" id="L61">    return signup;</span>
+  }
+
+  /**
+   * Gets username check.
+   * @return Route indicating whether username is used.
+   */
+  public Route getCheckUsername() {
+<span class="nc" id="L69">    return checkUsername;</span>
+  }
+
+  /**
+   * Gets user adding college request.
+   * @return Route containing information for adding college.
+   */
+  public Route getUserAddCollege() {
+<span class="nc" id="L77">    return userAddCollege;</span>
+  }
+
+  /**
+   * Gets user deleting college request.
+   * @return Route containing information for deleting college.
+   */
+  public Route getUserDeleteCollege() {
+<span class="nc" id="L85">    return userDeleteCollege;</span>
+  }
+
+  /**
+   * Gets information for route.
+   * @return Route containing information about the calculated route.
+   */
+  public Route getRoute() {
+<span class="nc" id="L93">    return updateRoute;</span>
+  }
+
+  /**
+   * Gets cluster information.
+   * @return Route containing information for clusters.
+   */
+  public Route getClusters() {
+<span class="nc" id="L101">    return clusters;</span>
+  }
+
+  /**
+   * Gets information for deleting user data.
+   * @return Route indicating whether user data was deleted.
+   */
+  public Route deleteData() {
+<span class="nc" id="L109">    return deleteData;</span>
+  }
+
+  /**
+   * Gets information for deleting user account.
+   * @return Route indicating whether user account was deleted.
+   */
+  public Route deleteAccount() {
+<span class="nc" id="L117">    return deleteAccount;</span>
+  }
+
+<span class="nc" id="L120">  private final Route login = (request, response) -&gt; {</span>
+<span class="nc" id="L121">    JsonObject data = GSON.fromJson(request.body(), JsonObject.class);</span>
+<span class="nc" id="L122">    String username = data.get(&quot;username&quot;).getAsString();</span>
+<span class="nc" id="L123">    String password = data.get(&quot;password&quot;).getAsString();</span>
+<span class="nc" id="L124">    return GSON.toJson(userDB.login(username, password));</span>
+  };
+
+<span class="nc" id="L127">  private final Route signup = (request, response) -&gt; {</span>
+<span class="nc" id="L128">    JsonObject data = GSON.fromJson(request.body(), JsonObject.class);</span>
+<span class="nc" id="L129">    String firstname = data.get(&quot;firstname&quot;).getAsString();</span>
+<span class="nc" id="L130">    String lastname = data.get(&quot;lastname&quot;).getAsString();</span>
+<span class="nc" id="L131">    String username = data.get(&quot;username&quot;).getAsString();</span>
+<span class="nc" id="L132">    String password = data.get(&quot;password&quot;).getAsString();</span>
+<span class="nc" id="L133">    System.out.println(firstname);</span>
+<span class="nc" id="L134">    return GSON.toJson(userDB.signup(username, password, firstname, lastname));</span>
+  };
+
+<span class="nc" id="L137">  private final Route checkUsername = (request, response) -&gt; {</span>
+<span class="nc" id="L138">    JsonObject data = GSON.fromJson(request.body(), JsonObject.class);</span>
+<span class="nc" id="L139">    String username = data.get(&quot;username&quot;).getAsString();</span>
+<span class="nc" id="L140">    return (userDB.checkUserExists(username));</span>
+  };
+
+<span class="nc" id="L143">  private final Route userAddCollege = (request, response) -&gt; {</span>
+<span class="nc" id="L144">    JsonObject data = GSON.fromJson(request.body(), JsonObject.class);</span>
+<span class="nc" id="L145">    String username = data.get(&quot;username&quot;).getAsString();</span>
+<span class="nc" id="L146">    int collegeID = data.get(&quot;collegeID&quot;).getAsInt();</span>
+<span class="nc" id="L147">    return userDB.addCollege(username, collegeID);</span>
+  };
+
+<span class="nc" id="L150">  private final Route userDeleteCollege = (request, response) -&gt; {</span>
+<span class="nc" id="L151">    JsonObject data = GSON.fromJson(request.body(), JsonObject.class);</span>
+<span class="nc" id="L152">    String username = data.get(&quot;username&quot;).getAsString();</span>
+<span class="nc" id="L153">    int collegeID = data.get(&quot;collegeID&quot;).getAsInt();</span>
+<span class="nc" id="L154">    return userDB.deleteCollege(username, collegeID);</span>
+  };
+
+<span class="nc" id="L157">  private final Route deleteData = (request, response) -&gt; {</span>
+<span class="nc" id="L158">    JsonObject data = GSON.fromJson(request.body(), JsonObject.class);</span>
+<span class="nc" id="L159">    String username = data.get(&quot;username&quot;).getAsString();</span>
+<span class="nc" id="L160">    return userDB.deleteUserData(username);</span>
+  };
+
+<span class="nc" id="L163">  private final Route deleteAccount = (request, response) -&gt; {</span>
+<span class="nc" id="L164">    JsonObject data = GSON.fromJson(request.body(), JsonObject.class);</span>
+<span class="nc" id="L165">    String username = data.get(&quot;username&quot;).getAsString();</span>
+<span class="nc" id="L166">    return userDB.deleteUserAccount(username);</span>
+  };
+
+<span class="nc" id="L169">  private final Route clusters = (request, response) -&gt; {</span>
+<span class="nc" id="L170">    JsonObject data = GSON.fromJson(request.body(), JsonObject.class);</span>
+<span class="nc" id="L171">    JsonArray collegesInJson = data.get(&quot;colleges&quot;).getAsJsonArray();</span>
+<span class="nc" id="L172">    Integer radius = data.get(&quot;radius&quot;).getAsInt();</span>
+<span class="nc" id="L173">    List&lt;College&gt; colleges = new Gson().fromJson(collegesInJson,</span>
+<span class="nc" id="L174">        new TypeToken&lt;List&lt;College&gt;&gt;() {</span>
+<span class="nc" id="L175">        }.getType());</span>
+
+<span class="nc" id="L177">    Clustering&lt;College&gt; clustering = new Clustering&lt;&gt;(radius);</span>
+<span class="nc" id="L178">    Map&lt;Point, List&lt;College&gt;&gt; clusterMap = clustering.makeClusters(colleges);</span>
+<span class="nc" id="L179">    List&lt;List&lt;College&gt;&gt; clusterList = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L180" title="All 2 branches missed.">    for (Map.Entry&lt;Point, List&lt;College&gt;&gt; entry : clusterMap.entrySet()) {</span>
+<span class="nc" id="L181">      clusterList.add(entry.getValue());</span>
+<span class="nc" id="L182">    }</span>
+
+<span class="nc" id="L184">    return GSON.toJson(clusterList);</span>
+  };
+
+<span class="nc" id="L187">  private final Route updateRoute = (request, response) -&gt; {</span>
+<span class="nc" id="L188">    JsonObject data = GSON.fromJson(request.body(), JsonObject.class);</span>
+<span class="nc" id="L189">    JsonArray collegesInJson = data.get(&quot;colleges&quot;).getAsJsonArray();</span>
+<span class="nc" id="L190">    List&lt;College&gt; colleges = new Gson().fromJson(collegesInJson,</span>
+<span class="nc" id="L191">        new TypeToken&lt;List&lt;College&gt;&gt;() {</span>
+<span class="nc" id="L192">        }.getType());</span>
+
+    // find center of the colleges and use it to find nearest airport
+<span class="nc" id="L195">    Point center = CenterCalculator.getCentroid(colleges);</span>
+<span class="nc" id="L196">    List&lt;Airport&gt; airports = Main.getAirportDatabase().getAllAirports();</span>
+<span class="nc" id="L197">    Airport airport = (Airport) nearest.findNearestLocation(center, airports);</span>
+
+    // wrap all colleges and airports in Location objects and add them to a list
+<span class="nc" id="L200">    List&lt;Location&gt; locations = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L201" title="All 2 branches missed.">    for (College c : colleges) {</span>
+<span class="nc" id="L202">      locations.add(new Location(c.getId(), c.getName(), c.getLat(), c.getLon(), &quot;college&quot;, c));</span>
+<span class="nc" id="L203">    }</span>
+<span class="nc" id="L204">    locations.add(new Location(</span>
+<span class="nc" id="L205">        airport.getId(), airport.getName(),</span>
+<span class="nc" id="L206">        airport.getLat(), airport.getLon(), &quot;airport&quot;, airport));</span>
+
+    //perform TSP and reorder the found route
+<span class="nc" id="L209">    LocationGraph graph = new LocationGraph(locations);</span>
+
+    // Christofides TSP
+<span class="nc" id="L212">    List&lt;List&lt;Location&gt;&gt; tspResults = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L213" title="All 2 branches missed.">    for (int i = 0; i &lt; TSP_ITERATIONS; i++) {</span>
+<span class="nc" id="L214">      List&lt;Location&gt; tsp = tspFinder.findRoute(graph);</span>
+<span class="nc" id="L215">      tspResults.add(tsp);</span>
+//      System.out.println(&quot;ATTEMPT &quot; + i);
+    }
+
+<span class="nc" id="L219">    tspResults.sort(</span>
+<span class="nc" id="L220">        (r1, r2) -&gt; Double.compare(NaiveTSP.totalCost(r1, graph), NaiveTSP.totalCost(r2, graph)));</span>
+<span class="nc" id="L221">    return GSON.toJson(OrderRoute.orderRoute(tspResults.get(0)));</span>
+  };
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

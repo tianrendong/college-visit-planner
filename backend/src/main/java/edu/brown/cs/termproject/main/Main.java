@@ -5,7 +5,6 @@ import edu.brown.cs.termproject.api.UserAPI;
 import edu.brown.cs.termproject.database.AirportSQLManager;
 import edu.brown.cs.termproject.database.CollegeSQLManager;
 import edu.brown.cs.termproject.database.UserDataManager;
-import edu.brown.cs.termproject.repl.Repl;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import spark.Spark;
@@ -18,6 +17,7 @@ import java.io.StringWriter;
  *
  */
 public final class Main {
+  private static final int CACHE_TIME = 31536000;
   private static final int DEFAULT_PORT = 4567;
   private static final String DEFAULT_COLLEGE_DB = "./data/universities.sqlite3";
   private static final String DEFAULT_USER_DB = "./data/sampleUsers.sqlite3";
@@ -27,7 +27,6 @@ public final class Main {
   private static final AirportSQLManager AIRPORT_DATABASE = new AirportSQLManager();
   private final CollegeAPI collegeAPI = new CollegeAPI(COLLEGE_DATABASE);
   private final UserAPI userAPI = new UserAPI(USER_DATABASE);
-  private final Repl repl = new Repl();
 
   /**
    * The initial method called when execution begins.
@@ -78,14 +77,21 @@ public final class Main {
     USER_DATABASE.connect((String) options.valueOf("user-database"));
     AIRPORT_DATABASE.connect((String) options.valueOf("airport-database"));
 
-    if (options.has("gui")) {
-      runSparkServer((int) options.valueOf("port"));
+    String herokuPort = System.getenv("PORT");
+    int port;
+    if (herokuPort == null) {
+      port = (int) options.valueOf("port");
+    } else {
+      port = Integer.parseInt(herokuPort);
     }
-    repl.run();
+
+    runSparkServer(port);
   }
 
   private void runSparkServer(int port) {
-    Spark.port(port);
+    Spark.port(getHerokuAssignedPort()); 
+    Spark.externalStaticFileLocation("../frontend/build");
+    Spark.staticFiles.expireTime(CACHE_TIME); // set expire time to a year
 
     // handler exceptions
     Spark.exception(RuntimeException.class, (e, req, res) -> {
@@ -107,6 +113,14 @@ public final class Main {
     initializeSpark();
 
   }
+
+  static int getHerokuAssignedPort() {
+    ProcessBuilder processBuilder = new ProcessBuilder();
+    if (processBuilder.environment().get("PORT") != null) {
+        return Integer.parseInt(processBuilder.environment().get("PORT"));
+    }
+    return 4567; //return default port if heroku-port isn't set (i.e. on localhost)
+ } 
 
   /**
    * Initializes Spark to handle API requests.

@@ -12,7 +12,5 @@ edu/brown/cs/termproject/router/TSPTest.class
 edu/brown/cs/termproject/database/UserDatabaseTest.class
 edu/brown/cs/termproject/database/UserDatabaseTest$1.class
 edu/brown/cs/termproject/pbt/RandomGraphGenerator.class
-edu/brown/cs/termproject/repl/ReplTest.class
 edu/brown/cs/termproject/autocorrect/TrieTest.class
 edu/brown/cs/termproject/pbt/PropertyBasedTest.class
-edu/brown/cs/termproject/repl/CommandTest.class
