@@ -4,7 +4,7 @@ import { connect, useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import PopDialog from "./popDialog/index";
+import SearchCollegeDialog from "./searchCollegeDialog";
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 import Button from '@material-ui/core/Button';
@@ -104,9 +104,9 @@ const MyColleges = (props) => {
             </div>
         )}
 
-        <PopDialog open={props.popDialog !== ''} handleClose={handleClose}>
+        <SearchCollegeDialog open={props.popDialog === 'searchCollege'} handleClose={handleClose}>
 
-        </PopDialog>
+        </SearchCollegeDialog>
     </div>)
 }
 

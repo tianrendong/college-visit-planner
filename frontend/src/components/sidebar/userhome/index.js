@@ -59,18 +59,19 @@ const Userhome = (props) => {
                 <h1 className="sidebarTitle Name">{props.user.firstname}!</h1>
             </div>
             <button className="optionButton" onClick={handleNavigateColleges}>
-                <MyCollegeIcon className="userhomeIcons" style={{ width: 55, height: 55 }} />
+                <MyCollegeIcon className="userhomeIcons" style={{ width: 52, height: 52 }} />
                 <p className="optionText" >Colleges</p>
             </button>
             <button className="optionButton" onClick={handleNavigateRoute}>
-                <RouteIcon className="userhomeIcons" style={{ width: 50, height: 50 }} />
+                <RouteIcon className="userhomeIcons" style={{ width: 47, height: 47 }} />
                 <p className="optionText">Route</p>
                 {/* {props.updatingRoute && <CircularProgress style={{ margin: 20, width: 30, height: 30 }} />} */}
             </button>
             <button className="optionButton" onClick={handleNavigateSettings}>
-                <SettingsIcon className="userhomeIcons" style={{ width: 45, height: 45 }} />
+                <SettingsIcon className="userhomeIcons" style={{ width: 43, height: 43 }} />
                 <p className="optionText">Settings</p>
             </button>
+            <div style={{height: '5px'}}/>
         </div>
     );
 
