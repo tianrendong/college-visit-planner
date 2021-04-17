@@ -74,7 +74,7 @@ function App(props) {
     return (
         <>
             <SnackbarProvider maxSnack={1}>
-                {/* <Entrance/> */}
+                <Entrance/>
                 <Backdrop className={classes.backdrop} open={props.updatingRoute}>
                     <Lottie 
                         options={animationOptions}
