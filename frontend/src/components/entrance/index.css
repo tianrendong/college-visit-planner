@@ -3,17 +3,17 @@
 .title {
     font-family: 'Inter', sans-serif;
     font-weight: 900;
-    font-size: 85px;
+    font-size: 70px;
     text-align: left;
     text-decoration: underline;
     margin: 20px 0;
-    line-height: 108px;
+    line-height: 90px;
 }
 
 .subtitle {
     font-family: 'Inter', sans-serif;
     font-weight: 85;
-    font-size: 23px;
+    font-size: 18px;
     text-align: left;
     margin: 10px 0 10px 0;
 }
@@ -30,8 +30,8 @@
     justify-content: center;
     align-content: center;
     align-items: center;
-    top: 50%;
-    transform: translateY(17%);
+    top: 40%;
+    transform: translateY(20%);
 }
 
 .enterButton {
@@ -40,11 +40,11 @@
     border: 0;
     color: white;
     height: 48px;
+    width: 230px;
     margin: 30px 35px 0 0;
     font-family: 'Inter', sans-serif;
     font-weight: 800;
-    font-size: 22px;
-    height: 60px;
+    font-size: 18px;
     letter-spacing: 0.35px;
     box-shadow: 0 3px 5px 2px rgba(158, 158, 158, 0.5)
 }

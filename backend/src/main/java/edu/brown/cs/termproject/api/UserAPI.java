@@ -213,7 +213,7 @@ public class UserAPI {
     for (int i = 0; i < TSP_ITERATIONS; i++) {
       List<Location> tsp = tspFinder.findRoute(graph);
       tspResults.add(tsp);
-      System.out.println("ATTEMPT " + i);
+//      System.out.println("ATTEMPT " + i);
     }
 
     tspResults.sort(
