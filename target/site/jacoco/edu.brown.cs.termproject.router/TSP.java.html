@@ -261,7 +261,7 @@ public class TSP&lt;V extends Vertex, E extends Edge&lt;V&gt;&gt; {
     private void eulerUtil(V vert) {
 <span class="fc bfc" id="L262" title="All 2 branches covered.">      for (int i = 0; i &lt; this.adj.get(vert).size(); i++) {</span>
 <span class="fc" id="L263">        V v = this.adj.get(vert).get(i);</span>
-<span class="pc bpc" id="L264" title="1 of 2 branches missed.">        if (isValidNextEdge(vert, v)) {</span>
+<span class="fc bfc" id="L264" title="All 2 branches covered.">        if (isValidNextEdge(vert, v)) {</span>
 <span class="fc" id="L265">          this.eulerianCircuit.add(vert);</span>
 <span class="fc" id="L266">          this.eulerianCircuit.add(v);</span>
 <span class="fc" id="L267">          removeEdge(vert, v);</span>
@@ -281,7 +281,7 @@ public class TSP&lt;V extends Vertex, E extends Edge&lt;V&gt;&gt; {
 <span class="fc" id="L281">      this.isVisited = new HashMap&lt;V, Boolean&gt;();</span>
 <span class="fc" id="L282">      int count2 = dfsCount(u);</span>
 <span class="fc" id="L283">      this.addEdge(u, v);</span>
-<span class="pc bpc" id="L284" title="1 of 2 branches missed.">      return (count1 &gt; count2) ? false : true;</span>
+<span class="fc bfc" id="L284" title="All 2 branches covered.">      return (count1 &gt; count2) ? false : true;</span>
     }
 
     private int dfsCount(V s) {

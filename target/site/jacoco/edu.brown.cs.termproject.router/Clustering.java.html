@@ -60,10 +60,10 @@ public class Clustering&lt;L extends Locatable&gt; {
 <span class="fc bfc" id="L60" title="All 2 branches covered.">          while (iter.hasNext()) {</span>
 <span class="fc" id="L61">            Map.Entry&lt;Point, List&lt;L&gt;&gt; curEntry = iter.next();</span>
 <span class="fc bfc" id="L62" title="All 2 branches covered.">            if (!curEntry.getKey().equals(newCentroid)</span>
-<span class="fc bfc" id="L63" title="All 2 branches covered.">                &amp;&amp; DistanceCalculator.getDistance(curEntry.getKey(), newCentroid) &lt; maxDistance) {</span>
-<span class="fc" id="L64">              List&lt;L&gt; toMergeCluster = clusters.get(newCentroid);</span>
-<span class="fc" id="L65">              curEntry.getValue().addAll(toMergeCluster);</span>
-<span class="fc" id="L66">              iter.remove();</span>
+<span class="pc bpc" id="L63" title="1 of 2 branches missed.">                &amp;&amp; DistanceCalculator.getDistance(curEntry.getKey(), newCentroid) &lt; maxDistance) {</span>
+<span class="nc" id="L64">              List&lt;L&gt; toMergeCluster = clusters.get(newCentroid);</span>
+<span class="nc" id="L65">              curEntry.getValue().addAll(toMergeCluster);</span>
+<span class="nc" id="L66">              iter.remove();</span>
             }
 <span class="fc" id="L68">          }</span>
 <span class="fc" id="L69">        } else { //if the location does not belong to any cluster, then make a new entry in map</span>

@@ -92,7 +92,7 @@ public final class Main {
 
   private void runSparkServer(int port) {
 <span class="nc" id="L94">    Spark.port(getHerokuAssignedPort());</span>
-<span class="nc" id="L95">    Spark.externalStaticFileLocation(&quot;../frontend/build&quot;);</span>
+<span class="nc" id="L95">    Spark.externalStaticFileLocation(&quot;frontend/build&quot;);</span>
     // handler exceptions
 <span class="nc" id="L97">    Spark.exception(RuntimeException.class, (e, req, res) -&gt; {</span>
 <span class="nc" id="L98">      res.status(400);</span>
