@@ -1,0 +1,34 @@
+{
+  "files": {
+    "main.css": "/static/css/main.5fd470d8.chunk.css",
+    "main.js": "/static/js/main.722b981b.chunk.js",
+    "main.js.map": "/static/js/main.722b981b.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.a47966e4.js",
+    "runtime-main.js.map": "/static/js/runtime-main.a47966e4.js.map",
+    "static/js/2.91b9a766.chunk.js": "/static/js/2.91b9a766.chunk.js",
+    "static/js/2.91b9a766.chunk.js.map": "/static/js/2.91b9a766.chunk.js.map",
+    "static/js/3.32a0f0f5.chunk.js": "/static/js/3.32a0f0f5.chunk.js",
+    "static/js/3.32a0f0f5.chunk.js.map": "/static/js/3.32a0f0f5.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/main.5fd470d8.chunk.css.map": "/static/css/main.5fd470d8.chunk.css.map",
+    "static/js/2.91b9a766.chunk.js.LICENSE.txt": "/static/js/2.91b9a766.chunk.js.LICENSE.txt",
+    "static/media/airport.15afd27e.svg": "/static/media/airport.15afd27e.svg",
+    "static/media/college1.a385b693.svg": "/static/media/college1.a385b693.svg",
+    "static/media/college2.c67537b8.svg": "/static/media/college2.c67537b8.svg",
+    "static/media/college3.5c1efc33.svg": "/static/media/college3.5c1efc33.svg",
+    "static/media/college4.da56926a.svg": "/static/media/college4.da56926a.svg",
+    "static/media/college5.444ce89c.svg": "/static/media/college5.444ce89c.svg",
+    "static/media/college6.58e13093.svg": "/static/media/college6.58e13093.svg",
+    "static/media/flag.bcb2a648.svg": "/static/media/flag.bcb2a648.svg",
+    "static/media/location.f8b1547d.svg": "/static/media/location.f8b1547d.svg",
+    "static/media/route.14441d16.svg": "/static/media/route.14441d16.svg",
+    "static/media/school.5c1efc33.svg": "/static/media/school.5c1efc33.svg",
+    "static/media/settings.580e4604.svg": "/static/media/settings.580e4604.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.a47966e4.js",
+    "static/js/2.91b9a766.chunk.js",
+    "static/css/main.5fd470d8.chunk.css",
+    "static/js/main.722b981b.chunk.js"
+  ]
+}
