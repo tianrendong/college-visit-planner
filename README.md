@@ -39,6 +39,8 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 ____________
 
+3. Deployed at https://college-trip-planner.herokuapp.com/
+
 ## Team
 
 **Team Members:**
