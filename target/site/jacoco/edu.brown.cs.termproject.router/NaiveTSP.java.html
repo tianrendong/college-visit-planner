@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NaiveTSP.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">college-visit-planner</a> &gt; <a href="index.source.html" class="el_package">edu.brown.cs.termproject.router</a> &gt; <span class="el_source">NaiveTSP.java</span></div><h1>NaiveTSP.java</h1><pre class="source lang-java linenums">package edu.brown.cs.termproject.router;
+
+import com.google.maps.errors.ApiException;
+import edu.brown.cs.termproject.locationgraph.Location;
+import edu.brown.cs.termproject.locationgraph.LocationGraph;
+import edu.brown.cs.termproject.locationgraph.Path;
+import edu.brown.cs.termproject.graph.Edge;
+import edu.brown.cs.termproject.graph.Graph;
+import edu.brown.cs.termproject.graph.Vertex;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+/**
+ * Approximation of TSP through MST.
+ * Depth first search through the MST.
+ * Worst case cost no more than twice of MST.
+ */
+public final class NaiveTSP {
+  private NaiveTSP() { }
+
+  /**
+   * Finds the approximation from a MST.
+   * @param graph Minimum spanning tree of all the nodes to visit.
+   * @param &lt;V&gt; type of the nodes that extends Vertex.
+   * @param &lt;E&gt; type of the edge that extends Edge of V.
+   * @return list in visiting order of the nodes.
+   * @throws InterruptedException when interrupted.
+   * @throws ApiException when google maps api errors.
+   * @throws IOException when I/O errors.
+   */
+  public static &lt;V extends Vertex, E extends Edge&lt;V&gt;&gt; List&lt;V&gt; findRoute(Graph&lt;V, E&gt; graph)
+      throws InterruptedException, ApiException, IOException {
+<span class="fc" id="L38">    Comparator&lt;E&gt; comparator = new Comparator&lt;&gt;() {</span>
+      @Override
+      public int compare(E o1, E o2) {
+<span class="fc" id="L41">        return Double.compare(o1.getWeight(), o2.getWeight());</span>
+      }
+    };
+<span class="fc" id="L44">    Set&lt;E&gt; mst = MST.mst(graph, comparator);</span>
+<span class="fc" id="L45">    List&lt;V&gt; tsp = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L46" title="All 2 branches covered.">    for (E e : mst) {</span>
+<span class="fc bfc" id="L47" title="All 2 branches covered.">      if (!tsp.contains(e.getStart())) {</span>
+<span class="fc" id="L48">        tsp.add(e.getStart());</span>
+      }
+<span class="fc bfc" id="L50" title="All 2 branches covered.">      if (!tsp.contains(e.getEnd())) {</span>
+<span class="fc" id="L51">        tsp.add(e.getEnd());</span>
+      }
+<span class="fc" id="L53">    }</span>
+<span class="fc" id="L54">    return tsp;</span>
+  }
+
+//  /**
+//   * Finds all permutations and finds the shortest path.
+//   * @param mst mst containing all nodes to visit.
+//   * @param &lt;T&gt; type that extends Vertex.
+//   * @return the order of visiting that is the most optimal.
+//   */
+//  public static &lt;T extends Vertex&gt; List&lt;T&gt; bruteForce(Set&lt;? extends Edge&lt;T&gt;&gt; mst)
+//      throws InterruptedException, ApiException, IOException {
+//    // Find all permutations
+//    Set&lt;List&lt;T&gt;&gt; allPermutations = new HashSet&lt;&gt;();
+//    List&lt;T&gt; allVertices = new ArrayList&lt;&gt;();
+//    for (Edge&lt;T&gt; e : mst) {
+//      if (!allVertices.contains(e.getStart())) {
+//        allVertices.add(e.getStart());
+//      }
+//      if (!allVertices.contains(e.getEnd())) {
+//        allVertices.add(e.getEnd());
+//      }
+//    }
+//    permute(allVertices, 0, allVertices.size() - 1, allPermutations);
+//
+//    // Find the permutation with least cost
+////    for (List&lt;T&gt; p : allPermutations) {
+////      System.out.println(p);
+////    }
+//    System.out.println(&quot;Size of all permutations &quot; + allPermutations.size());
+//    List&lt;T&gt; result = null;
+//    for (List&lt;T&gt; perm : allPermutations) {
+//      if (result == null) {
+//        result = perm;
+//      } else {
+//        double best = totalCost(result);
+//        double cost = totalCost(perm);
+//        System.out.println(best);
+//        System.out.println(cost);
+//        if (cost &lt; best) {
+//          result = perm;
+//        }
+//      }
+//    }
+//    return result;
+//  }
+//
+//  private static &lt;T extends Vertex&gt; void permute(
+//      List&lt;T&gt; list, int l, int r, Set&lt;List&lt;T&gt;&gt; accumulation) {
+//    if (l == r) {
+//      accumulation.add(list);
+////      System.out.println(list);
+//    } else {
+//      for (int i = l; i &lt;= r; i++) {
+//        swap(list, l, i);
+//        permute(list, l + 1, r, accumulation);
+//        swap(list, l, i);
+//      }
+//    }
+//  }
+//
+//  private static &lt;T extends Vertex&gt; void swap(List&lt;T&gt; list, int i, int j) {
+//    T temp = list.get(i);
+//    list.set(i, list.get(j));
+//    list.set(j, temp);
+//  }
+
+  /**
+   * Computes the total cost of a tsp route.
+   * @param route to compute total cost.
+   * @param completeGraph complete graph with all nodes in route.
+   * @return total cost of the route.
+   */
+  public static double totalCost(List&lt;Location&gt; route, LocationGraph completeGraph) {
+<span class="fc" id="L127">    double cost = 0;</span>
+<span class="fc" id="L128">    Map&lt;Location, List&lt;Path&gt;&gt; graph = completeGraph.getGraph();</span>
+<span class="fc bfc" id="L129" title="All 2 branches covered.">    for (int i = 0; i &lt; route.size() - 1; i++) {</span>
+<span class="fc" id="L130">      List&lt;Path&gt; outgoing = graph.get(route.get(i));</span>
+<span class="fc bfc" id="L131" title="All 2 branches covered.">      for (Path p : outgoing) {</span>
+<span class="pc bpc" id="L132" title="1 of 2 branches missed.">        if (p.getEnd().equals(route.get(i + 1))) {</span>
+<span class="fc" id="L133">          cost += p.getWeight();</span>
+        }
+<span class="fc" id="L135">      }</span>
+    }
+<span class="fc" id="L137">    Location first = route.get(route.size() - 1);</span>
+<span class="fc" id="L138">    List&lt;Path&gt; lastOutgoing = graph.get(first);</span>
+<span class="fc bfc" id="L139" title="All 2 branches covered.">    for (Path p : lastOutgoing) {</span>
+<span class="pc bpc" id="L140" title="1 of 2 branches missed.">      if (p.getEnd().equals(first)) {</span>
+<span class="nc" id="L141">        cost += p.getWeight();</span>
+      }
+<span class="fc" id="L143">    }</span>
+<span class="fc" id="L144">    return cost;</span>
+  }
+
+//  /**
+//   * Computes the total cost of a tsp route.
+//   * @param route to compute total cost.
+//   * @param completeGraph complete graph with all nodes in route.
+//   * @param &lt;V&gt; type that extends Vertex.
+//   * @param &lt;E&gt; type that extends Edge of V.
+//   * @return total cost of the route.
+//   */
+//  public static &lt;V extends Vertex, E extends Edge&lt;V&gt;&gt; double totalCost(
+//      List&lt;V&gt; route, Graph&lt;V, E&gt; completeGraph) {
+//    double total = 0;
+//    try {
+//      for (int i = 0; i &lt; route.size() - 1; i++) {
+//        V start = route.get(i);
+//        V end = route.get(i + 1);
+//        total += GoogleMapAPIManager.getTravelDistance(
+//            start.getLat(), start.getLon(), end.getLat(), end.getLon());
+//      }
+//      total += GoogleMapAPIManager.getTravelDistance(
+//          route.get(route.size() - 1).getLat(), route.get(route.size() - 1).getLon(),
+//          route.get(0).getLat(), route.get(0).getLon());
+//    } catch (Exception e) {
+//      System.out.println(&quot;error&quot;);
+//    }
+//    return total;
+//  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

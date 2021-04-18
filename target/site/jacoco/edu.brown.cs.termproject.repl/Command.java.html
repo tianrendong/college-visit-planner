@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Command.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">college-visit-planner</a> &gt; <a href="index.source.html" class="el_package">edu.brown.cs.termproject.repl</a> &gt; <span class="el_source">Command.java</span></div><h1>Command.java</h1><pre class="source lang-java linenums">package edu.brown.cs.termproject.repl;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+/**
+ * Represents a command for the REPL to listen for and to execute when an input matches the
+ * command's parameter pattern.
+ */
+public class Command {
+  private final Callable callback; // the callback function
+  private final String name; // name of the command
+  private final List&lt;ArgType&gt; args; // the expected arguments' types
+
+  // split by space, except when surrounded by double quotes
+<span class="fc" id="L19">  private final Pattern splitter = Pattern.compile(&quot;[^\\s\&quot;']+|\&quot;([^\&quot;]*)\&quot;&quot;);</span>
+
+  /**
+   * Initializes a Command with its associated callback, name, and argument types.
+   * @param callback Callback code when an input line matches
+   * @param name Name of the command
+   * @param args List of argument types dictating what correct usage of the command
+   *            looks like
+   */
+<span class="fc" id="L28">  public Command(Callable callback, String name, ArgType... args) {</span>
+<span class="fc" id="L29">    this.callback = callback;</span>
+<span class="fc" id="L30">    this.name = name;</span>
+<span class="fc" id="L31">    this.args = List.of(args);</span>
+<span class="fc" id="L32">  }</span>
+
+  /**
+   * Gets the name of the command.
+   * @return Name of the command
+   */
+  public String getName() {
+<span class="fc" id="L39">    return name;</span>
+  }
+
+  /**
+   * Gets the arguments of the command.
+   * @return Arguments of the command
+   */
+  public List&lt;ArgType&gt; getArgs() {
+<span class="fc" id="L47">    return args;</span>
+  }
+
+  /**
+   * Decomposes a full input line into String components by splitting on spaces not between
+   * parentheses.
+   * @param input Full input line
+   * @return Decomposed components
+   */
+  private List&lt;String&gt; decompose(String input) {
+<span class="fc" id="L57">    List&lt;String&gt; components = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L58">    Matcher match = splitter.matcher(input);</span>
+<span class="fc bfc" id="L59" title="All 2 branches covered.">    while (match.find()) {</span>
+<span class="fc" id="L60">      components.add(match.group());</span>
+    }
+<span class="fc" id="L62">    return components;</span>
+  }
+
+  /**
+   * Checks if an input line matches the command name and required parameter types of the
+   * command.
+   * @param input Input line.
+   * @return Whether the input matches the required pattern.
+   */
+  public boolean match(String input) {
+<span class="fc" id="L72">    List&lt;String&gt; components = decompose(input);</span>
+<span class="fc bfc" id="L73" title="All 4 branches covered.">    if (components.size() != (args.size() + 1) || !components.get(0).equals(name)) {</span>
+<span class="fc" id="L74">      return false;</span>
+    }
+
+<span class="fc bfc" id="L77" title="All 2 branches covered.">    for (int i = 1; i &lt; components.size(); i++) {</span>
+<span class="fc" id="L78">      String component = components.get(i);</span>
+<span class="fc" id="L79">      ArgType arg = args.get(i - 1);</span>
+<span class="fc bfc" id="L80" title="All 2 branches covered.">      if (!arg.isType(component)) {</span>
+<span class="fc" id="L81">        return false;</span>
+      }
+    }
+<span class="fc" id="L84">    return true;</span>
+  }
+
+  /**
+   * Given an input line, calls the callback with the input's provided parameters parsed.
+   * @param input Input line
+   * @return Output of the callback to print
+   */
+  public String call(String input) {
+<span class="fc bfc" id="L93" title="All 2 branches covered.">    if (!match(input)) {</span>
+<span class="fc" id="L94">      throw new IllegalArgumentException(&quot;Input does not match command expectation.&quot;);</span>
+    }
+
+<span class="fc" id="L97">    List&lt;String&gt; components = decompose(input);</span>
+<span class="fc" id="L98">    List&lt;Object&gt; parameters = new LinkedList&lt;&gt;();</span>
+<span class="fc bfc" id="L99" title="All 2 branches covered.">    for (int i = 1; i &lt; components.size(); i++) {</span>
+<span class="fc" id="L100">      String component = components.get(i);</span>
+<span class="fc" id="L101">      ArgType arg = args.get(i - 1);</span>
+<span class="fc" id="L102">      parameters.add(arg.toType(component));</span>
+    }
+
+<span class="fc" id="L105">    return callback.call(parameters.toArray());</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

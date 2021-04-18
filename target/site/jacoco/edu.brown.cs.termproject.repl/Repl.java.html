@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Repl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">college-visit-planner</a> &gt; <a href="index.source.html" class="el_package">edu.brown.cs.termproject.repl</a> &gt; <span class="el_source">Repl.java</span></div><h1>Repl.java</h1><pre class="source lang-java linenums">package edu.brown.cs.termproject.repl;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.List;
+
+/**
+ * A command-line REPL that reads user inputs, matches them with various commands, runs the
+ * corresponding command with parsed parameters, and prints the output.
+ */
+<span class="fc" id="L13">public class Repl  {</span>
+<span class="fc" id="L14">  private final List&lt;Command&gt; commands = new LinkedList&lt;&gt;();</span>
+
+  /**
+   * Processes a single line of user input.
+   * @param input User input.
+   * @return The command output to print.
+   */
+  public String processLine(String input) {
+<span class="fc bfc" id="L22" title="All 2 branches covered.">    for (Command command : commands) {</span>
+<span class="fc bfc" id="L23" title="All 2 branches covered.">      if (command.match(input)) {</span>
+        try {
+<span class="fc" id="L25">          return command.call(input);</span>
+<span class="fc" id="L26">        } catch (Exception e) {</span>
+<span class="fc" id="L27">          return &quot;ERROR: &quot; + e.getMessage();</span>
+        }
+      }
+<span class="fc" id="L30">    }</span>
+<span class="fc" id="L31">    return &quot;ERROR: Input matches no known command pattern.&quot;;</span>
+  }
+
+  /**
+   * Launches the REPL, looping to read, evaluate, and print until EOF is read.
+   */
+  public void run() {
+<span class="nc" id="L38">    BufferedReader reader = new BufferedReader(new InputStreamReader((System.in)));</span>
+<span class="nc" id="L39">    String commandStr = &quot;&quot;;</span>
+    try {
+<span class="nc bnc" id="L41" title="All 2 branches missed.">      while ((commandStr = reader.readLine()) != null) {</span>
+<span class="nc" id="L42">        String output = processLine(commandStr);</span>
+<span class="nc bnc" id="L43" title="All 2 branches missed.">        if (!output.equals(&quot;&quot;)) {</span>
+<span class="nc" id="L44">          System.out.println(output);</span>
+        }
+<span class="nc" id="L46">      }</span>
+<span class="nc" id="L47">    } catch (IOException e) {</span>
+<span class="nc" id="L48">      System.out.println(&quot;ERROR: fail to read from the stream. Shutting down.&quot;);</span>
+<span class="nc" id="L49">    }</span>
+<span class="nc" id="L50">  }</span>
+
+  /**
+   * Load a new command to listen to.
+   * @param command Command to load
+   */
+  public void addCommand(Command command) {
+<span class="fc" id="L57">    commands.add(command);</span>
+<span class="fc" id="L58">  }</span>
+
+  /**
+   * Removes all commands with a given name.
+   * @param name Name of the command(s) to remove
+   */
+  public void removeCommands(String name) {
+<span class="fc" id="L65">    commands.removeIf(command -&gt; command.getName().equals(name));</span>
+<span class="fc" id="L66">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

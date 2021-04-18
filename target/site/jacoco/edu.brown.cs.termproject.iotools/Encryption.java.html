@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Encryption.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">college-visit-planner</a> &gt; <a href="index.source.html" class="el_package">edu.brown.cs.termproject.iotools</a> &gt; <span class="el_source">Encryption.java</span></div><h1>Encryption.java</h1><pre class="source lang-java linenums">package edu.brown.cs.termproject.iotools;
+
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.PBEKeySpec;
+import javax.crypto.spec.SecretKeySpec;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.KeySpec;
+import java.util.Base64;
+
+
+/**
+ * Utility class for encryption.
+ */
+public final class Encryption {
+
+  private static final String SECRET_KEY = &quot;my_super_secret_key_ho_ho_ho&quot;;
+  private static final String SALT = &quot;ssshhhhhhhhhhh!!!!&quot;;
+  private static final int ITERATION_COUNT = 65536;
+  private static final int KEY_LENGTH = 256;
+  private static SecretKeyFactory factory;
+  private static IvParameterSpec ivspec;
+  private static KeySpec spec;
+  private static SecretKeySpec secretKey;
+
+  private Encryption() { }
+
+  static {
+    try {
+<span class="fc" id="L35">      byte[] iv = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};</span>
+<span class="fc" id="L36">      ivspec = new IvParameterSpec(iv);</span>
+<span class="fc" id="L37">      factory = SecretKeyFactory.getInstance(&quot;PBKDF2WithHmacSHA256&quot;);</span>
+<span class="fc" id="L38">      spec = new PBEKeySpec(SECRET_KEY.toCharArray(), SALT.getBytes(), ITERATION_COUNT, KEY_LENGTH);</span>
+<span class="fc" id="L39">      SecretKey tmp = factory.generateSecret(spec);</span>
+<span class="fc" id="L40">      secretKey = new SecretKeySpec(tmp.getEncoded(), &quot;AES&quot;);</span>
+<span class="nc" id="L41">    } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {</span>
+<span class="nc" id="L42">      e.printStackTrace();</span>
+<span class="fc" id="L43">    }</span>
+<span class="fc" id="L44">  }</span>
+
+  /**
+   * Encrypts the string.
+   * @param strToEncrypt string to be encrypted.
+   * @return encrypted version of the string.
+   */
+  public static String encrypt(String strToEncrypt) {
+    try {
+<span class="nc" id="L53">      SecretKey tmp = factory.generateSecret(spec);</span>
+<span class="nc" id="L54">      SecretKeySpec sk = new SecretKeySpec(tmp.getEncoded(), &quot;AES&quot;);</span>
+
+<span class="nc" id="L56">      Cipher cipher = Cipher.getInstance(&quot;AES/CBC/PKCS5Padding&quot;);</span>
+<span class="nc" id="L57">      cipher.init(Cipher.ENCRYPT_MODE, sk, ivspec);</span>
+<span class="nc" id="L58">      return Base64.getEncoder()</span>
+<span class="nc" id="L59">          .encodeToString(cipher.doFinal(strToEncrypt.getBytes(StandardCharsets.UTF_8)));</span>
+<span class="nc" id="L60">    } catch (Exception e) {</span>
+<span class="nc" id="L61">      System.out.println(&quot;ERROR: during encryption&quot;);</span>
+    }
+<span class="nc" id="L63">    return null;</span>
+  }
+
+  /**
+   * Verify whether a string is an encryption of another string.
+   * @param input Input string.
+   * @param encrypted Encrypted version string.
+   * @return whether encrypted is the correct encryption for input.
+   * @throws InvalidKeySpecException when no valid key.
+   * @throws NoSuchAlgorithmException when no encryption algorithm.
+   * @throws UnsupportedEncodingException when encoding is not supported.
+   */
+  public static boolean verify(String input, String encrypted)
+      throws InvalidKeySpecException, NoSuchAlgorithmException, UnsupportedEncodingException {
+<span class="fc" id="L77">    return input.equals(decrypt(encrypted));</span>
+  }
+
+  /**
+   * Decrypts a string.
+   * @param strToDecrypt the string to decrypt.
+   * @return decrypted string of an encrypted.
+   */
+  public static String decrypt(String strToDecrypt) {
+    try {
+<span class="fc" id="L87">      Cipher cipher = Cipher.getInstance(&quot;AES/CBC/PKCS5PADDING&quot;);</span>
+<span class="fc" id="L88">      cipher.init(Cipher.DECRYPT_MODE, secretKey, ivspec);</span>
+<span class="fc" id="L89">      return new String(cipher.doFinal(Base64.getDecoder().decode(strToDecrypt)));</span>
+<span class="nc" id="L90">    } catch (Exception e) {</span>
+<span class="nc" id="L91">      System.out.println(&quot;ERROR: during decryption&quot;);</span>
+    }
+<span class="nc" id="L93">    return null;</span>
+  }
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

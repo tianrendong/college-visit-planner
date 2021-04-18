@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CollegeSQLManager.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">college-visit-planner</a> &gt; <a href="index.source.html" class="el_package">edu.brown.cs.termproject.database</a> &gt; <span class="el_source">CollegeSQLManager.java</span></div><h1>CollegeSQLManager.java</h1><pre class="source lang-java linenums">package edu.brown.cs.termproject.database;
+
+import edu.brown.cs.termproject.autocorrect.Autocorrector;
+import edu.brown.cs.termproject.locationgraph.College;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Manages SQL queries to the college database.
+ */
+<span class="fc" id="L15">public class CollegeSQLManager extends DatabaseManager {</span>
+
+  private static final int URL_COL = 7;
+  private static final int DESCRIPTION_COL = 8;
+  private static final int NEARBY_COL = 9;
+
+  private Autocorrector autocorrector;
+
+  /**
+   * Gets the auto-corrector.
+   * @return the auto-corrector
+   */
+  public Autocorrector getAutocorrector() {
+<span class="nc" id="L28">    return autocorrector;</span>
+  }
+
+  /**
+   * Connects to database.
+   * @param filepath filepath to database.
+   */
+  public void connect(String filepath) {
+<span class="fc" id="L36">    super.connect(filepath);</span>
+    try {
+<span class="fc" id="L38">      loadTrie();</span>
+<span class="nc" id="L39">    } catch (SQLException e) {</span>
+<span class="nc" id="L40">      System.err.println(e.getMessage());</span>
+<span class="fc" id="L41">    }</span>
+<span class="fc" id="L42">  }</span>
+
+  /**
+   * Loads the Autocorrect Trie using college names from the database.
+   * @throws SQLException if errors occur during SQL query
+   */
+  private void loadTrie() throws SQLException {
+<span class="pc bpc" id="L49" title="1 of 2 branches missed.">    if (getConnection() == null) {</span>
+<span class="nc" id="L50">      throw new IllegalStateException(&quot;Must open a maps database first.&quot;);</span>
+    }
+<span class="fc" id="L52">    List&lt;String&gt; collegeNames = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L53">    try (PreparedStatement getWays = getConnection().prepareStatement(</span>
+        &quot;SELECT DISTINCT name FROM colleges;&quot;
+    )) {
+<span class="fc" id="L56">      try (ResultSet rs = getWays.executeQuery()) {</span>
+<span class="fc bfc" id="L57" title="All 2 branches covered.">        while (rs.next()) {</span>
+<span class="fc" id="L58">          collegeNames.add(rs.getString(1));</span>
+        }
+      }
+    }
+<span class="fc" id="L62">    autocorrector = new Autocorrector(collegeNames, true, false, 3);</span>
+<span class="fc" id="L63">  }</span>
+
+  /**
+   * Gets the college information from a college id.
+   *
+   * @param collegeId college id
+   * @return College object
+   * @throws SQLException if errors occur during SQL query
+   */
+  public College getCollegeByID(int collegeId) throws SQLException {
+<span class="fc" id="L73">    List&lt;College&gt; college = getColleges(&quot;id = &quot; + collegeId);</span>
+<span class="pc bpc" id="L74" title="1 of 2 branches missed.">    if (college.size() &gt; 0) {</span>
+<span class="fc" id="L75">      return college.get(0);</span>
+    }
+<span class="nc" id="L77">    return null;</span>
+  }
+
+  /**
+   * Gets a list of colleges from a list of college id.
+   * @param collegeIds list of college id
+   * @return list of College objects
+   * @throws SQLException if errors occur during SQL query
+   */
+  public List&lt;College&gt; getCollegeByID(List&lt;Integer&gt; collegeIds) throws SQLException {
+<span class="nc" id="L87">    List&lt;College&gt; colleges = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L88" title="All 2 branches missed.">    for (int id : collegeIds) {</span>
+<span class="nc" id="L89">      College c = getCollegeByID(id);</span>
+<span class="nc bnc" id="L90" title="All 2 branches missed.">      if (c != null) {</span>
+<span class="nc" id="L91">        colleges.add(c);</span>
+      }
+<span class="nc" id="L93">    }</span>
+<span class="nc" id="L94">    return colleges;</span>
+  }
+
+  /**
+   * Gets the college information from a college name.
+   *
+   * @param collegeName college name
+   * @return College object
+   * @throws SQLException if errors occur during SQL query
+   */
+  public List&lt;College&gt; getCollegeByName(String collegeName) throws SQLException {
+<span class="nc" id="L105">    return getColleges(&quot;name = '&quot; + collegeName + &quot;'&quot;);</span>
+  }
+
+  /**
+   * Gets the default colleges to be displayed on the map.
+   * @return list of colleges
+   * @throws SQLException if errors occur during SQL query
+   */
+  public List&lt;College&gt; getDefaultColleges() throws SQLException {
+<span class="nc" id="L114">    return getColleges(&quot;top_100 = 'true'&quot;);</span>
+  }
+
+  /**
+   * Gets colleges nearby for a specific college.
+   * @param college target college to search around.
+   * @return List of colleges nearby.
+   * @throws SQLException when query errors.
+   */
+  public List&lt;College&gt; getNearbyColleges(College college) throws SQLException {
+<span class="nc" id="L124">    List&lt;Integer&gt; nearbyColleges = college.getNearby();</span>
+<span class="nc" id="L125">    return getCollegeByID(nearbyColleges);</span>
+  }
+
+  private List&lt;College&gt; getColleges(String condition) throws SQLException {
+<span class="pc bpc" id="L129" title="1 of 2 branches missed.">    if (getConnection() == null) {</span>
+<span class="nc" id="L130">      throw new IllegalStateException(&quot;Must open a database first.&quot;);</span>
+    }
+<span class="fc" id="L132">    List&lt;College&gt; colleges = new ArrayList&lt;College&gt;();</span>
+<span class="fc" id="L133">    try (PreparedStatement getColleges = getConnection().prepareStatement(</span>
+        &quot;SELECT id, name, latitude, longitude, city, state, url, description,&quot;
+            + &quot;nearby FROM colleges WHERE &quot; + condition + &quot;;&quot;)) {
+<span class="fc" id="L136">      try (ResultSet rs = getColleges.executeQuery()) {</span>
+<span class="pc bpc" id="L137" title="1 of 2 branches missed.">        if (!rs.isClosed()) {</span>
+<span class="fc bfc" id="L138" title="All 2 branches covered.">          while (rs.next()) {</span>
+<span class="fc" id="L139">            College newCollege = new College(</span>
+<span class="fc" id="L140">                rs.getInt(1),</span>
+<span class="fc" id="L141">                rs.getString(2),</span>
+<span class="fc" id="L142">                rs.getDouble(3),</span>
+<span class="fc" id="L143">                rs.getDouble(4),</span>
+<span class="fc" id="L144">                rs.getString(5),</span>
+<span class="fc" id="L145">                rs.getString(6)</span>
+            );
+
+<span class="fc" id="L148">            String url =  rs.getString(URL_COL);</span>
+<span class="pc bpc" id="L149" title="1 of 2 branches missed.">            if (url != null) {</span>
+<span class="fc" id="L150">              newCollege.setUrl(url);</span>
+            }
+
+<span class="fc" id="L153">            String description = rs.getString(DESCRIPTION_COL);</span>
+<span class="pc bpc" id="L154" title="1 of 2 branches missed.">            if (description != null) {</span>
+<span class="fc" id="L155">              newCollege.setDescription(description);</span>
+            }
+
+<span class="fc" id="L158">            String nearbyIDs = rs.getString(NEARBY_COL);</span>
+<span class="pc bpc" id="L159" title="1 of 2 branches missed.">            if (nearbyIDs != null) {</span>
+<span class="fc" id="L160">              List&lt;Integer&gt; nearbyColleges = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L161" title="All 2 branches covered.">              for (String idString : nearbyIDs.split(&quot;,&quot;)) {</span>
+<span class="fc" id="L162">                nearbyColleges.add(Integer.parseInt(idString));</span>
+              }
+<span class="fc" id="L164">              newCollege.setNearby(nearbyColleges);</span>
+            }
+
+<span class="fc" id="L167">            colleges.add(newCollege);</span>
+<span class="fc" id="L168">          }</span>
+        }
+<span class="nc" id="L170">      } catch (SQLException e) {</span>
+<span class="nc" id="L171">        System.out.println(e.getMessage());</span>
+<span class="fc" id="L172">      }</span>
+<span class="fc" id="L173">      return colleges;</span>
+    }
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

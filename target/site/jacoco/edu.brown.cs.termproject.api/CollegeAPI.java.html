@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CollegeAPI.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">college-visit-planner</a> &gt; <a href="index.source.html" class="el_package">edu.brown.cs.termproject.api</a> &gt; <span class="el_source">CollegeAPI.java</span></div><h1>CollegeAPI.java</h1><pre class="source lang-java linenums">package edu.brown.cs.termproject.api;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import edu.brown.cs.termproject.locationgraph.Airport;
+import edu.brown.cs.termproject.locationgraph.College;
+import edu.brown.cs.termproject.database.CollegeSQLManager;
+import edu.brown.cs.termproject.main.Main;
+import edu.brown.cs.termproject.router.Nearest;
+import spark.Route;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+/**
+ * API class for college related requests.
+ */
+public class CollegeAPI {
+
+  private CollegeSQLManager collegeDB;
+<span class="nc" id="L23">  private static final Gson GSON = new Gson();</span>
+<span class="nc" id="L24">  private final Nearest nearest = new Nearest();</span>
+
+  /**
+   * Creates a CollegeAPI object to provide API handlers.
+   * @param collegeDB Database for colleges.
+   */
+<span class="nc" id="L30">  public CollegeAPI(CollegeSQLManager collegeDB) {</span>
+<span class="nc" id="L31">    this.collegeDB = collegeDB;</span>
+<span class="nc" id="L32">  }</span>
+
+  /**
+   * Gets the default colleges.
+   * @return Route that contains the default colleges.
+   */
+  public Route getDefaultColleges() {
+<span class="nc" id="L39">    return defaultColleges;</span>
+  }
+
+  /**
+   * Gets the autocorrect suggestions.
+   * @return Route containing autocorrect suggestions.
+   */
+  public Route getAutocorrect() {
+<span class="nc" id="L47">    return autocorrect;</span>
+  }
+
+  /**
+   * Gets the information of a college.
+   * @return Route containing college information.
+   */
+  public Route getCollegeInfo() {
+<span class="nc" id="L55">    return collegeInfo;</span>
+  }
+
+<span class="nc" id="L58">  private final Route defaultColleges = (request, response) -&gt; {</span>
+<span class="nc" id="L59">    List&lt;College&gt; colleges = collegeDB.getDefaultColleges();</span>
+<span class="nc" id="L60">    return GSON.toJson(colleges);</span>
+  };
+
+<span class="nc" id="L63">  private final Route autocorrect = (request, response) -&gt; {</span>
+<span class="nc" id="L64">    JsonObject data = GSON.fromJson(request.body(), JsonObject.class);</span>
+<span class="nc" id="L65">    String input = data.get(&quot;input&quot;).getAsString();</span>
+
+<span class="nc" id="L67">    List&lt;College&gt; colleges = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L68">    Set&lt;String&gt; suggestions = new HashSet&lt;&gt;();</span>
+<span class="nc bnc" id="L69" title="All 4 branches missed.">    if ((input != null) &amp;&amp; (!input.equals(&quot;&quot;))) {</span>
+<span class="nc" id="L70">      suggestions = collegeDB.getAutocorrector().suggest(input);</span>
+    }
+
+<span class="nc bnc" id="L73" title="All 2 branches missed.">    for (String collegeName: suggestions) {</span>
+<span class="nc" id="L74">      colleges.addAll(collegeDB.getCollegeByName(collegeName));</span>
+<span class="nc" id="L75">    }</span>
+<span class="nc" id="L76">    return GSON.toJson(colleges);</span>
+  };
+
+<span class="nc" id="L79">  private final Route collegeInfo = (request, response) -&gt; {</span>
+<span class="nc" id="L80">    JsonObject data = GSON.fromJson(request.body(), JsonObject.class);</span>
+<span class="nc" id="L81">    int collegeID = data.get(&quot;collegeID&quot;).getAsInt();</span>
+<span class="nc" id="L82">    College college = collegeDB.getCollegeByID(collegeID);</span>
+<span class="nc" id="L83">    JsonObject payload = new JsonObject();</span>
+<span class="nc" id="L84">    payload.addProperty(&quot;college&quot;, GSON.toJson(college)); // add college</span>
+
+<span class="nc" id="L86">    List&lt;Airport&gt; airports = Main.getAirportDatabase().getAllAirports();</span>
+<span class="nc" id="L87">    Airport airport = (Airport) nearest.findNearestLocation(college, airports);</span>
+<span class="nc" id="L88">    payload.addProperty(&quot;nearbyAirport&quot;, GSON.toJson(airport)); // add airport</span>
+
+<span class="nc" id="L90">    List&lt;College&gt; colleges = collegeDB.getNearbyColleges(college);</span>
+<span class="nc" id="L91">    payload.addProperty(&quot;nearbyColleges&quot;, GSON.toJson(colleges)); // add nearby colleges</span>
+<span class="nc" id="L92">    System.out.println(colleges);</span>
+
+<span class="nc" id="L94">    return payload;</span>
+  };
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

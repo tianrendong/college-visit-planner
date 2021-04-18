@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ArgType.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">college-visit-planner</a> &gt; <a href="index.source.html" class="el_package">edu.brown.cs.termproject.repl</a> &gt; <span class="el_source">ArgType.java</span></div><h1>ArgType.java</h1><pre class="source lang-java linenums">package edu.brown.cs.termproject.repl;
+
+/**
+ * Represents a command-line argument of a certain type, providing functionality to match a string
+ * with the specified formatting and to convert a string into the type.
+ */
+<span class="fc" id="L7">public enum ArgType {</span>
+  /**
+   * Represents an integer plainly formatted, e.g., 12.
+   */
+<span class="fc" id="L11">  INT {</span>
+    @Override
+    public boolean isType(String s) {
+      try {
+<span class="fc" id="L15">        Integer.parseInt(s);</span>
+<span class="fc" id="L16">        return true;</span>
+<span class="fc" id="L17">      } catch (NumberFormatException e) {</span>
+<span class="fc" id="L18">        return false;</span>
+      }
+    }
+    @Override
+    public Integer toType(String s) {
+<span class="pc bpc" id="L23" title="1 of 2 branches missed.">      if (!isType(s)) {</span>
+<span class="nc" id="L24">        throw new IllegalArgumentException(&quot;Input must be formatted as an integer.&quot;);</span>
+      }
+<span class="fc" id="L26">      return Integer.parseInt(s);</span>
+    }
+  },
+  /**
+   * Represents a quoted string, e.g., &quot;text&quot;.
+   */
+<span class="fc" id="L32">  QUOTED_STRING {</span>
+    @Override
+    public boolean isType(String s) {
+<span class="fc" id="L35">      return s.matches(&quot;\&quot;.*\&quot;&quot;);</span>
+    }
+    @Override
+    public String toType(String s) {
+<span class="pc bpc" id="L39" title="1 of 2 branches missed.">      if (!isType(s)) {</span>
+<span class="nc" id="L40">        throw new IllegalArgumentException(&quot;Input must be formatted as a string.&quot;);</span>
+      }
+<span class="fc" id="L42">      return s.substring(1, s.length() - 1);</span>
+    }
+  },
+  /**
+   * Represents an unquoted string, e.g., test.
+   */
+<span class="fc" id="L48">  STRING {</span>
+    @Override
+    public boolean isType(String s) {
+<span class="fc" id="L51">      return true;</span>
+    }
+    @Override
+    public String toType(String s) {
+<span class="fc" id="L55">      return s;</span>
+    }
+  },
+  /**
+   * Represents a real number, e.g., 12.5.
+   */
+<span class="fc" id="L61">  DOUBLE {</span>
+    @Override
+    public boolean isType(String s) {
+      try {
+<span class="fc" id="L65">        Double.parseDouble(s);</span>
+<span class="fc" id="L66">        return true;</span>
+<span class="nc" id="L67">      } catch (NumberFormatException e) {</span>
+<span class="nc" id="L68">        return false;</span>
+      }
+    }
+    @Override
+    public Double toType(String s) {
+<span class="pc bpc" id="L73" title="1 of 2 branches missed.">      if (!isType(s)) {</span>
+<span class="nc" id="L74">        throw new IllegalArgumentException(&quot;Input must be formatted as a double.&quot;);</span>
+      }
+<span class="fc" id="L76">      return Double.parseDouble(s);</span>
+    }
+  };
+
+  /**
+   * Checks if a string matches the required format.
+   * @param s Input string
+   * @return Whether the string matches
+   */
+  public abstract boolean isType(String s);
+
+  /**
+   * Parses a string and converts it into the given type.
+   * @param s Input string
+   * @return Converted type
+   */
+  public abstract Object toType(String s);
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

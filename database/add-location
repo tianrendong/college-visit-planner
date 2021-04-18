@@ -1,0 +1,30 @@
+#!/usr/bin/python3
+
+import csv, sqlite3
+import requests
+
+con = sqlite3.connect("universities.sqlite3")
+cur = con.cursor()
+# cur.execute("DROP TABLE universities")
+# cur.execute("CREATE TABLE universities (id, name, latitude, longitude, title, description, image, url);")
+
+request = "https://maps.googleapis.com/maps/api/geocode/json?address="
+api_key = "&key=AIzaSyBIJk5AqilYH8PHt2TP4f5d7QY-UxtJf58"
+
+with open('university-preview.tsv','r') as fin:
+    dr = csv.DictReader(fin, dialect="excel-tab")
+    id = 0
+    for i in dr:
+        name = "Massachusetts Institute of Technology"
+        response = requests.get(request + name + api_key)
+        resp_json_payload = response.json()
+        coordinates = resp_json_payload['results'][0]['geometry']['location']
+        lat = coordinates["lat"]
+        lon = coordinates["lng"]
+        to_db = ([id, name, lat, lon, i['Title'], i['Description'], i['Image'], i['Url']])
+        # cur.execute("INSERT INTO universities (id, name, latitude, longitude, title, description, image, url) VALUES (?, ?, ?, ?, ?, ?, ?, ?);", to_db)
+        print(id, name, lat, lon)
+        id += 1
+
+con.commit()
+con.close()

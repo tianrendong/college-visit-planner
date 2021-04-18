@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MST.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">college-visit-planner</a> &gt; <a href="index.source.html" class="el_package">edu.brown.cs.termproject.router</a> &gt; <span class="el_source">MST.java</span></div><h1>MST.java</h1><pre class="source lang-java linenums">package edu.brown.cs.termproject.router;
+
+import com.google.maps.errors.ApiException;
+import edu.brown.cs.termproject.graph.Edge;
+import edu.brown.cs.termproject.graph.Graph;
+import edu.brown.cs.termproject.graph.Vertex;
+
+import java.io.IOException;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.PriorityQueue;
+import java.util.Set;
+
+/**
+ * The class for Minimum Spanning Trees.
+ */
+public final class MST {
+  private MST() {
+  }
+
+  /**
+   * Given a complete CollegeGraph, build a minimum spanning tree
+   * using Kruskal's algorithm.
+   *
+   * @param &lt;V&gt;        Type that implements Vertex.
+   * @param &lt;E&gt;        Type that implements Edge.
+   * @param graph      a complete CollegeGraph.
+   * @param comparator Comparator for ordering edges.
+   * @return minimum spanning tree formed from graph
+   * @throws InterruptedException if errors occur during Google Map API queries
+   * @throws ApiException         if errors occur during Google Map API queries
+   * @throws IOException          if errors occur during Google Map API queries
+   */
+  public static &lt;V extends Vertex, E extends Edge&lt;V&gt;&gt; Set&lt;E&gt; mst(
+      Graph&lt;V, E&gt; graph, Comparator&lt;E&gt; comparator)
+      throws InterruptedException, ApiException, IOException {
+<span class="fc" id="L39">    Set&lt;E&gt; mst = new HashSet&lt;&gt;();</span>
+<span class="fc" id="L40">    Set&lt;E&gt; edges = graph.getEdges();</span>
+
+<span class="fc" id="L42">    PriorityQueue&lt;E&gt; pqEdges = new PriorityQueue&lt;&gt;(comparator);</span>
+<span class="fc" id="L43">    pqEdges.addAll(edges);</span>
+
+<span class="fc" id="L45">    Map&lt;V, UnionFind&lt;V&gt;&gt; sets = new HashMap&lt;&gt;();</span>
+<span class="fc bfc" id="L46" title="All 2 branches covered.">    for (V v : graph.getVertices()) {</span>
+<span class="fc" id="L47">      sets.put(v, new UnionFind&lt;&gt;(v));</span>
+<span class="fc" id="L48">    }</span>
+
+<span class="fc bfc" id="L50" title="All 2 branches covered.">    while (!pqEdges.isEmpty()) {</span>
+<span class="fc" id="L51">      E lightest = pqEdges.poll();</span>
+<span class="pc bpc" id="L52" title="1 of 2 branches missed.">      if (lightest != null) {</span>
+<span class="fc" id="L53">        UnionFind&lt;V&gt; lightestStart = sets.get(lightest.getStart());</span>
+<span class="fc" id="L54">        UnionFind&lt;V&gt; lightestEnd = sets.get(lightest.getEnd());</span>
+        // Check if the two vertices have the same root:
+        // If they don't have the same root,
+        // They don't form a cycle in the graph.
+<span class="fc bfc" id="L58" title="All 2 branches covered.">        if (lightestStart.find() != lightestEnd.find()) {</span>
+<span class="fc" id="L59">          lightestStart.union(lightestEnd);</span>
+<span class="fc" id="L60">          mst.add(lightest);</span>
+        }
+      }
+<span class="fc" id="L63">    }</span>
+
+<span class="fc" id="L65">    return mst;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

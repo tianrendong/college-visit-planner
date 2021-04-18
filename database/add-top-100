@@ -1,0 +1,27 @@
+#!/usr/bin/python3
+
+import sqlite3
+
+con = sqlite3.connect("universities.sqlite3")
+cur = con.cursor()
+cur_update = con.cursor()
+
+# cur.execute("ALTER TABLE universities ADD top_100 NULL;")
+
+top_universities = open("top-universities.txt", 'r')
+top_100 = []
+for line in top_universities:
+	top_100.append(line.rstrip('\n'))
+
+for row in cur.execute("SELECT * FROM universities;"):
+	name = row[0]
+	if name in top_100:
+		print(name)
+		cur_update.execute('''
+                UPDATE universities
+                SET top_100 = 'true'
+                WHERE name = ?
+                ''', (name,))
+
+con.commit()
+top_universities.close()

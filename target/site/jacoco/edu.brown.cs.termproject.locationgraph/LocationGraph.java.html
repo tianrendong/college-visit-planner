@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LocationGraph.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">college-visit-planner</a> &gt; <a href="index.source.html" class="el_package">edu.brown.cs.termproject.locationgraph</a> &gt; <span class="el_source">LocationGraph.java</span></div><h1>LocationGraph.java</h1><pre class="source lang-java linenums">package edu.brown.cs.termproject.locationgraph;
+
+import com.google.maps.errors.ApiException;
+import edu.brown.cs.termproject.graph.Graph;
+import edu.brown.cs.termproject.iotools.GoogleMapAPIManager;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+/**
+ * Class for an undirected college graph.
+ */
+public class LocationGraph implements Graph&lt;Location, Path&gt; {
+
+<span class="fc" id="L21">  private final Map&lt;Location, List&lt;Path&gt;&gt; graph = new HashMap&lt;&gt;();</span>
+  private Set&lt;Location&gt; locations;
+
+  /**
+   * Initializes a complete college graph with a list of colleges.
+   * @param locations a list of colleges
+   * @throws InterruptedException if errors occur during Google Map requests
+   * @throws ApiException if errors occur during Google Map requests
+   * @throws IOException if errors occur during Google Map requests
+   */
+  public LocationGraph(List&lt;Location&gt; locations)
+<span class="fc" id="L32">      throws InterruptedException, ApiException, IOException {</span>
+<span class="fc" id="L33">    this.locations = new HashSet&lt;&gt;(locations);</span>
+<span class="fc" id="L34">    buildCompleteGraph(locations);</span>
+<span class="fc" id="L35">  }</span>
+
+//  public LocationGraph(List&lt;T&gt; vertices)
+//      throws InterruptedException, ApiException, IOException {
+//    List&lt;LocationWrapper&gt; locations = new ArrayList&lt;&gt;();
+//    for (Vertex loc : vertices) {
+//      locations.add(new LocationWrapper(loc.getName(), loc.getLat(), loc.getLon(), loc));
+//    }
+//    this.locations = new HashSet&lt;&gt;(locations);
+//    buildCompleteGraph(locations);
+//  }
+
+
+  private void buildCompleteGraph(List&lt;Location&gt; allLocations)
+      throws InterruptedException, ApiException, IOException {
+<span class="fc bfc" id="L50" title="All 2 branches covered.">    for (int i = 0; i &lt; allLocations.size(); i++) {</span>
+<span class="fc bfc" id="L51" title="All 2 branches covered.">      for (int j = i + 1; j &lt; allLocations.size(); j++) {</span>
+<span class="fc" id="L52">        Location start = allLocations.get(i);</span>
+<span class="fc" id="L53">        Location end = allLocations.get(j);</span>
+
+        //get optimal distance between colleges.get(i) and colleges.get(j) using Google Maps API
+<span class="fc" id="L56">        double distance = GoogleMapAPIManager.getTravelDistance(</span>
+<span class="fc" id="L57">            start.getLat(), start.getLon(), end.getLat(), end.getLon());</span>
+
+        // add path and reversed path to current graph
+<span class="fc" id="L60">        addEdge(new Path(start, end, distance));</span>
+<span class="fc" id="L61">        addEdge(new Path(end, start, distance));</span>
+      }
+
+    }
+<span class="fc" id="L65">  }</span>
+
+  /**
+   * Gets the graph.
+   * @return graph.
+   */
+  public Map&lt;Location, List&lt;Path&gt;&gt; getGraph() {
+<span class="fc" id="L72">    return graph;</span>
+  }
+
+  @Override
+  public void addEdge(Path p) {
+<span class="fc" id="L77">    Location start = p.getStart();</span>
+<span class="fc" id="L78">    Location end = p.getEnd();</span>
+<span class="fc" id="L79">    locations.add(start);</span>
+<span class="fc" id="L80">    locations.add(end);</span>
+<span class="fc bfc" id="L81" title="All 2 branches covered.">    if (graph.containsKey(start)) {</span>
+<span class="fc" id="L82">      graph.get(start).add(p);</span>
+    } else {
+<span class="fc" id="L84">      graph.put(start, new ArrayList&lt;&gt;(Arrays.asList(p)));</span>
+    }
+<span class="fc" id="L86">  }</span>
+
+  @Override
+  public Set&lt;Location&gt; getVertices() {
+<span class="fc" id="L90">    return locations;</span>
+  }
+
+  @Override
+  public Set&lt;Path&gt; getEdges() {
+<span class="fc" id="L95">    Set&lt;Path&gt; edges = new HashSet&lt;&gt;();</span>
+<span class="fc bfc" id="L96" title="All 2 branches covered.">    for (Map.Entry&lt;Location, List&lt;Path&gt;&gt; entry : graph.entrySet()) {</span>
+<span class="fc" id="L97">      edges.addAll(entry.getValue());</span>
+<span class="fc" id="L98">    }</span>
+<span class="fc" id="L99">    return edges;</span>
+  }
+
+  /**
+   * Adds a new college to the graph
+   * by extending an edge from the new college to every existing college.
+   * @param newLocation new college to add
+   * @throws InterruptedException if errors occur during Google Map requests
+   * @throws ApiException if errors occur during Google Map requests
+   * @throws IOException if errors occur during Google Map requests
+   */
+  public void addNode(Location newLocation) throws InterruptedException, ApiException, IOException {
+<span class="fc" id="L111">    Set&lt;Location&gt; allLocations = new HashSet&lt;&gt;(graph.keySet());</span>
+    // add a path from this node to every other node
+<span class="fc bfc" id="L113" title="All 2 branches covered.">    for (Location c : allLocations) {</span>
+<span class="fc" id="L114">      double distance = GoogleMapAPIManager.getTravelDistance(</span>
+<span class="fc" id="L115">          newLocation.getLat(), newLocation.getLon(), c.getLat(), c.getLon());</span>
+<span class="fc" id="L116">      addEdge(new Path(newLocation, c, distance));</span>
+<span class="fc" id="L117">      addEdge(new Path(c, newLocation, distance));</span>
+<span class="fc" id="L118">    }</span>
+<span class="fc" id="L119">  }</span>
+
+//  public void addNode(T newVertex) throws InterruptedException, ApiException, IOException {
+//    Set&lt;LocationWrapper&gt; allLocations = new HashSet&lt;&gt;(graph.keySet());
+//    System.out.println(allLocations);
+//    LocationWrapper newLoc =
+//    new LocationWrapper(newVertex.getName(), newVertex.getLat(), newVertex.getLon(), newVertex);
+//    // add a path from this node to every other node
+//    for (LocationWrapper loc : allLocations) {
+//      System.out.println(loc);
+//      double distance = GoogleMapAPIManager.getTravelDistance(
+//          newLoc.getLat(), newLoc.getLon(), loc.getLat(), loc.getLon());
+//      addEdge(new LocationPath(newLoc, loc, distance));
+//      addEdge(new LocationPath(loc, newLoc, distance));
+//    }
+//  }
+
+  @Override
+  public String toString() {
+<span class="fc" id="L138">    String output = &quot;&quot;;</span>
+<span class="fc" id="L139">    List&lt;Location&gt; allLocations = new ArrayList&lt;&gt;(graph.keySet());</span>
+<span class="fc bfc" id="L140" title="All 2 branches covered.">    for (int i = 0; i &lt; allLocations.size(); i++) {</span>
+<span class="fc" id="L141">      List&lt;Path&gt; paths = graph.get(allLocations.get(i));</span>
+<span class="fc bfc" id="L142" title="All 2 branches covered.">      for (int j = 0; j &lt; paths.size(); j++) {</span>
+<span class="fc" id="L143">        Path p = paths.get(j);</span>
+<span class="fc" id="L144">        output += p.getStart().getName() + &quot; -&gt; &quot;</span>
+<span class="fc" id="L145">            + p.getEnd().getName() + &quot; : &quot; + p.getWeight();</span>
+<span class="pc bpc" id="L146" title="1 of 2 branches missed.">        output += (j &lt; paths.size()) ? &quot;\n&quot; : &quot;&quot;;</span>
+      }
+<span class="pc bpc" id="L148" title="1 of 2 branches missed.">      output += (i &lt; allLocations.size()) ? &quot;\n&quot; : &quot;&quot;;</span>
+    }
+<span class="fc" id="L150">    return output;</span>
+  }
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

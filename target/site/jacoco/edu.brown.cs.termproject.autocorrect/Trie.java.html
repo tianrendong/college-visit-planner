@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Trie.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">college-visit-planner</a> &gt; <a href="index.source.html" class="el_package">edu.brown.cs.termproject.autocorrect</a> &gt; <span class="el_source">Trie.java</span></div><h1>Trie.java</h1><pre class="source lang-java linenums">package edu.brown.cs.termproject.autocorrect;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
+
+/**
+ * Trie data structure for storing strings, prefixes in particular.
+ */
+public class Trie {
+
+  private final Map&lt;Character, Trie&gt; children;
+  private boolean isWord;
+
+  /**
+   * Creates an empty Trie object.
+   */
+<span class="fc" id="L22">  public Trie() {</span>
+<span class="fc" id="L23">    isWord = false;</span>
+<span class="fc" id="L24">    children = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L25">  }</span>
+
+  /**
+   * Inserts a single word into Trie.
+   *
+   * @param word Inserted word
+   */
+  public void insert(String word) {
+<span class="fc bfc" id="L33" title="All 2 branches covered.">    if (word.equals(&quot;&quot;)) {</span>
+<span class="fc" id="L34">      isWord = true;</span>
+    } else {
+<span class="fc" id="L36">      char firstChar = word.charAt(0);</span>
+<span class="fc bfc" id="L37" title="All 2 branches covered.">      if (!(children.containsKey(firstChar))) {</span>
+<span class="fc" id="L38">        children.put(firstChar, new Trie());</span>
+      }
+<span class="fc" id="L40">      children.get(firstChar).insert(word.substring(1));</span>
+    }
+<span class="fc" id="L42">  }</span>
+
+  /**
+   * Inserts a list of words into Trie.
+   *
+   * @param words Inserted words
+   */
+  public void insertAll(List&lt;String&gt; words) {
+<span class="fc bfc" id="L50" title="All 2 branches covered.">    for (String word : words) {</span>
+<span class="fc" id="L51">      insert(word);</span>
+<span class="fc" id="L52">    }</span>
+<span class="fc" id="L53">  }</span>
+
+  /**
+   * Determines if word input is in Trie.
+   *
+   * @param word Word to check
+   * @param caseSensitive if the check is case sensitive
+   * @return True if held, false otherwise
+   */
+  public boolean hasWord(String word, boolean caseSensitive) {
+<span class="fc bfc" id="L63" title="All 2 branches covered.">    if (word.equals(&quot;&quot;)) {</span>
+<span class="fc" id="L64">      return isWord;</span>
+    } else {
+<span class="fc" id="L66">      char firstChar = word.charAt(0);</span>
+<span class="fc" id="L67">      char firstCharUpper = Character.toUpperCase(firstChar);</span>
+<span class="fc" id="L68">      char firstCharLower = Character.toLowerCase(firstChar);</span>
+
+<span class="fc bfc" id="L70" title="All 2 branches covered.">      if (caseSensitive) {</span>
+<span class="fc bfc" id="L71" title="All 2 branches covered.">        if (children.containsKey(firstChar)) {</span>
+<span class="fc" id="L72">          return children.get(firstChar).hasWord(word.substring(1), true);</span>
+        } else {
+<span class="fc" id="L74">          return false;</span>
+        }
+
+      } else {
+<span class="fc" id="L78">        boolean hasWord = false;</span>
+<span class="fc bfc" id="L79" title="All 2 branches covered.">        if (children.containsKey(firstCharUpper)) {</span>
+<span class="fc" id="L80">          hasWord = children.get(firstCharUpper).hasWord(word.substring(1), false);</span>
+        }
+<span class="fc bfc" id="L82" title="All 2 branches covered.">        if (children.containsKey(firstCharLower)) {</span>
+<span class="pc bpc" id="L83" title="1 of 4 branches missed.">          hasWord = hasWord || children.get(firstCharLower).hasWord(word.substring(1), false);</span>
+        }
+<span class="fc" id="L85">        return hasWord;</span>
+      }
+    }
+  }
+
+
+  /**
+   * Finds all words in trie with given prefix.
+   *
+   * @param prefix the prefix in question
+   * @param caseSensitive if the search is case sensitive
+   * @return A set of strings that are in trie and have input prefix
+   */
+  public Set&lt;String&gt; findAllWithPrefix(String prefix, boolean caseSensitive) {
+<span class="fc" id="L99">    Set&lt;String&gt; listTotalPrefix = new TreeSet&lt;&gt;();</span>
+<span class="fc" id="L100">    listTotalPrefix.add(prefix);</span>
+<span class="fc" id="L101">    return findAllWithPrefixHelper(prefix, prefix, caseSensitive, 0, listTotalPrefix, this);</span>
+  }
+
+  /**
+   * Helper function to find all words in trie with given prefix.
+   *
+   * @param prefix the prefix in question
+   * @param totalPrefix repeat parameter necessary for building strings.
+   * @param caseSensitive if the search is case sensitive
+   * @param charIndex index of the current Char
+   * @return A set of strings that are in trie and have input prefix
+   */
+  private Set&lt;String&gt; findAllWithPrefixHelper(
+      String prefix, String totalPrefix, boolean caseSensitive, int charIndex,
+      Set&lt;String&gt; currentList, Trie trie
+  ) {
+<span class="fc bfc" id="L117" title="All 2 branches covered.">    if (prefix.equals(&quot;&quot;)) {</span>
+<span class="fc" id="L118">      Set&lt;String&gt; output = new TreeSet&lt;&gt;();</span>
+<span class="fc bfc" id="L119" title="All 2 branches covered.">      for (String pref : currentList) {</span>
+<span class="fc" id="L120">        output.addAll(Trie.getPossibleCompletions(trie, pref));</span>
+<span class="fc" id="L121">      }</span>
+<span class="fc" id="L122">      return output;</span>
+
+    } else {
+<span class="fc" id="L125">      char firstChar = prefix.charAt(0);</span>
+
+<span class="fc bfc" id="L127" title="All 2 branches covered.">      if (caseSensitive) {</span>
+<span class="pc bpc" id="L128" title="1 of 2 branches missed.">        if (children.containsKey(firstChar)) {</span>
+<span class="fc" id="L129">          return children.get(firstChar).findAllWithPrefixHelper(</span>
+<span class="fc" id="L130">                  prefix.substring(1), totalPrefix, true, 0, currentList, trie</span>
+          );
+        } else {
+<span class="nc" id="L133">          return Collections.emptySet();</span>
+        }
+
+      } else {
+
+<span class="fc" id="L138">        char firstCharUpper = Character.toUpperCase(firstChar);</span>
+<span class="fc" id="L139">        char firstCharLower = Character.toLowerCase(firstChar);</span>
+
+<span class="fc bfc" id="L141" title="All 2 branches covered.">        if (children.containsKey(firstCharUpper)) {</span>
+<span class="fc" id="L142">          String modifiedTotalPrefix =</span>
+<span class="fc" id="L143">              totalPrefix.substring(0, charIndex)</span>
+<span class="fc" id="L144">                      + firstCharUpper + totalPrefix.substring(charIndex + 1);</span>
+
+<span class="fc" id="L146">          currentList.add(modifiedTotalPrefix);</span>
+
+<span class="fc" id="L148">          return children.get(firstCharUpper)</span>
+<span class="fc" id="L149">              .findAllWithPrefixHelper(prefix.substring(1),</span>
+                  modifiedTotalPrefix, false, charIndex + 1, currentList, trie);
+
+<span class="fc bfc" id="L152" title="All 2 branches covered.">        } else if (children.containsKey(firstCharLower)) {</span>
+<span class="fc" id="L153">          String modifiedTotalPrefix =</span>
+<span class="fc" id="L154">              totalPrefix.substring(0, charIndex)</span>
+<span class="fc" id="L155">                      + firstCharLower + totalPrefix.substring(charIndex + 1);</span>
+
+<span class="fc" id="L157">          currentList.add(modifiedTotalPrefix);</span>
+
+<span class="fc" id="L159">          return children.get(firstCharLower)</span>
+<span class="fc" id="L160">              .findAllWithPrefixHelper(prefix.substring(1),</span>
+                  modifiedTotalPrefix, false, charIndex + 1, currentList, trie);
+
+        } else {
+<span class="fc" id="L164">          return Collections.emptySet();</span>
+        }
+
+      }
+
+    }
+  }
+
+  /**
+   * Finds the trie branch that oomes after prefix.
+   *
+   * @param prefix Prefix
+   * @return Trie branch that comes after prefix.
+   *         E.g. if prefix is &quot;Ca&quot;, returns the Trie branch that starts with &quot;a&quot;
+   */
+  private Trie search(final String prefix) {
+<span class="fc" id="L180">    char firstChar = prefix.charAt(0);</span>
+<span class="fc" id="L181">    final Trie child = children.get(firstChar);</span>
+<span class="fc bfc" id="L182" title="All 4 branches covered.">    if (child == null || prefix.length() == 1) {</span>
+<span class="fc" id="L183">      return child;</span>
+    } else {
+<span class="fc" id="L185">      return child.search(prefix.substring(1));</span>
+    }
+  }
+
+  /**
+   * Find all possible words that start with prefix from trie.
+   *
+   * @param trie Trie to search from
+   * @param prefix Prefix
+   * @return all possible completions
+   */
+  public static Set&lt;String&gt; getPossibleCompletions(Trie trie, final String prefix) {
+<span class="fc" id="L197">    final Set&lt;String&gt; completions = new HashSet&lt;&gt;();</span>
+<span class="fc" id="L198">    final Trie current = trie.search(prefix);</span>
+<span class="fc bfc" id="L199" title="All 2 branches covered.">    if (current == null) {</span>
+<span class="fc" id="L200">      return completions;</span>
+    }
+<span class="fc" id="L202">    current.getPossibleCompletionsRec(prefix, completions);</span>
+<span class="fc" id="L203">    return completions;</span>
+  }
+
+  /**
+   * Helper function to find all possible words that start with prefix.
+   * @param current the completed part of word so far
+   * @param completions found words
+   */
+  private void getPossibleCompletionsRec(final String current,
+                                         final Set&lt;String&gt; completions) {
+<span class="fc bfc" id="L213" title="All 2 branches covered.">    if (isWord) {</span>
+<span class="fc" id="L214">      completions.add(current);</span>
+    }
+<span class="fc" id="L216">    Map&lt;Character, Trie&gt; possibilities = this.children;</span>
+    // loop through all the characters that follow
+<span class="fc bfc" id="L218" title="All 2 branches covered.">    for (char c : possibilities.keySet()) {</span>
+<span class="fc" id="L219">      possibilities.get(c).getPossibleCompletionsRec(current + c, completions);</span>
+<span class="fc" id="L220">    }</span>
+<span class="fc" id="L221">  }</span>
+
+  /**
+   * Finds all words within a certain led from some phrase in trie.
+   *
+   * @param phrase      Phrase of query
+   * @param maxDistance Max led
+   * @param prefix      Current prefix built up to this point
+   * @param currentList Current set of words found
+   * @return Returns set of all words with led less than or equal to phrase in
+   * trie.
+   */
+  private Set&lt;String&gt; findLedWithin(String phrase, int maxDistance,
+                                    String prefix, Set&lt;String&gt; currentList) {
+
+<span class="fc" id="L236">    int currentDist = maxDistance + 1;</span>
+
+<span class="fc bfc" id="L238" title="All 2 branches covered.">    if (isWord) {</span>
+<span class="fc" id="L239">      currentDist = getLedDistance(phrase, prefix);</span>
+    }
+
+<span class="fc bfc" id="L242" title="All 2 branches covered.">    if (currentDist &lt;= maxDistance) {</span>
+<span class="fc" id="L243">      currentList.add(prefix);</span>
+    }
+<span class="fc bfc" id="L245" title="All 2 branches covered.">    if (prefix.length() - phrase.length() &lt;= maxDistance) {</span>
+<span class="fc" id="L246">      Map&lt;Character, Trie&gt; possibilities = children;</span>
+<span class="fc bfc" id="L247" title="All 2 branches covered.">      for (char c : possibilities.keySet()) {</span>
+<span class="fc" id="L248">        String sb = prefix + c;</span>
+<span class="fc" id="L249">        possibilities.get(c).findLedWithin(phrase, maxDistance, sb,</span>
+            currentList);
+<span class="fc" id="L251">      }</span>
+    }
+<span class="fc" id="L253">    return currentList;</span>
+  }
+
+  /**
+   * Finds all words in Trie with led less than or equal to maxDistance from
+   * phrase.
+   *
+   * @param phrase Phrase from query
+   * @param maxDistance max led
+   * @return Returns list of all words with led less than or equal to phrase in
+   * trie
+   */
+  public Set&lt;String&gt; findLedWithinRoot(String phrase, int maxDistance) {
+<span class="fc" id="L266">    return findLedWithin(phrase, maxDistance, &quot;&quot;, new TreeSet&lt;&gt;());</span>
+  }
+
+  /**
+   * Gets led between two words.
+   * Uses dynamic programming.
+   *
+   * @param word1 First word
+   * @param word2 Second word
+   * @return led between two words
+   */
+  public static int getLedDistance(String word1, String word2) {
+<span class="fc" id="L278">    int size1 = word1.length();</span>
+<span class="fc" id="L279">    int size2 = word2.length();</span>
+<span class="fc" id="L280">    int[][] ledMatrix = new int[size1 + 1][size2 + 1];</span>
+
+<span class="fc bfc" id="L282" title="All 2 branches covered.">    for (int i = 0; i &lt; size1 + 1; i++) {</span>
+<span class="fc bfc" id="L283" title="All 2 branches covered.">      for (int j = 0; j &lt; size2 + 1; j++) {</span>
+
+        // Comparing if word1 was empty.
+<span class="fc bfc" id="L286" title="All 2 branches covered.">        if (i == 0) {</span>
+<span class="fc" id="L287">          ledMatrix[i][j] = j;</span>
+<span class="fc bfc" id="L288" title="All 2 branches covered.">        } else if (j == 0) {</span>
+          // Comparing is word2 was empty.
+<span class="fc" id="L290">          ledMatrix[i][j] = i;</span>
+        } else {
+          // See if adding corresponding characters would not increase led.
+<span class="fc" id="L293">          int substitution = 1;</span>
+<span class="fc bfc" id="L294" title="All 2 branches covered.">          if (word1.charAt(i - 1) == word2.charAt(j - 1)) {</span>
+<span class="fc" id="L295">            substitution = 0;</span>
+          }
+          // Take min of insertion, deletion, substituion.
+<span class="fc" id="L298">          ledMatrix[i][j] = Math.min(Math.min(ledMatrix[i][j - 1] + 1, ledMatrix[i - 1][j] + 1),</span>
+              ledMatrix[i - 1][j - 1] + substitution);
+        }
+      }
+    }
+<span class="fc" id="L303">    return ledMatrix[size1][size2];</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

@@ -1,0 +1,43 @@
+#!/usr/bin/python3
+
+import requests
+
+
+# linkpreview api determines rate not by account, but through address
+api_keys = ["52e0e0833bcbb8e49f79d81d75fa36d9", "7a2e6121140a43d13d4697bd430bed8a", "0a6e24d188c12849e30ea4481389da2b"]
+
+api_key = "key=" + api_keys[0] + "&q=https://"
+
+university_domain_existing = open("university-domain-existing.txt", 'r')
+university_preview = open("university-preview.tsv", 'a')
+
+count = 0
+start = 341
+end = start + 59
+
+for line in university_domain_existing:
+	if (count >= start) and (count < end):
+		name = line[:line.find('(')-1]
+		split = name.split(',')
+		new_split = []
+		for s in split:
+			new_split.append(s.strip())
+		name = "".join(new_split)
+
+		domain = line[line.find('(')+1:line.find(')')]
+
+		data = api_key + domain
+		response = requests.post("https://api.linkpreview.net", data=data)
+		preview = response.json()
+
+		title = preview["title"]
+		description = preview["description"]
+		image = preview["image"]
+		url = preview["url"]
+
+		print(str(count) + ': ' + name + ', ' + title + ', ' + description + ', ' + image + ', ' + url + "\n")
+		university_preview.write(name + '\t' + title + '\t' + description + '\t' + image + '\t' + url + "\n")
+	count += 1
+
+university_domain_existing.close()
+university_preview.close()

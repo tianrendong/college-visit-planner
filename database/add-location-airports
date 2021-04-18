@@ -1,0 +1,30 @@
+#!/usr/bin/python3
+
+import csv, sqlite3
+import requests
+
+con = sqlite3.connect("airports.sqlite3")
+cur = con.cursor()
+cur.execute("DROP TABLE airports")
+cur.execute("CREATE TABLE airports (code, name, city, state, latitude, longitude, website);")
+
+request = "https://maps.googleapis.com/maps/api/geocode/json?address="
+api_key = "&key=AIzaSyBIJk5AqilYH8PHt2TP4f5d7QY-UxtJf58"
+
+with open('airports.csv','r') as fin:
+    dr = csv.DictReader(fin)
+    for i in dr:
+        code = i['Code']
+        name = i['Name']
+        city, state, website = (i["City"], i["State"], i["Website"])
+        response = requests.get(request + name + api_key)
+        resp_json_payload = response.json()
+        coordinates = resp_json_payload['results'][0]['geometry']['location']
+        lat = coordinates["lat"]
+        lon = coordinates["lng"]
+        to_db = ([code, name, city, state, lat, lon, website])
+        cur.execute("INSERT INTO airports (code, name, city, state, latitude, longitude, website) VALUES (?, ?, ?, ?, ?, ?, ?);", to_db)
+        print(code, name)
+
+con.commit()
+con.close()

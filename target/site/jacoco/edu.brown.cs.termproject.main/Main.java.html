@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Main.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">college-visit-planner</a> &gt; <a href="index.source.html" class="el_package">edu.brown.cs.termproject.main</a> &gt; <span class="el_source">Main.java</span></div><h1>Main.java</h1><pre class="source lang-java linenums">package edu.brown.cs.termproject.main;
+
+import edu.brown.cs.termproject.api.CollegeAPI;
+import edu.brown.cs.termproject.api.UserAPI;
+import edu.brown.cs.termproject.database.AirportSQLManager;
+import edu.brown.cs.termproject.database.CollegeSQLManager;
+import edu.brown.cs.termproject.database.UserDataManager;
+import edu.brown.cs.termproject.repl.Repl;
+import joptsimple.OptionParser;
+import joptsimple.OptionSet;
+import spark.Spark;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
+/**
+ * The Main class of our project. This is where execution begins.
+ *
+ */
+public final class Main {
+  private static final int DEFAULT_PORT = 4567;
+  private static final String DEFAULT_COLLEGE_DB = &quot;./data/universities.sqlite3&quot;;
+  private static final String DEFAULT_USER_DB = &quot;./data/sampleUsers.sqlite3&quot;;
+  private static final String DEFAULT_AIRPORT_DB = &quot;./data/airports.sqlite3&quot;;
+<span class="fc" id="L25">  private static final CollegeSQLManager COLLEGE_DATABASE = new CollegeSQLManager();</span>
+<span class="fc" id="L26">  private static final UserDataManager USER_DATABASE = new UserDataManager();</span>
+<span class="fc" id="L27">  private static final AirportSQLManager AIRPORT_DATABASE = new AirportSQLManager();</span>
+<span class="nc" id="L28">  private final CollegeAPI collegeAPI = new CollegeAPI(COLLEGE_DATABASE);</span>
+<span class="nc" id="L29">  private final UserAPI userAPI = new UserAPI(USER_DATABASE);</span>
+<span class="nc" id="L30">  private final Repl repl = new Repl();</span>
+
+  /**
+   * The initial method called when execution begins.
+   *
+   * @param args An array of command line arguments
+   */
+  public static void main(String[] args) {
+<span class="nc" id="L38">    new Main(args).run();</span>
+<span class="nc" id="L39">  }</span>
+
+  private final String[] args;
+
+<span class="nc" id="L43">  private Main(String[] args) {</span>
+<span class="nc" id="L44">    this.args = args;</span>
+<span class="nc" id="L45">  }</span>
+
+  /**
+   * Gets the college database.
+   * @return college database.
+   */
+  public static CollegeSQLManager getCollegeDatabase() {
+<span class="fc" id="L52">    return COLLEGE_DATABASE;</span>
+  }
+
+  /**
+   * Gets the airport database.
+   * @return airport database.
+   */
+  public static AirportSQLManager getAirportDatabase() {
+<span class="nc" id="L60">    return AIRPORT_DATABASE;</span>
+  }
+
+  private void run() {
+    // Parse command line arguments
+<span class="nc" id="L65">    OptionParser parser = new OptionParser();</span>
+<span class="nc" id="L66">    parser.accepts(&quot;gui&quot;);</span>
+<span class="nc" id="L67">    parser.accepts(&quot;port&quot;).withRequiredArg().ofType(Integer.class)</span>
+<span class="nc" id="L68">        .defaultsTo(DEFAULT_PORT);</span>
+<span class="nc" id="L69">    parser.accepts(&quot;college-database&quot;).withRequiredArg().ofType(String.class)</span>
+<span class="nc" id="L70">        .defaultsTo(DEFAULT_COLLEGE_DB);</span>
+<span class="nc" id="L71">    parser.accepts(&quot;user-database&quot;).withRequiredArg().ofType(String.class)</span>
+<span class="nc" id="L72">        .defaultsTo(DEFAULT_USER_DB);</span>
+<span class="nc" id="L73">    parser.accepts(&quot;airport-database&quot;).withRequiredArg().ofType(String.class)</span>
+<span class="nc" id="L74">        .defaultsTo(DEFAULT_AIRPORT_DB);</span>
+<span class="nc" id="L75">    OptionSet options = parser.parse(args);</span>
+
+<span class="nc" id="L77">    COLLEGE_DATABASE.connect((String) options.valueOf(&quot;college-database&quot;));</span>
+<span class="nc" id="L78">    USER_DATABASE.connect((String) options.valueOf(&quot;user-database&quot;));</span>
+<span class="nc" id="L79">    AIRPORT_DATABASE.connect((String) options.valueOf(&quot;airport-database&quot;));</span>
+
+<span class="nc" id="L81">    runSparkServer((int) options.valueOf(&quot;port&quot;));</span>
+<span class="nc" id="L82">    repl.run();</span>
+<span class="nc" id="L83">  }</span>
+
+  static int getHerokuAssignedPort() {
+<span class="nc" id="L86">    ProcessBuilder processBuilder = new ProcessBuilder();</span>
+<span class="nc bnc" id="L87" title="All 2 branches missed.">    if (processBuilder.environment().get(&quot;PORT&quot;) != null) {</span>
+<span class="nc" id="L88">      return Integer.parseInt(processBuilder.environment().get(&quot;PORT&quot;));</span>
+    }
+<span class="nc" id="L90">    return 4567; //return default port if heroku-port isn't set (i.e. on localhost)</span>
+  }
+
+  private void runSparkServer(int port) {
+<span class="nc" id="L94">    Spark.port(getHerokuAssignedPort());</span>
+<span class="nc" id="L95">    Spark.externalStaticFileLocation(&quot;../frontend/build&quot;);</span>
+    // handler exceptions
+<span class="nc" id="L97">    Spark.exception(RuntimeException.class, (e, req, res) -&gt; {</span>
+<span class="nc" id="L98">      res.status(400);</span>
+<span class="nc" id="L99">      res.body(e.getMessage());</span>
+<span class="nc" id="L100">    });</span>
+
+<span class="nc" id="L102">    Spark.exception(Exception.class, (e, req, res) -&gt; {</span>
+<span class="nc" id="L103">      res.status(500);</span>
+<span class="nc" id="L104">      StringWriter stacktrace = new StringWriter();</span>
+<span class="nc" id="L105">      try (PrintWriter pw = new PrintWriter(stacktrace)) {</span>
+<span class="nc" id="L106">        pw.println(&quot;&lt;pre&gt;&quot;);</span>
+<span class="nc" id="L107">        e.printStackTrace(pw);</span>
+<span class="nc" id="L108">        pw.println(&quot;&lt;/pre&gt;&quot;);</span>
+      }
+<span class="nc" id="L110">      res.body(stacktrace.toString());</span>
+<span class="nc" id="L111">    });</span>
+
+<span class="nc" id="L113">    initializeSpark();</span>
+
+<span class="nc" id="L115">  }</span>
+
+  /**
+   * Initializes Spark to handle API requests.
+   */
+  private void initializeSpark() {
+<span class="nc" id="L121">    Spark.path(&quot;/api/user&quot;, () -&gt; {</span>
+<span class="nc" id="L122">      Spark.post(&quot;/login&quot;, userAPI.getLogin());</span>
+<span class="nc" id="L123">      Spark.post(&quot;/signup&quot;, userAPI.getSignUp());</span>
+<span class="nc" id="L124">      Spark.post(&quot;/checkUsername&quot;, userAPI.getCheckUsername());</span>
+<span class="nc" id="L125">      Spark.post(&quot;/addCollege&quot;, userAPI.getUserAddCollege());</span>
+<span class="nc" id="L126">      Spark.post(&quot;/deleteCollege&quot;, userAPI.getUserDeleteCollege());</span>
+<span class="nc" id="L127">      Spark.post(&quot;/getRoute&quot;, userAPI.getRoute());</span>
+<span class="nc" id="L128">      Spark.post(&quot;/getClusters&quot;, userAPI.getClusters());</span>
+<span class="nc" id="L129">      Spark.post(&quot;/deleteData&quot;, userAPI.deleteData());</span>
+<span class="nc" id="L130">      Spark.post(&quot;/deleteAccount&quot;, userAPI.deleteAccount());</span>
+<span class="nc" id="L131">    });</span>
+<span class="nc" id="L132">    Spark.path(&quot;/api/college&quot;, () -&gt; {</span>
+<span class="nc" id="L133">      Spark.get(&quot;/defaultColleges&quot;, collegeAPI.getDefaultColleges());</span>
+<span class="nc" id="L134">      Spark.post(&quot;/autocorrect&quot;, collegeAPI.getAutocorrect());</span>
+<span class="nc" id="L135">      Spark.post(&quot;/collegeInfo&quot;, collegeAPI.getCollegeInfo());</span>
+<span class="nc" id="L136">    });</span>
+<span class="nc" id="L137">  }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
