@@ -42,6 +42,7 @@ function Map(props) {
 
     // parse default colleges and store in redux store right after we get them from backend
     useEffect(() => {
+        // console.log(props.defaultColleges)
         setDefaultColleges(Object.values(props.defaultColleges).map((c) => ({
             id: c.id,
             lat: c.lat,
