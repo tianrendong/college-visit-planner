@@ -10,8 +10,6 @@ import AddIcon from '@material-ui/icons/Add';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { routeActions } from '../../../actions/routeActions';
-import DeleteIcon from '@material-ui/icons/Delete';
-import CancelIcon from '@material-ui/icons/Cancel';
 import ClearIcon from '@material-ui/icons/Clear';
 
 const useStyles = makeStyles({
@@ -82,17 +80,12 @@ const MyColleges = (props) => {
                         </Typography>
                         <div className="collegeListFoot">
                         <Button size="small" href={c.url} target="_blank">Learn More</Button>
-                        {/* <Button size="small">Delete</Button> */}
                         <IconButton classes={{ root: classes.buttonRoot }} onClick={() => handleDelete(c.id)}>
                             <ClearIcon style={{width: '18px', height: '18px'}}/>
                         </IconButton>
                         </div>
                     </CardContent>
                 </Card>
-                // <div className="college">
-                //     <h3 className="collegeName">{c.name}</h3>
-                //     <h3 className="collegeLocation">{c.city}</h3>
-                // </div>
             )}
         </div>}
 
