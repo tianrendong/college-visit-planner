@@ -17,7 +17,7 @@ const routes = {
 
 const useStyles = makeStyles(() => ({
     paper: { 
-        zIndex: 1, 
+        zIndex: 5, 
         display: 'flex',
         flexDirection: 'row',
         background: '#FBFAF8',

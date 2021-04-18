@@ -86,8 +86,7 @@ function Settings(props) {
 
     return (
         <div className="settingsContainer">
-            <h1 className="leftPadd" >Settings</h1>
-        
+            <h1 className="leftPadd">Settings</h1>
             <div className="settingsInnerContainer">
                 <Typography variant="h6" className="leftPadd">
                     About Our App
