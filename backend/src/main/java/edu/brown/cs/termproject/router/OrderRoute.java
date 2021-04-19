@@ -26,7 +26,7 @@ public final class OrderRoute {
       if (foundAirport != null) { // if airport is found in the list
         tempLocations.add(loc);
       } else {
-        if (loc.getType() == "airport") {
+        if (loc.getType().equals("airport")) {
           foundAirport = loc;
           orderedRoute.add(loc);
         } else {
