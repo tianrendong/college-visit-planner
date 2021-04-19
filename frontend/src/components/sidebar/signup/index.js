@@ -13,7 +13,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import Typography from '@material-ui/core/Typography';
 import { useSnackbar } from 'notistack';
 import { connect, useDispatch } from 'react-redux';
-import Terms from "./terms";
+import { terms } from "./terms";
 import Dialog from "@material-ui/core/Dialog";
 
 const useStyles = makeStyles((theme) => ({
@@ -182,7 +182,7 @@ function SignUp(props) {
                         <Typography variant="h6">Terms and Conditions</Typography>
                     </DialogTitle>
                     <DialogContent>
-                        <Terms/>
+                        {terms.signUpTerms()}
                     </DialogContent>
                 </Dialog>
 
@@ -201,7 +201,7 @@ function SignUp(props) {
                     <Grid item>
                         <Link href="#" variant="body2" onClick={handleNavigateLogin}>
                             Already have an account? Sign in
-                            </Link>
+                        </Link>
                     </Grid>
                 </Grid>
             </form>

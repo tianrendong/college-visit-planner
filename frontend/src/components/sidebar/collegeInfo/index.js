@@ -10,11 +10,11 @@ import { useSnackbar } from 'notistack';
 
 const useStyles = makeStyles({
     title: {
-        fontSize: 20,
+        fontSize: 17,
     },
-    state: {
-        fontSize: 20,
-        marginTop: '10px',
+    subtitle: {
+        fontSize: 17,
+        margin: 0,
     },
     button: {
         margin: '0 8px'
@@ -71,8 +71,8 @@ const CollegeInfo = (props) => {
                 <Typography className={classes.title} color="textSecondary" gutterBottom>
                     College Information
                 </Typography>
-                <h1 className="sidebarTitle">{college().name}</h1>
-                <Typography className={classes.state} color="textSecondary" gutterBottom>
+                <h1>{college().name}</h1>
+                <Typography className={classes.subtitle} color="textSecondary" gutterBottom>
                     {college().city}, {college().state}
                 </Typography>
             </div>
@@ -95,7 +95,7 @@ const CollegeInfo = (props) => {
             {hasNearbyAirport() && 
             <>
                 <div className="sidebarHeader">
-                    <Typography className={classes.title} color="textSecondary" gutterBottom>
+                    <Typography className={classes.subtitle} color="textSecondary" gutterBottom>
                     Nearby Airports
                     </Typography>
                 </div>
@@ -106,7 +106,7 @@ const CollegeInfo = (props) => {
             {hasNearbyColleges() && 
             <>
             <div className="sidebarHeader">
-                <Typography className={classes.title} color="textSecondary" gutterBottom>
+                <Typography className={classes.subtitle} color="textSecondary" gutterBottom>
                     Nearby Colleges
                 </Typography>
             </div>

@@ -2,7 +2,6 @@ const initialState = {
     loggedIn: false,
     updatingRoute: false,
     signingUp: false,
-    signedUp: false,
     user: null,
     clusterUpdated: false,
     routesUpdated: [],
@@ -26,7 +25,6 @@ const userReducer = (state = initialState, action) => {
         case "LOGOUT":
             return {
                 loggedIn: false,
-                signedUp: false,
                 user: null,
             };
         case "SIGNUP_REQUEST":
@@ -36,7 +34,6 @@ const userReducer = (state = initialState, action) => {
         case "SIGNUP_SUCCESS":
             return {
                 signingUp: false,
-                signedUp: true,
             };
         case "SIGNUP_FAILURE":
             return {

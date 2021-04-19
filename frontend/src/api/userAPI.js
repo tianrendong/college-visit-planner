@@ -23,17 +23,6 @@ function requestLogin(payload) {
         .then(data => data);
 }
 
-function checkUsername(username) {
-    const request = new Request('/api/user/checkUsername', {
-        method: 'POST',
-        body: JSON.stringify({ username })
-    })
-
-    return fetch(request).then(res => {
-        console.log(res)
-    })
-}
-
 function requestSignup(payload) {
     console.log(payload)
 ;    const request = new Request('/api/user/signup', {
@@ -59,6 +48,7 @@ function requestLogout() {
 }
 
 function requestUpdateRoute(payload) {
+    console.log(payload)
     const request = new Request("/api/user/getRoute", {
         method: 'POST',
         body: JSON.stringify({colleges: payload})

@@ -66,12 +66,12 @@ const RouteInfo = (props) => {
     return (
         <div className="routeInfoContainer">
             <div className="sidebarHeader">
-                <h1 className="sidebarTitle">Route Information</h1>
+                <h1>Route Information</h1>
             </div>
 
             <div className="sidebarHeader">
                 <Typography>Total travel distance: {distanceForHumans(travelDist.current)}</Typography>
-                <Typography>Total travel distance: {timeForHumans(travelTime.current)}</Typography>
+                <Typography>Total travel time: {timeForHumans(travelTime.current)}</Typography>
             </div>
 
             {props.selectedCluster !== '' && <div>{display}</div>}
@@ -106,15 +106,12 @@ const LocationBox = (props) => {
     return (
         <div className="collegeCardContainer">
             <div className="collegeCardInnerContainer">
-                <div className="collegeName">{location.name}</div>
+            <Typography className={classes.collegeName}>{location.name} </Typography>
                 <Typography className={classes.state}>
-                {location.content.city}, {location.content.state}
+                    {location.content.city}, {location.content.state}
                 </Typography>
             </div>
             { (location.type === "airport") ? <LocalAirportIcon fontSize="middle" className={classes.icon}/> : <></> }
-            {/* <IconButton size="large">
-                    <NavigateNextIcon fontSize="middle" classes={classes.navigateIcon}/>
-            </IconButton>  */}
         </div>
 
     )
@@ -131,13 +128,7 @@ const DirectionBox = (props) => {
         <div className="separatorContainer">
             <div className="infoContainer">
                 <DriveEtaIcon className="infoText" style={{ marginRight:'15px'}} />
-                <div className="infoText">{info.distance.text}</div>
-                <span>&nbsp;</span>
-                <span>&nbsp;</span>
-                <span className="infoText">&bull;</span>
-                <span>&nbsp;</span>
-                <span>&nbsp;</span>
-                <div className="infoText">{info.duration.text}</div>
+                <div className="infoText">{info.distance.text} &nbsp; &bull; &nbsp; {info.duration.text}</div>
             </div>
 
             <Tooltip title="Navigate using Google Maps" placement="right">

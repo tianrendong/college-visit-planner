@@ -2,7 +2,11 @@ import { makeStyles } from "@material-ui/core";
 
 export const useStyles = makeStyles((theme) => ({
     state: {
-        fontSize: 19,
+        fontSize: 16,
+    },
+    collegeName: {
+        fontSize: '17px',
+        fontWeight: '450'
     },
     cardRoot: {
         minWidth: 275,
@@ -21,6 +25,7 @@ export const useStyles = makeStyles((theme) => ({
         marginRight:'15px',
         color: '#000000',
         opacity: .8,
+        height: '18px',
         alignSelf: 'center',
 
     }

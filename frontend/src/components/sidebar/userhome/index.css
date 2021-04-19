@@ -2,12 +2,16 @@
     color: #D0611C
 }
 
+.userHomeHeader {
+    line-height: 20px;
+}
 .userContainer {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    height: 700px
+    height: 700px;
+    margin-top: 30px;
 }
 
 .optionButton {

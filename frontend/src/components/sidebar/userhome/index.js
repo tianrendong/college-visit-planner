@@ -55,8 +55,8 @@ const Userhome = (props) => {
     return (
         <div className="userContainer">
             <div className="sidebarHeader">
-                <h1 className="sidebarTitle">Welcome,</h1>
-                <h1 className="sidebarTitle Name">{props.user.firstname}!</h1>
+                <h1 className="userHomeHeader">Welcome,</h1>
+                <h1 className="Name userHomeHeader">{props.user.firstname} {props.user.lastname}!</h1>
             </div>
             <button className="optionButton" onClick={handleNavigateColleges}>
                 <MyCollegeIcon className="userhomeIcons" style={{ width: 52, height: 52 }} />

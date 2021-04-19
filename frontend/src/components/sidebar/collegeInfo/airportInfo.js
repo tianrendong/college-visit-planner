@@ -13,18 +13,21 @@ const useStyles = makeStyles((theme) => ({
     cardContentRoot: {
         backgroundColor: '#fffefc',
     },
+    name: {
+        fontSize: '17px',
+        fontWeight: '450'
+    }
 }));
 
 const AirportInfo = (props) => {
     const { airport } = props;
-    const [expanded, setExpanded] = useState(false);
     const classes = useStyles();
 
     return (
         <Card classes={{ root: classes.cardRoot }}>
             <CardContent
                 classes={{ root: classes.cardContentRoot }}>
-                <Typography variant="h6" component="h2">
+                <Typography className={classes.name}>
                     {airport.name}
                 </Typography>
                 <Typography className={classes.pos} color="textSecondary">
