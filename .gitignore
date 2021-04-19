@@ -1,4 +1,6 @@
 backend/target/
+backend/.settings
+backend/.project
 backend/.mvn-classpath
 backend/.classpath
 *.log

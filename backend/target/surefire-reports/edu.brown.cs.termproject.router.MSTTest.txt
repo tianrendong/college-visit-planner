@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: edu.brown.cs.termproject.router.MSTTest
--------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.595 s - in edu.brown.cs.termproject.router.MSTTest

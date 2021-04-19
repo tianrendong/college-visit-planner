@@ -91,7 +91,6 @@ public final class Main {
   private void runSparkServer(int port) {
     Spark.port(getHerokuAssignedPort()); 
     Spark.externalStaticFileLocation("../frontend/build");
-    Spark.staticFiles.expireTime(CACHE_TIME); // set expire time to a year
 
     // handler exceptions
     Spark.exception(RuntimeException.class, (e, req, res) -> {
@@ -119,7 +118,7 @@ public final class Main {
     if (processBuilder.environment().get("PORT") != null) {
         return Integer.parseInt(processBuilder.environment().get("PORT"));
     }
-    return 4567; //return default port if heroku-port isn't set (i.e. on localhost)
+    return 4567;
  } 
 
   /**
