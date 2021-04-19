@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -43,9 +43,13 @@ const SearchCollegeDialog = (props) => {
         dispatch(routeActions.navigatePopDialog(''));
     }
 
+    useEffect(() => {
+        setInput('');
+    }, [props.popDialog])
+
     return (
         <Dialog open={props.popDialog !== ''} onClose={handleClose}
-            classes={{ paper: classes.paper }} className="dialog" scroll='paper'>
+            classes={{ paper: classes.paper }} scroll='paper'>
             <DialogTitle>
                 <Typography variant="h6">Add College</Typography>
                 <TextField

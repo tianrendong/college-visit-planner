@@ -39,17 +39,20 @@ const routeReducer = (state = initialState, action) => {
             return {
                 ...state,
                 error: '',
+                successMessage: '',
             };
         case "SIGNUP_SUCCESS":
             return {
                 ...state,
                 sidebar: 'login',
-                error: ''
+                error: '',
+                successMessage: 'Signed Up!'
             };
         case "SIGNUP_FAILURE":
             return {
                 ...state,
                 error: action.payload.error,
+                successMessage: ''
             };
         case "NAVIGATE_SIDEBAR":
             return {

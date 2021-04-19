@@ -1,23 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { routeActions } from '../../../actions/routeActions'
-
+import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import { terms } from '../signup/terms'
 import { makeStyles } from '@material-ui/core/styles';
 import { useSnackbar } from 'notistack';
 import './index.css'
 
 const useStyles = makeStyles((theme) => ({
+    cardRoot: {
+        margin: '0 20px 5px 20px'
+    },
     paper: {
         marginTop: theme.spacing(8),
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        padding: '30px'
     },
     avatar: {
         margin: theme.spacing(1),
@@ -52,27 +58,20 @@ function Login(props) {
     const handleNavigateSignup = () => {
         dispatch(routeActions.navigateSidebar('signup'));
     }
-    // const handleFormChange = ((item, value) =>
-    //     dispatch({
-    //         payload: { item, value },
-    //         type: 'LOGIN_FORM_CHANGE',
-    //     }))
 
     useEffect(() => {
-        // variant could be success, error, warning, info, or default
         if (props.error !== '') {
-            enqueueSnackbar(props.error, {variant: 'error'});
+            enqueueSnackbar(props.error, { variant: 'error' });
         }
     }, [props.error])
 
     useEffect(() => {
-        if (props.signedUp) {
-            enqueueSnackbar('Signed Up!', {variant: 'success'});
+        if (props.successMessage !== '') {
+            enqueueSnackbar(props.successMessage, { variant: 'success' });
         }
-    }, [props.signedUp])
-    
+    }, [props.successMessage])
+
     return (
-        <Container component="main" maxWidth="xs">
             <div className={classes.paper}>
                 <h1> Login </h1>
                 <form className={classes.form} onSubmit={(e) => handleSubmit(e)}>
@@ -85,11 +84,8 @@ function Login(props) {
                         autoFocus
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
-                    // onChange={(e) => handleFormChange('username', e.target.value)}
+                        helperText="username: collegetrip"
                     />
-                    {/* // value={props.loginForm.username}
-                    //     onChange={(e) => handleFormChange('username', e.target.value)} */}
-
                     <TextField
                         variant="outlined"
                         margin="normal"
@@ -101,6 +97,7 @@ function Login(props) {
                         id="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        helperText="password: Collegetrip2021"
                     />
                     <Button
                         type="submit"
@@ -114,18 +111,18 @@ function Login(props) {
                     <Grid container justify="flex-end">
                         <Grid item>
                             <Link href="#" variant="body2" onClick={handleNavigateSignup}>
-                                {"Don't have an account? Sign Up"}
+                                {"Create your own account"}
                             </Link>
                         </Grid>
                     </Grid>
+                            
                 </form>
             </div>
-        </Container>
     );
 }
 
 
-const mapStateToProps = ({ rUser: { loggedIn, user, loginForm, signedUp }, rRoute: { error } }) => 
-({ loggedIn, user, loginForm, signedUp, error });
+const mapStateToProps = ({ rUser: { loggedIn, user, loginForm, signedUp }, rRoute: { error, successMessage } }) =>
+    ({ loggedIn, user, loginForm, signedUp, error, successMessage });
 
 export default connect(mapStateToProps)(Login);

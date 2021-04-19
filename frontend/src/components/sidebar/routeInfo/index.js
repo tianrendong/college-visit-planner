@@ -66,7 +66,7 @@ const RouteInfo = (props) => {
     return (
         <div className="routeInfoContainer">
             <div className="sidebarHeader">
-                <h1 className="sidebarTitle">Route Information</h1>
+                <h1>Route Information</h1>
             </div>
 
             <div className="sidebarHeader">
@@ -102,6 +102,7 @@ function calculateRoute(start, end, waypts) {
 
 const LocationBox = (props) => {
     const { location } = props;
+    console.log(location)
     const classes = useStyles();
     return (
         <div className="collegeCardContainer">
@@ -112,9 +113,6 @@ const LocationBox = (props) => {
                 </Typography>
             </div>
             { (location.type === "airport") ? <LocalAirportIcon fontSize="middle" className={classes.icon}/> : <></> }
-            {/* <IconButton size="large">
-                    <NavigateNextIcon fontSize="middle" classes={classes.navigateIcon}/>
-            </IconButton>  */}
         </div>
 
     )
