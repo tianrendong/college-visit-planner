@@ -30,7 +30,7 @@ const back = {
 
 const useStyles = makeStyles((theme) => ({
     root: {
-      zIndex:2,
+      zIndex:10,
       position: 'absolute',
     },
     paper: { 

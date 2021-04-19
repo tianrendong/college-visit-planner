@@ -18,6 +18,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import {dataPolicy} from './policies.js'
+import Terms from '../../sidebar/signup/terms'
 import './index.css'
 import { Accordion, AccordionSummary, AccordionDetails } from './styles'
 
@@ -85,8 +86,24 @@ function Settings(props) {
 
     return (
         <div className="settingsContainer">
-            <h1 className="leftPadd" >Settings</h1>
-        
+            <h1 className="leftPadd">Settings</h1>
+            <div className="settingsInnerContainer">
+                <Typography variant="h6" className="leftPadd">
+                    About Our App
+                </Typography>
+                <div style={{marginLeft: '16px'}}>
+                    {dataPolicy.aboutTheApp()}
+                </div>
+                {/* <Accordion square expanded={expanded.includes('panel1')} onChange={handleExpand('panel1')}>
+                    <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
+                        <Typography>How do we collect, use, and store your data?</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        
+                    </AccordionDetails>
+                </Accordion> */}
+                    
+            </div>
 
             <div>
                 <Typography variant="h6" className="leftPadd">
@@ -150,29 +167,6 @@ function Settings(props) {
                     </DialogActions>
                 </Dialog>
 
-            <div className="settingsInnerContainer">
-                <Typography variant="h6" className="leftPadd">
-                    Privacy and Data Policy
-                </Typography>
-                <Accordion square expanded={expanded.includes('panel1')} onChange={handleExpand('panel1')}>
-                    <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
-                        <Typography>How do we collect, use, and store your data?</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                        {dataPolicy.collectionAndUsage()}
-                    </AccordionDetails>
-                </Accordion>
-
-                <Accordion square expanded={expanded.includes('panel2')} onChange={handleExpand('panel2')}>
-                    <AccordionSummary aria-controls="panel2d-content" id="panel2d-header">
-                        <Typography>What are your data protection rights?</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                        {dataPolicy.dataProtectionRights()}
-                    </AccordionDetails>
-                </Accordion>                   
-                    
-            </div>
             <div className="settingsInnerContainer">
                 <Typography variant="h6" className="leftPadd">
                     Contact Us

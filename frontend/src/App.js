@@ -21,12 +21,12 @@ const useStyles = makeStyles((theme) => ({
     },
     tooltipButton: {
         position: 'absolute',
-        zIndex: 90,
+        zIndex: 4,
         padding: '3px',
         margin: '14px'
     },
     tooltip: {
-        zIndex:1200,
+        zIndex:4,
       },
   }));
 
@@ -42,7 +42,7 @@ const MyTooltip = withStyles(() => ({
       fontSize: '15px',
       padding: '10px 5px 10px 18px',
       marginTop: '10px',
-      zIndex: 1299
+      zIndex: 4
     },
   }))(Tooltip);
 

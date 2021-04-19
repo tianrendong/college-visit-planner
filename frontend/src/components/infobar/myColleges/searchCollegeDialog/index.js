@@ -46,22 +46,22 @@ const SearchCollegeDialog = (props) => {
     return (
         <Dialog open={props.popDialog !== ''} onClose={handleClose}
             classes={{ paper: classes.paper }} className="dialog" scroll='paper'>
-                <DialogTitle>
-                    <Typography variant="h6">Add College</Typography>
-                    <TextField
-                classes={{root: classes.textFieldRoot}}
-                label="Search a College"
-                variant="outlined"
-                value={input}
-                onChange={(e) => handleOnChange(e)}/>
-                </DialogTitle>
+            <DialogTitle>
+                <Typography variant="h6">Add College</Typography>
+                <TextField
+                    classes={{ root: classes.textFieldRoot }}
+                    label="Search a College"
+                    variant="outlined"
+                    value={input}
+                    onChange={(e) => handleOnChange(e)} />
+            </DialogTitle>
             <DialogContent>
                 {(suggestions.length !== 0) &&
-                suggestions.map(c => <CollegeCard username={props.user.username} college={c}></CollegeCard>)}
+                    suggestions.map(c => <CollegeCard username={props.user.username} college={c}></CollegeCard>)}
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleClose} color="primary">Cancel</Button>
-                </DialogActions>
+            </DialogActions>
         </Dialog>
     );
 }

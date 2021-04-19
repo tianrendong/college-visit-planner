@@ -6,7 +6,8 @@ import { withStyles } from '@material-ui/core/styles';
 export const dataPolicy = {
     collectionAndUsage,
     dataProtectionRights,
-    contactUs
+    contactUs,
+    aboutTheApp
 };
 
 const Boxed = withStyles({
@@ -67,11 +68,6 @@ function dataProtectionRights() {
                 <Box fontWeight="fontWeightBold">The right to rectification</Box>
                 You have the right to request that our team correct any incorrect or incomplete information.
             </Boxed>
-        
-            <Boxed>
-                <Box fontWeight="fontWeightBold">The right to restrict processing</Box>
-                You have the right to request that our team restrict the processing of your personal data, under certain conditions.
-            </Boxed>
 
             <Boxed>
                 <Box fontWeight="fontWeightBold">The right to erasure</Box>
@@ -95,9 +91,9 @@ function contactUs() {
     return(
         <Typography>
             <Boxed>
-            If you have any questions about our privacy policy, 
+            If you have any questions about our app, 
             the data we hold on you, or your data protection rights, <br/>
-            please do not hesitate to contact us at any of the emails below. It may take us some time to respond.
+            please do not hesitate to contact us at any of the emails below.
             </Boxed>
 
             <Boxed>
@@ -114,5 +110,41 @@ function contactUs() {
             </Boxed>
 
         </Typography>
+)}
+
+
+function aboutTheApp() {
+    return(
+        <Typography>
+            <BoxedSpaceAfter>
+                Hi, welcome to College Trip Planner! ✈️
+            </BoxedSpaceAfter>
+
+            <Boxed>
+                This website is created as the term project for Brown University's CS32 course. 
+                Because we are collecting and processing your information in this website, we would like you to understand the data usage involved in this website before you proceed. 🧐
+            </Boxed>
+
+            <Boxed>
+                As you signed up, you have provided us with the consent to collect and store your personal identification information and your travel information.
+            </Boxed>
+
+            <Boxed>
+                Whenever you add or delete a college, your data is immediately stored into our encrypted database. 
+                We process the colleges you enter using our algorithms to help you design your college trip. 
+                Since the only purpose of this website is to generate optimized trips, you cannot restrict or 
+                object data processing.
+            </Boxed>
+            
+            <Boxed>
+                In the My Account section below, you will be able to erase all your trip information by using Clear Data.
+                You can also remove your account by using Delete Account. You cannot recover from either of those actions, so think carefully before you proceed!
+            </Boxed>
+
+            <Boxed>
+                Hope you have a nice time exploring with our app! 👻
+            </Boxed>
+
+</Typography>
 )}
 

@@ -4,26 +4,24 @@ import TextField from '@material-ui/core/TextField';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
+import Box from '@material-ui/core/Box';
 import { routeActions } from "../../../actions/routeActions";
-import Accordion from '@material-ui/core/Accordion';
-import AccordionSummary from '@material-ui/core/AccordionSummary';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContent from '@material-ui/core/DialogContent';
+import Typography from '@material-ui/core/Typography';
 import { useSnackbar } from 'notistack';
 import { connect, useDispatch } from 'react-redux';
-import {dataPolicy} from "../../infobar/settings/policies";
-import DialogActions from "@material-ui/core/DialogActions";
+import Terms from "./terms";
 import Dialog from "@material-ui/core/Dialog";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
-        marginTop: theme.spacing(8),
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        padding: '30px',
     },
     avatar: {
         margin: theme.spacing(1),
@@ -36,6 +34,10 @@ const useStyles = makeStyles((theme) => ({
     submit: {
         margin: theme.spacing(3, 0, 2),
     },
+    dialogPaper: {
+        padding: '23px',
+        height: '50vh',
+    }
 }));
 
 const PASSWORD_ERROR = "Password needs to be at least 8 characters long with uppercase, lowercase, and numbers."
@@ -96,113 +98,114 @@ function SignUp(props) {
     }
 
     return (
-        <Container component="main" maxWidth="xs">
-            <div className={classes.paper}>
-                <h1> Sign Up </h1>
-                <form className={classes.form} onSubmit={(e) => handleSubmit(e)}>
-                    <Grid container spacing={2}>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                variant="outlined"
-                                required
-                                fullWidth
-                                id="firstName"
-                                label="First Name"
-                                value={firstname}
-                                onChange={(e) => setFirstname(e.target.value)}
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                variant="outlined"
-                                required
-                                fullWidth
-                                id="lastName"
-                                label="Last Name"
-                                value={lastname}
-                                onChange={(e) => setLastname(e.target.value)}
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                variant="outlined"
-                                required
-                                fullWidth
-                                label="Username"
-                                value={username}
-                                onChange={(e) => setUsername(e.target.value)}
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                variant="outlined"
-                                required
-                                fullWidth
-                                name="password"
-                                label="Create a New Password"
-                                type="password"
-                                id="password"
-                                value={password}
-                                helperText={(password !== '') && !passwordIsValid && PASSWORD_ERROR}
-                                error={(password !== '') && !passwordIsValid}
-                                onChange={(e) => passwordFieldOnChange(e.target.value)}
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                variant="outlined"
-                                required
-                                fullWidth
-                                name="verifyPassword"
-                                label="Confirm Password"
-                                type="password"
-                                value={confirmPassword}
-                                helperText={(confirmPassword !== '') && (passwordConfirmation === false) && PASSWORD_CONFIRM_ERROR}
-                                error={(confirmPassword !== '') && (passwordConfirmation === false)}
-                                onChange={(e) => handleConfirmPasswordFieldOnChange(e.target.value)}
-                            />
-                        </Grid>
-                        <Grid item xs={12} style={{paddingBottom: 0}}>
-                            <FormControlLabel
-                                onClick={(event) => event.stopPropagation()}
-                                onFocus={(event) => event.stopPropagation()}
-                                control={<Checkbox color="primary" required disabled={(!readTerms)}/>}
-                                label="I agree to the terms and conditions."
-                            />
-                            <Button onClick={handleOpenTerms}>Click to read the terms and conditions.</Button>
-    
-                        </Grid>
+        <div className={classes.paper}>
+            <h1> Sign Up </h1>
+            <form className={classes.form} onSubmit={(e) => handleSubmit(e)}>
+                <Grid container spacing={2}>
+                    <Grid item xs={12} sm={6}>
+                        <TextField
+                            variant="outlined"
+                            required
+                            fullWidth
+                            id="firstName"
+                            label="First Name"
+                            value={firstname}
+                            onChange={(e) => setFirstname(e.target.value)}
+                        />
                     </Grid>
-                    <Dialog open={openTerms}
-                            onClose={handleCloseTerms}
-                            classes={{ paper: classes.paper }}>
-                        <div className="popDialogContainer">
-                            {dataPolicy.collectionAndUsage()}
-                            {dataPolicy.dataProtectionRights()}
-                        </div>
-                    </Dialog>
+                    <Grid item xs={12} sm={6}>
+                        <TextField
+                            variant="outlined"
+                            required
+                            fullWidth
+                            id="lastName"
+                            label="Last Name"
+                            value={lastname}
+                            onChange={(e) => setLastname(e.target.value)}
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField
+                            variant="outlined"
+                            required
+                            fullWidth
+                            label="Username"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField
+                            variant="outlined"
+                            required
+                            fullWidth
+                            name="password"
+                            label="Create a New Password"
+                            type="password"
+                            id="password"
+                            value={password}
+                            helperText={(password !== '') && !passwordIsValid && PASSWORD_ERROR}
+                            error={(password !== '') && !passwordIsValid}
+                            onChange={(e) => passwordFieldOnChange(e.target.value)}
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField
+                            variant="outlined"
+                            required
+                            fullWidth
+                            name="verifyPassword"
+                            label="Confirm Password"
+                            type="password"
+                            value={confirmPassword}
+                            helperText={(confirmPassword !== '') && (passwordConfirmation === false) && PASSWORD_CONFIRM_ERROR}
+                            error={(confirmPassword !== '') && (passwordConfirmation === false)}
+                            onChange={(e) => handleConfirmPasswordFieldOnChange(e.target.value)}
+                        />
+                    </Grid>
+                    <Grid item xs={12} style={{ paddingBottom: 0 }}>
+                        <FormControlLabel
+                            onClick={(event) => event.stopPropagation()}
+                            onFocus={(event) => event.stopPropagation()}
+                            control={<Checkbox color="primary" required disabled={(!readTerms)} />}
+                            label="I agree to the terms and conditions."
+                        />
+                        <Button onClick={handleOpenTerms}>Read terms and conditions</Button>
 
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        className={classes.submit}
-                        disabled={(password === '') || (passwordConfirmation === false)}
-                    >
-                        Sign Up
+                    </Grid>
+                </Grid>
+                <Dialog open={openTerms}
+                    scroll='paper'
+                    onClose={handleCloseTerms}
+                    classes={{ paper: classes.dialogPaper }}>
+                    <DialogTitle>
+                        <Typography variant="h6">Terms and Conditions</Typography>
+                    </DialogTitle>
+                    <DialogContent>
+                        <Terms/>
+                    </DialogContent>
+                </Dialog>
+
+
+                <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    className={classes.submit}
+                    disabled={(password === '') || (passwordConfirmation === false)}
+                >
+                    Sign Up
                     </Button>
-                    <Grid container justify="flex-end">
-                        <Grid item>
-                            <Link href="#" variant="body2" onClick={handleNavigateLogin}>
-                                Already have an account? Sign in
+                <Grid container justify="flex-end">
+                    <Grid item>
+                        <Link href="#" variant="body2" onClick={handleNavigateLogin}>
+                            Already have an account? Sign in
                             </Link>
-                        </Grid>
                     </Grid>
-                </form>
-            </div>
-
-        </Container>
+                </Grid>
+            </form>
+        </div>
     );
 }
 
