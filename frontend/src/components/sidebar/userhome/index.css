@@ -2,6 +2,9 @@
     color: #D0611C
 }
 
+.userHomeHeader {
+    line-height: 20px;
+}
 .userContainer {
     display: flex;
     flex-direction: column;

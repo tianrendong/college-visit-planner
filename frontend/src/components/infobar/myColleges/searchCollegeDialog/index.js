@@ -45,6 +45,7 @@ const SearchCollegeDialog = (props) => {
 
     useEffect(() => {
         setInput('');
+        setSuggestions('');
     }, [props.popDialog])
 
     return (

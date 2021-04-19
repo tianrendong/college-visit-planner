@@ -9,7 +9,7 @@ const useStyles = makeStyles(() => ({
         width: '100vw',
         overflowX: 'hidden',
         // height: '50vh',
-        padding: '45px 40px 60px 60px'
+        padding: '40px 45px 60px 60px'
     },
 }));
 

@@ -7,7 +7,6 @@ import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
 export const terms = {
     signUpTerms,
-    LoginNote,
     Entrance,
 }
 
@@ -59,61 +58,32 @@ function signUpTerms() {
     )
 }
 
-function LoginNote() {
-    const theme = createMuiTheme({
-        typography: {
-            fontSize: 12,
-        },
-    });
-
-    return (
-        <div>
-            {/* <ThemeProvider theme={theme}> */}
-            <Typography variant="body2">
-                <BoxedSpaceAfter>
-                    Hi, welcome to College Trip Planner! ✈️
-                        </BoxedSpaceAfter>
-
-                <Boxed>
-                    Feel free to explore our website using
-                            <br />username: tripplanner
-                            <br />password: Tripplanner2021
-                </Boxed>
-
-
-
-            </Typography>
-            {/* </ThemeProvider> */}
-
-        </div>
-    )
-}
-
 function Entrance() {
-
     return (
         <div>
             <Typography >
-            <BoxedSpaceAfter>
-                Hi, welcome to College Trip Planner! ✈️
+                <BoxedSpaceAfter>
+                    Hi, welcome to College Trip Planner! ✈️
             </BoxedSpaceAfter>
 
-            <Boxed>
-                This website was created as the term project for Brown University's CS32 course by&nbsp;
+                <Boxed>
+                    This website was created as the term project for Brown University's CS32 course by&nbsp;
                 <Link href="https://github.com/jennyyu212" target="_blank">{"Jenny Yu"}</Link>, &nbsp;
                 <Link href="https://github.com/kaki1104" target="_blank">{"Kaki So"}</Link>, &nbsp;
                 <Link href="https://github.com/tianrendong" target="_blank">{"Tianren Dong"}</Link>, and &nbsp;
-                <Link href="https://github.com/ashleyoelrich" target="_blank">{"Ashley Oelrich"}</Link>. 
-                <br/>
-                
+                <Link href="https://github.com/ashleyoelrich" target="_blank">{"Ashley Oelrich"}</Link>.
+                <br />
+
+                </Boxed>
+
+                <Boxed>
+                    It helps you design an optimized college tour using clustering and TSP algorithms. 
+                    You can explore the website using our pre-built account linked on the login page, or create your own account! 
+                    We currently only support colleges in the US, but tune in for more updates!
             </Boxed>
 
-            <Boxed>
-                It helps you design an optimized college tour using clustering and TSP algorithms. You can explore the website using our account, or create your own! We currently only support colleges in the US, but tune in for more updates!
-            </Boxed>
-
-            <Boxed>
-                Now let's start exploring! 👻
+                <Boxed>
+                    Now let's start exploring! 👻
             </Boxed>
 
             </Typography>

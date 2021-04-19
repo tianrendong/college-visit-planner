@@ -24,10 +24,14 @@ const RouteClusterMarker = (props) => {
                 type: 'UPDATE_ROUTE'
             })
         }} else {
+            console.log("aa")
+            const currentClusterItems = props.route[props.index];
+            let colleges = currentClusterItems.filter((loc) => loc.type !== 'airport');
+            colleges = colleges.map(c => c.hasOwnProperty("content") ? c.content : c);
             dispatch({
                 payload: {
                     clusterIndex: props.index,
-                    colleges: props.route[props.index],
+                    colleges: colleges,
                 },
                 type: 'REQUEST_UPDATE_ROUTE'
             })
