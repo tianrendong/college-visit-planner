@@ -15,13 +15,11 @@ It suggests an optimal route to visit a list of user selected colleges by
 
 Execute the following commands in the project root directory:
 
-* *chmod a+x run.sh* to make the file executable
+* *docker build collegevisitplanner .* to build the docker image
 
-* *./run.sh* to build the docker images (the frontend image will be hosted by nginx)
+* *docker run -p 4567:4567 collegevisitplanner* to start the containers
 
-* *docker-compose up* to start the containers
-
-Open [http://localhost:80](http://localhost:80) to view it in the browser.
+Open [http://localhost:4567](http://localhost:4567) to view it in the browser.
 
 _______
 
@@ -36,10 +34,6 @@ _______
 * *./run --gui* to run backend
 
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-____________
-
-3. Deployed at https://college-trip-planner.herokuapp.com/
 
 ## Team
 
