@@ -1,8 +1,14 @@
 FROM timbru31/java-node:11-jdk-erbium
 
-RUN apt update
+# update apt 
+RUN rm /etc/apt/sources.list.d/yarn.list && apt update
+
 # install maven
 RUN apt install -y maven
+
+# update node
+RUN npm install -g n && n 16
+
 # update to npm
 RUN npm install -g npm
 
