@@ -8,7 +8,7 @@ It suggests an optimal route to visit a list of user selected colleges by
 * recommending nearby airports 
 * Solving the Travelling Salesman Problem to create road trip routes within each cluster
 
-Deployed at [https://collegetripplanner.herokuapp.com/](https://collegetripplanner.herokuapp.com/) 
+Deployed at [https://college-visit-planner.up.railway.app/](https://college-visit-planner.up.railway.app/) 
 
 ## How to Build and Run
 
