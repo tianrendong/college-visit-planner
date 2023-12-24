@@ -6,3 +6,4 @@ backend/.classpath
 *.log
 .idea/
 **.DS_Store**
+.env

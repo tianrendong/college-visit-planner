@@ -20,7 +20,7 @@ public final class GoogleMapAPIManager {
   }
 
   private static final GeoApiContext GEO_API_CONTEXT = new GeoApiContext.Builder()
-      .apiKey("AIzaSyBIJk5AqilYH8PHt2TP4f5d7QY-UxtJf58")
+      .apiKey(System.getenv("GOOGLE_MAPS_API_KEY"))
       .build();
 
   private static DirectionsResult getDirectionResult(

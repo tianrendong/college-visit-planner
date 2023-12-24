@@ -10,7 +10,7 @@ RUN apt install -y maven
 RUN npm install -g n && n 16
 
 # update to npm
-RUN npm install -g npm
+RUN npm install -g npm@8.19.4
 
 # "COPY" all files from the current directory over to Docker.
 COPY . /app
