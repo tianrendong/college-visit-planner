@@ -222,7 +222,7 @@ function Map(props) {
         <>
             <div className="mapContainer">
                 <GoogleMap
-                    bootstrapURLKeys={{ key: 'AIzaSyBIJk5AqilYH8PHt2TP4f5d7QY-UxtJf58' }} //process.env.REACT_APP_GOOGLE_KEY
+                    bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_MAPS_API_KEY }}
                     defaultCenter={MAP.defaultCenter}
                     defaultZoom={MAP.defaultZoom}
                     options={MAP.options}
