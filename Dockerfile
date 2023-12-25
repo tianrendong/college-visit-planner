@@ -18,8 +18,12 @@ WORKDIR /app
 
 # build backend
 RUN cd backend && mvn clean package -DskipTests
-# build frontend (static)
+
+# build frontend with env var
+ARG REACT_APP_GOOGLE_MAPS_API_KEY
+ENV REACT_APP_GOOGLE_MAPS_API_KEY=$REACT_APP_GOOGLE_MAPS_API_KEY
 RUN cd frontend && npm install && npm run build
+
 # run server
 WORKDIR "/app/backend"
 CMD [ "./run"]

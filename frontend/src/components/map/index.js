@@ -30,8 +30,6 @@ function Map(props) {
     const [defaultColleges, setDefaultColleges] = useState([]);
     const [mapOptions, setMapOptions] = useState({});
 
-
-    console.log(process.env.REACT_APP_GOOGLE_MAPS_API_KEY)
     const dispatch = useDispatch();
 
     // request default colleges when page is first loaded
