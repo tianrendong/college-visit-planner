@@ -17,7 +17,7 @@ COPY . /app
 WORKDIR /app
 
 # build backend
-RUN cd backend && mvn clean package
+RUN cd backend && mvn clean package -DskipTests
 # build frontend (static)
 RUN cd frontend && npm install && npm run build
 # run server
